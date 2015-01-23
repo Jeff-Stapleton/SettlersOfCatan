@@ -1,12 +1,12 @@
 package comm.client;
 
 /**
- * Interface containing all the calls that the server
- * can accept through its http protocols
+ * Abstract Server Proxy that will contain common functionality needed by all
+ * the Server Proxies
  * @author Cory Beutler
- *
  */
-public interface IServerProxy {
+public class AbstractServerProxy implements IServerProxy {
+	
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -14,7 +14,7 @@ public interface IServerProxy {
 	 * @param password the password for the player
 	 * @throws ServerException
 	 */
-	public void userLogin(String user, String password) throws ServerException;
+	public void userLogin(String user, String password) throws ServerException {}
 	
 	/**
 	 * Register a new user with the server
@@ -23,14 +23,14 @@ public interface IServerProxy {
 	 * @param password the players password
 	 * @throws ServerException
 	 */
-	public void userRegister(String user, String password) throws ServerException;
+	public void userRegister(String user, String password) throws ServerException {}
 	
 	/**
 	 * List the current games on the server that the player can join
 	 * @return an array of the games on the server
 	 * @throws ServerException
 	 */
-	public Game[] gamesList() throws ServerException;
+	public Game[] gamesList() throws ServerException {}
 	
 	/**
 	 * Create a new game. This game will contain only the player initially.
@@ -41,7 +41,7 @@ public interface IServerProxy {
 	 * @return the game object for the game created by the user
 	 * @throws ServerException
 	 */
-	public Game gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException;
+	public Game gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException {}
 	
 	/**
 	 * Join a currently open game on the server
@@ -49,33 +49,33 @@ public interface IServerProxy {
 	 * @param id the id of the player
 	 * @throws ServerException
 	 */
-	public void gamesJoin(CatanColor color, int id) throws ServerException;
+	public void gamesJoin(CatanColor color, int id) throws ServerException {}
 	
 	/**
 	 * Retrieve the model of the current game board state.
 	 * @throws ServerException
 	 */
-	public void gameModel() throws ServerException;
+	public void gameModel() throws ServerException {}
 	
 	/**
 	 * Reset the game to the saved state or the initial setup
 	 * @throws ServerException
 	 */
-	public void gameReset() throws ServerException;
+	public void gameReset() throws ServerException {}
 	
 	/**
 	 * Send a command to the server for debugging purposes
 	 * @param command the command to send to the server
 	 * @throws ServerException
 	 */
-	public void gamesCommandsSend(String command) throws ServerException;
+	public void gamesCommandsSend(String command) throws ServerException {}
 	
 	/**
 	 * Fetch the list of commands that the server has executed for debug purposes
 	 * @return the commands executed on the server
 	 * @throws ServerException
 	 */
-	public String[] gamesCommandsFetch() throws ServerException;
+	public String[] gamesCommandsFetch() throws ServerException {}
 	
 	/**
 	 * Send a chat to the current game chat list
@@ -83,7 +83,7 @@ public interface IServerProxy {
 	 * @param content the content of the message the player wants to send
 	 * @throws ServerException
 	 */
-	public void gamesSendChat(int playerIndex, String content) throws ServerException;
+	public void gamesSendChat(int playerIndex, String content) throws ServerException {}
 	
 	/**
 	 * Roll a number on the dice and send it to the server
@@ -91,21 +91,21 @@ public interface IServerProxy {
 	 * @param number the number the player rolled (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesRollNumber(int playerIndex, int number) throws ServerException;
+	public void movesRollNumber(int playerIndex, int number) throws ServerException {}
 	
 	/**
 	 * Finish the turn of a player
 	 * @param playerIndex the index of the player ending their turn
 	 * @throws ServerException
 	 */
-	public void movesFinishTurn(int playerIndex) throws ServerException;
+	public void movesFinishTurn(int playerIndex) throws ServerException {}
 	
 	/**
 	 * Buy a dev card for the player
 	 * @param playerIndex the player buying the dev card
 	 * @throws ServerException
 	 */
-	public void movesBuyDevCard(int playerIndex) throws ServerException;
+	public void movesBuyDevCard(int playerIndex) throws ServerException {}
 	
 	/**
 	 * Play a Year of Plenty dev card for the player
@@ -114,7 +114,7 @@ public interface IServerProxy {
 	 * @param resource2 the resource the player wants
 	 * @throws ServerException
 	 */
-	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException;
+	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException {}
 	
 	/**
 	 * Play a Road Building dev card to give the player 2 roads
@@ -123,7 +123,7 @@ public interface IServerProxy {
 	 * @param spot2 the location for the second road being built
 	 * @throws ServerException
 	 */
-	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException;
+	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException {}
 	
 	/**
 	 * Play a Soldier dev card to steal resources from another player
@@ -132,7 +132,7 @@ public interface IServerProxy {
 	 * @param location the robber location
 	 * @throws ServerException
 	 */
-	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException;
+	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException {}
 	
 	/**
 	 * Play a Monopoly dev card to allow the player to steal resources
@@ -140,14 +140,14 @@ public interface IServerProxy {
 	 * @param resource the resource the player wishes to steal
 	 * @throws ServerException
 	 */
-	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException;
+	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException {}
 	
 	/**
 	 * Play a Monument dev card for the specified player
 	 * @param playerIndex the player playing the dev card
 	 * @throws ServerException
 	 */
-	public void movesMonument(int playerIndex) throws ServerException;
+	public void movesMonument(int playerIndex) throws ServerException {}
 	
 	/**
 	 * Build a road for the player in the given location
@@ -156,7 +156,7 @@ public interface IServerProxy {
 	 * @param free whether this road is free or not (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException;
+	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException {}
 	
 	/**
 	 * Build a settlement for the player at the given location
@@ -165,7 +165,7 @@ public interface IServerProxy {
 	 * @param free whether the settlement is free or not (Why?)
 	 * @throws ServerException
 	 */
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException;
+	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException {}
 	
 	/**
 	 * Build a city at the given location
@@ -174,14 +174,14 @@ public interface IServerProxy {
 	 * @param free whether the city will be free (I still don't get this...)
 	 * @throws ServerException
 	 */
-	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException;
+	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException {}
 	
 	/**
 	 * Offer a trade with another player
 	 * @param offer the offer of trade
 	 * @throws ServerException
 	 */
-	public void movesOfferTrade(TradeOffer offer) throws ServerException;
+	public void movesOfferTrade(TradeOffer offer) throws ServerException {}
 	
 	/**
 	 * Accept a trade proposed to you
@@ -189,7 +189,7 @@ public interface IServerProxy {
 	 * @param willAccept whether the player accepts or rejects the offer
 	 * @throws ServerException
 	 */
-	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException;
+	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException {}
 	
 	/**
 	 * Discard cards from the player's hand
@@ -197,6 +197,17 @@ public interface IServerProxy {
 	 * @param cards the cards the player is discarding
 	 * @throws ServerException
 	 */
-	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException;
+	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException {}
 	
+	/**
+	 * Set the cookie for the player logging in to the server
+	 * @param cookie
+	 */
+	protected void setCookie(String cookie) {}
+	
+	/**
+	 * Get the cookie for the player's login
+	 * @return the string cookie to be used
+	 */
+	protected String getCookie() {}
 }
