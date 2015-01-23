@@ -1,5 +1,7 @@
 package shared;
 
+import shared.definitions.DevCardType;
+
 /**
  * The main client side controller of the game.
  *

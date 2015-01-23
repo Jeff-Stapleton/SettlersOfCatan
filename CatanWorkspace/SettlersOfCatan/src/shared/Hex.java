@@ -1,7 +1,12 @@
+package shared;
+
+import shared.definitions.HexType;
+import shared.locations.HexLocation;
+
 
 public class Hex {
-	private HexLocation location = new HexLocation();
-	private HexType type = new HexType();
+	private HexLocation location;
+	private HexType type;
 	private Integer number;
 	
 	/*
