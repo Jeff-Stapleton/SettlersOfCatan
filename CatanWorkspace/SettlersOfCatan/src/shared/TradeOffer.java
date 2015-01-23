@@ -1,4 +1,4 @@
-package shared.player;
+package shared;
 
 public class TradeOffer {
 
