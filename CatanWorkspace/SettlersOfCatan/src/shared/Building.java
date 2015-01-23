@@ -1,7 +1,11 @@
+package shared;
+
+import shared.locations.VertexLocation;
+
 
 public class Building {
 	private int owner;
-	private VertexLocation location = new VertexLocation();
+	private VertexLocation location;
 
 	/*
 	 * Get the location of the building

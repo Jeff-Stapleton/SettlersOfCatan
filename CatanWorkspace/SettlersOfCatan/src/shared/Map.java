@@ -1,4 +1,4 @@
-
+package shared;
 public class Map {
 	private Hex hexes;
 	private Port ports;

@@ -1,8 +1,13 @@
+package shared;
+
+import shared.definitions.PortType;
+import shared.locations.HexLocation;
+
 
 public class Port {
 
-	private PortType type = new PortType();
-	private HexsLocation location = new HexLocation();
+	private PortType type;
+	private HexLocation location;
 	private String direction;
 	private Integer ratio;
 	
@@ -29,7 +34,7 @@ public class Port {
 	 * 
 	 * @Returns the port location
 	 */
-	public HexsLocation getLocation() {
+	public HexLocation getLocation() {
 		return location;
 	}
 	
@@ -38,7 +43,7 @@ public class Port {
 	 * 
 	 * @Return void
 	 */
-	public void setLocation(HexsLocation location) {
+	public void setLocation(HexLocation location) {
 		this.location = location;
 	}
 	

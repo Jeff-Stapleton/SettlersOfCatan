@@ -1,7 +1,9 @@
+package shared;
+import shared.locations.EdgeLocation;
 
 public class Road {
 	private int owner;
-	private EdgeLocation location = new EdgeLocation();
+	private EdgeLocation location = new EdgeLocation(null, null);
 
 	/*
 	 * Get the location of the road

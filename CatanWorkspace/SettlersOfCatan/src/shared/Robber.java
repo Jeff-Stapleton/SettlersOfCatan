@@ -1,3 +1,5 @@
+package shared;
+import shared.locations.HexLocation;
 
 public class Robber {
 	/*
@@ -7,7 +9,7 @@ public class Robber {
 	 */
 	public HexLocation getLocation()
 	{
-		
+		return null;		
 	}
 	
 	/*
