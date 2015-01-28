@@ -1,7 +1,13 @@
 package shared;
 import shared.locations.HexLocation;
+import shared.definitions.HexType;
 
 public class Robber {
+	private HexLocation location;
+	private HexType type;
+	private Integer number;
+	private Boolean hasRobber;
+	
 	/*
 	 * This method gets the current location of the Robber
 	 * 

@@ -11,6 +11,14 @@ public class Port {
 	private String direction;
 	private Integer ratio;
 	
+	public Port(PortType type, HexLocation location, String direction, Integer ratio)
+	{
+		this.type = type;
+		this.location = location;
+		this.direction = direction;
+		this.ratio = ratio;		
+	}
+	
 	/*
 	 * Gets the port type
 	 *
