@@ -203,11 +203,23 @@ public class AbstractServerProxy implements IServerProxy {
 	 * Set the cookie for the player logging in to the server
 	 * @param cookie
 	 */
-	protected void setCookie(String cookie) {}
+	protected void setPlayerCookie(String cookie) {}
 	
 	/**
 	 * Get the cookie for the player's login
 	 * @return the string cookie to be used
 	 */
-	protected String getCookie() {}
+	protected String getPlayerCookie() {}
+	
+	/**
+	 * Set the cookie for the game
+	 * @param cookie
+	 */
+	protected void setGameCookie(String cookie) {}
+	
+	/**
+	 * Get the cookie for the game
+	 * @return the string cookie to be used
+	 */
+	protected String getGameCookie() {}
 }

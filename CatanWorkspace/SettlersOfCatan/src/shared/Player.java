@@ -58,6 +58,22 @@ public class Player {
 	public void buyRoad(){}
 	
 	/**
+	 * Checks to see if the players needs to discard a card
+	 * 
+	 * @return discarded boolean
+	 */
+	public boolean needsToDiscard(){
+		return false;
+	}
+	
+	/**
+	 * Removes a card from the players hand
+	 * 
+	 * @return void
+	 */
+	public void discard(){}
+	
+	/**
 	 * Gets number of cities player can still build
 	 * @return
 	 */
