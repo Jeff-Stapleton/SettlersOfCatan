@@ -6,6 +6,12 @@ import shared.locations.VertexLocation;
 public class Building {
 	private int owner;
 	private VertexLocation location;
+	
+	public Building(Integer owner, VertexLocation location)
+	{
+		this.owner = owner;
+		this.location = location;
+	}
 
 	/*
 	 * Get the location of the building

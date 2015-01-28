@@ -1,12 +1,23 @@
 package shared;
-public class Map {
-	private Hex hexes;
+import java.util.Random;
+
+public class Map 
+{
+	private Hex[][] hexes;
 	private Port ports;
 	private Road roads;
 	private Building settlements;
 	private Building cities;
 	private Integer radius;
 	private Robber robber;
+	
+	
+	public Map()
+	{
+		
+		
+		
+	}
 	
 	/*
 	 * This method is called after the dice are rolled.  
@@ -17,7 +28,7 @@ public class Map {
 	 * 
 	 * @Return void
 	 */
-	public void handOutResources()
+	public void handOutResources(int roll)
 	{
 		
 	}
@@ -93,8 +104,9 @@ public class Map {
 	 * 
 	 * @Return Can Build
 	 */
-	public boolean canBuildRoad()
+	public boolean canBuildRoad(int player)
 	{
+		
 		return true;
 	}
 	 
