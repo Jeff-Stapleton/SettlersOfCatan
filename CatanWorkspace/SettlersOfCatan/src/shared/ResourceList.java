@@ -10,6 +10,14 @@ public class ResourceList {
 	
 	ResourceList(){}
 	
+
+	/**
+	 * @param brick
+	 * @param wood
+	 * @param grain
+	 * @param wool
+	 * @param ore
+	 */
 	ResourceList(int brick, int wood, int grain, int wool, int ore){
 		setBrick(brick);
 		setWood(wood);
@@ -37,6 +45,10 @@ public class ResourceList {
 		receiver.getResources().setOre(getOre() + trade.getOre());
 	}
 	
+	/**
+	 * Get total number of resource cards
+	 * @return
+	 */
 	public int totalCount(){
 		return getBrick()+getWood()+getGrain()+getWool()+getOre();
 	}

@@ -18,7 +18,7 @@ public class Player {
 	private int soldiers;
 	private int victoryPoints;
 	
-	private Player bank;
+	private transient Player bank;
 	
 	/**
 	 * Checks to see if a settlement can be bought by this player

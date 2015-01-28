@@ -11,6 +11,9 @@ public class DevCardList {
 	private int yearOfPlenty;
 	
 	
+	/**
+	 * @return
+	 */
 	public String getRandomCard(){
 		Random rand = new Random();
 		int card = rand.nextInt(5);
