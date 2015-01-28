@@ -18,44 +18,127 @@ public class Player {
 	private int soldiers;
 	private int victoryPoints;
 	
+	private Player bank;
+	
 	/**
 	 * Checks to see if a settlement can be bought by this player
 	 * @return
 	 */
-	public boolean canBuySettlements(){
-		return false;
+	public boolean canBuySettlement(){
+		if (settlements >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1 
+				&& resources.getGrain() >= 1 && resources.getWool() >= 1){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	/**
 	 * Buys settlement 
 	 */
-	public void buySettlement(){}
+	public boolean buySettlement(){
+		if (canBuySettlement()){
+			settlements--;
+			victoryPoints++;
+			// send resources to the bank
+			resources.moveResources(bank, new ResourceList(1,1,1,1,0));//player 4 is the bank
+			return true;
+		}
+		else{
+			// error
+			return false;
+		}
+	}
 	
 	/**
 	 * Checks to see if a city can be bought by this player
 	 * @return
 	 */
 	public boolean canBuyCity(){
-		return false;
+		if (cities >= 1 && resources.getGrain() >= 2 && resources.getOre() >= 3){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	/**
 	 * Buys city
 	 */
-	public void buyCity(){}
+	public boolean buyCity(){
+		if (canBuyCity()){
+			cities--;
+			victoryPoints++;
+			// send resources to the bank
+			resources.moveResources(bank, new ResourceList(0,0,2,0,3));//player 4 is the bank
+			return true;
+		}
+		else{
+			// error
+			return false;
+		}		
+	}
 	
 	/**
 	 * Checks to see if a road can be bought by this player
 	 * @return
 	 */
 	public boolean canBuyRoad(){
-		return false;
+		if (roads >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	/**
 	 * Buys road
 	 */
-	public void buyRoad(){}
+	public boolean buyRoad(){
+		if (canBuyRoad()){
+			roads--;
+			// send resources to the bank
+			resources.moveResources(bank, new ResourceList(1,1,0,0,0));//player 4 is the bank
+			return true;
+		}
+		else{
+			// error
+			return false;
+		}			
+	}
+	
+	/**
+	 * Checks to see if a dev card can be bought by this player
+	 * @return
+	 */
+	public boolean canBuyDevCard(){
+		if (roads >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Buys dev card
+	 */
+	public boolean buyDevCard(){
+		if (canBuyDevCard()){
+			// send resources to the bank
+			resources.moveResources(bank, new ResourceList(0,0,1,1,1));//player 4 is the bank
+//			newDevCards.addCard(bank.getOldDevCards().getRandomCard());
+			// remove a random dev card from bank.oldDevCards and add it to newDevCards
+			return true;
+		}
+		else{
+			// error
+			return false;
+		}			
+	}
 	
 	/**
 	 * Checks to see if the players needs to discard a card
@@ -63,6 +146,9 @@ public class Player {
 	 * @return discarded boolean
 	 */
 	public boolean needsToDiscard(){
+		if (resources.totalCount() > 7){
+			discard();
+		}
 		return false;
 	}
 	
@@ -71,7 +157,9 @@ public class Player {
 	 * 
 	 * @return void
 	 */
-	public void discard(){}
+	public void discard(){
+		// send cards from hand to the bank
+	}
 	
 	/**
 	 * Gets number of cities player can still build

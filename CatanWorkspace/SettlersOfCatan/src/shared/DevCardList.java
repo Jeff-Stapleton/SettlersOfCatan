@@ -1,5 +1,7 @@
 package shared;
 
+import java.util.Random;
+
 public class DevCardList {
 
 	private int monopoly;
@@ -8,6 +10,13 @@ public class DevCardList {
 	private int soldier;
 	private int yearOfPlenty;
 	
+	
+	public String getRandomCard(){
+		Random rand = new Random();
+		int card = rand.nextInt(5);
+		
+		return "";
+	}
 	
 	/**
 	 * Get the number of monopoly cards
