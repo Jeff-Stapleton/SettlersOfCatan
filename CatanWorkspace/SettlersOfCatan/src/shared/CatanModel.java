@@ -47,7 +47,6 @@ public class CatanModel {
 		chat = new MessageList();
 		map = new Map();
 		turnTracker = new TurnTracker();
-		
 	}
 	
 	/**
@@ -56,7 +55,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private void updateFromServer()
 	{
-		
+		//get update from poller
 	}
 	
 	/**
@@ -68,7 +67,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private boolean canTrade(Player player)
 	{
-		return false;
+		return player.
 	}
 	
 	/**
@@ -80,6 +79,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private boolean canPortTrade(Port port)
 	{
+		//port.List of players built there
 		return false;
 	}
 	
@@ -91,7 +91,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private void portTrade(Player player)
 	{
-	
+		//player.how to exchange resources?
 	}
 	
 	/**
@@ -127,6 +127,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private boolean canPlayDevCard(Player player, DevCardType cardType)
 	{
+		
 		return false;
 	}
 	
@@ -266,6 +267,4 @@ public class CatanModel {
 	public void setTurnTracker(TurnTracker turnTracker) {
 		this.turnTracker = turnTracker;
 	}
-
-
 }

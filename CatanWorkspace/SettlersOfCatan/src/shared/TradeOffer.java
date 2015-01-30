@@ -1,7 +1,7 @@
 package shared;
 
-public class TradeOffer {
-
+public class TradeOffer 
+{
 	private int sender;
 	private int receiver;
 	private ResourceList offer;
@@ -9,18 +9,25 @@ public class TradeOffer {
 	/**
 	 * Accepts the offered trade
 	 */
-	public void accept(){}
+	public void accept()
+	{
+		
+	}
 	
 	/**
 	 * Declines the offered trade
 	 */
-	public void decline(){}
+	public void decline()
+	{
+		
+	}
 
 	/**
 	 * Get the sender of the trade
 	 * @return
 	 */
-	public int getSender() {
+	public int getSender() 
+	{
 		return sender;
 	}
 
@@ -28,7 +35,8 @@ public class TradeOffer {
 	 * Set the sender of the trade
 	 * @param sender
 	 */
-	public void setSender(int sender) {
+	public void setSender(int sender) 
+	{
 		this.sender = sender;
 	}
 
@@ -36,7 +44,8 @@ public class TradeOffer {
 	 * Get the receiver of the trade
 	 * @return
 	 */
-	public int getReceiver() {
+	public int getReceiver() 
+	{
 		return receiver;
 	}
 
@@ -44,7 +53,8 @@ public class TradeOffer {
 	 * Set the receiver of the trade
 	 * @param receiver
 	 */
-	public void setReceiver(int receiver) {
+	public void setReceiver(int receiver) 
+	{
 		this.receiver = receiver;
 	}
 
@@ -52,7 +62,8 @@ public class TradeOffer {
 	 * Get the offered trade
 	 * @return
 	 */
-	public ResourceList getOffer() {
+	public ResourceList getOffer() 
+	{
 		return offer;
 	}
 
@@ -60,8 +71,8 @@ public class TradeOffer {
 	 * Set the offered trade
 	 * @param offer
 	 */
-	public void setOffer(ResourceList offer) {
+	public void setOffer(ResourceList offer) 
+	{
 		this.offer = offer;
 	}
-
 }

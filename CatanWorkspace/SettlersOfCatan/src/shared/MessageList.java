@@ -10,9 +10,12 @@ import java.util.ArrayList;
 public class MessageList {
 	
 	/** The list of messages. */
-	ArrayList<MessageLine> listOfMessages = new ArrayList<MessageLine>();
+	ArrayList<MessageLine> listOfMessages;
 	
-	public MessageList(){}
+	public MessageList()
+	{
+		listOfMessages = new ArrayList<MessageLine>();
+	}
 	
 	/**
 	 * Adds a message.
@@ -21,7 +24,7 @@ public class MessageList {
 	 */
 	public void addMessage(MessageLine newMessage)
 	{
-		
+		listOfMessages.add(newMessage);
 	}
 	
 	/**
