@@ -91,7 +91,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private void portTrade(Player player)
 	{
-		
+	
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private boolean canBuyDevCard(Player player)
 	{
-		return false;
+		return player.canBuyDevCard();
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class CatanModel {
 	@SuppressWarnings("unused")
 	private void buyDevCard(Player player)
 	{
-		
+		player.buyDevCard();
 	}
 	
 	/**
