@@ -71,3 +71,4 @@ local.properties
 ## Exceptions ##
 # Add exceptions to the above rules here
 !**/lib/**/*.jar
+!**/doc/**/*
