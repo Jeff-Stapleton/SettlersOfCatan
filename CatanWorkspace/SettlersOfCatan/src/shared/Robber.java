@@ -1,4 +1,6 @@
 package shared;
+import java.util.ArrayList;
+
 import shared.locations.HexLocation;
 import shared.definitions.HexType;
 
@@ -6,7 +8,6 @@ public class Robber {
 	private HexLocation location;
 	private HexType type;
 	private Integer number;
-	private Boolean hasRobber;
 	
 	/*
 	 * This method gets the current location of the Robber
@@ -15,7 +16,7 @@ public class Robber {
 	 */
 	public HexLocation getLocation()
 	{
-		return null;		
+		return location;		
 	}
 	
 	/*
@@ -25,22 +26,9 @@ public class Robber {
 	 * 
 	 * @Return void
 	 */
-	public void setLocation()
+	public void setLocation(HexLocation location)
 	{
-		
-	}
-	
-	/*
-	 * When a robber is placed look to see which player are build on the Hex, making them robbable.
-	 * 
-	 * @Param HexLocation location
-	 * 
-	 * @Return Array of Robbable Players
-	 */
-	public int[] getRobbable()
-	{
-		int[] players = new int[3];
-		return players;
+		this.location = location;
 	}
 	
 	/*
@@ -50,9 +38,9 @@ public class Robber {
 	 * 
 	 * @Return void
 	 */
-	public void steal()
+	public ArrayList<Integer> steal()
 	{
-		
+		return null;
 	}
 
 }

@@ -2,10 +2,10 @@ package shared;
 import shared.locations.EdgeLocation;
 
 public class Road {
-	private Integer owner;
+	private int owner;
 	private EdgeLocation location;
 	
-	public Road(EdgeLocation location, Integer owner)
+	public Road(int owner, EdgeLocation location)
 	{
 		this.location = location;
 		this.owner = owner;
@@ -34,7 +34,7 @@ public class Road {
 	 * 
 	 * @Return Player index
 	 */
-	public Integer getOwner() {
+	public int getOwner() {
 		return owner;
 	}
 
@@ -43,7 +43,7 @@ public class Road {
 	 * 
 	 * @Return void
 	 */
-	public void setOwner(Integer owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 

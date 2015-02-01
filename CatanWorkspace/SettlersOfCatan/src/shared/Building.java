@@ -7,7 +7,7 @@ public class Building {
 	private int owner;
 	private VertexLocation location;
 	
-	public Building(Integer owner, VertexLocation location)
+	public Building(int owner, VertexLocation location)
 	{
 		this.owner = owner;
 		this.location = location;

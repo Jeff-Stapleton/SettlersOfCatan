@@ -2,16 +2,17 @@ package shared;
 
 import shared.definitions.PortType;
 import shared.locations.HexLocation;
+import shared.locations.EdgeDirection;
 
 
 public class Port {
 
 	private PortType type;
 	private HexLocation location;
-	private String direction;
-	private Integer ratio;
+	private EdgeDirection direction;
+	private int ratio;
 	
-	public Port(PortType type, HexLocation location, String direction, Integer ratio)
+	public Port(PortType type, HexLocation location, EdgeDirection direction, int ratio)
 	{
 		this.type = type;
 		this.location = location;
@@ -60,7 +61,7 @@ public class Port {
 	 * 
 	 * @Return portDirection
 	 */
-	public String getDirection() {
+	public EdgeDirection getDirection() {
 		return direction;
 	}
 	
@@ -69,7 +70,7 @@ public class Port {
 	 * 
 	 * @Return void
 	 */
-	public void setDirection(String direction) {
+	public void setDirection(EdgeDirection direction) {
 		this.direction = direction;
 	}
 	
@@ -78,7 +79,7 @@ public class Port {
 	 *
 	 * @Return the port ratio 
 	 */
-	public Integer getRatio() {
+	public int getRatio() {
 		return ratio;
 	}
 	
@@ -87,7 +88,7 @@ public class Port {
 	 * 
 	 * @Return void
 	 */
-	public void setRatio(Integer ratio) {
+	public void setRatio(int ratio) {
 		this.ratio = ratio;
 	}
 }

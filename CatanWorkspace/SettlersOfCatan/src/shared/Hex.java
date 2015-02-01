@@ -15,7 +15,7 @@ public class Hex {
 	private HexType type;
 	
 	/** The number. */
-	private Integer number;
+	private int number;
 	
 	/** The has robber. */
 	private Boolean hasRobber;
@@ -27,7 +27,7 @@ public class Hex {
 	 * @param type the type
 	 * @param number the number
 	 */
-	public Hex(HexLocation location, HexType type, Integer number)
+	public Hex(HexLocation location, HexType type, int number)
 	{
 		this.location = location;
 		this.type = type;
@@ -76,7 +76,7 @@ public class Hex {
 	 * 
 	 * @Return the number
 	 */
-	public Integer getNumber() {
+	public int getNumber() {
 		return number;
 	}
 
@@ -85,7 +85,7 @@ public class Hex {
 	 * 
 	 * @Return void
 	 */
-	public void setNumber(Integer number) {
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
