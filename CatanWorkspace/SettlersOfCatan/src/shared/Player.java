@@ -1,5 +1,7 @@
 package shared;
 
+import java.util.Random;
+
 public class Player {
 
 	private int cities;
@@ -88,6 +90,43 @@ public class Player {
 			// error
 			return false;
 		}			
+	}
+	
+	@SuppressWarnings("unused")
+	private void buyDevCard(Player player, ResourceList cost)
+	{
+		bank.setBrick(bank.getBrick() + cost.getBrick());
+		bank.setWood(bank.getWood() + cost.getWood());
+		bank.setGrain(bank.getGrain() + cost.getGrain());
+		bank.setWool(bank.getWool() + cost.getWool());
+		bank.setOre(bank.getOre() + cost.getOre());
+		
+		DevCardList devCard = new DevCardList();
+
+		Random rand = new Random();
+		int card = rand.nextInt(5);
+		
+		if (card == 0)
+		{
+			devCard.setMonopoly(1);
+		}
+		else if (card == 1)
+		{
+			devCard.setMonument(1);
+		}
+		else if (card == 2)
+		{
+			devCard.setRoadBuilding(1);
+		}
+		else if (card == 3)
+		{
+			devCard.setSoldier(1);
+		}
+		else
+		{
+			devCard.setYearOfPlenty(1);
+		}
+		player.setNewDevCards(devCard);
 	}
 	
 	/**

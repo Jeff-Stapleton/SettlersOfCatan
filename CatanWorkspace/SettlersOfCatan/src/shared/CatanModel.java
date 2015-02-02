@@ -96,79 +96,7 @@ public class CatanModel {
 			bank.moveResources(player, tradeReturn);
 		}
 	}
-	
-	/**
-	 * Buy dev card.
-	 *
-	 * @param player the player
-	 */
-	@SuppressWarnings("unused")
-	private void buyDevCard(Player player, ResourceList cost)
-	{
-		bank.setBrick(bank.getBrick() + cost.getBrick());
-		bank.setWood(bank.getWood() + cost.getWood());
-		bank.setGrain(bank.getGrain() + cost.getGrain());
-		bank.setWool(bank.getWool() + cost.getWool());
-		bank.setOre(bank.getOre() + cost.getOre());
-		
-		DevCardList devCard = new DevCardList();
 
-		Random rand = new Random();
-		int card = rand.nextInt(5);
-		
-		if (card == 0)
-		{
-			devCard.setMonopoly(1);
-		}
-		else if (card == 1)
-		{
-			devCard.setMonument(1);
-		}
-		else if (card == 2)
-		{
-			devCard.setRoadBuilding(1);
-		}
-		else if (card == 3)
-		{
-			devCard.setSoldier(1);
-		}
-		else
-		{
-			devCard.setYearOfPlenty(1);
-		}
-		player.setNewDevCards(devCard);
-	}
-	
-	/**
-	 * Play dev card.
-	 *
-	 * @param player the player
-	 */
-	@SuppressWarnings("unused")
-	private void playDevCard(Player player, DevCardList card)
-	{	
-		if (card.getMonopoly() > 0)
-		{
-			player.getOldDevCards().setMonopoly(-1);
-		}
-		else if (card.getMonument() > 0)
-		{
-			player.getOldDevCards().setMonument(-1);
-		}
-		else if (card.getRoadBuilding() > 0)
-		{
-			player.getOldDevCards().setRoadBuilding(-1);
-		}
-		else if (card.getSoldier() > 0)
-		{
-			player.getOldDevCards().setSoldier(-1);
-		}
-		else
-		{
-			player.getOldDevCards().setYearOfPlenty(-1);
-		}
-	}
-	
 	public void trade()
 	{
 		tradeOffer.getOffer().moveResources(Players[tradeOffer.getReceiver()], tradeOffer.getOffer());
