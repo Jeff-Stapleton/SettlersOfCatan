@@ -46,6 +46,21 @@ public class ResourceList {
 		receiver.setOre(receiver.getOre() + trade.getOre());
 	}
 	
+	public static boolean hasResourcesCheck(ResourceList listInQuestion, ResourceList needed){
+		if (listInQuestion.getBrick() < needed.getBrick())
+			return false;
+		if (listInQuestion.getGrain() < needed.getGrain())
+			return false;
+		if (listInQuestion.getOre() < needed.getOre())
+			return false;
+		if (listInQuestion.getWood() < needed.getWood())
+			return false;
+		if (listInQuestion.getWool() < needed.getWool())
+			return false;
+				
+		return true;
+	}
+	
 	/**
 	 * Get total number of resource cards
 	 * @return
