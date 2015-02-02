@@ -6,7 +6,14 @@ package shared;
  */
 public class TurnTracker 
 {
-	
+	// singleton
+    private static TurnTracker instance = new TurnTracker();
+
+    public static TurnTracker getInstance() 
+    {
+        return instance;
+    }
+    
 	/** The current turn. */
 	private int currentTurn;
 	

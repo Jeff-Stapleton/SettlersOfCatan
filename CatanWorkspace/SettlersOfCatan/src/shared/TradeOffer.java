@@ -11,7 +11,8 @@ public class TradeOffer
 	 */
 	public void accept()
 	{
-		
+		// This function doesn't belong in here.  This object should just store the data 
+		// while the logic happens in the CatanModel
 	}
 	
 	/**
@@ -19,7 +20,8 @@ public class TradeOffer
 	 */
 	public void decline()
 	{
-		
+		// This function doesn't belong in here.  This object should just store the data 
+		// while the logic happens in the CatanModel
 	}
 
 	/**

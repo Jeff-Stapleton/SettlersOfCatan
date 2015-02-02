@@ -1,6 +1,9 @@
 package shared;
 
+import java.util.Random;
+
 import shared.definitions.DevCardType;
+import shared.definitions.PortType;
 
 /**
  * The main client side controller of the game.
@@ -50,60 +53,48 @@ public class CatanModel {
 	}
 	
 	/**
-	 * Update from server.
-	 */
-	@SuppressWarnings("unused")
-	private void updateFromServer()
-	{
-		//get update from poller
-	}
-	
-	/**
-	 * Checks if a player can trade.
-	 *
-	 * @param player the player
-	 * @return true, if successful
-	 */
-	@SuppressWarnings("unused")
-	private boolean canTrade(Player player)
-	{
-		return player.
-	}
-	
-	/**
-	 * Can port trade.
-	 *
-	 * @param port the port
-	 * @return true, if successful
-	 */
-	@SuppressWarnings("unused")
-	private boolean canPortTrade(Port port)
-	{
-		//port.List of players built there
-		return false;
-	}
-	
-	/**
 	 * Port trade.
 	 *
 	 * @param player the player
 	 */
 	@SuppressWarnings("unused")
-	private void portTrade(Player player)
+	private void portTrade(Player player, Port port, ResourceList trade)
 	{
-		//player.how to exchange resources?
-	}
-	
-	/**
-	 * Can buy dev card.
-	 *
-	 * @param player the player
-	 * @return true, if successful
-	 */
-	@SuppressWarnings("unused")
-	private boolean canBuyDevCard(Player player)
-	{
-		return player.canBuyDevCard();
+		// is the players sending over positive/negative number in his trade offer?
+		bank.setBrick(bank.getBrick() + trade.getBrick());
+		bank.setWood(bank.getWood() + trade.getWood());
+		bank.setGrain(bank.getGrain() + trade.getGrain());
+		bank.setWool(bank.getWool() + trade.getWool());
+		bank.setOre(bank.getOre() + trade.getOre());
+		
+		// give the player the trade
+		PortType type = port.getType();
+		ResourceList tradeReturn = new ResourceList();
+		if (type.toString() == "WOOD")
+		{
+			tradeReturn.setWood(port.getRatio());
+			bank.moveResources(player, tradeReturn);
+		}
+		else if (type.toString() == "BRICK")
+		{
+			tradeReturn.setBrick(port.getRatio());
+			bank.moveResources(player, tradeReturn);
+		}
+		else if (type.toString() == "SHEEP")
+		{
+			tradeReturn.setWool(port.getRatio());
+			bank.moveResources(player, tradeReturn);
+		}
+		else if (type.toString() == "WHEAT")
+		{
+			tradeReturn.setGrain(port.getRatio());
+			bank.moveResources(player, tradeReturn);
+		}
+		else
+		{
+			tradeReturn.setOre(port.getRatio());
+			bank.moveResources(player, tradeReturn);
+		}
 	}
 	
 	/**
@@ -112,23 +103,40 @@ public class CatanModel {
 	 * @param player the player
 	 */
 	@SuppressWarnings("unused")
-	private void buyDevCard(Player player)
+	private void buyDevCard(Player player, ResourceList cost)
 	{
-		player.buyDevCard();
-	}
-	
-	/**
-	 * Can play dev card.
-	 *
-	 * @param player the player
-	 * @param cardType the card type
-	 * @return true, if successful
-	 */
-	@SuppressWarnings("unused")
-	private boolean canPlayDevCard(Player player, DevCardType cardType)
-	{
+		bank.setBrick(bank.getBrick() + cost.getBrick());
+		bank.setWood(bank.getWood() + cost.getWood());
+		bank.setGrain(bank.getGrain() + cost.getGrain());
+		bank.setWool(bank.getWool() + cost.getWool());
+		bank.setOre(bank.getOre() + cost.getOre());
 		
-		return false;
+		DevCardList devCard = new DevCardList();
+
+		Random rand = new Random();
+		int card = rand.nextInt(5);
+		
+		if (card == 0)
+		{
+			devCard.setMonopoly(1);
+		}
+		else if (card == 1)
+		{
+			devCard.setMonument(1);
+		}
+		else if (card == 2)
+		{
+			devCard.setRoadBuilding(1);
+		}
+		else if (card == 3)
+		{
+			devCard.setSoldier(1);
+		}
+		else
+		{
+			devCard.setYearOfPlenty(1);
+		}
+		player.setNewDevCards(devCard);
 	}
 	
 	/**
@@ -137,9 +145,33 @@ public class CatanModel {
 	 * @param player the player
 	 */
 	@SuppressWarnings("unused")
-	private void playDevCard(Player player)
+	private void playDevCard(Player player, DevCardList card)
+	{	
+		if (card.getMonopoly() > 0)
+		{
+			player.getOldDevCards().setMonopoly(-1);
+		}
+		else if (card.getMonument() > 0)
+		{
+			player.getOldDevCards().setMonument(-1);
+		}
+		else if (card.getRoadBuilding() > 0)
+		{
+			player.getOldDevCards().setRoadBuilding(-1);
+		}
+		else if (card.getSoldier() > 0)
+		{
+			player.getOldDevCards().setSoldier(-1);
+		}
+		else
+		{
+			player.getOldDevCards().setYearOfPlenty(-1);
+		}
+	}
+	
+	public void trade()
 	{
-		
+		tradeOffer.getOffer().moveResources(Players[tradeOffer.getReceiver()], tradeOffer.getOffer());
 	}
 
 	/**
