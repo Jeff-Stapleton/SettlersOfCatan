@@ -101,6 +101,7 @@ public class TurnTracker
 	 */
 	public int getLongestRoad() 
 	{
+		// set the player with the longest road
 		return longestRoad;
 	}
 
@@ -111,7 +112,9 @@ public class TurnTracker
 	 */
 	public void setLongestRoad(int longestRoad) 
 	{
+		// look over all player, who has the most roads >= 5
 		this.longestRoad = longestRoad;
+		// ?notify all players, who has the longest road
 	}
 
 	/**
@@ -121,7 +124,9 @@ public class TurnTracker
 	 */
 	public int getLargestArmy() 
 	{
+		// set the player with the largest army
 		return largestArmy;
+		// ?notify player he now has it?
 	}
 
 	/**
@@ -131,6 +136,7 @@ public class TurnTracker
 	 */
 	public void setLargestArmy(int largestArmy) 
 	{
+		// look over all player, who has the most soldiers >= 5
 		this.largestArmy = largestArmy;
 	}
 

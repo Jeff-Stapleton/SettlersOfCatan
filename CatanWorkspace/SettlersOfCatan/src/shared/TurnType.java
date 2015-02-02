@@ -7,22 +7,21 @@ package shared;
  */
 public enum TurnType 
 {
-		
-		/** The rolling. */
-		ROLLING,
-		
-		/** The robbing. */
-		ROBBING,
-		
-		/** The playing. */
-		PLAYING,
-		
-		/** The discarding. */
-		DISCARDING,
-		
-		/** The first round. */
-		FIRST_ROUND,
-		
-		/** The second round. */
-		SECOND_ROUND
+	/** The rolling. */
+	ROLLING,
+	
+	/** The robbing. */
+	ROBBING,
+	
+	/** The playing. */
+	PLAYING,
+	
+	/** The discarding. */
+	DISCARDING,
+	
+	/** The first round. */
+	FIRST_ROUND,
+	
+	/** The second round. */
+	SECOND_ROUND
 }

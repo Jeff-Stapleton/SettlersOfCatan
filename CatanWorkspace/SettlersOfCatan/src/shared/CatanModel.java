@@ -44,62 +44,12 @@ public class CatanModel {
 	/**
 	 * Instantiates a new catan model.
 	 */
-	private CatanModel() 
+	public CatanModel() 
 	{
 		bank = new ResourceList();
 		chat = new MessageList();
 		map = new Map();
 		turnTracker = new TurnTracker();
-	}
-	
-	/**
-	 * Port trade.
-	 *
-	 * @param player the player
-	 */
-	@SuppressWarnings("unused")
-	private void portTrade(Player player, Port port, ResourceList trade)
-	{
-		// is the players sending over positive/negative number in his trade offer?
-		bank.setBrick(bank.getBrick() + trade.getBrick());
-		bank.setWood(bank.getWood() + trade.getWood());
-		bank.setGrain(bank.getGrain() + trade.getGrain());
-		bank.setWool(bank.getWool() + trade.getWool());
-		bank.setOre(bank.getOre() + trade.getOre());
-		
-		// give the player the trade
-		PortType type = port.getType();
-		ResourceList tradeReturn = new ResourceList();
-		if (type.toString() == "WOOD")
-		{
-			tradeReturn.setWood(port.getRatio());
-			bank.moveResources(player, tradeReturn);
-		}
-		else if (type.toString() == "BRICK")
-		{
-			tradeReturn.setBrick(port.getRatio());
-			bank.moveResources(player, tradeReturn);
-		}
-		else if (type.toString() == "SHEEP")
-		{
-			tradeReturn.setWool(port.getRatio());
-			bank.moveResources(player, tradeReturn);
-		}
-		else if (type.toString() == "WHEAT")
-		{
-			tradeReturn.setGrain(port.getRatio());
-			bank.moveResources(player, tradeReturn);
-		}
-		else
-		{
-			tradeReturn.setOre(port.getRatio());
-			bank.moveResources(player, tradeReturn);
-		}
-	}
-
-	public void trade()
-	{
-		tradeOffer.getOffer().moveResources(Players[tradeOffer.getReceiver()], tradeOffer.getOffer());
 	}
 
 	/**
