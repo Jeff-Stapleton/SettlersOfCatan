@@ -19,26 +19,15 @@ public class Player {
 	private int victoryPoints;
 	
 	private transient Player bank;
+	private transient CanCan cancan;
 	
-	/**
-	 * Checks to see if a settlement can be bought by this player
-	 * @return
-	 */
-	public boolean canBuySettlement(){
-		if (settlements >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1 
-				&& resources.getGrain() >= 1 && resources.getWool() >= 1){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
+
 	
 	/**
 	 * Buys settlement 
 	 */
 	public boolean buySettlement(){
-		if (canBuySettlement()){
+		if (cancan.canBuySettlement(this)){
 			settlements--;
 			victoryPoints++;
 			// send resources to the bank
@@ -52,23 +41,10 @@ public class Player {
 	}
 	
 	/**
-	 * Checks to see if a city can be bought by this player
-	 * @return
-	 */
-	public boolean canBuyCity(){
-		if (cities >= 1 && resources.getGrain() >= 2 && resources.getOre() >= 3){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	/**
 	 * Buys city
 	 */
 	public boolean buyCity(){
-		if (canBuyCity()){
+		if (cancan.canBuyCity(this)){
 			cities--;
 			victoryPoints++;
 			// send resources to the bank
@@ -82,23 +58,10 @@ public class Player {
 	}
 	
 	/**
-	 * Checks to see if a road can be bought by this player
-	 * @return
-	 */
-	public boolean canBuyRoad(){
-		if (roads >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	/**
 	 * Buys road
 	 */
 	public boolean buyRoad(){
-		if (canBuyRoad()){
+		if (cancan.canBuyRoad(this)){
 			roads--;
 			// send resources to the bank
 			resources.moveResources(bank, new ResourceList(1,1,0,0,0));//player 4 is the bank
@@ -111,23 +74,10 @@ public class Player {
 	}
 	
 	/**
-	 * Checks to see if a dev card can be bought by this player
-	 * @return
-	 */
-	public boolean canBuyDevCard(){
-		if (roads >= 1 && resources.getBrick() >= 1 && resources.getWood() >= 1){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	/**
 	 * Buys dev card
 	 */
 	public boolean buyDevCard(){
-		if (canBuyDevCard()){
+		if (cancan.canBuyDevCard(this)){
 			// send resources to the bank
 			resources.moveResources(bank, new ResourceList(0,0,1,1,1));//player 4 is the bank
 //			newDevCards.addCard(bank.getOldDevCards().getRandomCard());
