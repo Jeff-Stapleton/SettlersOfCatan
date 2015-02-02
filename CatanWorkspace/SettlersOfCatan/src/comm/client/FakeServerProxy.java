@@ -1,5 +1,15 @@
 package comm.client;
 
+import shared.ResourceList;
+import shared.TradeOffer;
+import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+import comm.shared.ServerException;
+import comm.shared.serialization.GameResponse;
+
 /**
  * A faker server proxy facade for testing purposes.
  * The data returned from this proxy is all fake data
@@ -7,7 +17,8 @@ package comm.client;
  * @author Cory Beutler
  *
  */
-public class FakeServerProxy extends AbstractServerProxy {
+public class FakeServerProxy extends AbstractServerProxy
+{
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -15,7 +26,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param password the password for the player
 	 * @throws ServerException
 	 */
-	public void userLogin(String user, String password) throws ServerException {}
+	public void userLogin(String user, String password) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Register a new user with the server
@@ -24,14 +38,23 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param password the players password
 	 * @throws ServerException
 	 */
-	public void userRegister(String user, String password) throws ServerException {}
+	public void userRegister(String user, String password) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * List the current games on the server that the player can join
 	 * @return an array of the games on the server
 	 * @throws ServerException
 	 */
-	public Game[] gamesList() throws ServerException {}
+	public GameResponse[] gamesList() throws ServerException
+	{
+		
+		
+		
+		return null;
+	}
 	
 	/**
 	 * Create a new game. This game will contain only the player initially.
@@ -42,7 +65,13 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @return the game object for the game created by the user
 	 * @throws ServerException
 	 */
-	public Game gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException {}
+	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException
+	{
+		
+		
+		
+		return null;
+	}
 	
 	/**
 	 * Join a currently open game on the server
@@ -50,33 +79,51 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param id the id of the player
 	 * @throws ServerException
 	 */
-	public void gamesJoin(CatanColor color, int id) throws ServerException {}
+	public void gamesJoin(CatanColor color, int id) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Retrieve the model of the current game board state.
 	 * @throws ServerException
 	 */
-	public void gameModel() throws ServerException {}
+	public void gameModel() throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Reset the game to the saved state or the initial setup
 	 * @throws ServerException
 	 */
-	public void gameReset() throws ServerException {}
+	public void gameReset() throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Send a command to the server for debugging purposes
 	 * @param command the command to send to the server
 	 * @throws ServerException
 	 */
-	public void gamesCommandsSend(String command) throws ServerException {}
+	public void gamesCommandsSend(String command) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Fetch the list of commands that the server has executed for debug purposes
 	 * @return the commands executed on the server
 	 * @throws ServerException
 	 */
-	public String[] gamesCommandsFetch() throws ServerException {}
+	public String[] gamesCommandsFetch() throws ServerException
+	{
+		
+		
+		
+		return null;
+	}
 	
 	/**
 	 * Send a chat to the current game chat list
@@ -84,7 +131,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param content the content of the message the player wants to send
 	 * @throws ServerException
 	 */
-	public void gamesSendChat(int playerIndex, String content) throws ServerException {}
+	public void gamesSendChat(int playerIndex, String content) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Roll a number on the dice and send it to the server
@@ -92,21 +142,30 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param number the number the player rolled (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesRollNumber(int playerIndex, int number) throws ServerException {}
+	public void movesRollNumber(int playerIndex, int number) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Finish the turn of a player
 	 * @param playerIndex the index of the player ending their turn
 	 * @throws ServerException
 	 */
-	public void movesFinishTurn(int playerIndex) throws ServerException {}
+	public void movesFinishTurn(int playerIndex) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Buy a dev card for the player
 	 * @param playerIndex the player buying the dev card
 	 * @throws ServerException
 	 */
-	public void movesBuyDevCard(int playerIndex) throws ServerException {}
+	public void movesBuyDevCard(int playerIndex) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Play a Year of Plenty dev card for the player
@@ -115,7 +174,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param resource2 the resource the player wants
 	 * @throws ServerException
 	 */
-	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException {}
+	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Play a Road Building dev card to give the player 2 roads
@@ -124,7 +186,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param spot2 the location for the second road being built
 	 * @throws ServerException
 	 */
-	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException {}
+	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Play a Soldier dev card to steal resources from another player
@@ -133,7 +198,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param location the robber location
 	 * @throws ServerException
 	 */
-	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException {}
+	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Play a Monopoly dev card to allow the player to steal resources
@@ -141,14 +209,20 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param resource the resource the player wishes to steal
 	 * @throws ServerException
 	 */
-	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException {}
+	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Play a Monument dev card for the specified player
 	 * @param playerIndex the player playing the dev card
 	 * @throws ServerException
 	 */
-	public void movesMonument(int playerIndex) throws ServerException {}
+	public void movesMonument(int playerIndex) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Build a road for the player in the given location
@@ -157,7 +231,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param free whether this road is free or not (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException {}
+	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Build a settlement for the player at the given location
@@ -166,7 +243,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param free whether the settlement is free or not (Why?)
 	 * @throws ServerException
 	 */
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException {}
+	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Build a city at the given location
@@ -175,14 +255,20 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param free whether the city will be free (I still don't get this...)
 	 * @throws ServerException
 	 */
-	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException {}
+	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Offer a trade with another player
 	 * @param offer the offer of trade
 	 * @throws ServerException
 	 */
-	public void movesOfferTrade(TradeOffer offer) throws ServerException {}
+	public void movesOfferTrade(TradeOffer offer) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Accept a trade proposed to you
@@ -190,7 +276,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param willAccept whether the player accepts or rejects the offer
 	 * @throws ServerException
 	 */
-	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException {}
+	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException
+	{
+		
+	}
 	
 	/**
 	 * Discard cards from the player's hand
@@ -198,6 +287,9 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param cards the cards the player is discarding
 	 * @throws ServerException
 	 */
-	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException {}
+	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException
+	{
+		
+	}
 	
 }

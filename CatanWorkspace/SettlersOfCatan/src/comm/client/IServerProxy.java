@@ -1,12 +1,23 @@
 package comm.client;
 
+import shared.ResourceList;
+import shared.TradeOffer;
+import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+import comm.shared.ServerException;
+import comm.shared.serialization.GameResponse;
+
 /**
  * Interface containing all the calls that the server
  * can accept through its http protocols
  * @author Cory Beutler
  *
  */
-public interface IServerProxy {
+public interface IServerProxy
+{
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -30,7 +41,7 @@ public interface IServerProxy {
 	 * @return an array of the games on the server
 	 * @throws ServerException
 	 */
-	public Game[] gamesList() throws ServerException;
+	public GameResponse[] gamesList() throws ServerException;
 	
 	/**
 	 * Create a new game. This game will contain only the player initially.
@@ -41,7 +52,7 @@ public interface IServerProxy {
 	 * @return the game object for the game created by the user
 	 * @throws ServerException
 	 */
-	public Game gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException;
+	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException;
 	
 	/**
 	 * Join a currently open game on the server
