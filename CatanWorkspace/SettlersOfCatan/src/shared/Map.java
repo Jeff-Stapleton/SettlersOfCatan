@@ -16,16 +16,17 @@ import shared.Robber;
 
 public class Map 
 {
-	private Hex[] hexes;
-	private Port[] ports;
-	private List<Road> roads;
-	private List<Building> settlements;
-	private List<Building> cities;
+	private static Hex[] hexes;
+	private static Port[] ports;
+	private static List<Road> roads;
+	private static List<Building> settlements;
+	private static List<Building> cities;
 	private Integer radius;
 	private Robber robber;	
 	
-	public Map()
+	/*public Map()
 	{
+		
 		ArrayList<HexType> boardHexTypes = new ArrayList<HexType>();
 	
 		boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 
@@ -91,7 +92,8 @@ public class Map
 		
 		for (int i = 0; i < 9; i++)
 			ports[i] = new Port(portsType.get(i).getType(), portsLocation.get(i).getLocation(), portsLocation.get(i).getDirection(), portsType.get(i).getRatio());
-	}
+			
+	} */
 	
 	
 	/*
@@ -105,10 +107,13 @@ public class Map
 	public void moveRobber(HexLocation hexLocation)
 	{
 		 for(int i = 0; i < 19; i++)
-			 if (hexes[i].hasRobber())
-				 hexes[i].takeRobber();
-			 else if (hexes[i].getLocation() == hexLocation)
-				 hexes[i].giveRobber();
+			 if (getHexes()[i].hasRobber())
+				 getHexes()[i].takeRobber();
+			 else if (getHexes()[i].getLocation() == hexLocation)
+			 {
+				 getHexes()[i].giveRobber();
+				 robber.setLocation(hexLocation);
+			 }
 	}
 	
 	/*
@@ -120,7 +125,7 @@ public class Map
 	 */
 	public void buildSettlement(int player, VertexLocation location)
 	{
-		 settlements.add(new Building(player, location));
+		 getSettlements().add(new Building(player, location));
 	}
 	 
 	 
@@ -134,8 +139,8 @@ public class Map
 	public void buildCity(int player, VertexLocation location)
 	{
 		Building city = new Building(player, location);
-		settlements.remove(settlements.indexOf(city));
-		cities.add(city);
+		getSettlements().remove(getSettlements().indexOf(city));
+		getCities().add(city);
 	}
 	/*
 	 * Build the road at the designated location
@@ -146,20 +151,9 @@ public class Map
 	 */
 	public void buildRoad(int player, EdgeLocation location)
 	{
-		 roads.add(new Road(player, location));
+		 getRoads().add(new Road(player, location));
 	}
 	 
-	/*
-	 * The method scans the map to calculate the longest road and awards 
-	 * "longest road" to who owns it
-	 * 
-	 * @Return void
-	 */
-	public void calculateLongestRoad()
-	{
-		 
-	}
-	
 	/*
 	 * When a robber is placed look to see which player are build on the Hex, making them robbable.
 	 * 
@@ -169,41 +163,124 @@ public class Map
 	 */
 	public List<Integer> getRobbable()
 	{
+		return null;/*
 		List<Integer> players = new ArrayList<Integer>();
 		HexLocation robberHex = robber.getLocation();
+		
+		for (int i = 0; i < cities.size(); i++)
+			if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX() + 1) && 
+				(cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
+			    ((cities.get(i).getLocation().getDir() == VertexDirection.East) || 
+				(cities.get(i).getLocation().getDir() == VertexDirection.SouthEast)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY() + 1) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.SouthEast) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.SouthWest)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX() - 1) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY() + 1) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.East) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.SouthEast)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX() - 1) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.East) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY() - 1) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX() + 1) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY() - 1) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.West)))
+				players.add(cities.get(i).getOwner());
+			else if ((cities.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
+					 (cities.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
+					 ((cities.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
+					 (cities.get(i).getLocation().getDir() == VertexDirection.West) ||
+					 (cities.get(i).getLocation().getDir() == VertexDirection.SouthWest) ||
+					 (cities.get(i).getLocation().getDir() == VertexDirection.SouthEast) ||
+					 (cities.get(i).getLocation().getDir() == VertexDirection.East) ||
+					 (cities.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
+				players.add(cities.get(i).getOwner());
 		
 		for (int i = 0; i < settlements.size(); i++)
 			if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX() + 1) && 
 				(settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
-			    (settlements.get(i).getLocation().getDir() == VertexDirection.East || 
+			    ((settlements.get(i).getLocation().getDir() == VertexDirection.East) || 
 				(settlements.get(i).getLocation().getDir() == VertexDirection.SouthEast)))
 				players.add(settlements.get(i).getOwner());
 			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
 					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY() + 1) &&
-					 (settlements.get(i).getLocation().getDir() == VertexDirection.SouthEast || 
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.SouthEast) || 
 					 (settlements.get(i).getLocation().getDir() == VertexDirection.SouthWest)))
 				players.add(settlements.get(i).getOwner());
 			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX() - 1) && 
 					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY() + 1) &&
-					 (settlements.get(i).getLocation().getDir() == VertexDirection.East || 
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.East) || 
 					 (settlements.get(i).getLocation().getDir() == VertexDirection.SouthEast)))
 				players.add(settlements.get(i).getOwner());
 			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX() - 1) && 
 					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
-					 (settlements.get(i).getLocation().getDir() == VertexDirection.East || 
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.East) || 
 					 (settlements.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
 				players.add(settlements.get(i).getOwner());
 			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
 					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY() - 1) &&
-					 (settlements.get(i).getLocation().getDir() == VertexDirection.NorthWest || 
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
 					 (settlements.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
 				players.add(settlements.get(i).getOwner());
 			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX() + 1) && 
 					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY() - 1) &&
-					 (settlements.get(i).getLocation().getDir() == VertexDirection.NorthWest || 
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
 					 (settlements.get(i).getLocation().getDir() == VertexDirection.West)))
 				players.add(settlements.get(i).getOwner());
+			else if ((settlements.get(i).getLocation().getHexLoc().getX() == robberHex.getX()) && 
+					 (settlements.get(i).getLocation().getHexLoc().getY() == robberHex.getY()) &&
+					 ((settlements.get(i).getLocation().getDir() == VertexDirection.NorthWest) || 
+					 (settlements.get(i).getLocation().getDir() == VertexDirection.West) ||
+					 (settlements.get(i).getLocation().getDir() == VertexDirection.SouthWest) ||
+					 (settlements.get(i).getLocation().getDir() == VertexDirection.SouthEast) ||
+					 (settlements.get(i).getLocation().getDir() == VertexDirection.East) ||
+					 (settlements.get(i).getLocation().getDir() == VertexDirection.NorthEast)))
+				players.add(settlements.get(i).getOwner());
+		
+		return players;*/
+	}
 
-		return players;
+	public static Hex[] getHexes() {
+		return hexes;
+	}
+
+	public void setHexes(Hex[] hexes) {
+		this.hexes = hexes;
+	}
+
+	public static List<Building> getSettlements() {
+		return settlements;
+	}
+
+	public void setSettlements(List<Building> settlements) {
+		this.settlements = settlements;
+	}
+
+	public static List<Building> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<Building> cities) {
+		this.cities = cities;
+	}
+
+	public static List<Road> getRoads() {
+		return roads;
+	}
+
+	public void setRoads(List<Road> roads) {
+		this.roads = roads;
 	}
 }

@@ -30,17 +30,5 @@ public class Robber {
 	{
 		this.location = location;
 	}
-	
-	/*
-	 * Once the robber has been placed steal resources from a robbable player
-	 * 
-	 * @Param ArrayList<int> Players
-	 * 
-	 * @Return void
-	 */
-	public ArrayList<Integer> steal()
-	{
-		return null;
-	}
 
 }
