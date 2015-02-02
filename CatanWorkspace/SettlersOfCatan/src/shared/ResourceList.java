@@ -27,22 +27,23 @@ public class ResourceList {
 	}
 	
 	/**
-	 * Move resources (trade) to given player
-	 * @param player
+	 * Move resources (trade) from one ResourceList to another ResourceList
+	 * @param sender
+	 * @param receiver
 	 * @param trade
 	 */
-	public void moveResources(Player receiver, ResourceList trade){
-		setBrick(getBrick() - trade.getBrick());
-		setWood(getWood() - trade.getWood());
-		setGrain(getGrain() - trade.getGrain());
-		setWool(getWool() - trade.getWool());
-		setOre(getOre() - trade.getOre());
+	public static void moveResources(ResourceList sender, ResourceList receiver, ResourceList trade){
+		sender.setBrick(sender.getBrick() - trade.getBrick());
+		sender.setWood(sender.getWood() - trade.getWood());
+		sender.setGrain(sender.getGrain() - trade.getGrain());
+		sender.setWool(sender.getWool() - trade.getWool());
+		sender.setOre(sender.getOre() - trade.getOre());
 		
-		receiver.getResources().setBrick(getBrick() + trade.getBrick());
-		receiver.getResources().setWood(getWood() + trade.getWood());
-		receiver.getResources().setGrain(getGrain() + trade.getGrain());
-		receiver.getResources().setWool(getWool() + trade.getWool());
-		receiver.getResources().setOre(getOre() + trade.getOre());
+		receiver.setBrick(receiver.getBrick() + trade.getBrick());
+		receiver.setWood(receiver.getWood() + trade.getWood());
+		receiver.setGrain(receiver.getGrain() + trade.getGrain());
+		receiver.setWool(receiver.getWool() + trade.getWool());
+		receiver.setOre(receiver.getOre() + trade.getOre());
 	}
 	
 	/**

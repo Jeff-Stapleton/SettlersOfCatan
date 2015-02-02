@@ -1,7 +1,5 @@
 package shared;
 
-import java.util.Random;
-
 public class Player {
 
 	private int cities;
@@ -19,21 +17,17 @@ public class Player {
 	private int settlements;
 	private int soldiers;
 	private int victoryPoints;
-	
-	private transient Player bank;
-	private transient CanCan cancan;
-	
-
+		
 	
 	/**
 	 * Buys settlement 
 	 */
-	public boolean buySettlement(){
-		if (cancan.canBuySettlement(this)){
+	public boolean buySettlement(ResourceList bank){
+		if (CanCan.canBuildSettlement(this)){
 			settlements--;
 			victoryPoints++;
 			// send resources to the bank
-			resources.moveResources(bank, new ResourceList(1,1,1,1,0));//player 4 is the bank
+			ResourceList.moveResources(resources, bank, new ResourceList(1,1,1,1,0));
 			return true;
 		}
 		else{
@@ -45,12 +39,12 @@ public class Player {
 	/**
 	 * Buys city
 	 */
-	public boolean buyCity(){
-		if (cancan.canBuyCity(this)){
+	public boolean buyCity(ResourceList bank){
+		if (CanCan.canBuildCity(this)){
 			cities--;
 			victoryPoints++;
 			// send resources to the bank
-			resources.moveResources(bank, new ResourceList(0,0,2,0,3));//player 4 is the bank
+			ResourceList.moveResources(resources, bank, new ResourceList(0,0,2,0,3));//player 4 is the bank
 			return true;
 		}
 		else{
@@ -62,11 +56,11 @@ public class Player {
 	/**
 	 * Buys road
 	 */
-	public boolean buyRoad(){
-		if (cancan.canBuyRoad(this)){
+	public boolean buyRoad(ResourceList bank){
+		if (CanCan.canBuildRoad(this)){
 			roads--;
 			// send resources to the bank
-			resources.moveResources(bank, new ResourceList(1,1,0,0,0));//player 4 is the bank
+			ResourceList.moveResources(resources, bank, new ResourceList(1,1,0,0,0));//player 4 is the bank
 			return true;
 		}
 		else{
@@ -78,11 +72,11 @@ public class Player {
 	/**
 	 * Buys dev card
 	 */
-	public boolean buyDevCard(){
-		if (cancan.canBuyDevCard(this)){
+	public boolean buyDevCard(ResourceList bankResources, DevCardList bankDevCards){
+		if (CanCan.canBuyDevCard(this)){
 			// send resources to the bank
-			resources.moveResources(bank, new ResourceList(0,0,1,1,1));//player 4 is the bank
-//			newDevCards.addCard(bank.getOldDevCards().getRandomCard());
+			ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));		
+			DevCardList.moveCard(newDevCards, bankDevCards, DevCardList.getRandomCard());
 			// remove a random dev card from bank.oldDevCards and add it to newDevCards
 			return true;
 		}
@@ -91,44 +85,7 @@ public class Player {
 			return false;
 		}			
 	}
-	
-	@SuppressWarnings("unused")
-	private void buyDevCard(Player player, ResourceList cost)
-	{
-		bank.setBrick(bank.getBrick() + cost.getBrick());
-		bank.setWood(bank.getWood() + cost.getWood());
-		bank.setGrain(bank.getGrain() + cost.getGrain());
-		bank.setWool(bank.getWool() + cost.getWool());
-		bank.setOre(bank.getOre() + cost.getOre());
 		
-		DevCardList devCard = new DevCardList();
-
-		Random rand = new Random();
-		int card = rand.nextInt(5);
-		
-		if (card == 0)
-		{
-			devCard.setMonopoly(1);
-		}
-		else if (card == 1)
-		{
-			devCard.setMonument(1);
-		}
-		else if (card == 2)
-		{
-			devCard.setRoadBuilding(1);
-		}
-		else if (card == 3)
-		{
-			devCard.setSoldier(1);
-		}
-		else
-		{
-			devCard.setYearOfPlenty(1);
-		}
-		player.setNewDevCards(devCard);
-	}
-	
 	/**
 	 * Checks to see if the players needs to discard a card
 	 * 

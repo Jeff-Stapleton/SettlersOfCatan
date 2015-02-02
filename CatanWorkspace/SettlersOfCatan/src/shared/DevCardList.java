@@ -14,11 +14,37 @@ public class DevCardList {
 	/**
 	 * @return
 	 */
-	public String getRandomCard(){
+	public static DevCardList getRandomCard(){
 		Random rand = new Random();
 		int card = rand.nextInt(5);
+		DevCardList devCard = new DevCardList();
 		
-		return "";
+		if (card == 0)
+		{
+			devCard.setMonopoly(1);
+		}
+		else if (card == 1)
+		{
+			devCard.setMonument(1);
+		}
+		else if (card == 2)
+		{
+			devCard.setRoadBuilding(1);
+		}
+		else if (card == 3)
+		{
+			devCard.setSoldier(1);
+		}
+		else
+		{
+			devCard.setYearOfPlenty(1);
+		}
+		return devCard;
+	}
+
+
+	public static void moveCard(DevCardList newDevCards, DevCardList bankDevCards, DevCardList card) {
+		
 	}
 	
 	/**
