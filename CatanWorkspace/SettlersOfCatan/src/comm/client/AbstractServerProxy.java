@@ -1,5 +1,7 @@
 package comm.client;
 
+import com.google.gson.Gson;
+
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -18,6 +20,7 @@ import comm.shared.serialization.GameResponse;
  */
 public abstract class AbstractServerProxy implements IServerProxy
 {
+	protected Gson gson;
 	
 	/**
 	 * Log an existing user into the server
