@@ -1,5 +1,6 @@
 package comm.client;
 
+import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
 import shared.definitions.CatanColor;
@@ -66,7 +67,7 @@ public interface IServerProxy
 	 * Retrieve the model of the current game board state.
 	 * @throws ServerException
 	 */
-	public void gameModel() throws ServerException;
+	public CatanModel gameModel() throws ServerException;
 	
 	/**
 	 * Reset the game to the saved state or the initial setup
@@ -94,7 +95,7 @@ public interface IServerProxy
 	 * @param content the content of the message the player wants to send
 	 * @throws ServerException
 	 */
-	public void gamesSendChat(int playerIndex, String content) throws ServerException;
+	public CatanModel movesSendChat(int playerIndex, String content) throws ServerException;
 	
 	/**
 	 * Roll a number on the dice and send it to the server
@@ -102,21 +103,21 @@ public interface IServerProxy
 	 * @param number the number the player rolled (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesRollNumber(int playerIndex, int number) throws ServerException;
+	public CatanModel movesRollNumber(int playerIndex, int number) throws ServerException;
 	
 	/**
 	 * Finish the turn of a player
 	 * @param playerIndex the index of the player ending their turn
 	 * @throws ServerException
 	 */
-	public void movesFinishTurn(int playerIndex) throws ServerException;
+	public CatanModel movesFinishTurn(int playerIndex) throws ServerException;
 	
 	/**
 	 * Buy a dev card for the player
 	 * @param playerIndex the player buying the dev card
 	 * @throws ServerException
 	 */
-	public void movesBuyDevCard(int playerIndex) throws ServerException;
+	public CatanModel movesBuyDevCard(int playerIndex) throws ServerException;
 	
 	/**
 	 * Play a Year of Plenty dev card for the player
@@ -125,7 +126,7 @@ public interface IServerProxy
 	 * @param resource2 the resource the player wants
 	 * @throws ServerException
 	 */
-	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException;
+	public CatanModel movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException;
 	
 	/**
 	 * Play a Road Building dev card to give the player 2 roads
@@ -134,7 +135,7 @@ public interface IServerProxy
 	 * @param spot2 the location for the second road being built
 	 * @throws ServerException
 	 */
-	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException;
+	public CatanModel movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException;
 	
 	/**
 	 * Play a Soldier dev card to steal resources from another player
@@ -143,7 +144,7 @@ public interface IServerProxy
 	 * @param location the robber location
 	 * @throws ServerException
 	 */
-	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException;
+	public CatanModel movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException;
 	
 	/**
 	 * Play a Monopoly dev card to allow the player to steal resources
@@ -151,14 +152,14 @@ public interface IServerProxy
 	 * @param resource the resource the player wishes to steal
 	 * @throws ServerException
 	 */
-	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException;
+	public CatanModel movesMonopoly(int playerIndex, ResourceType resource) throws ServerException;
 	
 	/**
 	 * Play a Monument dev card for the specified player
 	 * @param playerIndex the player playing the dev card
 	 * @throws ServerException
 	 */
-	public void movesMonument(int playerIndex) throws ServerException;
+	public CatanModel movesMonument(int playerIndex) throws ServerException;
 	
 	/**
 	 * Build a road for the player in the given location
@@ -167,7 +168,7 @@ public interface IServerProxy
 	 * @param free whether this road is free or not (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException;
+	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException;
 	
 	/**
 	 * Build a settlement for the player at the given location
@@ -176,7 +177,7 @@ public interface IServerProxy
 	 * @param free whether the settlement is free or not (Why?)
 	 * @throws ServerException
 	 */
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException;
+	public CatanModel movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException;
 	
 	/**
 	 * Build a city at the given location
@@ -185,14 +186,14 @@ public interface IServerProxy
 	 * @param free whether the city will be free (I still don't get this...)
 	 * @throws ServerException
 	 */
-	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException;
+	public CatanModel movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException;
 	
 	/**
 	 * Offer a trade with another player
 	 * @param offer the offer of trade
 	 * @throws ServerException
 	 */
-	public void movesOfferTrade(TradeOffer offer) throws ServerException;
+	public CatanModel movesOfferTrade(TradeOffer offer) throws ServerException;
 	
 	/**
 	 * Accept a trade proposed to you
@@ -200,7 +201,7 @@ public interface IServerProxy
 	 * @param willAccept whether the player accepts or rejects the offer
 	 * @throws ServerException
 	 */
-	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException;
+	public CatanModel movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException;
 	
 	/**
 	 * Discard cards from the player's hand
@@ -208,6 +209,6 @@ public interface IServerProxy
 	 * @param cards the cards the player is discarding
 	 * @throws ServerException
 	 */
-	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException;
+	public CatanModel movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException;
 	
 }

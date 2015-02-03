@@ -1,5 +1,6 @@
 package comm.client;
 
+import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
 import shared.definitions.CatanColor;
@@ -26,6 +27,7 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param password the password for the player
 	 * @throws ServerException
 	 */
+	@Override
 	public void userLogin(String user, String password) throws ServerException
 	{
 		
@@ -38,6 +40,7 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param password the players password
 	 * @throws ServerException
 	 */
+	@Override
 	public void userRegister(String user, String password) throws ServerException
 	{
 		
@@ -48,12 +51,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @return an array of the games on the server
 	 * @throws ServerException
 	 */
+	@Override
 	public GameResponse[] gamesList() throws ServerException
 	{
 		
-		
-		
-		return null;
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -65,12 +67,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @return the game object for the game created by the user
 	 * @throws ServerException
 	 */
+	@Override
 	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException
 	{
-		
-		
-		
-		return null;
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -79,6 +80,7 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param id the id of the player
 	 * @throws ServerException
 	 */
+	@Override
 	public void gamesJoin(CatanColor color, int id) throws ServerException
 	{
 		
@@ -88,15 +90,18 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * Retrieve the model of the current game board state.
 	 * @throws ServerException
 	 */
-	public void gameModel() throws ServerException
+	@Override
+	public CatanModel gameModel() throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
 	 * Reset the game to the saved state or the initial setup
 	 * @throws ServerException
 	 */
+	@Override
 	public void gameReset() throws ServerException
 	{
 		
@@ -107,6 +112,7 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param command the command to send to the server
 	 * @throws ServerException
 	 */
+	@Override
 	public void gamesCommandsSend(String command) throws ServerException
 	{
 		
@@ -117,12 +123,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @return the commands executed on the server
 	 * @throws ServerException
 	 */
+	@Override
 	public String[] gamesCommandsFetch() throws ServerException
 	{
-		
-		
-		
-		return null;
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -131,9 +136,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param content the content of the message the player wants to send
 	 * @throws ServerException
 	 */
-	public void gamesSendChat(int playerIndex, String content) throws ServerException
+	@Override
+	public CatanModel movesSendChat(int playerIndex, String content) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -142,9 +149,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param number the number the player rolled (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesRollNumber(int playerIndex, int number) throws ServerException
+	@Override
+	public CatanModel movesRollNumber(int playerIndex, int number) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -152,9 +161,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param playerIndex the index of the player ending their turn
 	 * @throws ServerException
 	 */
-	public void movesFinishTurn(int playerIndex) throws ServerException
+	@Override
+	public CatanModel movesFinishTurn(int playerIndex) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -162,9 +173,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player buying the dev card
 	 * @throws ServerException
 	 */
-	public void movesBuyDevCard(int playerIndex) throws ServerException
+	@Override
+	public CatanModel movesBuyDevCard(int playerIndex) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -174,9 +187,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param resource2 the resource the player wants
 	 * @throws ServerException
 	 */
-	public void movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException
+	@Override
+	public CatanModel movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -186,9 +201,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param spot2 the location for the second road being built
 	 * @throws ServerException
 	 */
-	public void movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException
+	@Override
+	public CatanModel movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -198,20 +215,24 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param location the robber location
 	 * @throws ServerException
 	 */
-	public void movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException
+	@Override
+	public CatanModel movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
 	 * Play a Monopoly dev card to allow the player to steal resources
 	 * @param playerIndex the player playing the Monopoly card
 	 * @param resource the resource the player wishes to steal
-	 * @throws ServerException
+	 * @throws ServerameException
 	 */
-	public void movesMonopoly(int playerIndex, ResourceType resource) throws ServerException
+	@Override
+	public CatanModel movesMonopoly(int playerIndex, ResourceType resource) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -219,9 +240,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player playing the dev card
 	 * @throws ServerException
 	 */
-	public void movesMonument(int playerIndex) throws ServerException
+	@Override
+	public CatanModel movesMonument(int playerIndex) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -231,9 +254,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param free whether this road is free or not (This is stupid)
 	 * @throws ServerException
 	 */
-	public void movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException
+	@Override
+	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -243,9 +268,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param free whether the settlement is free or not (Why?)
 	 * @throws ServerException
 	 */
-	public void movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException
+	@Override
+	public CatanModel movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -255,9 +282,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param free whether the city will be free (I still don't get this...)
 	 * @throws ServerException
 	 */
-	public void movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException
+	@Override
+	public CatanModel movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -265,9 +294,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param offer the offer of trade
 	 * @throws ServerException
 	 */
-	public void movesOfferTrade(TradeOffer offer) throws ServerException
+	@Override
+	public CatanModel movesOfferTrade(TradeOffer offer) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -276,9 +307,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param willAccept whether the player accepts or rejects the offer
 	 * @throws ServerException
 	 */
-	public void movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException
+	@Override
+	public CatanModel movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 	/**
@@ -287,9 +320,11 @@ public class FakeServerProxy extends AbstractServerProxy
 	 * @param cards the cards the player is discarding
 	 * @throws ServerException
 	 */
-	public void movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException
+	@Override
+	public CatanModel movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException
 	{
-		
+
+		return null; //TODO: Replace me with fake data
 	}
 	
 }
