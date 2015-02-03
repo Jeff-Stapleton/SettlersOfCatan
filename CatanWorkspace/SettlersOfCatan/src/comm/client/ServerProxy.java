@@ -21,20 +21,26 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import comm.shared.ServerException;
 import comm.shared.serialization.AcceptTradeRequest;
+import comm.shared.serialization.AddAIRequest;
 import comm.shared.serialization.BuildCityRequest;
 import comm.shared.serialization.BuildRoadRequest;
 import comm.shared.serialization.BuildSettlementRequest;
 import comm.shared.serialization.BuyDevCardRequest;
+import comm.shared.serialization.ChangeLogLevelRequest;
 import comm.shared.serialization.CreateGameRequest;
 import comm.shared.serialization.CredentialsRequest;
 import comm.shared.serialization.DiscardCardsRequest;
 import comm.shared.serialization.FinishTurnRequest;
 import comm.shared.serialization.GameResponse;
 import comm.shared.serialization.JoinGameRequest;
+import comm.shared.serialization.LoadGameRequest;
+import comm.shared.serialization.MaritimeTradeRequest;
 import comm.shared.serialization.MonopolyRequest;
 import comm.shared.serialization.MonumentRequest;
 import comm.shared.serialization.RoadBuildingRequest;
+import comm.shared.serialization.RobPlayerRequest;
 import comm.shared.serialization.RollNumberRequest;
+import comm.shared.serialization.SaveGameRequest;
 import comm.shared.serialization.SendChatRequest;
 import comm.shared.serialization.SoldierRequest;
 import comm.shared.serialization.YearOfPlentyRequest;
@@ -59,12 +65,12 @@ public class ServerProxy extends AbstractServerProxy
 	 */
 	private String sendGet(String serverPath, Map<String,String> headers)
 	{
-		HttpURLConnection con = null;
+		HttpsURLConnection con = null;
 		try
 		{
 			String urlString = server + serverPath;
 			URL url = new URL(urlString);
-			con = (HttpURLConnection) url.openConnection();
+			con = (HttpsURLConnection) url.openConnection();
 			
 			con.setRequestMethod("GET");
 			
@@ -110,12 +116,12 @@ public class ServerProxy extends AbstractServerProxy
 	
 	private String sendPost(String serverPath, String requestBody, Map<String, String> headers) throws IOException
 	{
-		HttpURLConnection con = null;
+		HttpsURLConnection con = null;
 		try
 		{
 			String urlString = server + serverPath;
 			URL url = new URL(urlString);
-			con = (HttpURLConnection) url.openConnection();
+			con = (HttpsURLConnection) url.openConnection();
 	 
 			con.setRequestMethod("POST");
 			
@@ -269,6 +275,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gamesSave(int id, String name) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new SaveGameRequest(id, name));
 		
 	}
 	
@@ -280,6 +287,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gamesLoad(String name) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new LoadGameRequest(name));
 		
 	}
 	
@@ -342,6 +350,8 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gameCommandsPost(String[] commands) throws ServerException
 	{
+		String jsonRequest = gson.toJson(commands);
+		
 		Map<String, String> headers = new HashMap<String,String>();
 		String cookie = getCookie();
 		if (null != cookie)
@@ -349,7 +359,6 @@ public class ServerProxy extends AbstractServerProxy
 			headers.put("Cookie", cookie);
 		}
 		
-		String jsonRequest = gson.toJson(commands);
 		
 	}
 	
@@ -381,6 +390,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gameAddAI(String aiType) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new AddAIRequest(aiType));
 		
 	}
 	
@@ -451,6 +461,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesRobPlayer(int playerIndex, int victimIndex, HexLocation location) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new RobPlayerRequest(playerIndex, victimIndex, location));
 		
 		String jsonResponse = "";
 		return gson.fromJson(jsonResponse, CatanModel.class);
@@ -746,6 +757,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new MaritimeTradeRequest(playerIndex, ratio, inputResource.toString(), outputResource.toString()));
 
 		String jsonResponse = "";
 		return gson.fromJson(jsonResponse, CatanModel.class);
@@ -782,6 +794,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void utilChangeLogLevel(String logLevel) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new ChangeLogLevelRequest(logLevel));
 		
 	}
 
