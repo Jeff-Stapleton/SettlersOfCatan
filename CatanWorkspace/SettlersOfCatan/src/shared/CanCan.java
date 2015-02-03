@@ -8,6 +8,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
 public class CanCan {
+	// test push from my chromecrook
 
 //  Things we are suppose to implement as given by the TA's in the message from learning suite.
 //	CanDiscardCards, CanRollNumber
