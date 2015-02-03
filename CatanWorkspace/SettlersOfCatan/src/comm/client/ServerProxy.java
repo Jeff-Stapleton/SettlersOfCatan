@@ -1,5 +1,16 @@
 package comm.client;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -9,7 +20,24 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import comm.shared.ServerException;
+import comm.shared.serialization.AcceptTradeRequest;
+import comm.shared.serialization.BuildCityRequest;
+import comm.shared.serialization.BuildRoadRequest;
+import comm.shared.serialization.BuildSettlementRequest;
+import comm.shared.serialization.BuyDevCardRequest;
+import comm.shared.serialization.CreateGameRequest;
+import comm.shared.serialization.CredentialsRequest;
+import comm.shared.serialization.DiscardCardsRequest;
+import comm.shared.serialization.FinishTurnRequest;
 import comm.shared.serialization.GameResponse;
+import comm.shared.serialization.JoinGameRequest;
+import comm.shared.serialization.MonopolyRequest;
+import comm.shared.serialization.MonumentRequest;
+import comm.shared.serialization.RoadBuildingRequest;
+import comm.shared.serialization.RollNumberRequest;
+import comm.shared.serialization.SendChatRequest;
+import comm.shared.serialization.SoldierRequest;
+import comm.shared.serialization.YearOfPlentyRequest;
 
 /**
  * A proxy for the http server that will call all the sever
@@ -21,6 +49,125 @@ import comm.shared.serialization.GameResponse;
  */
 public class ServerProxy extends AbstractServerProxy
 {
+	private String server = "localhost:8081";
+	
+	/**
+	 * Send a get request to the server with the specified headers
+	 * @param serverPath the path to send the get request to. This is appended to the server url
+	 * @param headers the headers to add to the get request
+	 * @throws IOException
+	 */
+	private String sendGet(String serverPath, Map<String,String> headers)
+	{
+		HttpURLConnection con = null;
+		try
+		{
+			String urlString = server + serverPath;
+			URL url = new URL(urlString);
+			con = (HttpURLConnection) url.openConnection();
+			
+			con.setRequestMethod("GET");
+			
+			if (null != headers)
+			{
+				for (Map.Entry<String, String> header : headers.entrySet())
+				{
+					con.setRequestProperty(header.getKey(), header.getValue());
+				}
+			}
+			
+			int responseCode = con.getResponseCode();
+			System.out.println("\nSending 'GET' request to URL : " + urlString);
+			System.out.println("Response Code : " + responseCode);
+	
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			
+			StringBuffer response = new StringBuffer();
+			String inputLine;
+			while (null != (inputLine = in.readLine())) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			System.out.println(response.toString());
+			
+			return response.toString();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			if (null != con)
+			{
+				con.disconnect();
+				con = null;
+			}
+		}
+	}
+	
+	private String sendPost(String serverPath, String requestBody, Map<String, String> headers) throws IOException
+	{
+		HttpURLConnection con = null;
+		try
+		{
+			String urlString = server + serverPath;
+			URL url = new URL(urlString);
+			con = (HttpURLConnection) url.openConnection();
+	 
+			con.setRequestMethod("POST");
+			
+			if (null != headers)
+			{
+				for (Map.Entry<String, String> header : headers.entrySet())
+				{
+					con.setRequestProperty(header.getKey(), header.getValue());
+				}
+			}
+	 
+			// Send post request
+			con.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(requestBody);
+			wr.flush();
+			wr.close();
+	 
+			int responseCode = con.getResponseCode();
+			System.out.println("\nSending 'POST' request to URL : " + urlString);
+			System.out.println("Post parameters : " + requestBody);
+			System.out.println("Response Code : " + responseCode);
+	 
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			
+			StringBuffer response = new StringBuffer();
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+	 
+			//print result
+			System.out.println(response.toString());
+			
+			return response.toString();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		finally
+		{
+			if (null != con)
+			{
+				con.disconnect();
+				con = null;
+			}
+		}
+	}
+	
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -31,6 +178,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void userLogin(String user, String password) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new CredentialsRequest(user, password));
 		
 	}
 	
@@ -44,6 +192,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void userRegister(String user, String password) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new CredentialsRequest(user, password));
 		
 	}
 	
@@ -55,8 +204,16 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public GameResponse[] gamesList() throws ServerException
 	{
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+
+		String jsonResponse = sendGet("/games/list", headers);
 		
-		return null; //TODO: Replace with real data
+		return gson.fromJson(jsonResponse, GameResponse[].class);
 	}
 	
 	/**
@@ -71,8 +228,17 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new CreateGameRequest(name, randomTiles, randomNumbers, randomPorts));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, GameResponse.class);
 	}
 	
 	/**
@@ -84,18 +250,73 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gamesJoin(CatanColor color, int id) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new JoinGameRequest(id, color.toString()));
+
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+	}
+	
+	/**
+	 * Save the game's current state to the given location
+	 * @param id the id of the game you wish to save
+	 * @param name the location that the game will be saved at
+	 * @throws ServerException
+	 */
+	@Override
+	public void gamesSave(int id, String name) throws ServerException
+	{
 		
 	}
 	
 	/**
-	 * Retrieve the model of the current game board state.
+	 * Load the game's state from the given location
+	 * @param id the location of the game to load on the server
 	 * @throws ServerException
 	 */
 	@Override
+	public void gamesLoad(String name) throws ServerException
+	{
+		
+	}
+	
+	/**
+	 * Retrieve the model of the game board regardless of version number
+	 * @return the CatanModel representing the new game state after this move was processed
+	 * @throws ServerException
+	 */
 	public CatanModel gameModel() throws ServerException
 	{
+		return gameModel(-1);
+	}
+	
+	/**
+	 * Retrieve the model of the current game board state.
+	 * @param version the last version of the game model received
+	 * @return the CatanModel representing the new game state after this move was processed
+	 * @throws ServerException
+	 */
+	@Override
+	public CatanModel gameModel(int version) throws ServerException
+	{
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
 
-		return null; //TODO: Replace with real data
+		if (version >= 0)
+		{
+			headers.put("version", Integer.toString(version));
+		}
+
+		String jsonResponse = sendGet("/game/model", headers);
+		
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -105,7 +326,12 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gameReset() throws ServerException
 	{
-		
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
 	}
 	
 	/**
@@ -114,8 +340,16 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws ServerException
 	 */
 	@Override
-	public void gamesCommandsSend(String command) throws ServerException
+	public void gameCommandsPost(String[] commands) throws ServerException
 	{
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonRequest = gson.toJson(commands);
 		
 	}
 	
@@ -125,60 +359,145 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws ServerException
 	 */
 	@Override
-	public String[] gamesCommandsFetch() throws ServerException
+	public String[] gameCommandsGet() throws ServerException
 	{
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
 
-		return null; //TODO: Replace with real data
+		String jsonResponse = sendGet("/game/commands", headers);
+		
+		return gson.fromJson(jsonResponse, String[].class);
 	}
 	
+	/**
+	 * Add an AI player to the game
+	 * @param aiType the type of AI player to add to the game
+	 * @throws ServerException
+	 */
+	@Override
+	public void gameAddAI(String aiType) throws ServerException
+	{
+		
+	}
+	
+	/**
+	 * Retrieve a list of the AI players in the game
+	 * @throws ServerException
+	 */
+	@Override
+	public void gameListAI() throws ServerException
+	{
+		
+	}
+
 	/**
 	 * Send a chat to the current game chat list
 	 * @param playerIndex the index of the player sending the chat message
 	 * @param content the content of the message the player wants to send
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesSendChat(int playerIndex, String content) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new SendChatRequest(playerIndex, content));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Roll a number on the dice and send it to the server
 	 * @param playerIndex the index of the player rolling the dice
 	 * @param number the number the player rolled (This is stupid)
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesRollNumber(int playerIndex, int number) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new RollNumberRequest(playerIndex, number));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
+	 * Execute the robbing phase of a players turn if they rolled a 7
+	 * @param playerIndex the player doing the robbing
+	 * @param victimIndex the player being robbed from
+	 * @param location the location to move the robber to
+	 * @return the CatanModel representing the new game state after this move was processed
+	 * @throws ServerException
+	 */
+	@Override
+	public CatanModel movesRobPlayer(int playerIndex, int victimIndex, HexLocation location) throws ServerException
+	{
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
+	}
+
+	/**
 	 * Finish the turn of a player
 	 * @param playerIndex the index of the player ending their turn
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesFinishTurn(int playerIndex) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new FinishTurnRequest(playerIndex));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Buy a dev card for the player
 	 * @param playerIndex the player buying the dev card
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesBuyDevCard(int playerIndex) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new BuyDevCardRequest(playerIndex));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -186,13 +505,23 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player playing the dev card
 	 * @param resource1 the resource the player wants
 	 * @param resource2 the resource the player wants
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new YearOfPlentyRequest(playerIndex, resource1.toString(), resource2.toString()));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -200,13 +529,23 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the index of the player building the road
 	 * @param spot1 the location for a road being built
 	 * @param spot2 the location for the second road being built
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new RoadBuildingRequest(playerIndex, spot1, spot2));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -214,38 +553,68 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player playing the dev card
 	 * @param victimIndex the victim of the dev card
 	 * @param location the robber location
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new SoldierRequest(playerIndex, victimIndex, location));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Play a Monopoly dev card to allow the player to steal resources
 	 * @param playerIndex the player playing the Monopoly card
 	 * @param resource the resource the player wishes to steal
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesMonopoly(int playerIndex, ResourceType resource) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new MonopolyRequest(playerIndex, resource.toString()));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Play a Monument dev card for the specified player
 	 * @param playerIndex the player playing the dev card
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesMonument(int playerIndex) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new MonumentRequest(playerIndex));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -253,13 +622,23 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player building the road
 	 * @param location the location the player is building the road
 	 * @param free whether this road is free or not (This is stupid)
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new BuildRoadRequest(playerIndex, location, free));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -267,13 +646,23 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the index of the player building the settlement
 	 * @param location the location of the settlement
 	 * @param free whether the settlement is free or not (Why?)
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new BuildSettlementRequest(playerIndex, location, free));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
@@ -281,51 +670,119 @@ public class ServerProxy extends AbstractServerProxy
 	 * @param playerIndex the player building the city
 	 * @param location the location of the city bing built
 	 * @param free whether the city will be free (I still don't get this...)
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new BuildCityRequest(playerIndex, location, free));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Offer a trade with another player
 	 * @param offer the offer of trade
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesOfferTrade(TradeOffer offer) throws ServerException
 	{
+		String jsonRequest = gson.toJson(offer);
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
 	/**
 	 * Accept a trade proposed to you
 	 * @param playerIndex the index of the player accepting the trade
 	 * @param willAccept whether the player accepts or rejects the offer
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesAcceptTrade(int playerIndex, boolean willAccept) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new AcceptTradeRequest(playerIndex, willAccept));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
+	/**
+	 * Process a port trade for the given player with the given ratio and resource types
+	 * @param playerIndex the player doing the maritime trade
+	 * @param ratio the ratio to trade the resources at
+	 * @param inputResource the input resource type
+	 * @param outputResource the output resource type
+	 * @return the CatanModel representing the new game state after this move was processed
+	 * @throws ServerException
+	 */
+	@Override
+	public CatanModel movesMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource) throws ServerException
+	{
+
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
+	}
+
 	/**
 	 * Discard cards from the player's hand
 	 * @param playerIndex the player discarding the card
 	 * @param cards the cards the player is discarding
+	 * @return the CatanModel representing the new game state after this move was processed
 	 * @throws ServerException
 	 */
 	@Override
 	public CatanModel movesDiscardCards(int playerIndex, ResourceList cards) throws ServerException
 	{
+		String jsonRequest = gson.toJson(new DiscardCardsRequest(playerIndex, cards));
 
-		return null; //TODO: Replace with real data
+		Map<String, String> headers = new HashMap<String,String>();
+		String cookie = getCookie();
+		if (null != cookie)
+		{
+			headers.put("Cookie", cookie);
+		}
+		
+		String jsonResponse = "";
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 	
+	/**
+	 * Change the logging level for the server
+	 * @param logLevel the desired logging level for the server
+	 * @throws ServerException
+	 */
+	@Override
+	public void utilChangeLogLevel(String logLevel) throws ServerException
+	{
+		
+	}
+
 }
