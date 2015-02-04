@@ -47,6 +47,16 @@ public class DevCardList {
 		
 	}
 	
+	public int getTotal(){
+		int total = 0;
+		total += getMonopoly();
+		total += getMonument();
+		total += getRoadBuilding();
+		total += getSoldier();
+		total += getYearOfPlenty();
+		return total;
+	}
+	
 	/**
 	 * Get the number of monopoly cards
 	 * @return
