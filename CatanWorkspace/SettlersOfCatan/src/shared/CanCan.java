@@ -287,6 +287,20 @@ public class CanCan {
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
 			
+			//Water checks
+			if((edge.getHexLoc().getX() == -3 || edge.getHexLoc().getX() == 3) && edge.getDir() == EdgeDirection.South)
+				return false;
+			else if((edge.getHexLoc().getY() == 3 || edge.getHexLoc().getY() == -3) && edge.getDir() == EdgeDirection.SouthWest)
+				return false;
+			else if((edge.getHexLoc().getX() == -3 && edge.getHexLoc().getY() == 0) || 
+					(edge.getHexLoc().getX() == -2 && edge.getHexLoc().getY() == -1) || 
+					(edge.getHexLoc().getX() == -1 && edge.getHexLoc().getY() == -2) || 
+					(edge.getHexLoc().getX() ==  0 && edge.getHexLoc().getY() == 3) || 
+					(edge.getHexLoc().getX() == 1 && edge.getHexLoc().getY() == 2) || 
+					(edge.getHexLoc().getX() == 2 && edge.getHexLoc().getY() == 1)
+					&& edge.getDir() == EdgeDirection.SouthEast)
+				return false;
+			
 			if (!hasAdjacentRoad(player,edge))
 			{
 				if (edge.getDir() == EdgeDirection.South)
