@@ -40,8 +40,10 @@ public class CanCan {
 	 */
 	public static boolean canMaritimeTrade(Player player, TurnTracker turn)
 	{
+		if (player.getSettlements() <= 3)
+			System.out.println("GOT THIS FAR");
 		// No other checks besides if he's by a port right now
-		if ((player.getSettlements() >= 1 || player.getCities() >=1) && turn.getStatus() == TurnType.PLAYING)
+		if ((player.getSettlements() <= 3 || player.getCities() <= 4) && turn.getStatus() == TurnType.PLAYING)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
@@ -160,7 +162,7 @@ public class CanCan {
 	{
 		Boolean hasRoad = false;
 		
-		if (((player.getSettlements() >= 1 || player.getCities() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
+		if (((player.getSettlements() <= 3 || player.getCities() <= 4) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());

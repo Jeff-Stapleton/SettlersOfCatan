@@ -288,7 +288,7 @@ public class Map
 		return ports;
 	}
 
-	public static void setPorts(List<Port> ports) {
+	public void setPorts(List<Port> ports) {
 		Map.ports = ports;
 	}
 }
