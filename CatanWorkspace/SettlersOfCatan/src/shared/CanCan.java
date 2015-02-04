@@ -26,10 +26,10 @@ public class CanCan {
 	 * @param port the port
 	 * @return true, if successful
 	 */
-	public static boolean canMaritimeTrade(Player player)
+	public static boolean canMaritimeTrade(Player player, TurnTracker turn)
 	{
 		// No other checks besides if he's by a port right now
-		if (player.getSettlements() >= 1 || player.getCities() >=1)
+		if ((player.getSettlements() >= 1 || player.getCities() >=1) && turn.getStatus() == TurnType.PLAYING)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
@@ -144,11 +144,11 @@ public class CanCan {
 	}
 	
 	
-	public static boolean canBuildSettlement(Player player, VertexLocation vertexLocation)
+	public static boolean canBuildSettlement(Player player, VertexLocation vertexLocation, TurnTracker turn)
 	{
 		Boolean hasRoad = false;
 		
-		if ((player.getSettlements() >= 1 || player.getCities() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1)
+		if (((player.getSettlements() >= 1 || player.getCities() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
@@ -282,7 +282,7 @@ public class CanCan {
 		return false;
 	}
 	
-	public static boolean canBuildRoad(Player player, EdgeLocation edge){
+	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn){
 		if (player.getRoads() >= 1 && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
@@ -302,7 +302,7 @@ public class CanCan {
 					&& edge.getDir() == EdgeDirection.SouthEast)
 				return false;
 			
-			if (!hasAdjacentRoad(player,edge))
+			if (!hasAdjacentRoad(player,edge) || turn.getStatus() == TurnType.FIRST_ROUND)
 			{
 				if (edge.getDir() == EdgeDirection.South)
 				{
