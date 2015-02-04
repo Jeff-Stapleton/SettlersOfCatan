@@ -8,10 +8,6 @@ import shared.locations.*;
 
 public class CanCan {
 	// test push from my chromecrook
-
-//  Things we are suppose to implement as given by the TA's in the message from learning suite.
-//	CanDiscardCards, CanRollNumber
-//	CanFinishTurn
 	
 	/**
 	 * Checks if a player can trade.
@@ -19,7 +15,8 @@ public class CanCan {
 	 * @param player the player
 	 * @return true, if successful
 	 */
-	public static boolean canOfferTrade(Player player){		
+	public static boolean canOfferTrade(Player player){
+		
 		return false;
 	}
 	
@@ -98,48 +95,53 @@ public class CanCan {
 	}
 	
 	public static boolean canUseYearOfPlenty(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getYearOfPlenty() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseRoadBuilder(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getRoadBuilding() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseSoldier(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getSoldier() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseMonopoly(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getMonopoly() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseMonument(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getMonument() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	
@@ -342,4 +344,35 @@ public class CanCan {
 		}
 		return true;		
 	}
+	
+	public static boolean canDiscardCards(Player player, CatanModel model){
+		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
+			if (model.getTurnTracker().getStatus() == TurnType.DISCARDING){
+				if (player.hasDiscarded() == false){
+					// Does this have to do with when a 7 is rolled?
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean canRollNumber(Player player, CatanModel model){
+		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
+			if (model.getTurnTracker().getStatus() == TurnType.ROLLING){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean canFinishTurn(Player player, CatanModel model){
+		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
+			if (model.getTurnTracker().getStatus() == TurnType.PLAYING){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
