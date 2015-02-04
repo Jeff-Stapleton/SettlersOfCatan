@@ -22,68 +22,39 @@ public class Player {
 	/**
 	 * Buys settlement 
 	 */
-	public boolean buySettlement(ResourceList bank){
-		if (CanCan.canBuildSettlement(this)){
-			settlements--;
-			victoryPoints++;
-			// send resources to the bank
-			ResourceList.moveResources(resources, bank, new ResourceList(1,1,1,1,0));
-			return true;
-		}
-		else{
-			// error
-			return false;
-		}
+	public void buySettlement(ResourceList bank){
+		settlements--;
+		victoryPoints++;
+		// send resources to the bank
+		ResourceList.moveResources(resources, bank, new ResourceList(1,1,1,1,0));
 	}
 	
 	/**
 	 * Buys city
 	 */
-	public boolean buyCity(ResourceList bank){
-		if (CanCan.canBuildCity(this)){
-			cities--;
-			victoryPoints++;
-			// send resources to the bank
-			ResourceList.moveResources(resources, bank, new ResourceList(0,0,2,0,3));//player 4 is the bank
-			return true;
-		}
-		else{
-			// error
-			return false;
-		}		
+	public void buyCity(ResourceList bank){
+		cities--;
+		victoryPoints++;
+		// send resources to the bank
+		ResourceList.moveResources(resources, bank, new ResourceList(0,0,2,0,3));	
 	}
 	
 	/**
 	 * Buys road
 	 */
-	public boolean buyRoad(ResourceList bank){
-		if (CanCan.canBuildRoad(this)){
-			roads--;
-			// send resources to the bank
-			ResourceList.moveResources(resources, bank, new ResourceList(1,1,0,0,0));//player 4 is the bank
-			return true;
-		}
-		else{
-			// error
-			return false;
-		}			
+	public void buyRoad(ResourceList bank){
+		roads--;
+		// send resources to the bank
+		ResourceList.moveResources(resources, bank, new ResourceList(1,1,0,0,0));//player 4 is the bank		
 	}
 	
 	/**
 	 * Buys dev card
 	 */
-	public boolean buyDevCard(ResourceList bankResources, DevCardList bankDevCards){
-		if (CanCan.canBuyDevCard(this)){
-			// send resources to the bank
-			ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));		
-			DevCardList.moveCard(newDevCards, bankDevCards, DevCardList.getRandomCard());
-			// remove a random dev card from bank.oldDevCards and add it to newDevCards
-			return true;
-		}
-		else{
-			// error
-			return false;
-		}			
+	public void buyDevCard(ResourceList bankResources, DevCardList bankDevCards){
+		// send resources to the bank
+		ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));		
+		DevCardList.moveCard(newDevCards, bankDevCards, DevCardList.getRandomCard());		
 	}
 		
 	/**
