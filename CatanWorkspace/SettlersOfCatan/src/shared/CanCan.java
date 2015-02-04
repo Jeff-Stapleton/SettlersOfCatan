@@ -81,7 +81,6 @@ public class CanCan {
 		
 		return false;
 	}
-	
 	/**
 	 * Checks to see if a dev card can be bought by this player
 	 * @return
