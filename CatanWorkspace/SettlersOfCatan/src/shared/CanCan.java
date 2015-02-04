@@ -8,10 +8,6 @@ import shared.locations.*;
 
 public class CanCan {
 	// test push from my chromecrook
-
-//  Things we are suppose to implement as given by the TA's in the message from learning suite.
-//	CanDiscardCards, CanRollNumber
-//	CanFinishTurn
 	
 	/**
 	 * Checks if a player can trade.
@@ -19,7 +15,8 @@ public class CanCan {
 	 * @param player the player
 	 * @return true, if successful
 	 */
-	public static boolean canOfferTrade(Player player){		
+	public static boolean canOfferTrade(Player player){
+		
 		return false;
 	}
 	
@@ -29,10 +26,10 @@ public class CanCan {
 	 * @param port the port
 	 * @return true, if successful
 	 */
-	public static boolean canMaritimeTrade(Player player)
+	public static boolean canMaritimeTrade(Player player, TurnTracker turn)
 	{
 		// No other checks besides if he's by a port right now
-		if (player.getSettlements() >= 1 || player.getCities() >=1)
+		if ((player.getSettlements() >= 1 || player.getCities() >=1) && turn.getStatus() == TurnType.PLAYING)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
@@ -84,7 +81,6 @@ public class CanCan {
 		
 		return false;
 	}
-	
 	/**
 	 * Checks to see if a dev card can be bought by this player
 	 * @return
@@ -98,56 +94,61 @@ public class CanCan {
 	}
 	
 	public static boolean canUseYearOfPlenty(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getYearOfPlenty() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseRoadBuilder(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getRoadBuilding() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseSoldier(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getSoldier() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseMonopoly(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getMonopoly() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	public static boolean canUseMonument(Player player){
-		if (player.hasPlayedDevCard()){
-			return false;
-		}
-		else{
+		if (player.getOldDevCards().getMonument() > 0){
+			if (player.hasPlayedDevCard()){
+				return false;
+			}
 			return true;
 		}
+		return false;
 	}
 	
 	
-	public static boolean canBuildSettlement(Player player, VertexLocation vertexLocation)
+	public static boolean canBuildSettlement(Player player, VertexLocation vertexLocation, TurnTracker turn)
 	{
 		Boolean hasRoad = false;
 		
-		if ((player.getSettlements() >= 1 || player.getCities() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1)
+		if (((player.getSettlements() >= 1 || player.getCities() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
@@ -281,13 +282,27 @@ public class CanCan {
 		return false;
 	}
 	
-	public static boolean canBuildRoad(Player player, EdgeLocation edge){
+	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn){
 		if (player.getRoads() >= 1 && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1)
 		{
 			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
 			newBuildings.addAll(Map.getCities());
 			
-			if (!hasAdjacentRoad(player,edge))
+			//Water checks
+			if((edge.getHexLoc().getX() == -3 || edge.getHexLoc().getX() == 3) && edge.getDir() == EdgeDirection.South)
+				return false;
+			else if((edge.getHexLoc().getY() == 3 || edge.getHexLoc().getY() == -3) && edge.getDir() == EdgeDirection.SouthWest)
+				return false;
+			else if((edge.getHexLoc().getX() == -3 && edge.getHexLoc().getY() == 0) || 
+					(edge.getHexLoc().getX() == -2 && edge.getHexLoc().getY() == -1) || 
+					(edge.getHexLoc().getX() == -1 && edge.getHexLoc().getY() == -2) || 
+					(edge.getHexLoc().getX() ==  0 && edge.getHexLoc().getY() == 3) || 
+					(edge.getHexLoc().getX() == 1 && edge.getHexLoc().getY() == 2) || 
+					(edge.getHexLoc().getX() == 2 && edge.getHexLoc().getY() == 1)
+					&& edge.getDir() == EdgeDirection.SouthEast)
+				return false;
+			
+			if (!hasAdjacentRoad(player,edge) || turn.getStatus() == TurnType.FIRST_ROUND)
 			{
 				if (edge.getDir() == EdgeDirection.South)
 				{
@@ -342,4 +357,35 @@ public class CanCan {
 		}
 		return true;		
 	}
+	
+	public static boolean canDiscardCards(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.DISCARDING){
+				if (player.hasDiscarded() == false){
+					// Does this have to do with when a 7 is rolled?
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean canRollNumber(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.ROLLING){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean canFinishTurn(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.PLAYING){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
