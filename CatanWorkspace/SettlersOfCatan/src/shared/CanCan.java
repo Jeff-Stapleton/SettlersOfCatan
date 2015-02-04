@@ -358,9 +358,9 @@ public class CanCan {
 		return true;		
 	}
 	
-	public static boolean canDiscardCards(Player player, CatanModel model){
-		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
-			if (model.getTurnTracker().getStatus() == TurnType.DISCARDING){
+	public static boolean canDiscardCards(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.DISCARDING){
 				if (player.hasDiscarded() == false){
 					// Does this have to do with when a 7 is rolled?
 					return true;
@@ -370,18 +370,18 @@ public class CanCan {
 		return false;
 	}
 	
-	public static boolean canRollNumber(Player player, CatanModel model){
-		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
-			if (model.getTurnTracker().getStatus() == TurnType.ROLLING){
+	public static boolean canRollNumber(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.ROLLING){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public static boolean canFinishTurn(Player player, CatanModel model){
-		if (model.getTurnTracker().getCurrentTurn() == player.getPlayerIndex()){
-			if (model.getTurnTracker().getStatus() == TurnType.PLAYING){
+	public static boolean canFinishTurn(Player player, TurnTracker turn){
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			if (turn.getStatus() == TurnType.PLAYING){
 				return true;
 			}
 		}
