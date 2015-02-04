@@ -99,9 +99,10 @@ public class CanCan {
 	 * Checks to see if a dev card can be bought by this player
 	 * @return
 	 */
-	public static boolean canBuyDevCard(Player player){
+	public static boolean canBuyDevCard(Player player, DevCardList bank){
 		if (player.getResources().getWool() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getOre() >= 1)
-			return true;
+			if (bank.getTotal() > 0)
+				return true;
 
 		return false;
 
