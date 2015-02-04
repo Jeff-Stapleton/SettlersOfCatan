@@ -17,7 +17,7 @@ import shared.Robber;
 public class Map 
 {
 	private static Hex[] hexes;
-	private static Port[] ports;
+	private static List<Port> ports;
 	private static List<Road> roads;
 	private static List<Building> settlements;
 	private static List<Building> cities;
@@ -282,5 +282,13 @@ public class Map
 
 	public void setRoads(List<Road> roads) {
 		this.roads = roads;
+	}
+
+	public static List<Port> getPorts() {
+		return ports;
+	}
+
+	public static void setPorts(List<Port> ports) {
+		Map.ports = ports;
 	}
 }
