@@ -15,8 +15,20 @@ public class CanCan {
 	 * @param player the player
 	 * @return true, if successful
 	 */
-	public static boolean canOfferTrade(Player player){
-		
+	public static boolean canOfferTrade(Player player, Player receiver, TurnTracker turn, ResourceList offer){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				// player has resources being offered
+				if (ResourceList.hasResourcesCheck(player.getResources(), offer)){
+					// receiver has resources that player wants
+					if (ResourceList.hasResourcesCheck(receiver.getResources(), ResourceList.invertResources(offer))){
+						return true;
+					}
+				}
+			}
+		}
 		return false;
 	}
 	

@@ -61,6 +61,16 @@ public class ResourceList {
 		return true;
 	}
 	
+	public static ResourceList invertResources(ResourceList list){
+		ResourceList newList = new ResourceList();
+		newList.setBrick(list.getBrick()*-1);
+		newList.setGrain(list.getGrain()*-1);
+		newList.setOre(list.getOre()*-1);
+		newList.setWood(list.getWood()*-1);
+		newList.setWool(list.getWool()*-1);
+		return newList;
+	}
+	
 	/**
 	 * Get total number of resource cards
 	 * @return
