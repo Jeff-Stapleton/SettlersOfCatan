@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +18,8 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import comm.shared.RestCom;
+import comm.shared.RestCom.HttpResponse;
 import comm.shared.ServerException;
 import comm.shared.serialization.AcceptTradeRequest;
 import comm.shared.serialization.AddAIRequest;
@@ -55,8 +56,10 @@ import comm.shared.serialization.YearOfPlentyRequest;
  */
 public class ServerProxy extends AbstractServerProxy
 {
-	private String server = "localhost:8081";
+	RestCom con = new RestCom("localhost:8081", gson);
 	
+	String _server = "localhost:8081";
+
 	/**
 	 * Send a get request to the server with the specified headers
 	 * @param serverPath the path to send the get request to. This is appended to the server url
@@ -68,7 +71,7 @@ public class ServerProxy extends AbstractServerProxy
 		HttpsURLConnection con = null;
 		try
 		{
-			String urlString = server + serverPath;
+			String urlString = _server + serverPath;
 			URL url = new URL(urlString);
 			con = (HttpsURLConnection) url.openConnection();
 			
@@ -119,7 +122,7 @@ public class ServerProxy extends AbstractServerProxy
 		HttpsURLConnection con = null;
 		try
 		{
-			String urlString = server + serverPath;
+			String urlString = _server + serverPath;
 			URL url = new URL(urlString);
 			con = (HttpsURLConnection) url.openConnection();
 	 
@@ -184,7 +187,11 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void userLogin(String user, String password) throws ServerException
 	{
-		String jsonRequest = gson.toJson(new CredentialsRequest(user, password));
+		HttpResponse response = con
+				.POST("/user/login")
+				.addGsonBody(new CredentialsRequest(user, password))
+				.getResponse();
+		String jsonRequest = gson.toJson();
 		
 	}
 	
