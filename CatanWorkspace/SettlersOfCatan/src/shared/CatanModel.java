@@ -36,7 +36,7 @@ public class CatanModel {
 	/** The version. */
 	@SuppressWarnings("unused")
 	private int version = -1;
-	
+
 	/** The winner. */
 	@SuppressWarnings("unused")
 	private int winner = -1;
@@ -176,5 +176,41 @@ public class CatanModel {
 	 */
 	public void setTurnTracker(TurnTracker turnTracker) {
 		this.turnTracker = turnTracker;
+	}
+	
+	/**
+	 * Gets the version number.
+	 *
+	 * @param version the current version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * Sets the version number.
+	 *
+	 * @param version the new version
+	 */
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
+	/**
+	 * Gets the winner of the game.
+	 *
+	 * @param winner of the game
+	 */
+	public int getWinner() {
+		return winner;
+	}
+
+	/**
+	 * Sets the winner of the game.
+	 *
+	 * @param winner of the game
+	 */
+	public void setWinner(int winner) {
+		this.winner = winner;
 	}
 }
