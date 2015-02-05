@@ -89,7 +89,7 @@ public class CanCan {
 	
 	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceList bank, List<Port> newPorts)
 	{
-		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) && ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) && turn.getCurrentTurn() == player.getPlayerIndex() && (player.getSettlements() <= 4 || player.getCities() <= 3) && turn.getStatus() == TurnType.PLAYING)
+		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) && ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) && turn.getCurrentTurn() == player.getPlayerIndex() && (player.getSettlements() >= 4 || player.getCities() <= 3) && turn.getStatus() == TurnType.PLAYING)
 		{
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
@@ -238,7 +238,7 @@ public class CanCan {
 	{
 		Boolean hasRoad = false;
 		
-		if (turn.getCurrentTurn() == player.getPlayerIndex() && ((player.getSettlements() <= 4 || player.getCities() <= 3) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
+		if (turn.getCurrentTurn() == player.getPlayerIndex() && ((player.getSettlements() <= 4 && player.getSettlements() >= 1) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
@@ -320,7 +320,7 @@ public class CanCan {
 	
 	public static boolean canBuildCity(Player player, VertexLocation vertexLocation, TurnTracker turn)
 	{
-		if (turn.getCurrentTurn() == player.getPlayerIndex() && player.getSettlements() <= 4 && player.getResources().getGrain() >= 2 && player.getResources().getOre() >= 3)
+		if (turn.getCurrentTurn() == player.getPlayerIndex() && player.getSettlements() <= 4 && player.getCities() >= 1 && player.getResources().getGrain() >= 2 && player.getResources().getOre() >= 3)
 		{
 			List<Building> newSettlements = Map.getSettlements();
 			for (int i = 0; i < newSettlements.size(); i++)
