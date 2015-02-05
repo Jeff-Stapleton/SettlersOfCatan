@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -17,36 +18,114 @@ public class Testing2 {
 	private TurnTracker turn;
 	private Map map;
 	private ArrayList <Building> settlements;
-	private Player player;
+	private Player player0;
+	private Player player1;
+	private Player player2;
 	private ArrayList <Port> port;
+	private ArrayList <Road> road;
+	private CatanModel catanmodel;
+	private ResourceList bank;
 	
 	@Test
 	public void setup()
 	{
 		turn = new TurnTracker();
 		turn.setStatus(TurnType.PLAYING);
-		turn.setCurrentTurn(5);
+		turn.setCurrentTurn(0);
+		bank = new ResourceList(5, 5, 5, 5, 5);
 		
 		map = new Map();
 		settlements = new ArrayList<Building>();
 		settlements.add(new Building(0, new VertexLocation(new HexLocation(3, 0), VertexDirection.West)));
+		settlements.add(new Building(1, new VertexLocation(new HexLocation(1, 2), VertexDirection.SouthWest)));
+		settlements.add(new Building(2, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthWest)));
 		map.setSettlements(settlements);
 		
 		port = new ArrayList<Port>();
-		port.add(new Port(PortType.BRICK, new HexLocation(3, 0), EdgeDirection.SouthWest, 3));
+		port.add(new Port(PortType.WOOD, new HexLocation(3, 0), EdgeDirection.SouthWest, 2));
+		port.add(new Port(PortType.ORE, new HexLocation(1, 2), EdgeDirection.South, 2));
 		map.setPorts(port);
 		
-		player = new Player();
-		player.setPlayerID(0);
-		player.setResources(new ResourceList(5, 5, 5, 5, 5));
-		player.setSettlements(3);
-		player.setCities(5);
+		road = new ArrayList<Road>();
+		road.add(new Road(0, new EdgeLocation(new HexLocation(0, -2), EdgeDirection.South)));
+		map.setRoads(road);
 		
+		player0 = new Player();
+		player0.setPlayerIndex(0);
+		player0.setResources(new ResourceList(5, 5, 5, 5, 5));
+		player0.setSettlements(4);
+		player0.setCities(4);
+		player0.setRoads(14);
+		
+		player1 = new Player();
+		player1.setPlayerIndex(1);
+		player1.setResources(new ResourceList(5, 5, 5, 5, 5));
+		player1.setSettlements(4);
+		player1.setCities(4);
+		player1.setRoads(13);
+		
+		player2 = new Player();
+		player2.setPlayerIndex(1);
+		player2.setResources(new ResourceList(5, 5, 5, 5, 5));
+		player2.setSettlements(4);
+		player2.setCities(4);
+		player2.setRoads(12);
 	}
+	
 	@Test
 	public void canMaritimeTrade() 
 	{
-		assertTrue("Can Maritime Trade", CanCan.canMaritimeTrade(player, turn));
+		setup();
+		// Incorrect ratio
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 4, 0, 0, 0), bank, port));
+		
+		assertTrue("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-2, 4, 0, 0, 0), bank, port));
+		
+		//2 positive integers
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(2, 4, 0, 0, 0), bank, port));
+		
+		assertTrue("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 2, 0, 0, 0), bank, port));
+		
+		//Incorrect ratio
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 3, 0, 0, 0), bank, port));
+		turn.setCurrentTurn(1);
+		assertTrue("Can Maritime Trade", CanCan.canMaritimeTrade(player1, turn, new ResourceList(0, 0, -1, 0, 2), bank, port));
+		
+		//Wrong Turn
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 2, 0, 0, 0), bank, port));
+		turn.setCurrentTurn(2);
+		
+		//Not on a port
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player2, turn, new ResourceList(-1, 2, 0, 0, 0), bank, port));
+	}
+	
+	@Test
+	public void canBuildSettlement() 
+	{
+		setup();
+		assertTrue("Can Build Settlement", CanCan.canBuildSettlement(player0, new VertexLocation(new HexLocation(1, -3), VertexDirection.West), turn));
+		turn.setCurrentTurn(1);
+		assertFalse("Can Build Settlement", CanCan.canBuildSettlement(player1, new VertexLocation(new HexLocation(2, 1), VertexDirection.West), turn));
+	}
+	
+	@Test
+	public void canBuildCity() 
+	{
+		setup();
+		assertTrue("Can Build City", CanCan.canBuildCity(player0, new VertexLocation(new HexLocation(3, 0), VertexDirection.West), turn));
+		assertFalse("Can Build City", CanCan.canBuildCity(player0, new VertexLocation(new HexLocation(3, 0), VertexDirection.SouthWest), turn));
+	}
+	
+	@Test
+	public void canBuildRoad() 
+	{
+		setup();
+		assertTrue("Can Build Road", CanCan.canBuildRoad(player0, new EdgeLocation(new HexLocation(0,-2), EdgeDirection.SouthEast), turn));
+		
+		//no roads on water
+		assertFalse("Can Build Road", CanCan.canBuildRoad(player0, new EdgeLocation(new HexLocation(2, 1), EdgeDirection.SouthEast), turn));
+		turn.setCurrentTurn(1);
+		assertTrue("Can Build Road", CanCan.canBuildRoad(player1, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.SouthEast), turn));
 	}
 
 }

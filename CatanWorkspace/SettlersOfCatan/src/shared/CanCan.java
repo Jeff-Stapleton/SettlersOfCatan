@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shared.definitions.HexType;
+import shared.definitions.PortType;
 import shared.locations.*;
 
 public class CanCan {
@@ -38,58 +39,132 @@ public class CanCan {
 	 * @param port the port
 	 * @return true, if successful
 	 */
-	public static boolean canMaritimeTrade(Player player, TurnTracker turn)
+	
+	public static Port isOnPort(List<Building> newBuildings, List<Port> newPorts, Player player)
 	{
-		if (player.getSettlements() <= 3)
-			System.out.println("GOT THIS FAR");
-		// No other checks besides if he's by a port right now
-		if ((player.getSettlements() <= 3 || player.getCities() <= 4) && turn.getStatus() == TurnType.PLAYING)
+		for (int j = 0; j < newPorts.size(); j++)
 		{
-			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
-			newBuildings.addAll(Map.getCities());
-			List<Port> newPorts = Map.getPorts();
-			
-			for (int j = 0; j < newPorts.size(); j++)
+			for(int i = 0; i < newBuildings.size(); i++)
 			{
-				for(int i = 0; i < newBuildings.size(); i++)
+				if (newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 				{
-					if (newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
-					{
-						if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
-								newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
-							return true;
-						else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
-								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
-							return true;
-						else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
-								newPorts.get(j).getDirection() == EdgeDirection.South)
-							return true;
-					}
-					else if (newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
-					{
-						if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
-								newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
-							return true;
-						else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
-								newPorts.get(j).getDirection() == EdgeDirection.South)
-							return true;
-						else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-								newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
-								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
-							return true;
-					}
+					if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
+							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
+						return newPorts.get(j);
+					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
+						return newPorts.get(j);
+					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+							newPorts.get(j).getDirection() == EdgeDirection.South)
+						return newPorts.get(j);
 				}
+				else if (newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
+				{
+					if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
+							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
+						return newPorts.get(j);
+					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
+							newPorts.get(j).getDirection() == EdgeDirection.South)
+						return newPorts.get(j);
+					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
+							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
+						return newPorts.get(j);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceList bank, List<Port> newPorts)
+	{
+		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) && ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) && turn.getCurrentTurn() == player.getPlayerIndex() && (player.getSettlements() <= 4 || player.getCities() <= 3) && turn.getStatus() == TurnType.PLAYING)
+		{
+			List<Building> newBuildings = new ArrayList<Building>();
+			if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getSettlements());
+				if (Map.getCities() != null && !Map.getCities().isEmpty())
+					newBuildings.addAll(Map.getCities());
+			}
+			else if (Map.getCities() != null && !Map.getCities().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getCities());
+				if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+					newBuildings.addAll(Map.getSettlements());
+			}
+			else
+				return false;
+			
+			ArrayList<Integer> tradeRatio = new ArrayList<Integer>();
+			tradeRatio.add(maritimeOffer.getBrick());
+			tradeRatio.add(maritimeOffer.getWood());
+			tradeRatio.add(maritimeOffer.getGrain());
+			tradeRatio.add(maritimeOffer.getWool());
+			tradeRatio.add(maritimeOffer.getOre());
+			
+			ArrayList<Integer> tradeRatioTemp = new ArrayList<Integer>();
+			
+			for (int i = 0; i < tradeRatio.size(); i++)
+				if (tradeRatio.get(i) != 0)
+					tradeRatioTemp.add(tradeRatio.get(i));
+
+			if (tradeRatioTemp.size() != 2)
+				return false;
+			
+			int have = 0;
+			int give = 0;
+			if (tradeRatioTemp.get(0) > tradeRatioTemp.get(1) && Math.signum(tradeRatioTemp.get(0)) == 1 && Math.signum(tradeRatioTemp.get(1)) == -1)
+			{
+				have = tradeRatioTemp.get(0);
+				give = tradeRatioTemp.get(1);
+			}
+			else if (Math.signum(tradeRatioTemp.get(1)) == 1 && Math.signum(tradeRatioTemp.get(0)) == -1)
+			{
+				have = tradeRatioTemp.get(1);
+				give = tradeRatioTemp.get(0);
+			}
+			else
+				return false;
+				
+			//List<Port> newPorts = new ArrayList<Port>();
+			Port onPort = isOnPort(newBuildings, newPorts, player);
+			List<Port> oneTimePorts = new ArrayList<Port>();
+			
+			for (int i = 0; i < newPorts.size(); i++)
+				oneTimePorts.add(newPorts.get(i));
+			
+			while(onPort != null)
+			{
+				if (Math.abs(have/give) == onPort.getRatio())
+				{
+					if (Math.abs(maritimeOffer.getBrick()) >= 2 && onPort.getType() == PortType.BRICK)
+						return true;
+					else if (Math.abs(maritimeOffer.getOre()) >= 2 && onPort.getType() == PortType.ORE)
+						return true;
+					else if (Math.abs(maritimeOffer.getWool()) >= 2 && onPort.getType() == PortType.SHEEP)
+						return true;
+					else if (Math.abs(maritimeOffer.getGrain()) >= 2 && onPort.getType() == PortType.WHEAT)
+						return true;
+					else if (Math.abs(maritimeOffer.getWood()) >= 2 && onPort.getType() == PortType.WOOD)
+						return true;
+					else if ((Math.abs(maritimeOffer.getWood()) >= 3 || Math.abs(maritimeOffer.getGrain()) >= 3 || Math.abs(maritimeOffer.getWool()) >= 3 || Math.abs(maritimeOffer.getOre()) >= 3 || Math.abs(maritimeOffer.getBrick()) >= 3) && onPort.getType() == PortType.THREE)
+						return true;
+				}
+				
+				oneTimePorts.remove(onPort);
+				onPort = isOnPort(newBuildings, oneTimePorts, player);
 			}
 		}
 		
@@ -162,11 +237,27 @@ public class CanCan {
 	{
 		Boolean hasRoad = false;
 		
-		if (((player.getSettlements() <= 3 || player.getCities() <= 4) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
+		if (turn.getCurrentTurn() == player.getPlayerIndex() && ((player.getSettlements() <= 4 || player.getCities() <= 3) && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1 && player.getResources().getGrain() >= 1 && player.getResources().getWool() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
-			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
-			newBuildings.addAll(Map.getCities());
-			List<Road> newRoads = Map.getRoads();
+			List<Building> newBuildings = new ArrayList<Building>();
+			if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getSettlements());
+				if (Map.getCities() != null && !Map.getCities().isEmpty())
+					newBuildings.addAll(Map.getCities());
+			}
+			else if (Map.getCities() != null && !Map.getCities().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getCities());
+				if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+					newBuildings.addAll(Map.getSettlements());
+			}
+			else
+				return false;
+			
+			List<Road> newRoads = new ArrayList<Road>();
+			if (Map.getRoads() != null && !Map.getRoads().isEmpty())
+				newRoads = Map.getRoads();
 			
 			if(vertexLocation.getDir() == VertexDirection.West)
 			{
@@ -182,15 +273,16 @@ public class CanCan {
 						return false;
 				}
 				
-				for(int i = 0; i < newRoads.size(); i++)
-				{
-					if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-				}
+				if (turn.getStatus() != TurnType.FIRST_ROUND)
+					for(int i = 0; i < newRoads.size(); i++)
+					{
+						if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+					}
 			}
 			else if (vertexLocation.getDir() == VertexDirection.SouthWest)
 			{
@@ -206,15 +298,16 @@ public class CanCan {
 						return false;
 				}
 				
-				for(int i = 0; i < newRoads.size(); i++)
-				{
-					if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-				}
+				if (turn.getStatus() != TurnType.FIRST_ROUND)
+					for(int i = 0; i < newRoads.size(); i++)
+					{
+						if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+							hasRoad = true;
+					}
 			}
 		}
 	
@@ -224,16 +317,20 @@ public class CanCan {
 		// check if has adjacnet road
 	}
 	
-	public static boolean canBuildCity(Player player, VertexLocation vertexLocation){
-		if (player.getSettlements() >= 1 && player.getResources().getGrain() >= 2 && player.getResources().getOre() >= 3)
-			{
-				List<Building> newSettlements = Map.getSettlements();
-				for (int i = 0; i < newSettlements.size(); i++)
-					if (newSettlements.get(i).getLocation() == vertexLocation && newSettlements.get(i).getOwner() == player.getPlayerIndex())
-						return true;
-			}
+	public static boolean canBuildCity(Player player, VertexLocation vertexLocation, TurnTracker turn)
+	{
+		if (turn.getCurrentTurn() == player.getPlayerIndex() && player.getSettlements() <= 4 && player.getResources().getGrain() >= 2 && player.getResources().getOre() >= 3)
+		{
+			List<Building> newSettlements = Map.getSettlements();
+			for (int i = 0; i < newSettlements.size(); i++)
+				if (newSettlements.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && 
+						newSettlements.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && 
+						newSettlements.get(i).getLocation().getDir() == vertexLocation.getDir() && 
+						newSettlements.get(i).getOwner() == player.getPlayerIndex())
+					return true;
+		}
 		
-				return false;
+		return false;
 	}
 	
 	public static boolean hasAdjacentRoad(Player player, EdgeLocation edge)
@@ -244,9 +341,9 @@ public class CanCan {
 		{
 			for (int i = 0; i < newRoads.size(); i++)
 			{
-				if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
@@ -261,7 +358,7 @@ public class CanCan {
 			
 			for (int i = 0; i < newRoads.size(); i++)
 			{
-				if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() &&  newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
@@ -279,7 +376,7 @@ public class CanCan {
 			
 			for (int i = 0; i < newRoads.size(); i++)
 			{
-				if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
@@ -297,11 +394,24 @@ public class CanCan {
 	}
 	
 	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn){
-		if (player.getRoads() >= 1 && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1)
+		if (turn.getCurrentTurn() == player.getPlayerIndex() && player.getRoads() >= 1 && (player.getRoads() <= 14 && player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1) || turn.getStatus() == TurnType.FIRST_ROUND)
 		{
-			List<Building> newBuildings = new ArrayList<Building>(Map.getSettlements());
-			newBuildings.addAll(Map.getCities());
-			
+			List<Building> newBuildings = new ArrayList<Building>();
+			if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getSettlements());
+				if (Map.getCities() != null && !Map.getCities().isEmpty())
+					newBuildings.addAll(Map.getCities());
+			}
+			else if (Map.getCities() != null && !Map.getCities().isEmpty())
+			{
+				newBuildings = new ArrayList<Building>(Map.getCities());
+				if (Map.getSettlements() != null && !Map.getSettlements().isEmpty())
+					newBuildings.addAll(Map.getSettlements());
+			}
+			else
+				return false;
+
 			//Water checks
 			if((edge.getHexLoc().getX() == -3 || edge.getHexLoc().getX() == 3) && edge.getDir() == EdgeDirection.South)
 				return false;
@@ -348,9 +458,11 @@ public class CanCan {
 							return true;
 					}			
 				}
-			}	
+			}
+			else
+				return true;
 		}
-		
+
 		return false;
 		
 		// Needs a settlement or road adjacent
