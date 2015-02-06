@@ -1,6 +1,6 @@
 package comm.client;
 
-import comm.shared.ServerException;
+import java.io.IOException;
 
 import shared.CatanGame;
 import shared.CatanModel;
@@ -35,7 +35,7 @@ public class ServerPoller extends Thread {
 	        	}
 	        	
 	    	}
-	    	catch(ServerException e)
+	    	catch(IOException e)
 	    	{
 	    		System.err.println(e.getMessage());
 	    		e.printStackTrace();

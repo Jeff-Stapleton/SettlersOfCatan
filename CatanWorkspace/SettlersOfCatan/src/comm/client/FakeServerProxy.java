@@ -10,7 +10,6 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
-import comm.shared.ServerException;
 import comm.shared.serialization.GameResponse;
 
 /**
@@ -29,7 +28,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the username of the player
 	 * @param password
 	 *            the password for the player
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public void userLogin(String user, String password) throws IOException {
@@ -44,7 +43,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the player's unique username
 	 * @param password
 	 *            the players password
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public void userRegister(String user, String password)
@@ -56,10 +55,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * List the current games on the server that the player can join
 	 * 
 	 * @return an array of the games on the server
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public GameResponse[] gamesList() throws ServerException
+	public GameResponse[] gamesList() throws IOException
 	{
 
 		String jsonResponse = ""
@@ -160,11 +159,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @param randomPorts
 	 *            whether the port positions will be random
 	 * @return the game object for the game created by the user
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public GameResponse gamesCreate(String name, boolean randomTiles,
-			boolean randomNumbers, boolean randomPorts) throws ServerException {
+			boolean randomNumbers, boolean randomPorts) throws IOException {
 
 		String jsonResponse = ""
 				+ " \"{\" "
@@ -187,10 +186,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the color the player wants to be
 	 * @param id
 	 *            the id of the player
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gamesJoin(CatanColor color, int id) throws ServerException {
+	public void gamesJoin(CatanColor color, int id) throws IOException {
 
 	}
 
@@ -201,10 +200,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the id of the game you wish to save
 	 * @param name
 	 *            the location that the game will be saved at
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gamesSave(int id, String name) throws ServerException {
+	public void gamesSave(int id, String name) throws IOException {
 
 	}
 
@@ -213,10 +212,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * 
 	 * @param id
 	 *            the location of the game to load on the server
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gamesLoad(String name) throws ServerException {
+	public void gamesLoad(String name) throws IOException {
 
 	}
 
@@ -225,10 +224,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * 
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public CatanModel gameModel(int version) throws ServerException {
+	public CatanModel gameModel(int version) throws IOException {
 
 		String jsonResponse = ""
 			+ " {                                                          	 "
@@ -878,10 +877,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	/**    
 	 * Reset the game to the saved state or the initial setup
 	 * 
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gameReset() throws ServerException {
+	public void gameReset() throws IOException {
 
 	}
 
@@ -890,10 +889,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * 
 	 * @param command
 	 *            the command to send to the server
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gameCommandsPost(String[] commands) throws ServerException {
+	public void gameCommandsPost(String[] commands) throws IOException {
 
 	}
 
@@ -902,10 +901,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * purposes
 	 * 
 	 * @return the commands executed on the server
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public String[] gameCommandsGet() throws ServerException {
+	public String[] gameCommandsGet() throws IOException {
 
 		String jsonResponse = "";
 
@@ -917,20 +916,20 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * 
 	 * @param aiType
 	 *            the type of AI player to add to the game
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gameAddAI(String aiType) throws ServerException {
+	public void gameAddAI(String aiType) throws IOException {
 
 	}
 
 	/**
 	 * Retrieve a list of the AI players in the game
 	 * 
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void gameListAI() throws ServerException {
+	public void gameListAI() throws IOException {
 
 	}
 
@@ -943,11 +942,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the content of the message the player wants to send
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesSendChat(int playerIndex, String content)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 			+ "{                                               "
@@ -1608,11 +1607,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the number the player rolled (This is stupid)
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesRollNumber(int playerIndex, int number)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 		+ " {                                                  " 
@@ -2279,11 +2278,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the location to move the robber to
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesRobPlayer(int playerIndex, int victimIndex,
-			HexLocation location) throws ServerException {
+			HexLocation location) throws IOException {
 
 		String jsonResponse = ""
 	+ " 	{                                                                 " 
@@ -2950,10 +2949,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the index of the player ending their turn
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public CatanModel movesFinishTurn(int playerIndex) throws ServerException {
+	public CatanModel movesFinishTurn(int playerIndex) throws IOException {
 
 		String jsonResponse = "" 
 		+ "{                                                             "  
@@ -3624,10 +3623,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the player buying the dev card
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public CatanModel movesBuyDevCard(int playerIndex) throws ServerException {
+	public CatanModel movesBuyDevCard(int playerIndex) throws IOException {
 
 		String jsonResponse = "" 
 	+ "	{                                                                " 
@@ -4306,12 +4305,12 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the resource the player wants
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesYearOfPlenty(int playerIndex,
 			ResourceType resource1, ResourceType resource2)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                  "  
@@ -4995,11 +4994,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the location for the second road being built
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesRoadBuilding(int playerIndex, EdgeLocation spot1,
-			EdgeLocation spot2) throws ServerException {
+			EdgeLocation spot2) throws IOException {
 
 		String jsonResponse = "" 
 		+ "{                                                                  "  
@@ -5702,11 +5701,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the robber location
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesSoldier(int playerIndex, int victimIndex,
-			HexLocation location) throws ServerException {
+			HexLocation location) throws IOException {
 
 		String jsonResponse = ""
 				+ "{                                                                      "   
@@ -6407,11 +6406,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the resource the player wishes to steal
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesMonopoly(int playerIndex, ResourceType resource)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""                                                      
 		+ "{                                                                        " 
@@ -7110,10 +7109,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the player playing the dev card
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public CatanModel movesMonument(int playerIndex) throws ServerException {
+	public CatanModel movesMonument(int playerIndex) throws IOException {
 
 		String jsonResponse = ""
 		+ "{																	   "
@@ -7816,11 +7815,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            whether this road is free or not (This is stupid)
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location,
-			boolean free) throws ServerException {
+			boolean free) throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                          " 
@@ -8531,11 +8530,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            whether the settlement is free or not (Why?)
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesBuildSettlement(int playerIndex,
-			VertexLocation location, boolean free) throws ServerException {
+			VertexLocation location, boolean free) throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                           " 
@@ -9254,11 +9253,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            whether the city will be free (I still don't get this...)
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesBuildCity(int playerIndex, VertexLocation location,
-			boolean free) throws ServerException {
+			boolean free) throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                             " 
@@ -9974,10 +9973,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the offer of trade
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public CatanModel movesOfferTrade(TradeOffer offer) throws ServerException {
+	public CatanModel movesOfferTrade(TradeOffer offer) throws IOException {
 
 		String jsonResponse = ""                                                          
 		+ "{                                                                              "
@@ -10706,11 +10705,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            whether the player accepts or rejects the offer
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesAcceptTrade(int playerIndex, boolean willAccept)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                              " 
@@ -11432,12 +11431,12 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the output resource type
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesMaritimeTrade(int playerIndex, int ratio,
 			ResourceType inputResource, ResourceType outputResource)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                                " 
@@ -12155,11 +12154,11 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 *            the cards the player is discarding
 	 * @return the CatanModel representing the new game state after this move
 	 *         was processed
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
 	public CatanModel movesDiscardCards(int playerIndex, ResourceList cards)
-			throws ServerException {
+			throws IOException {
 
 		String jsonResponse = ""
 		+ "{                                                                                 " 
@@ -12873,10 +12872,10 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * 
 	 * @param logLevel
 	 *            the desired logging level for the server
-	 * @throws ServerException
+	 * @throws IOException
 	 */
 	@Override
-	public void utilChangeLogLevel(String logLevel) throws ServerException {
+	public void utilChangeLogLevel(String logLevel) throws IOException {
 
 	}
 
