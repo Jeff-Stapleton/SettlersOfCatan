@@ -1,5 +1,7 @@
 package comm.client;
 
+import java.io.IOException;
+
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -30,7 +32,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws ServerException
 	 */
 	@Override
-	public void userLogin(String user, String password) throws ServerException {
+	public void userLogin(String user, String password) throws IOException {
 
 	}
 
@@ -46,7 +48,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 */
 	@Override
 	public void userRegister(String user, String password)
-			throws ServerException {
+			throws IOException {
 
 	}
 

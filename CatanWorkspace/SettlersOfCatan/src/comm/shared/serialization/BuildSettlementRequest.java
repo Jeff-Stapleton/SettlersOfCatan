@@ -9,25 +9,25 @@ import shared.locations.VertexLocation;
  */
 public class BuildSettlementRequest extends AbstractMovesRequest
 {
-	VertexLocation _vertexLocation;
-	boolean _free;
+	VertexLocation vertexLocation;
+	boolean free;
 	
 	public BuildSettlementRequest(int playerIndex, VertexLocation vertexLocation, boolean free)
 	{
 		super("buildSettlement", playerIndex);
 		
-		_vertexLocation = vertexLocation;
-		_free = free;
+		this.vertexLocation = vertexLocation;
+		this.free = free;
 	}
 	
 	public VertexLocation getVertexLocation()
 	{
-		return _vertexLocation;
+		return vertexLocation;
 	}
 	
 	public boolean isFree() { return getFree(); }
 	public boolean getFree()
 	{
-		return _free;
+		return free;
 	}
 }

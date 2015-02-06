@@ -1,5 +1,7 @@
 package comm.client;
 
+import java.io.IOException;
+
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -24,18 +26,18 @@ public interface IServerProxy
 	 * This function will also set the cookie for the system
 	 * @param user the username of the player
 	 * @param password the password for the player
-	 * @throws ServerException
+	 * @throws IOException 
 	 */
-	public void userLogin(String user, String password) throws ServerException;
+	public void userLogin(String user, String password) throws IOException;
 	
 	/**
 	 * Register a new user with the server
 	 * This function sets the cookie for the system
 	 * @param user the player's unique username
 	 * @param password the players password
-	 * @throws ServerException
+	 * @throws IOException
 	 */
-	public void userRegister(String user, String password) throws ServerException;
+	public void userRegister(String user, String password) throws IOException;
 	
 	/**
 	 * List the current games on the server that the player can join

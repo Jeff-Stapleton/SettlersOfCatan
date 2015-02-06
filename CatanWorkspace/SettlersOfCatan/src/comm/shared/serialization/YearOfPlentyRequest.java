@@ -7,24 +7,24 @@ package comm.shared.serialization;
  */
 public class YearOfPlentyRequest extends AbstractMovesRequest
 {
-	String _resource1;
-	String _resource2;
+	String resource1;
+	String resource2;
 	
 	public YearOfPlentyRequest(int playerIndex, String resource1, String resource2)
 	{
 		super("Year_of_Plenty", playerIndex);
 		
-		_resource1 = resource1.toString();
-		_resource2 = resource2.toString();
+		this.resource1 = resource1.toString();
+		this.resource2 = resource2.toString();
 	}
 	
 	public String getResource1()
 	{
-		return _resource1;
+		return resource1;
 	}
 	
 	public String getResource2()
 	{
-		return _resource2;
+		return resource2;
 	}
 }

@@ -2,22 +2,22 @@ package comm.shared.serialization;
 
 public abstract class AbstractMovesRequest
 {
-	private String _type;
-	private int _playerIndex;
+	private String type;
+	private int playerIndex;
 	
 	public AbstractMovesRequest(String type, int playerIndex)
 	{
-		_type = type;
-		_playerIndex = playerIndex;
+		this.type = type;
+		this.playerIndex = playerIndex;
 	}
 	
 	public String getType()
 	{
-		return _type;
+		return type;
 	}
 	
 	public int getPlayerIndex()
 	{
-		return _playerIndex;
+		return playerIndex;
 	}
 }

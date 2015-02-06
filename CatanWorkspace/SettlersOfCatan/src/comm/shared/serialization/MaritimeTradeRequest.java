@@ -7,31 +7,31 @@ package comm.shared.serialization;
  */
 public class MaritimeTradeRequest extends AbstractMovesRequest
 {
-	int _ratio;
-	String _inputResource;
-	String _outputResource;
+	int ratio;
+	String inputResource;
+	String outputResource;
 	
 	public MaritimeTradeRequest(int playerIndex, int ratio, String inputResource, String outputResource)
 	{
 		super("maritimeTrade", playerIndex);
 		
-		_ratio = ratio;
-		_inputResource = inputResource;
-		_outputResource = outputResource;
+		this.ratio = ratio;
+		this.inputResource = inputResource;
+		this.outputResource = outputResource;
 	}
 	
 	public int getRatio()
 	{
-		return _ratio;
+		return ratio;
 	}
 	
 	public String getInputResource()
 	{
-		return _inputResource;
+		return inputResource;
 	}
 	
 	public String getOutputResource()
 	{
-		return _outputResource;
+		return outputResource;
 	}
 }

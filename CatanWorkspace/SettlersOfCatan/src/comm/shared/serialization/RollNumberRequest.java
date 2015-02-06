@@ -7,17 +7,17 @@ package comm.shared.serialization;
  */
 public class RollNumberRequest extends AbstractMovesRequest
 {
-	int _number;
+	int number;
 	
 	public RollNumberRequest(int playerIndex, int number)
 	{
 		super("rollNumber", playerIndex);
 		
-		_number = number;
+		this.number = number;
 	}
 	
 	public int getNumber()
 	{
-		return _number;
+		return number;
 	}
 }

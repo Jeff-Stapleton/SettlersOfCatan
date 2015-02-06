@@ -2,15 +2,15 @@ package comm.shared.serialization;
 
 public class LoadGameRequest
 {
-	private String _name;
+	private String name;
 
 	public LoadGameRequest(String name)
 	{
-		_name = name;
+		this.name = name;
 	}
 
 	public String getName()
 	{
-		return _name;
+		return name;
 	}
 }

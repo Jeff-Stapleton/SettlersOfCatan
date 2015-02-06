@@ -2,29 +2,29 @@ package comm.shared.serialization;
 
 public class GameResponse
 {
-	String _title;
-	int _id;
-	PlayerResponse[] _players;
+	String title;
+	int id;
+	PlayerResponse[] players;
 	
 	public GameResponse(String title, int id, PlayerResponse[] players)
 	{
-		_title = title;
-		_id = id;
-		_players = players;
+		this.title = title;
+		this.id = id;
+		this.players = players;
 	}
 	
 	public String getTitle()
 	{
-		return _title;
+		return title;
 	}
 	
 	public int getId()
 	{
-		return _id;
+		return id;
 	}
 	
 	public PlayerResponse[] getPlayers()
 	{
-		return _players;
+		return players;
 	}
 }

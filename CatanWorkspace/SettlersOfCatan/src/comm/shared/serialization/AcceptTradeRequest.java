@@ -7,18 +7,18 @@ package comm.shared.serialization;
  */
 public class AcceptTradeRequest extends AbstractMovesRequest
 {
-	boolean _willAccept;
+	boolean willAccept;
 	
 	public AcceptTradeRequest(int playerIndex, boolean willAccept)
 	{
 		super("acceptTrade", playerIndex);
 		
-		_willAccept = willAccept;
+		this.willAccept = willAccept;
 	}
 	
-	public boolean willAccept() { return _willAccept; }
+	public boolean willAccept() { return willAccept; }
 	public boolean getWillAccept()
 	{
-		return _willAccept;
+		return willAccept;
 	}
 }

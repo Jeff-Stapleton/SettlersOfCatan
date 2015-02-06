@@ -2,23 +2,23 @@ package comm.shared.serialization;
 
 public class CredentialsRequest
 {
-	String _username;
-	String _password;
+	String username;
+	String password;
 	
 	public CredentialsRequest(String username, String password)
 	{
-		_username = username;
-		_password = password;
+		this.username = username;
+		this.password = password;
 	}
 	
 	public String getUsername()
 	{
-		return _username;
+		return username;
 	}
 	
 	public String getPassword()
 	{
-		return _password;
+		return password;
 	}
 
 }
