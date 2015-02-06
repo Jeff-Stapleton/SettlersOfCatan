@@ -124,6 +124,21 @@ public class ServerProxy extends AbstractServerProxy
         }
 	};
 	
+	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>()
+	{
+        public CatanModel handleResponse(final HttpResponse response) throws IOException
+        {
+		    int status = response.getStatusLine().getStatusCode();
+		    if (status == 200) {
+		        HttpEntity entity = response.getEntity();
+		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), CatanModel.class) : null;
+		    } else {
+		    	throwResponseError(response);
+		    	return null;
+		    }
+        }
+	};
+	
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -308,21 +323,6 @@ public class ServerProxy extends AbstractServerProxy
         _httpClient.execute(httpPost, stringHandler);
 		
 	}
-	
-	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>()
-	{
-        public CatanModel handleResponse(final HttpResponse response) throws IOException
-        {
-		    int status = response.getStatusLine().getStatusCode();
-		    if (status == 200) {
-		        HttpEntity entity = response.getEntity();
-		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), CatanModel.class) : null;
-		    } else {
-		    	throwResponseError(response);
-		    	return null;
-		    }
-        }
-	};
 	
 	/**
 	 * Retrieve the model of the game board regardless of version number
