@@ -106,7 +106,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract void gameReset() throws IOException;
+	public abstract CatanModel gameReset() throws IOException;
 	
 	/**
 	 * Send a command to the server for debugging purposes
@@ -114,7 +114,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract void gameCommandsPost(String[] commands) throws IOException;
+	public abstract CatanModel gameCommandsPost(String[] commands) throws IOException;
 	
 	/**
 	 * Fetch the list of commands that the server has executed for debug purposes
@@ -137,7 +137,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract void gameListAI() throws IOException;
+	public abstract String[] gameListAI() throws IOException;
 	
 	/**
 	 * Send a chat to the current game chat list

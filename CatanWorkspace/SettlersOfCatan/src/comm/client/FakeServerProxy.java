@@ -880,8 +880,9 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public void gameReset() throws IOException {
-
+	public CatanModel gameReset() throws IOException {
+		String jsonResponse = ""; // TODO: Add string here
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 
 	/**
@@ -892,8 +893,9 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public void gameCommandsPost(String[] commands) throws IOException {
-
+	public CatanModel gameCommandsPost(String[] commands) throws IOException {
+		String jsonResponse = ""; // TODO: Add string here
+		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 
 	/**
@@ -929,8 +931,8 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public void gameListAI() throws IOException {
-
+	public String[] gameListAI() throws IOException {
+		return new String[] { "LARGEST_ARMY" };
 	}
 
 	/**
