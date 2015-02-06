@@ -1,9 +1,6 @@
 package comm.client;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +23,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import comm.shared.serialization.AcceptTradeRequest;
+import comm.shared.serialization.AddAIRequest;
 import comm.shared.serialization.BuildCityRequest;
 import comm.shared.serialization.BuildRoadRequest;
 import comm.shared.serialization.BuildSettlementRequest;
@@ -75,6 +73,35 @@ public class ServerProxy extends AbstractServerProxy
         		((entity != null) ? " With response body \"" + EntityUtils.toString(entity) + "\"" : ""));
 	}
 	
+	ResponseHandler<String> stringHandler = new ResponseHandler<String>() {
+        public String handleResponse(final HttpResponse response) throws IOException
+        {
+		    int status = response.getStatusLine().getStatusCode();
+		    if (status == 200) {
+		        HttpEntity entity = response.getEntity();
+		        return entity != null ? EntityUtils.toString(entity) : null;
+		    } else {
+		    	throwResponseError(response);
+		    	return null;
+		    }
+        }
+	};
+	
+	ResponseHandler<String[]> stringArrayHandler = new ResponseHandler<String[]>()
+	{
+        public String[] handleResponse(final HttpResponse response) throws IOException
+        {
+		    int status = response.getStatusLine().getStatusCode();
+		    if (status == 200) {
+		        HttpEntity entity = response.getEntity();
+		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), String[].class) : null;
+		    } else {
+		    	throwResponseError(response);
+		    	return null;
+		    }
+        }
+	};
+	
 	ResponseHandler<String> userHandler = new ResponseHandler<String>() {
         public String handleResponse(final HttpResponse response) throws IOException
         {
@@ -90,6 +117,21 @@ public class ServerProxy extends AbstractServerProxy
 		    	
 		        HttpEntity entity = response.getEntity();
 		        return entity != null ? EntityUtils.toString(entity) : null;
+		    } else {
+		    	throwResponseError(response);
+		    	return null;
+		    }
+        }
+	};
+	
+	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>()
+	{
+        public CatanModel handleResponse(final HttpResponse response) throws IOException
+        {
+		    int status = response.getStatusLine().getStatusCode();
+		    if (status == 200) {
+		        HttpEntity entity = response.getEntity();
+		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), CatanModel.class) : null;
 		    } else {
 		    	throwResponseError(response);
 		    	return null;
@@ -251,8 +293,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gamesSave(int id, String name) throws IOException
 	{
-		String jsonRequest = gson.toJson(new SaveGameRequest(id, name));
+		String json = gson.toJson(new SaveGameRequest(id, name));
 		
+        HttpPost httpPost = new HttpPost(_server + "/games/save");
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		if (null != getCookie())
+		{
+			httpPost.addHeader("Cookie", getCookie());
+		}
+        _httpClient.execute(httpPost, stringHandler);
 	}
 	
 	/**
@@ -263,24 +312,17 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gamesLoad(String name) throws IOException
 	{
-		String jsonRequest = gson.toJson(new LoadGameRequest(name));
+		String json = gson.toJson(new LoadGameRequest(name));
+		
+        HttpPost httpPost = new HttpPost(_server + "/games/load");
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		if (null != getCookie())
+		{
+			httpPost.addHeader("Cookie", getCookie());
+		}
+        _httpClient.execute(httpPost, stringHandler);
 		
 	}
-	
-	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>()
-	{
-        public CatanModel handleResponse(final HttpResponse response) throws IOException
-        {
-		    int status = response.getStatusLine().getStatusCode();
-		    if (status == 200) {
-		        HttpEntity entity = response.getEntity();
-		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), CatanModel.class) : null;
-		    } else {
-		    	throwResponseError(response);
-		    	return null;
-		    }
-        }
-	};
 	
 	/**
 	 * Retrieve the model of the game board regardless of version number
@@ -289,28 +331,12 @@ public class ServerProxy extends AbstractServerProxy
 	 */
 	public CatanModel gameModel() throws IOException
 	{
-//		String jsonResponse = null;
-		
 		HttpGet httpGet = new HttpGet(_server + "/game/model");
 		if (null != getCookie())
 		{
 			httpGet.addHeader("Cookie", getCookie());
 		}
 		
-//		HttpResponse response = _httpClient.execute(httpGet);
-//		
-//		int status = response.getStatusLine().getStatusCode();
-//		if (status == 200)
-//		{
-//			jsonResponse = EntityUtils.toString(response.getEntity());
-//		}
-//		else
-//		{
-//        	throwResponseError(response);
-//        	return null;
-//		}
-//		
-//		return gson.fromJson(jsonResponse, CatanModel.class);
 		return _httpClient.execute(httpGet, gameModelHandler);
 	}
 	
@@ -323,21 +349,13 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel gameModel(int version) throws IOException
 	{
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		HttpGet httpGet = new HttpGet(_server + "/game/model" + "?version=" + version);
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpGet.addHeader("Cookie", getCookie());
 		}
-
-		if (version >= 0)
-		{
-			headers.put("version", Integer.toString(version));
-		}
-
-		String jsonResponse = ""; //sendGet("/game/model", headers);
 		
-		return gson.fromJson(jsonResponse, CatanModel.class);
+		return _httpClient.execute(httpGet, gameModelHandler);
 	}
 	
 	/**
@@ -345,14 +363,15 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public void gameReset() throws IOException
+	public CatanModel gameReset() throws IOException
 	{
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		HttpGet httpGet = new HttpGet(_server + "/game/reset");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpGet.addHeader("Cookie", getCookie());
 		}
+		
+		return _httpClient.execute(httpGet, gameModelHandler);
 	}
 	
 	/**
@@ -361,18 +380,17 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public void gameCommandsPost(String[] commands) throws IOException
+	public CatanModel gameCommandsPost(String[] commands) throws IOException
 	{
-		String jsonRequest = gson.toJson(commands);
-		
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(commands);
+		HttpPost httpPost = new HttpPost(_server + "/game/commands");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
 		
-		
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -383,28 +401,13 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public String[] gameCommandsGet() throws IOException
 	{
-		String jsonResponse = null;
-		
 		HttpGet httpGet = new HttpGet(_server + "/game/commands");
 		if (null != getCookie())
 		{
 			httpGet.addHeader("Cookie", getCookie());
 		}
 		
-		HttpResponse response = _httpClient.execute(httpGet);
-		
-		int status = response.getStatusLine().getStatusCode();
-		if (status == 200)
-		{
-			jsonResponse = EntityUtils.toString(response.getEntity());
-		}
-		else
-		{
-        	throwResponseError(response);
-        	return null;
-		}
-		
-		return gson.fromJson(jsonResponse, String[].class);
+		return _httpClient.execute(httpGet, stringArrayHandler);
 	}
 	
 	/**
@@ -415,8 +418,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gameAddAI(String aiType) throws IOException
 	{
-//		String jsonRequest = gson.toJson(new AddAIRequest(aiType));
+		String json = gson.toJson(new AddAIRequest(aiType));
+		HttpPost httpPost = new HttpPost(_server + "/game/addAI");
+		if (null != getCookie())
+		{
+			httpPost.addHeader("Cookie", getCookie());
+		}
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
 		
+		_httpClient.execute(httpPost, stringHandler);
 	}
 	
 	/**
@@ -424,30 +434,10 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public void gameListAI() throws IOException
+	public String[] gameListAI() throws IOException
 	{
-//		String jsonResponse = null;
-		
 		HttpGet httpGet = new HttpGet(_server + "/game/listAI");
-		if (null != getCookie())
-		{
-			httpGet.addHeader("Cookie", getCookie());
-		}
-		
-		HttpResponse response = _httpClient.execute(httpGet);
-		
-		int status = response.getStatusLine().getStatusCode();
-		if (status == 200)
-		{
-//			jsonResponse = EntityUtils.toString(response.getEntity());
-		}
-		else
-		{
-        	throwResponseError(response);
-//			return null;
-		}
-		
-//		return gson.fromJson(jsonResponse, String[].class);
+		return _httpClient.execute(httpGet, stringArrayHandler);
 	}
 
 	/**
@@ -820,8 +810,11 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void utilChangeLogLevel(String logLevel) throws IOException
 	{
-		String jsonRequest = gson.toJson(new ChangeLogLevelRequest(logLevel));
-		
+		String json = gson.toJson(new ChangeLogLevelRequest(logLevel));
+
+        HttpPost httpPost = new HttpPost(_server + "/util/changeLogLevel");
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		_httpClient.execute(httpPost, stringHandler);
 	}
 
 }

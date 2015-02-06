@@ -90,14 +90,14 @@ public interface IServerProxy
 	 * Reset the game to the saved state or the initial setup
 	 * @throws IOException
 	 */
-	public void gameReset() throws IOException;
+	public CatanModel gameReset() throws IOException;
 	
 	/**
 	 * Send a command to the server for debugging purposes
 	 * @param command the command to send to the server
 	 * @throws IOException
 	 */
-	public void gameCommandsPost(String[] commands) throws IOException;
+	public CatanModel gameCommandsPost(String[] commands) throws IOException;
 	
 	/**
 	 * Fetch the list of commands that the server has executed for debug purposes
@@ -117,7 +117,7 @@ public interface IServerProxy
 	 * Retrieve a list of the AI players in the game
 	 * @throws IOException
 	 */
-	public void gameListAI() throws IOException;
+	public String[] gameListAI() throws IOException;
 	
 	/**
 	 * Send a chat to the current game chat list

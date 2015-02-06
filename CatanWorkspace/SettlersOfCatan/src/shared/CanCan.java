@@ -54,13 +54,13 @@ public class CanCan {
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
 							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.South)
 						return newPorts.get(j);
 				}
@@ -78,7 +78,7 @@ public class CanCan {
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
 				}
@@ -266,9 +266,9 @@ public class CanCan {
 				{
 					if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 						return false;
-					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
+					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 						return false;
-					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
+					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() - 1 && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 						return false;
 					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 						return false;
@@ -279,9 +279,9 @@ public class CanCan {
 					{
 						if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 							hasRoad = true;
-						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
 							hasRoad = true;
-						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 							hasRoad = true;
 					}
 			}
@@ -289,11 +289,11 @@ public class CanCan {
 			{
 				for(int i = 0; i < newBuildings.size(); i++)
 				{
-					if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() - 1&& newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+					if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 						return false;
-					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() - 1 && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 						return false;
-					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() + 1 && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 						return false;
 					else if (newBuildings.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 						return false;
@@ -306,7 +306,7 @@ public class CanCan {
 							hasRoad = true;
 						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 							hasRoad = true;
-						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+						else if (newRoads.get(i).getLocation().getHexLoc().getX() == vertexLocation.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == vertexLocation.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 							hasRoad = true;
 					}
 			}
@@ -346,9 +346,9 @@ public class CanCan {
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
 					return false;
@@ -363,7 +363,7 @@ public class CanCan {
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
@@ -379,11 +379,11 @@ public class CanCan {
 			{
 				if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() + 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
+					return true;
+				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
+					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
-					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() + 1 == edge.getHexLoc().getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
-					return true;
-				else if (newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() - 1 && newRoads.get(i).getLocation().getHexLoc().getY() + 1 == edge.getHexLoc().getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
 					return true;
 				else if (newRoads.get(i).getLocation().getHexLoc() == edge.getHexLoc() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
 					return false;
@@ -416,15 +416,15 @@ public class CanCan {
 			//Water checks
 			if((edge.getHexLoc().getX() == -3 || edge.getHexLoc().getX() == 3) && edge.getDir() == EdgeDirection.South)
 				return false;
-			else if((edge.getHexLoc().getY() == 3 || edge.getHexLoc().getY() == -3) && edge.getDir() == EdgeDirection.SouthWest)
+			else if((edge.getHexLoc().getY() == 3 || edge.getHexLoc().getY() == -3) && edge.getDir() == EdgeDirection.SouthEast)
 				return false;
-			else if((edge.getHexLoc().getX() == -3 && edge.getHexLoc().getY() == 0) || 
-					(edge.getHexLoc().getX() == -2 && edge.getHexLoc().getY() == -1) || 
+			else if((edge.getHexLoc().getX() == -2 && edge.getHexLoc().getY() == -1) || 
 					(edge.getHexLoc().getX() == -1 && edge.getHexLoc().getY() == -2) || 
-					(edge.getHexLoc().getX() ==  0 && edge.getHexLoc().getY() == 3) || 
+					(edge.getHexLoc().getX() == 0 && edge.getHexLoc().getY() == -3) || 
 					(edge.getHexLoc().getX() == 1 && edge.getHexLoc().getY() == 2) || 
-					(edge.getHexLoc().getX() == 2 && edge.getHexLoc().getY() == 1)
-					&& edge.getDir() == EdgeDirection.SouthEast)
+					(edge.getHexLoc().getX() == 2 && edge.getHexLoc().getY() == 1) ||
+					(edge.getHexLoc().getX() == 3 && edge.getHexLoc().getY() == 0)
+					&& edge.getDir() == EdgeDirection.SouthWest)
 				return false;
 			
 			if (!hasAdjacentRoad(player,edge) || turn.getStatus() == TurnType.FIRST_ROUND)
@@ -433,7 +433,7 @@ public class CanCan {
 				{
 					for (int i = 0; i < newBuildings.size(); i++)
 					{
-						if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+						if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 							return true;
 						else if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 							return true;
@@ -443,9 +443,9 @@ public class CanCan {
 				{
 					for (int i = 0; i < newBuildings.size(); i++)
 					{
-						if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
+						if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 							return true;
-						else if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+						else if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() + 1 && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 							return true;
 					}		
 				}
@@ -455,7 +455,7 @@ public class CanCan {
 					{
 						if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.SouthWest)
 							return true;
-						else if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() - 1 && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
+						else if (newBuildings.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() && newBuildings.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY() && newBuildings.get(i).getOwner() == player.getPlayerIndex() && newBuildings.get(i).getLocation().getDir() == VertexDirection.West)
 							return true;
 					}			
 				}
