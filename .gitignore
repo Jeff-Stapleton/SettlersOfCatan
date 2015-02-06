@@ -43,6 +43,7 @@ Desktop.ini
 *.pydevproject
 .project
 .metadata
+.recommenders
 bin/**
 tmp/**
 tmp/**/*
@@ -67,6 +68,10 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+# Files based on our ant script
+CatanWorkspace/SettlersOfCatan/dist/**/*
+CatanWorkspace/demo/logs/**/*
 
 ## Exceptions ##
 # Add exceptions to the above rules here
