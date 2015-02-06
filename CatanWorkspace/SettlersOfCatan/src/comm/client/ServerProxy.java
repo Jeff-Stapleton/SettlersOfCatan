@@ -19,8 +19,10 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import comm.shared.RestCom;
-import comm.shared.RestCom.HttpResponse;
 import comm.shared.ServerException;
+import comm.shared.resty.HttpResponse;
+import comm.shared.resty.PostRequest;
+import comm.shared.resty.Response;
 import comm.shared.serialization.AcceptTradeRequest;
 import comm.shared.serialization.AddAIRequest;
 import comm.shared.serialization.BuildCityRequest;
@@ -56,9 +58,7 @@ import comm.shared.serialization.YearOfPlentyRequest;
  */
 public class ServerProxy extends AbstractServerProxy
 {
-	RestCom con = new RestCom("localhost:8081", gson);
-	
-	String _server = "localhost:8081";
+	RestCom con = new RestCom();
 
 	/**
 	 * Send a get request to the server with the specified headers
@@ -187,12 +187,14 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void userLogin(String user, String password) throws ServerException
 	{
-		HttpResponse response = con
-				.POST("/user/login")
-				.addGsonBody(new CredentialsRequest(user, password))
-				.getResponse();
-		String jsonRequest = gson.toJson();
+		PostRequest request = con.createPostRequest("/user/login");
+		request.setJsonBody(new CredentialsRequest(user, password));
 		
+		Response response = request.getResponse();
+		
+		if (response.getStatusCode() != 200) {
+			throw new ServerException(response.getStatusCode() + response.getResponseBody());
+		}
 	}
 	
 	/**
@@ -217,7 +219,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public GameResponse[] gamesList() throws ServerException
 	{
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -243,7 +245,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new CreateGameRequest(name, randomTiles, randomNumbers, randomPorts));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -265,7 +267,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new JoinGameRequest(id, color.toString()));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -317,7 +319,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel gameModel(int version) throws ServerException
 	{
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -341,7 +343,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public void gameReset() throws ServerException
 	{
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -359,7 +361,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(commands);
 		
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -377,7 +379,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public String[] gameCommandsGet() throws ServerException
 	{
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -423,7 +425,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new SendChatRequest(playerIndex, content));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -446,7 +448,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new RollNumberRequest(playerIndex, number));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -485,7 +487,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new FinishTurnRequest(playerIndex));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -507,7 +509,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new BuyDevCardRequest(playerIndex));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -531,7 +533,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new YearOfPlentyRequest(playerIndex, resource1.toString(), resource2.toString()));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -555,7 +557,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new RoadBuildingRequest(playerIndex, spot1, spot2));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -579,7 +581,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new SoldierRequest(playerIndex, victimIndex, location));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -602,7 +604,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new MonopolyRequest(playerIndex, resource.toString()));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -624,7 +626,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new MonumentRequest(playerIndex));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -648,7 +650,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new BuildRoadRequest(playerIndex, location, free));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -672,7 +674,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new BuildSettlementRequest(playerIndex, location, free));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -696,7 +698,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new BuildCityRequest(playerIndex, location, free));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -718,7 +720,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(offer);
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -741,7 +743,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new AcceptTradeRequest(playerIndex, willAccept));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
@@ -782,7 +784,7 @@ public class ServerProxy extends AbstractServerProxy
 	{
 		String jsonRequest = gson.toJson(new DiscardCardsRequest(playerIndex, cards));
 
-		Map<String, String> headers = new HashMap<String,String>();
+		HeaderMap headers = new HeaderMap();
 		String cookie = getCookie();
 		if (null != cookie)
 		{
