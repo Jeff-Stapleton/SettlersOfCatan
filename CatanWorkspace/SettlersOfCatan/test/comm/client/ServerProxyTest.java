@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 import comm.shared.serialization.GameResponse;
 import comm.shared.serialization.PlayerResponse;
 import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
 public class ServerProxyTest
@@ -38,10 +39,10 @@ public class ServerProxyTest
 	@Test
 	public void testUser() throws IOException
 	{
-		proxy.userRegister("Cory", "Cory");
 		proxy.userRegister("JJ", "JJ");
 		proxy.userRegister("Jeff", "Jeff");
 		proxy.userRegister("Jordan", "Jordan");
+		proxy.userRegister("Cory", "Cory");
 		
 		proxy.userLogin("Cory", "Cory");
 		proxy.userLogin("Sam", "sam");
@@ -74,6 +75,24 @@ public class ServerProxyTest
 		assertEquals("There should be 4 games now", games.length, 4);
 		
 		proxy.gamesJoin(CatanColor.BLUE, 3);
+	}
+	
+	@Test
+	public void testMoves() throws IOException
+	{
+		proxy.userLogin("Sam", "sam");
+		proxy.gamesJoin(CatanColor.ORANGE, 0);
+		
+		proxy.gameModel();
+		testMovesSendChat();
+		testMovesRollNumber();
+		testMovesRobPlayer();
+		testMovesBuyDevCard();
+		testMovesYearOfPlenty();
+		
+		
+		
+		testMovesFinishTurn();		
 	}
 	
 	@Test
@@ -118,46 +137,39 @@ public class ServerProxyTest
 		
 	}
 
-	@Test
 	public void testMovesSendChat() throws IOException
 	{
-		
+		proxy.movesSendChat(0, "GUINEA PIGS");
 	}
 	
-	@Test
 	public void testMovesRollNumber() throws IOException
 	{
 		proxy.movesRollNumber(0, 7);
 	}
 	
-	@Test
 	public void testMovesRobPlayer() throws IOException
 	{
 		proxy.movesRobPlayer(0, 1, new HexLocation(0, 0));
 	}
 
-	@Test
 	public void testMovesFinishTurn() throws IOException
 	{
-		
+		proxy.movesFinishTurn(0);
 	}
 	
-	@Test
 	public void testMovesBuyDevCard() throws IOException
 	{
-		
+		proxy.movesBuyDevCard(0);
 	}
 	
-	@Test
 	public void testMovesYearOfPlenty() throws IOException
 	{
-
+		proxy.movesYearOfPlenty(0, ResourceType.BRICK, ResourceType.ORE);
 	}
 	
-	@Test
 	public void testMovesRoadBuilding() throws IOException
 	{
-
+		//proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(), EdgeDirection.), new EdgeLocation(new HexLocation(), EdgeDirection.)
 	}
 	
 	@Test
@@ -187,7 +199,7 @@ public class ServerProxyTest
 	@Test
 	public void testMovesBuildSettlement() throws IOException
 	{
-
+		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation()), free)
 	}
 	
 	@Test
