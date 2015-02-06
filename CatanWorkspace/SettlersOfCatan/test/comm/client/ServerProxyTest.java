@@ -10,11 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import comm.client.ServerProxy;
 import comm.shared.serialization.GameResponse;
 import comm.shared.serialization.PlayerResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 
 public class ServerProxyTest
 {
@@ -89,49 +92,51 @@ public class ServerProxyTest
 		testMovesRobPlayer();
 		testMovesBuyDevCard();
 		testMovesYearOfPlenty();
-		
-		
+		testMovesRoadBuilding
+		testMoveSoldier();
+		testMovesMonopoly();
+		testMovesMonument();
+		testMovesBuildRoad();
+		testMovesBuildSettlement();
+		testMovesBuildCity();
+		testMovesOfferTrade();
+		testMovesAcceptTrade();byucs
+		testMovesMaritimeTrade();
+		testMovesDiscardCards
 		
 		testMovesFinishTurn();		
 	}
 	
-	@Test
 	public void testGamesSaving() throws IOException
 	{
 		
 	}
 	
-	@Test
 	public void testGameModel() throws IOException
 	{
 		
 	}
 	
-	@Test
 	public void testGameReset() throws IOException
 	{
 		
 	}
 	
-	@Test
 	public void testGameCommandsPost() throws IOException
 	{
 		
 	}
 	
-	@Test
 	public void testGameCommandsGet() throws IOException
 	{
 		
 	}
 	
-	@Test
 	public void testGameAddAI() throws IOException
 	{
 
 	}
 	
-	@Test
 	public void testGameListAI() throws IOException
 	{
 		
@@ -149,7 +154,7 @@ public class ServerProxyTest
 	
 	public void testMovesRobPlayer() throws IOException
 	{
-		proxy.movesRobPlayer(0, 1, new HexLocation(0, 0));
+		proxy.movesRobPlayer(0, 1, new HexLocation(-2, 0));
 	}
 
 	public void testMovesFinishTurn() throws IOException
@@ -169,70 +174,59 @@ public class ServerProxyTest
 	
 	public void testMovesRoadBuilding() throws IOException
 	{
-		//proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(), EdgeDirection.), new EdgeLocation(new HexLocation(), EdgeDirection.)
+		proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(1,0),EdgeDirection.South), new EdgeLocation(new HexLocation(0,1),EdgeDirection.SouthEast));
 	}
 	
-	@Test
 	public void testMovesSoldier() throws IOException
 	{
-
+		proxy.movesSoldier(0, 1, new HexLocation(-2, 1));
 	}
 
-	@Test
 	public void testMovesMonopoly() throws IOException
 	{
-
+		proxy.movesMonopoly(0, ResourceType.WOOD);
 	}
 	
-	@Test
 	public void testMovesMonument() throws IOException
 	{
-		
+		proxy.movesMonument(0);
 	}
 	
-	@Test
 	public void testMovesBuildRoad() throws IOException
 	{
-
+		proxy.movesBuildRoad(0, new EdgeLocation(new HexLocation(-1,1),EdgeDirection.SouthEast), true);
 	}
 	
-	@Test
 	public void testMovesBuildSettlement() throws IOException
 	{
-		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation()), free)
+		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation(0,2), VertexDirection.West), free);
 	}
 	
-	@Test
 	public void testMovesBuildCity() throws IOException
 	{
-		
+		proxy.movesBuildCity(0, new VertexLocation(new HexLocation(1,1), VertexDirection.West), free);
 	}
 	
-	@Test
 	public void testMovesOfferTrade() throws IOException
 	{
-		
+		proxy.movesOfferTrade(new TradeOffer(0, 1, new ResourceList(0,-1,0,1,0)));
 	}
 	
-	@Test
 	public void testMovesAcceptTrade() throws IOException
 	{
-		
+		proxy.movesAcceptTrade(1, true);
 	}
 	
-	@Test
 	public void testMovesMaritimeTrade() throws IOException
 	{
-		
+		proxy.movesMaritimeTrade(0, 3, ResourceType.BRICK, ResourceType.WOOD);
 	}
 
-	@Test
 	public void testMovesDiscardCards() throws IOException
 	{
-		
+		proxy.movesDiscardCards(0, new ResourceList(0,0,-1,0,0)); 
 	}
 	
-	@Test
 	public void testUtilChangeLogLevel() throws IOException
 	{
 		
