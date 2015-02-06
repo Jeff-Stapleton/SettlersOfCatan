@@ -2,13 +2,14 @@ package shared;
 
 public class TradeOffer 
 {
-	private int sender;
+	private String type;
+	private int playerIndex;
 	private int receiver;
 	private ResourceList offer;
 	
-	public TradeOffer(int sender, int receiver, ResourceList offer) {
-		super();
-		this.sender = sender;
+	public TradeOffer(int playerIndex, ResourceList offer, int receiver) {
+		this.type = "offerTrade";
+		this.playerIndex = playerIndex;
 		this.receiver = receiver;
 		this.offer = offer;
 	}
@@ -37,16 +38,16 @@ public class TradeOffer
 	 */
 	public int getSender() 
 	{
-		return sender;
+		return playerIndex;
 	}
 
 	/**
 	 * Set the sender of the trade
 	 * @param sender
 	 */
-	public void setSender(int sender) 
+	public void setSender(int playerIndex) 
 	{
-		this.sender = sender;
+		this.playerIndex = playerIndex;
 	}
 
 	/**

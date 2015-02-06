@@ -9,20 +9,26 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.google.gson.Gson;
 
 import comm.client.ServerProxy;
 import comm.shared.serialization.GameResponse;
 import comm.shared.serialization.PlayerResponse;
+import shared.ResourceList;
+import shared.TradeOffer;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 public class ServerProxyTest
 {
 	
 	ServerProxy proxy;
+	Gson gson = new Gson();
 
 	@Before
 	public void setUp() throws Exception
@@ -88,23 +94,39 @@ public class ServerProxyTest
 		
 		proxy.gameModel();
 		testMovesSendChat();
-		testMovesRollNumber();
+		testMovesRollNumber(0,7);
 		testMovesRobPlayer();
-		testMovesBuyDevCard();
-		testMovesYearOfPlenty();
-		testMovesRoadBuilding
-		testMoveSoldier();
-		testMovesMonopoly();
-		testMovesMonument();
+		testMovesBuyDevCard(0);
+		testMovesYearOfPlenty(0);
+		testMovesFinishTurn(0);
+		
+		testMovesRollNumber(1,4);
+		testMovesBuyDevCard(1);
+		testMovesSoldier(1);
+		testMovesFinishTurn(1);
+		
+		testMovesRollNumber(2,8);
+		testMovesBuyDevCard(2);
+		testMovesMonument(2);
+		testMovesFinishTurn(2);
+		
+		testMovesRollNumber(3,2);
+		testMovesBuyDevCard(3);
+		testMovesMonopoly(3);
+		testMovesFinishTurn(3);
+		
+		testMovesRollNumber(0,5);
+		testMovesBuyDevCard(0);
+		testMovesRoadBuilding();
 		testMovesBuildRoad();
 		testMovesBuildSettlement();
 		testMovesBuildCity();
 		testMovesOfferTrade();
-		testMovesAcceptTrade();byucs
+		testMovesAcceptTrade();
 		testMovesMaritimeTrade();
-		testMovesDiscardCards
+		testMovesDiscardCards();
 		
-		testMovesFinishTurn();		
+		testMovesFinishTurn(0);		
 	}
 	
 	public void testGamesSaving() throws IOException
@@ -147,9 +169,9 @@ public class ServerProxyTest
 		proxy.movesSendChat(0, "GUINEA PIGS");
 	}
 	
-	public void testMovesRollNumber() throws IOException
+	public void testMovesRollNumber(int playerIndex, int roll) throws IOException
 	{
-		proxy.movesRollNumber(0, 7);
+		proxy.movesRollNumber(playerIndex, roll);
 	}
 	
 	public void testMovesRobPlayer() throws IOException
@@ -157,39 +179,39 @@ public class ServerProxyTest
 		proxy.movesRobPlayer(0, 1, new HexLocation(-2, 0));
 	}
 
-	public void testMovesFinishTurn() throws IOException
+	public void testMovesFinishTurn(int playerIndex) throws IOException
 	{
-		proxy.movesFinishTurn(0);
+		proxy.movesFinishTurn(playerIndex);
 	}
 	
-	public void testMovesBuyDevCard() throws IOException
+	public void testMovesBuyDevCard(int playerIndex) throws IOException
 	{
-		proxy.movesBuyDevCard(0);
+		proxy.movesBuyDevCard(playerIndex);
 	}
 	
-	public void testMovesYearOfPlenty() throws IOException
+	public void testMovesYearOfPlenty(int playerIndex) throws IOException
 	{
-		proxy.movesYearOfPlenty(0, ResourceType.BRICK, ResourceType.ORE);
+		proxy.movesYearOfPlenty(playerIndex, ResourceType.BRICK, ResourceType.ORE);
 	}
 	
 	public void testMovesRoadBuilding() throws IOException
 	{
-		proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(1,0),EdgeDirection.South), new EdgeLocation(new HexLocation(0,1),EdgeDirection.SouthEast));
+		proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(1,0), EdgeDirection.South), new EdgeLocation(new HexLocation(1,1), EdgeDirection.SouthWest));
 	}
 	
-	public void testMovesSoldier() throws IOException
+	public void testMovesSoldier(int playerIndex) throws IOException
 	{
-		proxy.movesSoldier(0, 1, new HexLocation(-2, 1));
+		proxy.movesSoldier(playerIndex, 1, new HexLocation(-2, 1));
 	}
 
-	public void testMovesMonopoly() throws IOException
+	public void testMovesMonopoly(int playerIndex) throws IOException
 	{
-		proxy.movesMonopoly(0, ResourceType.WOOD);
+		proxy.movesMonopoly(playerIndex, ResourceType.WOOD);
 	}
 	
-	public void testMovesMonument() throws IOException
+	public void testMovesMonument(int playerIndex) throws IOException
 	{
-		proxy.movesMonument(0);
+		proxy.movesMonument(playerIndex);
 	}
 	
 	public void testMovesBuildRoad() throws IOException
@@ -199,17 +221,18 @@ public class ServerProxyTest
 	
 	public void testMovesBuildSettlement() throws IOException
 	{
-		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation(0,2), VertexDirection.West), free);
+		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation(0,2), VertexDirection.West), true);
 	}
 	
 	public void testMovesBuildCity() throws IOException
 	{
-		proxy.movesBuildCity(0, new VertexLocation(new HexLocation(1,1), VertexDirection.West), free);
+		proxy.movesBuildCity(0, new VertexLocation(new HexLocation(1,1), VertexDirection.West), true);
 	}
 	
 	public void testMovesOfferTrade() throws IOException
 	{
-		proxy.movesOfferTrade(new TradeOffer(0, 1, new ResourceList(0,-1,0,1,0)));
+		TradeOffer trade = new TradeOffer(0,new ResourceList(0,0,0,0,0),1);
+		proxy.movesOfferTrade(trade);
 	}
 	
 	public void testMovesAcceptTrade() throws IOException

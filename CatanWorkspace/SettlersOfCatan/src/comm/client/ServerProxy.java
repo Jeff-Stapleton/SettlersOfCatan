@@ -663,7 +663,7 @@ public class ServerProxy extends AbstractServerProxy
 	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws IOException
 	{
 		String json = gson.toJson(new BuildRoadRequest(playerIndex, location, free));
-        
+
         HttpPost httpPost = new HttpPost(_server + "/moves/buildRoad");
 		if (null != getCookie())
 		{
@@ -727,7 +727,7 @@ public class ServerProxy extends AbstractServerProxy
 	public CatanModel movesOfferTrade(TradeOffer offer) throws IOException
 	{
 		String json = gson.toJson(offer);
-        
+		
         HttpPost httpPost = new HttpPost(_server + "/moves/offerTrade");
 		if (null != getCookie())
 		{

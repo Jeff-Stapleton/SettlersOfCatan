@@ -9,18 +9,18 @@ import shared.locations.VertexLocation;
  */
 public class BuildSettlementRequest extends AbstractMovesRequest
 {
-	VertexLocation vertexLocation;
+	VertexLocationRequest vertexLocation;
 	boolean free;
 	
 	public BuildSettlementRequest(int playerIndex, VertexLocation vertexLocation, boolean free)
 	{
 		super("buildSettlement", playerIndex);
 		
-		this.vertexLocation = vertexLocation;
+		this.vertexLocation = new VertexLocationRequest(vertexLocation);
 		this.free = free;
 	}
 	
-	public VertexLocation getVertexLocation()
+	public VertexLocationRequest getVertexLocation()
 	{
 		return vertexLocation;
 	}

@@ -47,17 +47,18 @@ public class Testing2 {
 		map = new Map();
 		settlements = new ArrayList<Building>();
 		settlements.add(new Building(0, new VertexLocation(new HexLocation(3, 0), VertexDirection.West)));
-		settlements.add(new Building(1, new VertexLocation(new HexLocation(1, 2), VertexDirection.SouthWest)));
+		settlements.add(new Building(1, new VertexLocation(new HexLocation(1, 2), VertexDirection.West)));
 		settlements.add(new Building(2, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthWest)));
 		map.setSettlements(settlements);
 		
 		port = new ArrayList<Port>();
 		port.add(new Port(PortType.WOOD, new HexLocation(3, 0), EdgeDirection.SouthWest, 2));
-		port.add(new Port(PortType.ORE, new HexLocation(1, 2), EdgeDirection.South, 2));
+		port.add(new Port(PortType.ORE, new HexLocation(0, 2), EdgeDirection.South, 2));
 		map.setPorts(port);
 		
 		road = new ArrayList<Road>();
 		road.add(new Road(0, new EdgeLocation(new HexLocation(0, -2), EdgeDirection.South)));
+		road.add(new Road(0, new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South)));
 		map.setRoads(road);
 		
 		player0 = new Player();
@@ -99,7 +100,7 @@ public class Testing2 {
 		//Incorrect ratio
 		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 3, 0, 0, 0), bank, port));
 		turn.setCurrentTurn(1);
-		assertTrue("Can Maritime Trade", CanCan.canMaritimeTrade(player1, turn, new ResourceList(0, 0, -1, 0, 2), bank, port));
+		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player1, turn, new ResourceList(0, 0, -1, 0, 2), bank, port));
 		
 		//Wrong Turn
 		assertFalse("Can Maritime Trade", CanCan.canMaritimeTrade(player0, turn, new ResourceList(-1, 2, 0, 0, 0), bank, port));
@@ -135,7 +136,7 @@ public class Testing2 {
 		//no roads on water
 		assertFalse("Can Build Road", CanCan.canBuildRoad(player0, new EdgeLocation(new HexLocation(2, 1), EdgeDirection.SouthEast), turn));
 		turn.setCurrentTurn(1);
-		assertTrue("Can Build Road", CanCan.canBuildRoad(player1, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.SouthEast), turn));
+		assertTrue("Can Build Road", CanCan.canBuildRoad(player1, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.South), turn));
 	}
 
 }

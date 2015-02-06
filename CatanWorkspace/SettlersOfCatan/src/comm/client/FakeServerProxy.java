@@ -895,6 +895,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	@Override
 	public CatanModel gameCommandsPost(String[] commands) throws IOException {
 		String jsonResponse = ""; // TODO: Add string here
+		
 		return gson.fromJson(jsonResponse, CatanModel.class);
 	}
 

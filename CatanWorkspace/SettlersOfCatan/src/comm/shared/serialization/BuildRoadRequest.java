@@ -9,18 +9,18 @@ import shared.locations.EdgeLocation;
  */
 public class BuildRoadRequest extends AbstractMovesRequest
 {
-	EdgeLocation roadLocation;
+	EdgeLocationRequest roadLocation;
 	boolean free;
 	
 	public BuildRoadRequest(int playerIndex, EdgeLocation roadLocation, boolean free)
 	{
 		super("buildRoad", playerIndex);
 		
-		this.roadLocation = roadLocation;
+		this.roadLocation = new EdgeLocationRequest(roadLocation);
 		this.free = free;
 	}
 	
-	public EdgeLocation getRoadLocation()
+	public EdgeLocationRequest getRoadLocation()
 	{
 		return roadLocation;
 	}
