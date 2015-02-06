@@ -1,151 +1,103 @@
 package comm.shared;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.Gson;
-import comm.shared.RestCom.SRequest;
-import comm.shared.serialization.CredentialsRequest;
+import comm.shared.resty.GetRequest;
+import comm.shared.resty.PostRequest;
+import comm.shared.resty.Request.RequestException;
 
 public class RestCom {
-	private String _server = "localhost:8081";
-	private Gson _gson = null;
-	
-	public RestCom(String serverURL)
-	{
-		_server = serverURL;
+	private static URL _localhost;
+
+	static {
+		try
+		{
+			_localhost = new URL("http://localhost:8081");
+		}
+		catch(MalformedURLException e)
+		{
+			e.printStackTrace();
+			_localhost = null;
+		}
 	}
 	
-	public RestCom(String serverURL, Gson gson)
+	private URL _server;
+	private Gson _gson;
+	private Map<String, String> _headers;
+	
+	public RestCom()
 	{
-		_server = serverURL;
+		init(_localhost, null, null);
+	}
+	
+	public RestCom(URL server)
+	{
+		init(server, null, null);
+	}
+	
+	public RestCom(URL server, Gson gson)
+	{
+		init(server, gson, null);
+	}
+	
+	public RestCom(URL server, Gson gson, Map<String, String> headers)
+	{
+		init(server, gson, headers);
+	}
+	
+	private void init(URL server, Gson gson, Map<String, String> headers)
+	{
+		_server = server;
 		_gson = gson;
+		_headers = headers;
 	}
 	
-	public SRequest GET(String serverPath) throws IOException
+	public GetRequest createGetRequest(String path) throws RequestException
 	{
-		return new SRequest(_server, serverPath, "GET");
+		GetRequest request = new GetRequest(_server, path, _headers);
+		if (_gson != null)
+		{
+			request.setGson(_gson);
+		}
+		return request;
 	}
 	
-	public SRequest POST(String serverPath) throws IOException
+	public PostRequest createPostRequest(String path) throws RequestException
 	{
-		return new SRequest(_server, serverPath, "POST");
-	}
-	
-	public class SRequest
-	{
-		HttpsURLConnection _con = null;
-		String _urlString = "";
-		StringBuilder _requestBody = null;
-		
-		protected SRequest(String serverURL, String serverPath, String method) throws IOException
+		PostRequest request = new PostRequest(_server, path, _headers);
+		if (_gson != null)
 		{
-			_urlString = serverURL + serverPath;
-			URL url = new URL(_urlString);
-			_con = (HttpsURLConnection) url.openConnection();
-			
-			_con.setRequestMethod(method);
+			request.setGson(_gson);
 		}
-		
-		public void addHeader(String key, String value)
-		{
-			_con.setRequestProperty(key, value);
-		}
-		
-		public void addHeaders(Map<String, String> headers)
-		{
-			for (Map.Entry<String, String> entry : headers.entrySet())
-			{
-				_con.setRequestProperty(entry.getKey(), entry.getValue());
-			}
-		}
-		
-		public HttpResponse getResponse()
-		{
-			HttpResponse response = null;
-			try
-			{
-				_con.setDoOutput(true);
-				DataOutputStream wr = new DataOutputStream(_con.getOutputStream());
-				wr.writeBytes(requestBody);
-				wr.flush();
-				wr.close();
-				
-				response = new HttpResponse(_urlString, _con.getResponseCode());
-				
-				BufferedReader in = new BufferedReader(new InputStreamReader(_con.getInputStream()));
-				
-				StringBuffer responseBody = new StringBuffer();
-				String inputLine;
-				while (null != (inputLine = in.readLine())) {
-					responseBody.append(inputLine);
-				}
-				in.close();
-				
-				response.setResponseBody(responseBody.toString());
-				
-				return response;
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				return response;
-			}
-			finally
-			{
-				if (null != _con)
-				{
-					_con.disconnect();
-					_con = null;
-				}
-			}
-		}
-
-		public <T> SRequest appendGsonBody(T obj)
-		{
-			_requestBody.append(_gson.toJson(obj));
-			
-			return this;
-		}
-	}
-	
-	public class HttpResponse
-	{
-		private String _url;
-		private int _responseCode;
-		private String _responseBody = "";
-		
-		protected HttpResponse(String urlString, int responseCode)
-		{
-			_url = urlString;
-			_responseCode = responseCode;
-		}
-		
-		protected void setResponseBody(String responseBody)
-		{
-			_responseBody = responseBody;
-		}
-		
-		public String getUrl()
-		{
-			return _url;
-		}
-		
-		public int getResponseCode()
-		{
-			return _responseCode;
-		}
-		
-		public String getResponseBody()
-		{
-			return _responseBody;
-		}
+		return request;
 	}
 
+	public URL getServer()
+	{
+		return _server;
+	}
+	
+	public Gson getGson()
+	{
+		return _gson;
+	}
+	
+	public RestCom addHeader(String key, String value)
+	{
+		_headers.put(key, value);
+		return this;
+	}
+	
+	public void setHeaders(Map<String, String> headers)
+	{
+		_headers = headers;
+	}
+	
+	public Map<String, String> getHeaders()
+	{
+		return _headers;
+	}
 }
