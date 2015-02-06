@@ -9,9 +9,9 @@
     <property name="options.arg" value="ug"/>
 
     <!-- Input folders -->
-    <property name="java.dir" value="java"/>
-    <property name="java.src.dir" value="${java.dir}/src"/>
-    <property name="java.lib.dir" value="${java.dir}/lib"/>
+    <property name="ta.dir" value="SettlersOfCatan"/>
+    <property name="ta.src.dir" value="${ta.dir}/src"/>
+    <property name="ta.lib.dir" value="${ta.dir}/lib"/>
     <!-- JavaScript source folder -->
     <property name="javascript.dir" value="gameplay/js"/>
 
@@ -22,7 +22,7 @@
     <!-- YUIDoc output folder -->
     <property name="yuidoc.dir" value="${dest.dir}/javascript"/>
     <!-- Jar file path/name from here -->
-	<property name="demo.dir" value="demo"/>
+    <property name="demo.dir" value="demo"/>
     <property name="server.jar.file" value="${demo.dir}/server.jar"/>
     <property name="client.jar.file" value="${demo.dir}/client.jar"/>
 
@@ -30,7 +30,7 @@
 	<!-- ********** -->
 
 	<path id="java.lib.classpath">
-		<fileset dir="${java.lib.dir}">
+		<fileset dir="${ta.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -62,7 +62,7 @@
         <delete dir="${javadoc.dir}"/>
 		<javadoc destdir="${javadoc.dir}" Package="true">
 			<classpath refid="java.lib.classpath" />
-			<packageset dir="${java.src.dir}">
+			<packageset dir="${ta.src.dir}">
 				<include name="client/**"/>
 				<include name="shared/**"/>
 			</packageset>
@@ -86,6 +86,7 @@
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
+        <property name="java.test" location="${java.dir}/test"/>
 
 	<target name="init" description="create build directories">
 		<tstamp/>
@@ -149,7 +150,28 @@
 				<enable/>
 			</assertions>
 		</java>
-	</target>
+        </target>
+
+        <target name="test-client-com" depends="package" description="tests our client with their server">
+            <parallel>
+                <daemons>
+                    <antcall target="server">
+                    </antcall>
+                </daemons>
+                <sequential>
+                    <sleep seconds="4"/>
+                    <junit printsummary="yes" fork="true" forkmode="once">
+                        <classpath>
+                            <path refid="java.lib.classpath"/>
+                        </classpath>
+
+                        <batchtest fork="yes">
+                            <fileset dir="${java.test}/comm/client" includes="**/*Test.java"/>
+                        </batchtest>
+                    </junit>
+                </sequential>
+            </parallel>
+        </target>
 
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
         <zip destfile="./tester.zip" basedir="${java.dist}" />
