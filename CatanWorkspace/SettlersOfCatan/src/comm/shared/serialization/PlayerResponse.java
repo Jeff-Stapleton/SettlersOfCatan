@@ -2,29 +2,29 @@ package comm.shared.serialization;
 
 public class PlayerResponse
 {
-	int _id;
-	String _name;
-	String _color;
+	int id;
+	String name;
+	String color;
 	
 	public PlayerResponse(int id, String name, String color)
 	{
-		_id = id;
-		_name = name;
-		_color = color;
+		this.id = id;
+		this.name = name;
+		this.color = color;
 	}
 	
 	public int getId()
 	{
-		return _id;
+		return id;
 	}
 	
 	public String getName()
 	{
-		return _name;
+		return name;
 	}
 	
 	public String getColor()
 	{
-		return _color;
+		return color;
 	}
 }

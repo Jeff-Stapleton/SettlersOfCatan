@@ -9,17 +9,17 @@ import shared.ResourceList;
  */
 public class DiscardCardsRequest extends AbstractMovesRequest
 {
-	ResourceList _discardedCards;
+	ResourceList discardedCards;
 	
-	public DiscardCardsRequest(int playerIndex, ResourceList offer)
+	public DiscardCardsRequest(int playerIndex, ResourceList discardedCards)
 	{
 		super("discardCards", playerIndex);
 		
-		_discardedCards = offer;
+		this.discardedCards = discardedCards;
 	}
 	
 	public ResourceList getDiscardedCards()
 	{
-		return _discardedCards;
+		return discardedCards;
 	}
 }

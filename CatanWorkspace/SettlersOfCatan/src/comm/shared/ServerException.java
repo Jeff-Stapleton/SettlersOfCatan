@@ -1,6 +1,8 @@
 package comm.shared;
 
-public class ServerException extends Exception {
+import java.io.IOException;
+
+public class ServerException extends IOException {
 
 	public ServerException(String string) {
 		super(string);

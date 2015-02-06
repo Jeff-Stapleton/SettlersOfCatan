@@ -7,17 +7,17 @@ package comm.shared.serialization;
  */
 public class SendChatRequest extends AbstractMovesRequest
 {
-	String _content;
+	String content;
 	
 	public SendChatRequest(int playerIndex, String content)
 	{
 		super("sendChat", playerIndex);
 		
-		_content = content;
+		this.content = content;
 	}
 	
 	public String getContent()
 	{
-		return _content;
+		return content;
 	}
 }

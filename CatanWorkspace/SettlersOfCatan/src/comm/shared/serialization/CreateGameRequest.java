@@ -1,39 +1,39 @@
 package comm.shared.serialization;
 
 public class CreateGameRequest {
-	String _name;
-	boolean _randomTiles;
-	boolean _randomNumbers;
-	boolean _randomPorts;
+	String name;
+	boolean randomTiles;
+	boolean randomNumbers;
+	boolean randomPorts;
 	
 	public CreateGameRequest(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts)
 	{
-		_name = name;
-		_randomTiles = randomTiles;
-		_randomNumbers = randomNumbers;
-		_randomPorts = randomPorts;
+		this.name = name;
+		this.randomTiles = randomTiles;
+		this.randomNumbers = randomNumbers;
+		this.randomPorts = randomPorts;
 	}
 	
 	public String getName()
 	{
-		return _name;
+		return name;
 	}
 	
 	public boolean isRandomTiles() { return getRandomTiles(); }
 	public boolean getRandomTiles()
 	{
-		return _randomTiles;
+		return randomTiles;
 	}
 	
 	public boolean isRandomNumbers() { return getRandomNumbers(); }
 	public boolean getRandomNumbers()
 	{
-		return _randomNumbers;
+		return randomNumbers;
 	}
 	
 	public boolean isRandomPorts() { return getRandomPorts(); }
 	public boolean getRandomPorts()
 	{
-		return _randomPorts;
+		return randomPorts;
 	}
 }

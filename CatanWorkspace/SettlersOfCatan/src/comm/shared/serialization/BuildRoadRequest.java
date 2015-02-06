@@ -9,25 +9,25 @@ import shared.locations.EdgeLocation;
  */
 public class BuildRoadRequest extends AbstractMovesRequest
 {
-	EdgeLocation _roadLocation;
-	boolean _free;
+	EdgeLocation roadLocation;
+	boolean free;
 	
 	public BuildRoadRequest(int playerIndex, EdgeLocation roadLocation, boolean free)
 	{
 		super("buildRoad", playerIndex);
 		
-		_roadLocation = roadLocation;
-		_free = free;
+		this.roadLocation = roadLocation;
+		this.free = free;
 	}
 	
 	public EdgeLocation getRoadLocation()
 	{
-		return _roadLocation;
+		return roadLocation;
 	}
 	
 	public boolean isFree() { return getFree(); }
 	public boolean getFree()
 	{
-		return _free;
+		return free;
 	}
 }

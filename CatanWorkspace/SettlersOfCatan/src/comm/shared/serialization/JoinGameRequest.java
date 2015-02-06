@@ -1,22 +1,22 @@
 package comm.shared.serialization;
 
 public class JoinGameRequest {
-	int _id;
-	String _color;
+	int id;
+	String color;
 	
 	public JoinGameRequest(int id, String color)
 	{
-		_id = id;
-		_color = color;
+		this.id = id;
+		this.color = color;
 	}
 	
 	public int getId()
 	{
-		return _id;
+		return id;
 	}
 	
 	public String getColor()
 	{
-		return _color;
+		return color;
 	}
 }

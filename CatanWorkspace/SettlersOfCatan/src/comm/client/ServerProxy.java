@@ -10,6 +10,22 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.client.fluent.Response;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -21,7 +37,6 @@ import shared.locations.VertexLocation;
 import comm.shared.RestCom;
 import comm.shared.ServerException;
 import comm.shared.resty.PostRequest;
-import comm.shared.resty.Response;
 import comm.shared.serialization.AcceptTradeRequest;
 import comm.shared.serialization.BuildCityRequest;
 import comm.shared.serialization.BuildRoadRequest;
@@ -58,7 +73,12 @@ public class ServerProxy extends AbstractServerProxy
 {
 	RestCom con = new RestCom();
 	
-	String _server = "http://localhost:8081";
+	String _server;
+	
+	public ServerProxy(String serverURL)
+	{
+		_server = serverURL;
+	}
 
 	/**
 	 * Send a get request to the server with the specified headers
@@ -185,8 +205,42 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws ServerException
 	 */
 	@Override
-	public void userLogin(String user, String password) throws ServerException
+	public void userLogin(String user, String password) throws IOException
 	{
+        // Create a custom response handler
+        ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+
+            public String handleResponse(
+                    final HttpResponse response) throws ClientProtocolException, IOException {
+                int status = response.getStatusLine().getStatusCode();
+                if (status == 200) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    HttpEntity entity = response.getEntity();
+                    throw new ClientProtocolException("Unexpected response status: " + status +
+                    		((entity != null) ? " With response body \"" + EntityUtils.toString(entity) + "\"" : ""));
+                }
+            }
+
+        };
+        
+		String json = gson.toJson(new CredentialsRequest(user, password));
+		System.out.println(json);
+        
+        
+        
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("http://localhost:8081/user/login");
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+        //CloseableHttpResponse response;
+        /*String responseBody = */httpClient.execute(httpPost, responseHandler);
+
+
+        
+        
+		
+		
 //		PostRequest request = con.createPostRequest("/user/login");
 //		request.setJsonBody(new CredentialsRequest(user, password));
 //		
@@ -205,10 +259,37 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws ServerException
 	 */
 	@Override
-	public void userRegister(String user, String password) throws ServerException
+	public void userRegister(String user, String password) throws IOException
 	{
-		String jsonRequest = gson.toJson(new CredentialsRequest(user, password));
-		
+
+        // Create a custom response handler
+        ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+
+            public String handleResponse(
+                    final HttpResponse response) throws IOException {
+                int status = response.getStatusLine().getStatusCode();
+                if (status == 200) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    HttpEntity entity = response.getEntity();
+                    throw new ClientProtocolException("Unexpected response status: " + status +
+                    		((entity != null) ? " With response body \"" + EntityUtils.toString(entity) + "\"" : ""));
+                }
+            }
+
+        };
+
+		String json = gson.toJson(new CredentialsRequest(user, password));
+		System.out.println(json);
+        
+        
+        
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("http://localhost:8081/user/register");
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+        //CloseableHttpResponse response;
+        /*String responseBody = */httpClient.execute(httpPost, responseHandler);
 	}
 	
 	/**

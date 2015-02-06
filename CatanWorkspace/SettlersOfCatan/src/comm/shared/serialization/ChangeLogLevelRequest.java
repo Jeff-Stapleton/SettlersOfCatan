@@ -10,15 +10,15 @@ public class ChangeLogLevelRequest {
 	public transient final String FINER = "FINER";
 	public transient final String OFF = "OFF";
 	
-	private String _logLevel;
+	private String logLevel;
 	
 	public ChangeLogLevelRequest(String logLevel)
 	{
-		_logLevel = logLevel;
+		this.logLevel = logLevel;
 	}
 	
 	public String getLogLevel()
 	{
-		return _logLevel;
+		return logLevel;
 	}
 }

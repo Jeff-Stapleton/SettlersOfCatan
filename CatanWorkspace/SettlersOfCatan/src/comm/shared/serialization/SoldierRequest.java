@@ -9,24 +9,24 @@ import shared.locations.HexLocation;
  */
 public class SoldierRequest extends AbstractMovesRequest
 {
-	int _victimIndex;
-	HexLocation _location;
+	int victimIndex;
+	HexLocation location;
 	
 	public SoldierRequest(int playerIndex, int victimIndex, HexLocation location)
 	{
 		super("Soldier", playerIndex);
 		
-		_victimIndex = victimIndex;
-		_location = location;
+		this.victimIndex = victimIndex;
+		this.location = location;
 	}
 	
 	public int getVictimIndex()
 	{
-		return _victimIndex;
+		return victimIndex;
 	}
 	
 	public HexLocation getLocation()
 	{
-		return _location;
+		return location;
 	}
 }

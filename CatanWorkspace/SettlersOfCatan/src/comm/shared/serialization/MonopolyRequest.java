@@ -7,17 +7,17 @@ package comm.shared.serialization;
  */
 public class MonopolyRequest extends AbstractMovesRequest
 {
-	String _resource;
+	String resource;
 	
 	public MonopolyRequest(int playerIndex, String resource)
 	{
 		super("Monopoly", playerIndex);
 		
-		_resource = resource;
+		this.resource = resource;
 	}
 	
 	public String getResource()
 	{
-		return _resource;
+		return resource;
 	}
 }

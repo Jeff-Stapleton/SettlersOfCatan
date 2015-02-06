@@ -9,24 +9,24 @@ import shared.ResourceList;
  */
 public class OfferTradeRequest extends AbstractMovesRequest
 {
-	ResourceList _offer;
-	int _receiver;
+	ResourceList offer;
+	int receiver;
 	
 	public OfferTradeRequest(int playerIndex, ResourceList offer, int receiver)
 	{
 		super("offerTrade", playerIndex);
 		
-		_offer = offer;
-		_receiver = receiver;
+		this.offer = offer;
+		this.receiver = receiver;
 	}
 	
 	public ResourceList getOffer()
 	{
-		return _offer;
+		return offer;
 	}
 	
 	public int getReceiver()
 	{
-		return _receiver;
+		return receiver;
 	}
 }
