@@ -8,7 +8,7 @@ public class ResourceList {
 	private int wool;
 	private int ore;
 	
-	ResourceList(){}
+	public ResourceList(){}
 	
 
 	/**
@@ -18,7 +18,7 @@ public class ResourceList {
 	 * @param wool
 	 * @param ore
 	 */
-	ResourceList(int brick, int wood, int grain, int wool, int ore){
+	public ResourceList(int brick, int wood, int grain, int wool, int ore){
 		setBrick(brick);
 		setWood(wood);
 		setGrain(grain);

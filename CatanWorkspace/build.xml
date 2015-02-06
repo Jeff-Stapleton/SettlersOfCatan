@@ -82,7 +82,7 @@
 
   	<property name="java.dir" location="SettlersOfCatan"/>
 	<property name="java.src" location="${java.dir}/src"/>
-        <property name="java.test" location="${java.dir}/test"/>
+    <property name="java.test" location="${java.dir}/test"/>
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
@@ -139,6 +139,23 @@
 					value="lib/gson-2.2.4.jar" />
 			</manifest>
 		</jar>
+	</target>
+	
+	<target name="phase1test">
+		<junit printsummary="yes" haltonfailure="no" showoutput = "yes">
+			<classpath>
+				<pathelement location = "${java.dir}"/>
+				<pathelement location = "${java.test.comm.client}"/>
+				<pathelement path = "${java.dir}"/>
+			</classpath>
+		    
+		    <batchtest>
+				<fileset dir="SettlersOfCatan/src/shared">
+				<include name="**/*Test*" />
+				</fileset>
+			</batchtest>
+		</junit>
+	
 	</target>
 
 	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">

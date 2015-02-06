@@ -12,7 +12,7 @@ public class DevCardList {
 	
 	DevCardList(){}
 
-	DevCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty){
+	public DevCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty){
 		setMonopoly(monopoly);
 		setMonument(monument);
 		setRoadBuilding(roadBuilding);
