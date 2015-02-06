@@ -10,6 +10,15 @@ public class DevCardList {
 	private int soldier;
 	private int yearOfPlenty;
 	
+	DevCardList(){}
+
+	DevCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty){
+		setMonopoly(monopoly);
+		setMonument(monument);
+		setRoadBuilding(roadBuilding);
+		setSoldier(soldier);
+		setYearOfPlenty(yearOfPlenty);
+	}
 	
 	/**
 	 * @return
