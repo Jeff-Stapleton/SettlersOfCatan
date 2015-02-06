@@ -106,7 +106,7 @@ public class ServerProxy extends AbstractServerProxy
 	 */
 	@Override
 	public void userLogin(String user, String password) throws IOException
-	{        
+	{
 		String json = gson.toJson(new CredentialsRequest(user, password));
         
         HttpPost httpPost = new HttpPost(_server + "/user/login");
@@ -267,7 +267,8 @@ public class ServerProxy extends AbstractServerProxy
 		
 	}
 	
-	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>() {
+	ResponseHandler<CatanModel> gameModelHandler = new ResponseHandler<CatanModel>()
+	{
         public CatanModel handleResponse(final HttpResponse response) throws IOException
         {
 		    int status = response.getStatusLine().getStatusCode();
@@ -459,17 +460,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesSendChat(int playerIndex, String content) throws IOException
 	{
-		String jsonRequest = gson.toJson(new SendChatRequest(playerIndex, content));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new SendChatRequest(playerIndex, content));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/sendChat");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -482,17 +481,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesRollNumber(int playerIndex, int number) throws IOException
 	{
-		String jsonRequest = gson.toJson(new RollNumberRequest(playerIndex, number));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new RollNumberRequest(playerIndex, number));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/rollNumber");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -506,10 +503,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesRobPlayer(int playerIndex, int victimIndex, HexLocation location) throws IOException
 	{
-		String jsonRequest = gson.toJson(new RobPlayerRequest(playerIndex, victimIndex, location));
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+		String json = gson.toJson(new RobPlayerRequest(playerIndex, victimIndex, location));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/robPlayer");
+		if (null != getCookie())
+		{
+			httpPost.addHeader("Cookie", getCookie());
+		}
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 
 	/**
@@ -521,17 +523,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesFinishTurn(int playerIndex) throws IOException
 	{
-		String jsonRequest = gson.toJson(new FinishTurnRequest(playerIndex));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new FinishTurnRequest(playerIndex));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/finishTurn");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -543,17 +543,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesBuyDevCard(int playerIndex) throws IOException
 	{
-		String jsonRequest = gson.toJson(new BuyDevCardRequest(playerIndex));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new BuyDevCardRequest(playerIndex));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/buyDevCard");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -567,17 +565,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) throws IOException
 	{
-		String jsonRequest = gson.toJson(new YearOfPlentyRequest(playerIndex, resource1.toString(), resource2.toString()));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new YearOfPlentyRequest(playerIndex, resource1.toString(), resource2.toString()));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/Year_of_Plenty");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -591,17 +587,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) throws IOException
 	{
-		String jsonRequest = gson.toJson(new RoadBuildingRequest(playerIndex, spot1, spot2));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new RoadBuildingRequest(playerIndex, spot1, spot2));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/Road_Building");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -615,17 +609,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesSoldier(int playerIndex, int victimIndex, HexLocation location) throws IOException
 	{
-		String jsonRequest = gson.toJson(new SoldierRequest(playerIndex, victimIndex, location));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new SoldierRequest(playerIndex, victimIndex, location));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/Soldier");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -638,17 +630,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesMonopoly(int playerIndex, ResourceType resource) throws IOException
 	{
-		String jsonRequest = gson.toJson(new MonopolyRequest(playerIndex, resource.toString()));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new MonopolyRequest(playerIndex, resource.toString()));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/Monopoly");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -660,17 +650,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesMonument(int playerIndex) throws IOException
 	{
-		String jsonRequest = gson.toJson(new MonumentRequest(playerIndex));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new MonumentRequest(playerIndex));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/Monument");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -684,17 +672,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesBuildRoad(int playerIndex, EdgeLocation location, boolean free) throws IOException
 	{
-		String jsonRequest = gson.toJson(new BuildRoadRequest(playerIndex, location, free));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new BuildRoadRequest(playerIndex, location, free));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/buildRoad");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -708,17 +694,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesBuildSettlement(int playerIndex, VertexLocation location, boolean free) throws IOException
 	{
-		String jsonRequest = gson.toJson(new BuildSettlementRequest(playerIndex, location, free));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new BuildSettlementRequest(playerIndex, location, free));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/buildSettlement");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -732,17 +716,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesBuildCity(int playerIndex, VertexLocation location, boolean free) throws IOException
 	{
-		String jsonRequest = gson.toJson(new BuildCityRequest(playerIndex, location, free));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new BuildCityRequest(playerIndex, location, free));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/buildCity");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -754,17 +736,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesOfferTrade(TradeOffer offer) throws IOException
 	{
-		String jsonRequest = gson.toJson(offer);
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(offer);
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/offerTrade");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -777,17 +757,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesAcceptTrade(int playerIndex, boolean willAccept) throws IOException
 	{
-		String jsonRequest = gson.toJson(new AcceptTradeRequest(playerIndex, willAccept));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new AcceptTradeRequest(playerIndex, willAccept));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/acceptTrade");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
@@ -802,10 +780,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesMaritimeTrade(int playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource) throws IOException
 	{
-		String jsonRequest = gson.toJson(new MaritimeTradeRequest(playerIndex, ratio, inputResource.toString(), outputResource.toString()));
-
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+		String json = gson.toJson(new MaritimeTradeRequest(playerIndex, ratio, inputResource.toString(), outputResource.toString()));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/maritimeTrade");
+		if (null != getCookie())
+		{
+			httpPost.addHeader("Cookie", getCookie());
+		}
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 
 	/**
@@ -818,17 +801,15 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel movesDiscardCards(int playerIndex, ResourceList cards) throws IOException
 	{
-		String jsonRequest = gson.toJson(new DiscardCardsRequest(playerIndex, cards));
-
-		Map<String, String> headers = new HashMap<String, String>();
-		String cookie = getCookie();
-		if (null != cookie)
+		String json = gson.toJson(new DiscardCardsRequest(playerIndex, cards));
+        
+        HttpPost httpPost = new HttpPost(_server + "/moves/discardCards");
+		if (null != getCookie())
 		{
-			headers.put("Cookie", cookie);
+			httpPost.addHeader("Cookie", getCookie());
 		}
-		
-		String jsonResponse = "";
-		return gson.fromJson(jsonResponse, CatanModel.class);
+        httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
+		return _httpClient.execute(httpPost, gameModelHandler);
 	}
 	
 	/**
