@@ -2,8 +2,10 @@ package client.controller.map;
 
 import java.util.*;
 
+import shared.CatanModel;
 import shared.definitions.*;
 import shared.locations.*;
+import client.CatanGame;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.map.IMapView;
@@ -13,8 +15,9 @@ import client.view.map.IRobView;
 /**
  * Implementation for the map controller
  */
-public class MapController extends Controller implements IMapController {
+public class MapController extends Controller implements IMapController, Observer {
 	
+	private CatanModel catanModel;
 	private IRobView robView;
 	
 	public MapController(IMapView view, IRobView robView) {
@@ -166,6 +169,14 @@ public class MapController extends Controller implements IMapController {
 	
 	public void robPlayer(RobPlayerInfo victim) {	
 		
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof CatanGame) {
+			catanModel = ((CatanGame) obs).getModel();
+			//updateFromModel();
+		}
 	}
 	
 }

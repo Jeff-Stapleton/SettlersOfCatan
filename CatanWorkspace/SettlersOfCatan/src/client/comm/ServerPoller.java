@@ -2,7 +2,8 @@ package client.comm;
 
 import java.io.IOException;
 
-import shared.CatanGame;
+import client.CatanGame;
+
 import shared.CatanModel;
 
 /**

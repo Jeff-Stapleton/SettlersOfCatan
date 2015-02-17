@@ -1,6 +1,8 @@
-package shared;
+package client;
 
 import java.util.Observable;
+
+import shared.CatanModel;
 
 public class CatanGame extends Observable {
 	
@@ -24,6 +26,6 @@ public class CatanGame extends Observable {
 	{
 		this.model = model;
 		setChanged();
-		notifyObservers(model);
+		notifyObservers();
 	}	
 }
