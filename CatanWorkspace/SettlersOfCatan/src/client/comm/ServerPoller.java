@@ -30,7 +30,8 @@ public class ServerPoller extends Thread {
 	    	try
 	    	{
 		    	sleep(1000);
-	        	CatanModel model = _server.gameModel(-1/*_catanGame.getModel().getVesion()*/);
+		    	
+	        	CatanModel model = _server.gameModel(-1);
 	        	if (null != model)
 	        	{
 	        		_catanGame.setModel(model);

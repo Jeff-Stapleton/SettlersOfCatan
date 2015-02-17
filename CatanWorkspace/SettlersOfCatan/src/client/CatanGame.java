@@ -2,19 +2,22 @@ package client;
 
 import java.util.Observable;
 
+import client.comm.ServerProxy;
 import shared.CatanModel;
 
 public class CatanGame extends Observable {
 	
 	/** The log. */
+	private ServerProxy server;
 	private CatanModel model;
 	
 	/**
 	 * Instantiates a new Catan Game.
 	 */
-	private CatanGame() 
+	public CatanGame(ServerProxy gameServer, CatanModel initialModel) 
 	{
-		model = new CatanModel();
+		server = gameServer;
+		model = initialModel;
 	}
 	
 	public CatanModel getModel() 

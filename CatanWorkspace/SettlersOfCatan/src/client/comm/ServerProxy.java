@@ -349,7 +349,7 @@ public class ServerProxy extends AbstractServerProxy
 	@Override
 	public CatanModel gameModel(int version) throws IOException
 	{
-		HttpGet httpGet = new HttpGet(_server + "/game/model" + "?version=" + version);
+		HttpGet httpGet = new HttpGet(_server + "/game/model" + (version > 0 ? "?version=" + version : ""));
 		if (null != getCookie())
 		{
 			httpGet.addHeader("Cookie", getCookie());
