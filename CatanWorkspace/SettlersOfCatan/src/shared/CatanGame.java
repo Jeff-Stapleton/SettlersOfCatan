@@ -1,8 +1,8 @@
 package shared;
 
-import comm.client.*;
+import java.util.Observable;
 
-public class CatanGame {
+public class CatanGame extends Observable {
 	
 	/** The log. */
 	private CatanModel model;
@@ -23,5 +23,7 @@ public class CatanGame {
 	public void setModel(CatanModel model) 
 	{
 		this.model = model;
+		setChanged();
+		notifyObservers(model);
 	}	
 }
