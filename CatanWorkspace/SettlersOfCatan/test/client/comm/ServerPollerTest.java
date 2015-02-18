@@ -31,7 +31,7 @@ public class ServerPollerTest {
 		ServerPoller poller = new ServerPoller(server, game);
 		poller.start();
 		
-		Thread.sleep(10000);
+		Thread.sleep(3000);
 		
 		poller.close();
 		
