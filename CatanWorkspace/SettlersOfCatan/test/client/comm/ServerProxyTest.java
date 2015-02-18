@@ -179,7 +179,7 @@ public class ServerProxyTest
 	{
 		proxy.movesRollNumber(playerIndex, roll);
 		model = proxy.gameModel();
-		assertTrue(model.getTradeOffer() != null);
+		assertTrue(model.getTurnTracker() != null);
 	}
 	
 	public void testMovesRobPlayer() throws IOException
@@ -271,7 +271,7 @@ public class ServerProxyTest
 	{
 		proxy.movesAcceptTrade(1, true);
 		model = proxy.gameModel();
-		assertTrue(model.getTradeOffer() != null);
+		assertTrue(model.getTradeOffer() == null);
 	}
 	
 	public void testMovesMaritimeTrade() throws IOException
