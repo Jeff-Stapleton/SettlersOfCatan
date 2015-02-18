@@ -322,4 +322,31 @@ public class Player {
 		this.victoryPoints = victoryPoints;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("resources : ").append(resources.toString()).append(",\n");
+		string.append("oldDevCards : ").append(oldDevCards.toString()).append(",\n");
+		string.append("newDevCards : ").append(newDevCards.toString()).append(",\n");
+		string.append("roads : ").append(roads).append(",\n");
+		string.append("cities : ").append(cities).append(",\n");
+		string.append("settlements : ").append(settlements).append(",\n");
+		string.append("soldiers : ").append(soldiers).append(",\n");
+		string.append("victoryPoints : ").append(victoryPoints).append(",\n");
+		string.append("monuments : ").append(monuments).append(",\n");
+		string.append("playedDevCard : ").append(playedDevCard).append(",\n");
+		string.append("discarded : ").append(discarded).append(",\n");
+		string.append("playerID : ").append(playerID).append(",\n");
+		string.append("playerIndex : ").append(playerIndex).append(",\n");
+		string.append("name : ").append(name).append(",\n");
+		string.append("color : ").append(color).append(",\n");
+		string.append("name : ").append(name).append(",\n");
+		string.append("name : ").append(name).append(",\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
+	
 }

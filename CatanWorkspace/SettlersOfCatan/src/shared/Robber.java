@@ -1,34 +1,71 @@
 package shared;
-import java.util.ArrayList;
 
 import shared.locations.HexLocation;
 import shared.definitions.HexType;
 
-public class Robber {
-	private HexLocation location;
-	private HexType type;
-	private Integer number;
+public class Robber extends HexLocation {
+//	private HexLocation location;
+//	private HexType type;
+//	private Integer number;
 	
-	/*
-	 * This method gets the current location of the Robber
-	 * 
-	 * @Return the location of the robber
-	 */
-	public HexLocation getLocation()
+	public Robber()
 	{
-		return location;		
+		super(0, 0);
 	}
+	
+	public Robber(int x, int y)
+	{
+		super(x, y);
+	}
+	
+//	/*
+//	 * This method gets the current location of the Robber
+//	 * 
+//	 * @Return the location of the robber
+//	 */
+//	public HexLocation getLocation()
+//	{
+//		return location;		
+//	}
+//	
+//	/*
+//	 * This method changes the current location of the Robber
+//	 * 
+//	 * @Param HexLocation location
+//	 * 
+//	 * @Return void
+//	 */
+//	public void setLocation(HexLocation location)
+//	{
+//		this.location = location;
+//	}
 	
 	/*
 	 * This method changes the current location of the Robber
 	 * 
-	 * @Param HexLocation location
+	 * @Param x the x coordinate
+	 * @Param y the y coordinate
 	 * 
 	 * @Return void
 	 */
-	public void setLocation(HexLocation location)
+	public void setLocation(int x, int y)
 	{
-		this.location = location;
+		setX(x);
+		setY(y);
 	}
-
+	
+	@Override
+	public String toString() {
+		return "{\n"
+				+ "x : " + getX() + ",\n"
+				+ "y : " + getY() + "\n"
+				+ "}";
+//		return "{      (!should just have x and y!)\n"
+//				+ "location : " + location.toString() + ",\n"
+//				+ "type : " + type.toString() + ",\n"
+//				+ "number : " + number + ",\n"
+//				+ "}";
+//		
+		
+	}
 }

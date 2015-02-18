@@ -8,8 +8,8 @@ public class EdgeLocationRequest {
 	String direction;
 	
 	public EdgeLocationRequest(EdgeLocation roadLocation) {
-		x = roadLocation.getHexLoc().getX();
-		y = roadLocation.getHexLoc().getY();
+		x = roadLocation.getX();
+		y = roadLocation.getY();
 		direction = roadLocation.getDir().toString();
 	}
 	

@@ -12,6 +12,9 @@ import shared.definitions.PortType;
  */
 public class CatanModel {
 	
+	/** The deck. */
+	private DevCardList deck;
+	
 	/** The bank. */
 	private ResourceList bank;
 	
@@ -28,7 +31,7 @@ public class CatanModel {
 	private TradeOffer tradeOffer;
 	
 	/** The Players. */
-	private Player[] Players;
+	private Player[] players;
 	
 	/** The turn tracker. */
 	private TurnTracker turnTracker;
@@ -46,10 +49,29 @@ public class CatanModel {
 	 */
 	public CatanModel() 
 	{
+		deck = new DevCardList();
 		bank = new ResourceList();
 		chat = new MessageList();
 		map = new Map();
 		turnTracker = new TurnTracker();
+	}
+	
+	/**
+	 * Gets the deck.
+	 * 
+	 * @return the deck
+	 */
+	public DevCardList getDeck() {
+		return deck;
+	}
+	
+	/**
+	 * Sets the deck.
+	 * 
+	 * @param deck the new deck
+	 */
+	public void setDeck(DevCardList deck) {
+		this.deck = deck;
 	}
 
 	/**
@@ -148,7 +170,7 @@ public class CatanModel {
 	 * @return the players
 	 */
 	public Player[] getPlayers() {
-		return Players;
+		return players;
 	}
 
 	/**
@@ -157,7 +179,7 @@ public class CatanModel {
 	 * @param players the new players
 	 */
 	public void setPlayers(Player[] players) {
-		Players = players;
+		this.players = players;
 	}
 
 	/**
@@ -213,4 +235,30 @@ public class CatanModel {
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append(" (!deck is missing!) ");
+		string.append("deck : ").append(deck.toString()).append(",\n");
+		string.append("map : ").append(map.toString()).append(",\n");
+		
+		string.append("players : [\n");
+		for (Player p : players) {
+			string.append(p.toString()).append(",\n");
+		}
+		string.append("],\n");
+		
+		string.append("log : ").append(log.toString()).append(",\n");
+		string.append("chat : ").append(chat.toString()).append(",\n");
+		string.append("bank : ").append(bank.toString()).append(",\n");
+		string.append("turnTracker : ").append(turnTracker.toString()).append(",\n");
+		string.append("winner : ").append(winner).append(",\n");
+		string.append("version : ").append(version).append("\n");
+		
+		return string.toString();
+	}
+	
 }

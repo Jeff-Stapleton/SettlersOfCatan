@@ -25,6 +25,7 @@ public class Testing {
 	private Hex robberHex = new Hex(new HexLocation(0,0), HexType.SHEEP, 4);
 	private Robber robber = new Robber();
 	
+	@Before
 	public void SetUp1(){
 		turn.setStatus(TurnType.PLAYING);
 		turn.setCurrentTurn(0);
@@ -41,13 +42,13 @@ public class Testing {
 		bank.setOldDevCards(new DevCardList(5,5,5,5,5));
 		player0.setOldDevCards(new DevCardList(1,1,1,1,1));
 		
-		robber.setLocation(robberHex.getLocation());
+//		robber.setLocation(robberHex.getLocation());
+		robber.setLocation(0, 0);
 	}
 	
 	@Test
 	public void testCanOfferTrade(){
 		// Initial test to check if it can pass
-		SetUp1();
 		assertTrue(CanCan.canOfferTrade(player0, player1, turn, offer));
 		
 		// Receiver doesn't have required resources
@@ -69,7 +70,6 @@ public class Testing {
 	@Test
 	public void testCanBuyDevCard(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setResources(new ResourceList(0,0,1,1,1));
 		assertTrue(CanCan.canBuyDevCard(player0, bank.getOldDevCards()));
 		
@@ -81,7 +81,6 @@ public class Testing {
 	@Test
 	public void testCanUseYearOfPlenty(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setPlayedDevCard(false);
 		assertTrue(CanCan.canUseYearOfPlenty(player0));
 
@@ -98,7 +97,6 @@ public class Testing {
 	@Test
 	public void testCanUseRoadBuilder(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setPlayedDevCard(false);
 		assertTrue(CanCan.canUseRoadBuilder(player0));
 
@@ -114,7 +112,6 @@ public class Testing {
 	@Test
 	public void testCanUseSoldier(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setPlayedDevCard(false);
 		assertTrue(CanCan.canUseSoldier(player0));
 
@@ -130,7 +127,6 @@ public class Testing {
 	@Test
 	public void testCanUseMonopoly(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setPlayedDevCard(false);
 		assertTrue(CanCan.canUseMonopoly(player0));
 
@@ -146,7 +142,6 @@ public class Testing {
 	@Test
 	public void testCanUseMonument(){
 		// Initial test to check if it can pass
-		SetUp1();
 		player0.setPlayedDevCard(false);
 		assertTrue(CanCan.canUseMonument(player0));
 
@@ -162,7 +157,6 @@ public class Testing {
 	@Test
 	public void testCanPlaceRobber(){
 		// Initial test to check if it can pass
-		SetUp1();
 		assertTrue(CanCan.canPlaceRobber(new Hex(new HexLocation(1,0), HexType.ORE, 3), robber));
 		
 		// Try to move robber to same hex he is already on
@@ -178,7 +172,6 @@ public class Testing {
 	@Test
 	public void testCanDiscardCards(){
 		// Initial test to check if it can pass
-		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.DISCARDING);
 		player0.setDiscarded(false);
@@ -206,7 +199,6 @@ public class Testing {
 	@Test
 	public void testCanRollNumber(){
 		// Initial test to check if it can pass
-		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.ROLLING);
 		assertTrue(CanCan.canRollNumber(player0, turn));
@@ -225,7 +217,6 @@ public class Testing {
 	@Test
 	public void testCanFinishTurn(){
 		// Initial test to check if it can pass
-		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.PLAYING);
 		assertTrue(CanCan.canFinishTurn(player0, turn));

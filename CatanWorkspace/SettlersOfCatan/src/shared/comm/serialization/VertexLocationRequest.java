@@ -8,9 +8,9 @@ public class VertexLocationRequest {
 	String direction;
 	
 	public VertexLocationRequest(VertexLocation buildingLocation) {
-		x = buildingLocation.getHexLoc().getX();
-		y = buildingLocation.getHexLoc().getY();
-		direction = buildingLocation.getDir().toString();
+		x = buildingLocation.getX();
+		y = buildingLocation.getY();
+		direction = buildingLocation.getDirection().toString();
 	}
 	
 	public int getX()

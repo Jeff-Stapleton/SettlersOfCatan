@@ -198,7 +198,7 @@ public class ServerProxyTest
 	
 	public void testMovesRoadBuilding() throws IOException
 	{
-		proxy.movesRoadBuilding(0, new EdgeLocation(new HexLocation(1,0), EdgeDirection.South), new EdgeLocation(new HexLocation(1,1), EdgeDirection.SouthWest));
+		proxy.movesRoadBuilding(0, new EdgeLocation(1, 0, EdgeDirection.South), new EdgeLocation(1, 1, EdgeDirection.SouthWest));
 	}
 	
 	public void testMovesSoldier(int playerIndex) throws IOException
@@ -218,17 +218,17 @@ public class ServerProxyTest
 	
 	public void testMovesBuildRoad() throws IOException
 	{
-		proxy.movesBuildRoad(0, new EdgeLocation(new HexLocation(-1,1),EdgeDirection.SouthEast), true);
+		proxy.movesBuildRoad(0, new EdgeLocation(-1, 1,EdgeDirection.SouthEast), true);
 	}
 	
 	public void testMovesBuildSettlement() throws IOException
 	{
-		proxy.movesBuildSettlement(0, new VertexLocation(new HexLocation(0,2), VertexDirection.West), true);
+		proxy.movesBuildSettlement(0, new VertexLocation(0, 2, VertexDirection.West), true);
 	}
 	
 	public void testMovesBuildCity() throws IOException
 	{
-		proxy.movesBuildCity(0, new VertexLocation(new HexLocation(1,1), VertexDirection.West), true);
+		proxy.movesBuildCity(0, new VertexLocation(1, 1, VertexDirection.West), true);
 	}
 	
 	public void testMovesOfferTrade() throws IOException

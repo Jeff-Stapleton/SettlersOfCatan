@@ -157,4 +157,18 @@ public class TurnTracker
 		else 
 			currentTurn = 0;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("status : ").append(status.toString()).append(",\n");
+		string.append("currentTurn : ").append(currentTurn).append(",\n");
+		string.append("longestRoad : ").append(longestRoad).append(",\n");
+		string.append("largestArmy : ").append(largestArmy).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 }

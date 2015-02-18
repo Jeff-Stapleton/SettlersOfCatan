@@ -10,7 +10,7 @@ public class MessageLine
 	private String message;
 	
 	/** The source. */
-	private int source;
+	private String source;
 	
 	/**
 	 * Instantiates a new message line.
@@ -18,7 +18,7 @@ public class MessageLine
 	 * @param source the source
 	 * @param message the message
 	 */
-	public MessageLine(int source, String message) 
+	public MessageLine(String source, String message) 
 	{
 		this.source = source;
 		this.message = message;
@@ -39,7 +39,7 @@ public class MessageLine
 	 *
 	 * @return the source
 	 */
-	public int getSource()
+	public String getSource()
 	{
 		return source;
 	}
@@ -59,8 +59,20 @@ public class MessageLine
 	 *
 	 * @param source the new source
 	 */
-	public void setSource(int source)
+	public void setSource(String source)
 	{
 		this.source = source;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("source : ").append(source).append(",\n");
+		string.append("message : ").append(message).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
 	}
 }

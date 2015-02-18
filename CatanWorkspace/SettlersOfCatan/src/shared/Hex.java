@@ -12,13 +12,13 @@ public class Hex {
 	private HexLocation location;
 	
 	/** The type. */
-	private HexType type;
+	private HexType resource;
 	
 	/** The number. */
-	private int number;
+	private Integer number;
 	
 	/** The has robber. */
-	private Boolean hasRobber;
+	private transient Boolean hasRobber;
 	
 	/**
 	 * Instantiates a new hex.
@@ -27,10 +27,10 @@ public class Hex {
 	 * @param type the type
 	 * @param number the number
 	 */
-	public Hex(HexLocation location, HexType type, int number)
+	public Hex(HexLocation location, HexType type, Integer number)
 	{
 		this.location = location;
-		this.type = type;
+		this.resource = type;
 		this.number = number;
 		hasRobber = false;
 	}
@@ -58,17 +58,19 @@ public class Hex {
 	 * 
 	 * @Return the resource type
 	 */
-	public HexType getType() {
-		return type;
+	public HexType getResource() {
+		return resource;
 	}
 
 	/*
 	 * Set the resource type of the hex
 	 * 
+	 * @Param resource the resource to set the hex to
+	 * 
 	 * @Return void
 	 */
-	public void setType(HexType type) {
-		this.type = type;
+	public void setResource(HexType resource) {
+		this.resource = resource;
 	}
 
 	/*
@@ -76,7 +78,7 @@ public class Hex {
 	 * 
 	 * @Return the number
 	 */
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
@@ -85,7 +87,7 @@ public class Hex {
 	 * 
 	 * @Return void
 	 */
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 
@@ -126,5 +128,17 @@ public class Hex {
 			return false;
 		else 
 			return true;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("resource : ").append((resource == null ? "null" : resource.toString())).append(",\n");
+		string.append("location : ").append(location.toString()).append(",\n");
+		string.append("number : ").append(number).append("\n");
+		string.append("}");
+		
+		return string.toString();
 	}
 }

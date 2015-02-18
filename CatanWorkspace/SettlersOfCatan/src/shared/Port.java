@@ -91,4 +91,18 @@ public class Port {
 	public void setRatio(int ratio) {
 		this.ratio = ratio;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("ratio : ").append(ratio).append(",\n");
+		string.append("resource(!type! !missing when 'three'!) : ").append(type).append(",\n");
+		string.append("direction : ").append(direction).append(",\n");
+		string.append("location : ").append(location).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 }

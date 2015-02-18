@@ -326,14 +326,14 @@ public class MapComponent extends JComponent
 		// Compute edge points for the new hex
 		for (EdgeDirection edgeDir : EdgeDirection.values())
 		{
-			EdgeLocation edgeLoc = new EdgeLocation(hexLoc, edgeDir).getNormalizedLocation();
+			EdgeLocation edgeLoc = new EdgeLocation(hexLoc.getX(), hexLoc.getY(), edgeDir).getNormalizedLocation();
 			allEdgePoints.put(edgeLoc, getEdgePoint(edgeLoc));
 		}
 		
 		// Compute vertex points for the new hex
 		for (VertexDirection vertDir : VertexDirection.values())
 		{
-			VertexLocation vertLoc = new VertexLocation(hexLoc, vertDir).getNormalizedLocation();
+			VertexLocation vertLoc = new VertexLocation(hexLoc.getX(), hexLoc.getY(), vertDir).getNormalizedLocation();
 			allVertexPoints.put(vertLoc, getVertexPoint(vertLoc));
 		}
 		
@@ -779,7 +779,7 @@ public class MapComponent extends JComponent
 	private void
 			drawPort(Graphics2D g2, EdgeLocation edgeLoc, PortType portType)
 	{
-		Point2D imageLoc = getHexPoint(edgeLoc.getHexLoc());
+		Point2D imageLoc = getHexPoint(edgeLoc);
 		drawRotatedImage(g2, getPortImage(portType), imageLoc,
 						 getPortRotation(edgeLoc));
 	}
@@ -936,7 +936,7 @@ public class MapComponent extends JComponent
 		
 		EdgeLocation normEdgeLoc = edgeLoc.getNormalizedLocation();
 		
-		Point2D hexPoint = getHexPoint(normEdgeLoc.getHexLoc());
+		Point2D hexPoint = getHexPoint(normEdgeLoc);
 		
 		Point2D edgePoint = EDGE_POINTS.get(normEdgeLoc.getDir());
 		
@@ -948,9 +948,9 @@ public class MapComponent extends JComponent
 		
 		VertexLocation normVertLoc = vertLoc.getNormalizedLocation();
 		
-		Point2D hexPoint = getHexPoint(normVertLoc.getHexLoc());
+		Point2D hexPoint = getHexPoint(normVertLoc);
 		
-		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getDir());
+		Point2D vertPoint = VERTEX_POINTS.get(normVertLoc.getDirection());
 		
 		return add(hexPoint, vertPoint);
 	}

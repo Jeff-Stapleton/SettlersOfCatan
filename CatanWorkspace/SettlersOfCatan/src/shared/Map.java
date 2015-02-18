@@ -16,11 +16,11 @@ import shared.Robber;
 
 public class Map 
 {
-	private static Hex[] hexes;
-	private static List<Port> ports;
-	private static List<Road> roads;
-	private static List<Building> settlements;
-	private static List<Building> cities;
+	private Hex[] hexes;
+	private List<Port> ports;
+	private List<Road> roads;
+	private List<Building> settlements;
+	private List<Building> cities;
 	private Integer radius;
 	private Robber robber;	
 	
@@ -104,15 +104,16 @@ public class Map
 	 * 
 	 * @Return void
 	 */
-	public void moveRobber(HexLocation hexLocation)
+	public void moveRobber(int x, int y)//HexLocation hexLocation)
 	{
 		 for(int i = 0; i < 19; i++)
 			 if (getHexes()[i].hasRobber())
 				 getHexes()[i].takeRobber();
-			 else if (getHexes()[i].getLocation() == hexLocation)
+			 else if (getHexes()[i].getLocation().getX() == x//hexLocation)
+					 && getHexes()[i].getLocation().getY() == y)
 			 {
 				 getHexes()[i].giveRobber();
-				 robber.setLocation(hexLocation);
+				 robber.setLocation(x, y);//hexLocation);
 			 }
 	}
 	
@@ -252,7 +253,7 @@ public class Map
 		return players;*/
 	}
 
-	public static Hex[] getHexes() {
+	public Hex[] getHexes() {
 		return hexes;
 	}
 
@@ -260,7 +261,7 @@ public class Map
 		this.hexes = hexes;
 	}
 
-	public static List<Building> getSettlements() {
+	public List<Building> getSettlements() {
 		return settlements;
 	}
 
@@ -268,7 +269,7 @@ public class Map
 		this.settlements = settlements;
 	}
 
-	public static List<Building> getCities() {
+	public List<Building> getCities() {
 		return cities;
 	}
 
@@ -276,7 +277,7 @@ public class Map
 		this.cities = cities;
 	}
 
-	public static List<Road> getRoads() {
+	public List<Road> getRoads() {
 		return roads;
 	}
 
@@ -284,11 +285,54 @@ public class Map
 		this.roads = roads;
 	}
 
-	public static List<Port> getPorts() {
+	public List<Port> getPorts() {
 		return ports;
 	}
 
 	public void setPorts(List<Port> ports) {
-		Map.ports = ports;
+		this.ports = ports;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("radius : ").append(radius).append(",\n");
+		
+		string.append("robber : ").append(robber.toString()).append(",\n");
+		
+		string.append("hexes : [\n");
+		for (Hex h : hexes) {
+			string.append(h.toString()).append(",\n");
+		}
+		string.append("],\n");
+		
+		string.append("roads : [\n");
+		for(Road r : roads) {
+			string.append(r.toString()).append(",\n");
+		}
+		string.append("],\n");
+		
+		string.append("cities : [\n");
+		for(Building c : cities) {
+			string.append(c.toString()).append(",\n");
+		}
+		string.append("],\n");
+		
+		string.append("settlements : [\n");
+		for(Building s : settlements) {
+			string.append(s.toString()).append(",\n");
+		}
+		string.append("],\n");
+		
+		string.append("ports : [\n");
+		for(Port p : ports) {
+			string.append(p.toString()).append(",\n");
+		}
+		string.append("]\n");
+		
+		string.append("}");
+		
+		return string.toString();
 	}
 }

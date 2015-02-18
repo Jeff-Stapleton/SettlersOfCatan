@@ -10,21 +10,21 @@ import java.util.ArrayList;
 public class MessageList {
 	
 	/** The list of messages. */
-	ArrayList<MessageLine> listOfMessages;
+	ArrayList<MessageLine> lines;
 	
 	public MessageList()
 	{
-		listOfMessages = new ArrayList<MessageLine>();
+		lines = new ArrayList<MessageLine>();
 	}
 	
 	/**
 	 * Adds a message.
 	 *
-	 * @param newMessage the new message
+	 * @param newLine the new message
 	 */
-	public void addMessage(MessageLine newMessage)
+	public void addLine(MessageLine newLine)
 	{
-		listOfMessages.add(newMessage);
+		lines.add(newLine);
 	}
 	
 	/**
@@ -32,9 +32,9 @@ public class MessageList {
 	 *
 	 * @return the messages
 	 */
-	public ArrayList<MessageLine> getMessages()
+	public ArrayList<MessageLine> getLines()
 	{
-		return listOfMessages;
+		return lines;
 	}
 	
 	/**
@@ -42,9 +42,24 @@ public class MessageList {
 	 *
 	 * @param listOfMessages the new messages
 	 */
-	public void setMessages(ArrayList<MessageLine> listOfMessages)
+	public void setLines(ArrayList<MessageLine> lines)
 	{
-		this.listOfMessages = listOfMessages;
+		this.lines = lines;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("lines : [\n");
+		for (MessageLine ml : lines) {
+			string.append(ml.toString()).append(",\n");
+		}
+		string.append("]\n");
+		
+		string.append("}");
+		
+		return string.toString();
 	}
 
 }

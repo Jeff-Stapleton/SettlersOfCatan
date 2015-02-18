@@ -1,9 +1,9 @@
 ﻿<project name="Demo Server" default="server" basedir=".">
 
-	<!-- PROPERTIES -->
-	<!-- ********** -->
+    <!-- PROPERTIES -->
+    <!-- ********** -->
 
-	<!-- Directory paths for the java server, javascript, and dest dir for the student copy -->
+    <!-- Directory paths for the java server, javascript, and dest dir for the student copy -->
     <property name="port.arg" value="8081"/>
     <property name="web.arg" value="gameplay"/>
     <property name="options.arg" value="ug"/>
@@ -26,47 +26,47 @@
     <property name="server.jar.file" value="${demo.dir}/server.jar"/>
     <property name="client.jar.file" value="${demo.dir}/client.jar"/>
 
-	<!-- CLASSPATHS -->
-	<!-- ********** -->
+    <!-- CLASSPATHS -->
+    <!-- ********** -->
 
-	<path id="java.lib.classpath">
-		<fileset dir="${ta.lib.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
+    <path id="java.lib.classpath">
+        <fileset dir="${ta.lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
 
-	<!-- TARGETS -->
-	<!-- ******* -->
+    <!-- TARGETS -->
+    <!-- ******* -->
 
-	<target name="server" description="Runs the demo server">
-		<java jar="${server.jar.file}" fork="true" dir="${demo.dir}">
-			<arg value="${port.arg}"/>
-			<arg value="${web.arg}"/>
-			<arg value="${options.arg}"/>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-	</target>
+    <target name="server" description="Runs the demo server">
+        <java jar="${server.jar.file}" fork="true" dir="${demo.dir}">
+            <arg value="${port.arg}"/>
+            <arg value="${web.arg}"/>
+            <arg value="${options.arg}"/>
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
+    </target>
 
-	<target name="client" description="Runs the demo client">
-		<java jar="${client.jar.file}" fork="true" dir="${demo.dir}">
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-	</target>
+    <target name="client" description="Runs the demo client">
+        <java jar="${client.jar.file}" fork="true" dir="${demo.dir}">
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
+    </target>
 
     <target name="make-java-doc" description="Generate the Java docs">
         <echo> Making Java documentation </echo>
         <delete dir="${javadoc.dir}"/>
-		<javadoc destdir="${javadoc.dir}" Package="true">
-			<classpath refid="java.lib.classpath" />
-			<packageset dir="${ta.src.dir}">
-				<include name="client/**"/>
-				<include name="shared/**"/>
-			</packageset>
-		</javadoc>
+            <javadoc destdir="${javadoc.dir}" Package="true">
+                <classpath refid="java.lib.classpath" />
+                <packageset dir="${ta.src.dir}">
+                    <include name="client/**"/>
+                    <include name="shared/**"/>
+                </packageset>
+            </javadoc>
    </target>
 
     <!--
@@ -80,123 +80,164 @@
 	</target>
     -->
 
-  	<property name="java.dir" location="SettlersOfCatan"/>
-	<property name="java.src" location="${java.dir}/src"/>
+    <property name="java.dir" location="SettlersOfCatan"/>
+    <property name="java.src" location="${java.dir}/src"/>
     <property name="java.test" location="${java.dir}/test"/>
-	<property name="java.images" location="${java.dir}/images"/>
-	<property name="java.build" location="${java.dir}/build"/>
-	<property name="java.dist" location="${java.dir}/dist"/>
-	<property name="java.lib" location="${java.dir}/lib"/>
+    <property name="java.images" location="${java.dir}/images"/>
+    <property name="java.build" location="${java.dir}/build"/>
+    <property name="java.dist" location="${java.dir}/dist"/>
+    <property name="java.lib" location="${java.dir}/lib"/>
 
-	<target name="init" description="create build directories">
-		<tstamp/>
-		<mkdir dir="${java.build}"/>
-		<mkdir dir="${java.dist}"/>
-	</target>
+    <target name="init" description="create build directories">
+        <tstamp/>
+        <mkdir dir="${java.build}"/>
+        <mkdir dir="${java.dist}"/>
+    </target>
 
-	<target name="clean" description="clean build files" >
-		<delete dir="${java.build}"/>
-		<delete dir="${java.dist}"/>
-	</target>
+    <target name="clean" description="clean build files" >
+        <delete dir="${java.build}"/>
+        <delete dir="${java.dist}"/>
+    </target>
 
-	<target name="compile" depends="init" description="compile the source " >
-		<javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
-			<classpath refid="java.lib.classpath"/>
-                </javac>
+    <target name="compile" depends="init" description="compile the source " >
+        <javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
+            <classpath refid="java.lib.classpath"/>
+        </javac>
 
-                <javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
+        <javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
+            <classpath>
+                <path refid="java.lib.classpath"/>
+                <pathelement path="${java.build}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="package" depends="compile" description="package the jar file" >
+        <mkdir dir="${java.dist}/lib"/>
+        <copy todir="${java.dist}/lib">
+            <fileset dir="${java.lib}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${java.dist}/images"/>
+        <copy todir="${java.dist}/images">
+            <fileset dir="${java.images}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
+            <manifest>
+                <attribute name="Main-Class" value="client.main.Catan"/>
+                <attribute name="Class-Path"
+                        value="lib/gson-2.2.4.jar" />
+            </manifest>
+        </jar>
+        <jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
+            <manifest>
+                <attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
+                <attribute name="Class-Path"
+                        value="lib/gson-2.2.4.jar" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="phase1test">
+        <junit printsummary="yes" haltonfailure="no" showoutput = "yes">
+            <classpath>
+                <pathelement location = "${java.dir}"/>
+                <pathelement location = "${java.test.comm.client}"/>
+                <pathelement path = "${java.dir}"/>
+            </classpath>
+
+            <batchtest>
+                <fileset dir="SettlersOfCatan/src/shared">
+                <include name="**/*Test*" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="our-client" depends="package" description="compiles, packages, and runs the student client">
+        <java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
+            <sysproperty key="com.sun.management.jmxremote" value=""/>
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
+    </target>
+
+    <target name="our-server" depends="package" description="compiles, packages, and runs the student server">
+        <java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
+            <sysproperty key="com.sun.management.jmxremote" value=""/>
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
+    </target>
+
+    <target name="test-with-server" depends="package" description="run tests with a server">
+        <parallel>
+            <echo>Starting server daemon...</echo>
+            <daemons>
+                <antcall target="server"/>
+            </daemons>
+            <echo>Server started</echo>
+            <sequential>
+                <echo>Waiting for server...</echo>
+                <sleep seconds="4"/>
+                <junit fork="true" forkmode="once">
                     <classpath>
                         <path refid="java.lib.classpath"/>
                         <pathelement path="${java.build}"/>
                     </classpath>
-                </javac>
-	</target>
+                    <formatter type="plain" usefile="false"/>
+                    <batchtest fork="yes">
+                        <fileset dir="${java.test}" includes="${included-tests}"/>
+                    </batchtest>
+                </junit>
+            </sequential>
+        </parallel>
+    </target>
 
-	<target name="package" depends="compile" description="package the jar file" >
-		<mkdir dir="${java.dist}/lib"/>
-		<copy todir="${java.dist}/lib">
-			<fileset dir="${java.lib}">
-				<include name="**"/>
-			</fileset>
-		</copy>
-		<mkdir dir="${java.dist}/images"/>
-		<copy todir="${java.dist}/images">
-			<fileset dir="${java.images}">
-				<include name="**"/>
-			</fileset>
-		</copy>
- 		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
-			<manifest>
-				<attribute name="Main-Class" value="client.main.Catan"/>
-				<attribute name="Class-Path"
-					value="lib/gson-2.2.4.jar" />
-			</manifest>
-		</jar>
- 		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
-			<manifest>
-				<attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
-				<attribute name="Class-Path"
-					value="lib/gson-2.2.4.jar" />
-			</manifest>
-		</jar>
-	</target>
-	
-	<target name="phase1test">
-		<junit printsummary="yes" haltonfailure="no" showoutput = "yes">
-			<classpath>
-				<pathelement location = "${java.dir}"/>
-				<pathelement location = "${java.test.comm.client}"/>
-				<pathelement path = "${java.dir}"/>
-			</classpath>
-		    
-		    <batchtest>
-				<fileset dir="SettlersOfCatan/src/shared">
-				<include name="**/*Test*" />
-				</fileset>
-			</batchtest>
-		</junit>
-	
-	</target>
+    <target name="test-without-server" depends="package" description="run tests without a server">
+        <junit fork="true" forkmode="once">
+            <classpath>
+                <path refid="java.lib.classpath"/>
+                <pathelement path="${java.build}"/>
+            </classpath>
+            <formatter type="plain" usefile="false"/>
+            <batchtest fork="yes">
+                <fileSet dir="${java.test}" includes="${included-tests}"/>
+            </batchtest>
+        </junit>
+    </target>
 
-	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
-		<java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
-			<sysproperty key="com.sun.management.jmxremote" value=""/>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-	</target>
+    <target name="test-poller" depends="package" description="test the server poller">
+        <echo>--== Testing server pollser ==--</echo>
+        <antcall target="test-with-server">
+            <param name="included-tests" value="**/ServerPollerTest.java"/>
+        </antcall>
+    </target>
 
-	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
-		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
-			<sysproperty key="com.sun.management.jmxremote" value=""/>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
-        </target>
+    <target name="test-proxy" depends="package" description="test the server proxy">
+        <echo>--== Testing server proxy ==--</echo>
+        <antcall target="test-with-server">
+            <param name="included-tests" value="**/ServerProxyTest.java"/>
+        </antcall>
+    </target>
 
-        <target name="test-client-com" depends="package" description="tests our client with their server">
-            <parallel>
-                <daemons>
-                    <antcall target="server">
-                    </antcall>
-                </daemons>
-                <sequential>
-                    <sleep seconds="4"/>
-                    <junit fork="true" forkmode="once">
-                        <classpath>
-                            <path refid="java.lib.classpath"/>
-                            <pathelement path="${java.build}"/>
-                        </classpath>
-                        <formatter type="plain" usefile="false"/>
-                        <batchtest fork="yes">
-                            <fileset dir="${java.test}" includes="**/*Test*.java"/>
-                        </batchtest>
-                    </junit>
-                </sequential>
-            </parallel>
-        </target>
+    <target name="test-client" depends="package" description="test the client offline files">
+        <echo>--== Testing client offline files ==--</echo>
+        <antcall target="test-without-server">
+            <param name="included-tests" value="**/ClientTestSuite.java"/>
+        </antcall>
+    </target>
+
+    <target name="test" depends="package" description="run all unit tests">
+        <antcall target="test-poller"/>
+        <antcall target="test-proxy"/>
+        <antcall target="test-client"/>
+    </target>
 
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
         <zip destfile="./tester.zip" basedir="${java.dist}" />

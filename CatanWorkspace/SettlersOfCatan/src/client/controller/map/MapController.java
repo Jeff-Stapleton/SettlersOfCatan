@@ -55,14 +55,14 @@ public class MapController extends Controller implements IMapController, Observe
 				HexType hexType = HexType.values()[r];
 				HexLocation hexLoc = new HexLocation(x, y);
 				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
+				getView().placeRoad(new EdgeLocation(x, y, EdgeDirection.NorthWest),
 						CatanColor.RED);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
+				getView().placeRoad(new EdgeLocation(x, y, EdgeDirection.SouthWest),
 						CatanColor.BLUE);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
+				getView().placeRoad(new EdgeLocation(x, y, EdgeDirection.South),
 						CatanColor.ORANGE);
-				getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-				getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
+				getView().placeSettlement(new VertexLocation(x, y,  VertexDirection.NorthWest), CatanColor.GREEN);
+				getView().placeCity(new VertexLocation(x, y,  VertexDirection.NorthEast), CatanColor.PURPLE);
 			}
 			
 			if (x != 0) {
@@ -72,25 +72,25 @@ public class MapController extends Controller implements IMapController, Observe
 					HexType hexType = HexType.values()[r];
 					HexLocation hexLoc = new HexLocation(-x, y);
 					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
+					getView().placeRoad(new EdgeLocation(-x, y, EdgeDirection.NorthWest),
 							CatanColor.RED);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
+					getView().placeRoad(new EdgeLocation(-x, y, EdgeDirection.SouthWest),
 							CatanColor.BLUE);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
+					getView().placeRoad(new EdgeLocation(-x, y, EdgeDirection.South),
 							CatanColor.ORANGE);
-					getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-					getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
+					getView().placeSettlement(new VertexLocation(-x, y,  VertexDirection.NorthWest), CatanColor.GREEN);
+					getView().placeCity(new VertexLocation(-x, y,  VertexDirection.NorthEast), CatanColor.PURPLE);
 				}
 			}
 		}
 		
 		PortType portType = PortType.BRICK;
-		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
+		getView().addPort(new EdgeLocation(0, 3, EdgeDirection.North), portType);
+		getView().addPort(new EdgeLocation(0, -3, EdgeDirection.South), portType);
+		getView().addPort(new EdgeLocation(-3, 3, EdgeDirection.NorthEast), portType);
+		getView().addPort(new EdgeLocation(-3, 0, EdgeDirection.SouthEast), portType);
+		getView().addPort(new EdgeLocation(3, -3, EdgeDirection.SouthWest), portType);
+		getView().addPort(new EdgeLocation(3, 0, EdgeDirection.NorthWest), portType);
 		
 		getView().placeRobber(new HexLocation(0, 0));
 		

@@ -20,7 +20,7 @@ public class HexLocation
 		return x;
 	}
 	
-	private void setX(int x)
+	protected void setX(int x)
 	{
 		this.x = x;
 	}
@@ -30,7 +30,7 @@ public class HexLocation
 		return y;
 	}
 	
-	private void setY(int y)
+	protected void setY(int y)
 	{
 		this.y = y;
 	}
@@ -38,7 +38,10 @@ public class HexLocation
 	@Override
 	public String toString()
 	{
-		return "HexLocation [x=" + x + ", y=" + y + "]";
+		return "{\n"
+				+ "x : " + x + ",\n"
+				+ "y : " + y + "\n"
+				+ "}";
 	}
 	
 	@Override

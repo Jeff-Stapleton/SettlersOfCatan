@@ -46,5 +46,17 @@ public class Road {
 	public void setOwner(int owner) {
 		this.owner = owner;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("owner : ").append(owner).append(",\n");
+		string.append("location(!x&y not in obj!) : ").append(location.toString()).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 
 }

@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class DevCardList {
 
-	private int monopoly;
-	private int monument;
-	private int roadBuilding;
-	private int soldier;
-	private int yearOfPlenty;
+	private int monopoly = 0;
+	private int monument = 0;
+	private int roadBuilding = 0;
+	private int soldier = 0;
+	private int yearOfPlenty = 0;
 	
 	DevCardList(){}
 
@@ -135,6 +135,21 @@ public class DevCardList {
 	 */
 	public void setYearOfPlenty(int yearOfPlenty) {
 		this.yearOfPlenty = yearOfPlenty;
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("yearOfPlenty : ").append(yearOfPlenty).append(",\n");
+		string.append("monopoly : ").append(monopoly).append(",\n");
+		string.append("soldier : ").append(soldier).append(",\n");
+		string.append("roadBuilding : ").append(roadBuilding).append(",\n");
+		string.append("monument : ").append(monument).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 
 }

@@ -4,8 +4,8 @@ public class ResourceList {
 
 	private int brick;
 	private int wood;
-	private int grain;
-	private int wool;
+	private int wheat;
+	private int sheep;
 	private int ore;
 	
 	public ResourceList(){}
@@ -14,15 +14,15 @@ public class ResourceList {
 	/**
 	 * @param brick
 	 * @param wood
-	 * @param grain
-	 * @param wool
+	 * @param wheat
+	 * @param sheep
 	 * @param ore
 	 */
-	public ResourceList(int brick, int wood, int grain, int wool, int ore){
+	public ResourceList(int brick, int wood, int wheat, int sheep, int ore){
 		setBrick(brick);
 		setWood(wood);
-		setGrain(grain);
-		setWool(wool);
+		setWheat(wheat);
+		setSheep(sheep);
 		setOre(ore);
 	}
 	
@@ -35,27 +35,27 @@ public class ResourceList {
 	public static void moveResources(ResourceList sender, ResourceList receiver, ResourceList trade){
 		sender.setBrick(sender.getBrick() - trade.getBrick());
 		sender.setWood(sender.getWood() - trade.getWood());
-		sender.setGrain(sender.getGrain() - trade.getGrain());
-		sender.setWool(sender.getWool() - trade.getWool());
+		sender.setWheat(sender.getWheat() - trade.getWheat());
+		sender.setSheep(sender.getSheep() - trade.getSheep());
 		sender.setOre(sender.getOre() - trade.getOre());
 		
 		receiver.setBrick(receiver.getBrick() + trade.getBrick());
 		receiver.setWood(receiver.getWood() + trade.getWood());
-		receiver.setGrain(receiver.getGrain() + trade.getGrain());
-		receiver.setWool(receiver.getWool() + trade.getWool());
+		receiver.setWheat(receiver.getWheat() + trade.getWheat());
+		receiver.setSheep(receiver.getSheep() + trade.getSheep());
 		receiver.setOre(receiver.getOre() + trade.getOre());
 	}
 	
 	public static boolean hasResourcesCheck(ResourceList listInQuestion, ResourceList needed){
 		if (listInQuestion.getBrick() < needed.getBrick())
 			return false;
-		if (listInQuestion.getGrain() < needed.getGrain())
+		if (listInQuestion.getWheat() < needed.getWheat())
 			return false;
 		if (listInQuestion.getOre() < needed.getOre())
 			return false;
 		if (listInQuestion.getWood() < needed.getWood())
 			return false;
-		if (listInQuestion.getWool() < needed.getWool())
+		if (listInQuestion.getSheep() < needed.getSheep())
 			return false;
 				
 		return true;
@@ -64,10 +64,10 @@ public class ResourceList {
 	public static ResourceList invertResources(ResourceList list){
 		ResourceList newList = new ResourceList();
 		newList.setBrick(list.getBrick()*-1);
-		newList.setGrain(list.getGrain()*-1);
+		newList.setWheat(list.getWheat()*-1);
 		newList.setOre(list.getOre()*-1);
 		newList.setWood(list.getWood()*-1);
-		newList.setWool(list.getWool()*-1);
+		newList.setSheep(list.getSheep()*-1);
 		return newList;
 	}
 	
@@ -76,7 +76,7 @@ public class ResourceList {
 	 * @return
 	 */
 	public int totalCount(){
-		return getBrick()+getWood()+getGrain()+getWool()+getOre();
+		return getBrick()+getWood()+getWheat()+getSheep()+getOre();
 	}
 	
 	/**
@@ -108,32 +108,32 @@ public class ResourceList {
 		this.ore = ore;
 	}
 	/**
-	 * Get number of wool
+	 * Get number of sheep
 	 * @return
 	 */
-	public int getWool() {
-		return wool;
+	public int getSheep() {
+		return sheep;
 	}
 	/**
-	 * Set number of wool
-	 * @param wool
+	 * Set number of sheep
+	 * @param sheep
 	 */
-	public void setWool(int wool) {
-		this.wool = wool;
+	public void setSheep(int sheep) {
+		this.sheep = sheep;
 	}
 	/**
-	 * Get number of grain
+	 * Get number of wheat
 	 * @return
 	 */
-	public int getGrain() {
-		return grain;
+	public int getWheat() {
+		return wheat;
 	}
 	/**
-	 * Set number of grain
-	 * @param grain
+	 * Set number of wheat
+	 * @param wheat
 	 */
-	public void setGrain(int grain) {
-		this.grain = grain;
+	public void setWheat(int wheat) {
+		this.wheat = wheat;
 	}
 	/**
 	 * Get number of wood
@@ -150,6 +150,19 @@ public class ResourceList {
 		this.wood = wood;
 	}
 	
-	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("brick : ").append(brick).append(",\n");
+		string.append("wood : ").append(wood).append(",\n");
+		string.append("sheep : ").append(sheep).append(",\n");
+		string.append("wheat : ").append(wheat).append(",\n");
+		string.append("ore : ").append(ore).append(",\n");
+
+		string.append("}");
+		
+		return string.toString();
+	}
 	
 }
