@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import shared.comm.serialization.GameResponse;
 import shared.comm.serialization.PlayerResponse;
+import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
 import shared.definitions.CatanColor;
@@ -31,6 +32,7 @@ public class ServerProxyTest
 	
 	ServerProxy proxy;
 	Gson gson = new Gson();
+	CatanModel model = new CatanModel();
 
 	@Before
 	public void setUp() throws Exception
@@ -169,16 +171,22 @@ public class ServerProxyTest
 	public void testMovesSendChat() throws IOException
 	{
 		proxy.movesSendChat(0, "GUINEA PIGS");
+		model = proxy.gameModel();
+		assertTrue(model.getChat());
 	}
 	
 	public void testMovesRollNumber(int playerIndex, int roll) throws IOException
 	{
 		proxy.movesRollNumber(playerIndex, roll);
+		model = proxy.gameModel();
+		assertTrue(proxy.gameModel())
 	}
 	
 	public void testMovesRobPlayer() throws IOException
 	{
 		proxy.movesRobPlayer(0, 1, new HexLocation(-2, 0));
+		model = proxy.gameModel();
+		assertTrue(model.getMap())
 	}
 
 	public void testMovesFinishTurn(int playerIndex) throws IOException
@@ -204,6 +212,7 @@ public class ServerProxyTest
 	public void testMovesSoldier(int playerIndex) throws IOException
 	{
 		proxy.movesSoldier(playerIndex, 1, new HexLocation(-2, 1));
+		
 	}
 
 	public void testMovesMonopoly(int playerIndex) throws IOException

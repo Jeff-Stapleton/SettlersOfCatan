@@ -451,7 +451,7 @@ public class ServerProxy extends AbstractServerProxy
 	public CatanModel movesSendChat(int playerIndex, String content) throws IOException
 	{
 		String json = gson.toJson(new SendChatRequest(playerIndex, content));
-        
+		
         HttpPost httpPost = new HttpPost(_server + "/moves/sendChat");
 		if (null != getCookie())
 		{
@@ -460,6 +460,7 @@ public class ServerProxy extends AbstractServerProxy
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
 		return _httpClient.execute(httpPost, gameModelHandler);
 	}
+	
 	
 	/**
 	 * Roll a number on the dice and send it to the server
