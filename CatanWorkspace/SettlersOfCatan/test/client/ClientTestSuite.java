@@ -5,12 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import client.comm.Testing;
-import client.comm.Testing2;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	Testing.class,
-	Testing2.class
+	Testing.class
 })
 
 public class ClientTestSuite {
