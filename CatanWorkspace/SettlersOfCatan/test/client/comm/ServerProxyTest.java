@@ -179,84 +179,84 @@ public class ServerProxyTest
 	{
 		proxy.movesRollNumber(playerIndex, roll);
 		model = proxy.gameModel();
-		assertTrue(model.getTradeOffer());
+		assertTrue(model.getTradeOffer() != null);
 	}
 	
 	public void testMovesRobPlayer() throws IOException
 	{
 		proxy.movesRobPlayer(0, 1, new HexLocation(-2, 0));
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 
 	public void testMovesFinishTurn(int playerIndex) throws IOException
 	{
 		proxy.movesFinishTurn(playerIndex);
 		model = proxy.gameModel();
-		assertTrue(model.getTurnTracker());
+		assertTrue(model.getTurnTracker() != null);
 	}
 	
 	public void testMovesBuyDevCard(int playerIndex) throws IOException
 	{
 		proxy.movesBuyDevCard(playerIndex);
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 	
 	public void testMovesYearOfPlenty(int playerIndex) throws IOException
 	{
 		proxy.movesYearOfPlenty(playerIndex, ResourceType.BRICK, ResourceType.ORE);
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 	
 	public void testMovesRoadBuilding() throws IOException
 	{
 		proxy.movesRoadBuilding(0, new EdgeLocation(1, 0, EdgeDirection.South), new EdgeLocation(1, 1, EdgeDirection.SouthWest));
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 	
 	public void testMovesSoldier(int playerIndex) throws IOException
 	{
 		proxy.movesSoldier(playerIndex, 1, new HexLocation(-2, 1));
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 
 	public void testMovesMonopoly(int playerIndex) throws IOException
 	{
 		proxy.movesMonopoly(playerIndex, ResourceType.WOOD);
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 	
 	public void testMovesMonument(int playerIndex) throws IOException
 	{
 		proxy.movesMonument(playerIndex);
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 	
 	public void testMovesBuildRoad() throws IOException
 	{
 		proxy.movesBuildRoad(0, new EdgeLocation(-1, 1,EdgeDirection.SouthEast), true);
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 	
 	public void testMovesBuildSettlement() throws IOException
 	{
 		proxy.movesBuildSettlement(0, new VertexLocation(0, 2, VertexDirection.West), true);
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 	
 	public void testMovesBuildCity() throws IOException
 	{
 		proxy.movesBuildCity(0, new VertexLocation(1, 1, VertexDirection.West), true);
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 	
 	public void testMovesOfferTrade() throws IOException
@@ -264,28 +264,28 @@ public class ServerProxyTest
 		TradeOffer trade = new TradeOffer(0,new ResourceList(0,0,0,0,0),1);
 		proxy.movesOfferTrade(trade);
 		model = proxy.gameModel();
-		assertTrue(model.getTradeOffer());
+		assertTrue(model.getTradeOffer() != null);
 	}
 	
 	public void testMovesAcceptTrade() throws IOException
 	{
 		proxy.movesAcceptTrade(1, true);
 		model = proxy.gameModel();
-		assertTrue(model.getTradeOffer());
+		assertTrue(model.getTradeOffer() != null);
 	}
 	
 	public void testMovesMaritimeTrade() throws IOException
 	{
 		proxy.movesMaritimeTrade(0, 3, ResourceType.BRICK, ResourceType.WOOD);
 		model = proxy.gameModel();
-		assertTrue(model.getMap());
+		assertTrue(model.getMap() != null);
 	}
 
 	public void testMovesDiscardCards() throws IOException
 	{
 		proxy.movesDiscardCards(0, new ResourceList(0,0,-1,0,0));
 		model = proxy.gameModel();
-		assertTrue(model.getPlayers());
+		assertTrue(model.getPlayers() != null);
 	}
 	
 	public void testUtilChangeLogLevel() throws IOException
