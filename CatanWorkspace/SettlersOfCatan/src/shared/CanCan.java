@@ -174,13 +174,13 @@ public class CanCan {
 	 * Checks to see if a dev card can be bought by this player
 	 * @return
 	 */
-	public static boolean canBuyDevCard(Player player, DevCardList bank, TurnTracker turn){
+	public static boolean canBuyDevCard(Player player, DevCardList deck, TurnTracker turn){
 		// current players turn
 		if (turn.getCurrentTurn() == player.getPlayerIndex()){
 			// correct phase of the game
 			if (turn.getStatus() == TurnType.PLAYING){
 				if (player.getResources().getSheep() >= 1 && player.getResources().getWheat() >= 1 && player.getResources().getOre() >= 1)
-					if (bank.getTotal() > 0)
+					if (deck.getTotal() > 0)
 						return true;
 			}
 		}

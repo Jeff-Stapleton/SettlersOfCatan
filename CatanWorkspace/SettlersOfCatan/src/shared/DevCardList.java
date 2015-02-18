@@ -10,7 +10,7 @@ public class DevCardList {
 	private int soldier = 0;
 	private int yearOfPlenty = 0;
 	
-	DevCardList(){}
+	public DevCardList(){}
 
 	public DevCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty){
 		setMonopoly(monopoly);
