@@ -54,12 +54,12 @@ public class CanCan {
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() &&
-							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() + 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY()&&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() + 1 &&
 							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.South)
 						return newPorts.get(j);
@@ -77,7 +77,7 @@ public class CanCan {
 							newPorts.get(j).getDirection() == EdgeDirection.South)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
-							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+							newBuildings.get(i).getLocation().getHexLoc().getX() == newPorts.get(j).getLocation().getX() + 1 &&
 							newBuildings.get(i).getLocation().getHexLoc().getY() == newPorts.get(j).getLocation().getY() + 1 &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
@@ -412,6 +412,16 @@ public class CanCan {
 			}
 			else
 				return false;
+			
+			List<Road> newRoads = Map.getRoads();
+			
+			for (int i = 0; i < newRoads.size(); i++)
+			{
+				if (newRoads.get(i).getLocation().getDir() == edge.getDir() &&
+						newRoads.get(i).getLocation().getHexLoc().getX() == edge.getHexLoc().getX() &&
+						newRoads.get(i).getLocation().getHexLoc().getY() == edge.getHexLoc().getY())
+					return false;
+			}
 
 			//Water checks
 			if((edge.getHexLoc().getX() == -3 || edge.getHexLoc().getX() == 3) && edge.getDir() == EdgeDirection.South)
