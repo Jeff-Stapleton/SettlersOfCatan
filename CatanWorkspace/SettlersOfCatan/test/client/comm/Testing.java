@@ -49,6 +49,7 @@ public class Testing {
 	@Test
 	public void testCanOfferTrade(){
 		// Initial test to check if it can pass
+		SetUp1();
 		assertTrue(CanCan.canOfferTrade(player0, player1, turn, offer));
 		
 		// Receiver doesn't have required resources
@@ -65,131 +66,231 @@ public class Testing {
 		SetUp1();
 		turn.setStatus(TurnType.FIRST_ROUND);
 		assertFalse(CanCan.canOfferTrade(player0, player1, turn, offer));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canOfferTrade(player0, player1, turn, offer));
 	}
 	
 	@Test
-	public void testCanBuyDevCard(){
+	public void testCanBuyDevCard(){ 
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setResources(new ResourceList(0,0,1,1,1));
-		assertTrue(CanCan.canBuyDevCard(player0, bank.getOldDevCards()));
+		assertTrue(CanCan.canBuyDevCard(player0, bank.getOldDevCards(), turn));
 		
 		// insufficient resources
 		SetUp1();
-		assertFalse(CanCan.canBuyDevCard(player0, bank.getOldDevCards()));
+		player0.setResources(new ResourceList(0,0,0,0,0));
+		assertFalse(CanCan.canBuyDevCard(player0, bank.getOldDevCards(), turn));
+		
+		// Bank has no cards left to buy from
+		SetUp1();
+		bank.setOldDevCards(new DevCardList(0,0,0,0,0));
+		assertFalse(CanCan.canBuyDevCard(player0, bank.getOldDevCards(), turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canBuyDevCard(player0, bank.getOldDevCards(), turn));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canBuyDevCard(player0, bank.getOldDevCards(), turn));
 	}
 
 	@Test
 	public void testCanUseYearOfPlenty(){
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setPlayedDevCard(false);
-		assertTrue(CanCan.canUseYearOfPlenty(player0));
-
+		assertTrue(CanCan.canUseYearOfPlenty(player0, turn));
+		
 		// has already played a dev card
+		SetUp1();
 		player0.setPlayedDevCard(true);
-		assertFalse(CanCan.canUseYearOfPlenty(player0));
+		assertFalse(CanCan.canUseYearOfPlenty(player0, turn));
 		
-		// has the dev card to play
+		// doesn't have the dev card to play
+		SetUp1();
 		player0.setOldDevCards(new DevCardList(0,0,0,0,0));
-		assertFalse(CanCan.canUseYearOfPlenty(player0));
+		assertFalse(CanCan.canUseYearOfPlenty(player0, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseYearOfPlenty(player0, turn));
 		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canUseYearOfPlenty(player0, turn));		
 	}
 
 	@Test
 	public void testCanUseRoadBuilder(){
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setPlayedDevCard(false);
-		assertTrue(CanCan.canUseRoadBuilder(player0));
+		assertTrue(CanCan.canUseRoadBuilder(player0, turn));
 
 		// has already played a dev card
+		SetUp1();
 		player0.setPlayedDevCard(true);
-		assertFalse(CanCan.canUseRoadBuilder(player0));
+		assertFalse(CanCan.canUseRoadBuilder(player0, turn));
 		
-		// has the dev card to play
+		// doesn't have the dev card to play
+		SetUp1();
 		player0.setOldDevCards(new DevCardList(0,0,0,0,0));
-		assertFalse(CanCan.canUseRoadBuilder(player0));
+		assertFalse(CanCan.canUseRoadBuilder(player0, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseRoadBuilder(player0, turn));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canUseRoadBuilder(player0, turn));
 	}
 
 	@Test
 	public void testCanUseSoldier(){
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setPlayedDevCard(false);
-		assertTrue(CanCan.canUseSoldier(player0));
+		assertTrue(CanCan.canUseSoldier(player0, turn));
 
 		// has already played a dev card
+		SetUp1();
 		player0.setPlayedDevCard(true);
-		assertFalse(CanCan.canUseSoldier(player0));
+		assertFalse(CanCan.canUseSoldier(player0, turn));
 		
-		// has the dev card to play
+		// doesn't have the dev card to play
+		SetUp1();
 		player0.setOldDevCards(new DevCardList(0,0,0,0,0));
-		assertFalse(CanCan.canUseSoldier(player0));
+		assertFalse(CanCan.canUseSoldier(player0, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseSoldier(player0, turn));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canUseSoldier(player0, turn));
 	}
 
 	@Test
 	public void testCanUseMonopoly(){
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setPlayedDevCard(false);
-		assertTrue(CanCan.canUseMonopoly(player0));
+		assertTrue(CanCan.canUseMonopoly(player0, turn));
 
 		// has already played a dev card
+		SetUp1();
 		player0.setPlayedDevCard(true);
-		assertFalse(CanCan.canUseMonopoly(player0));
+		assertFalse(CanCan.canUseMonopoly(player0, turn));
 		
-		// has the dev card to play
+		// doesn't have the dev card to play
+		SetUp1();
 		player0.setOldDevCards(new DevCardList(0,0,0,0,0));
-		assertFalse(CanCan.canUseMonopoly(player0));
+		assertFalse(CanCan.canUseMonopoly(player0, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseMonopoly(player0, turn));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canUseMonopoly(player0, turn));
 	}
 
 	@Test
 	public void testCanUseMonument(){
 		// Initial test to check if it can pass
+		SetUp1();
 		player0.setPlayedDevCard(false);
-		assertTrue(CanCan.canUseMonument(player0));
+		assertTrue(CanCan.canUseMonument(player0, turn));
 
 		// has already played a dev card
+		SetUp1();
 		player0.setPlayedDevCard(true);
-		assertFalse(CanCan.canUseMonument(player0));
+		assertFalse(CanCan.canUseMonument(player0, turn));
 		
-		// has the dev card to play
+		// doesn't have the dev card to play
+		SetUp1();
 		player0.setOldDevCards(new DevCardList(0,0,0,0,0));
-		assertFalse(CanCan.canUseMonument(player0));
+		assertFalse(CanCan.canUseMonument(player0, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setCurrentTurn(1);
+		assertFalse(CanCan.canUseMonument(player0, turn));
+		
+		// Not the players turn
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseMonument(player0, turn));
 	}
 
 	@Test
 	public void testCanPlaceRobber(){
 		// Initial test to check if it can pass
-		assertTrue(CanCan.canPlaceRobber(new Hex(new HexLocation(1,0), HexType.ORE, 3), robber));
+		SetUp1();
+		turn.setStatus(TurnType.ROBBING);
+		assertTrue(CanCan.canPlaceRobber(new Hex(new HexLocation(1,0), HexType.ORE, 3), robber, turn));
+
+		// Incorrect phase of the game
+		SetUp1();
+		turn.setStatus(TurnType.ROLLING);
+		assertFalse(CanCan.canUseRoadBuilder(player0, turn));
 		
 		// Try to move robber to same hex he is already on
-		assertFalse(CanCan.canPlaceRobber(robberHex, robber));
+		SetUp1();
+		assertFalse(CanCan.canPlaceRobber(robberHex, robber, turn));
 
 		// Try to move robber to desert hex
-		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,0), HexType.DESERT, 0), robber));
+		SetUp1();
+		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,0), HexType.DESERT, 0), robber, turn));
 		
 		// Try to move robber to water hex
-		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,2), HexType.WATER, 0), robber));
+		SetUp1();
+		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,2), HexType.WATER, 0), robber, turn));
 	}
 
 	@Test
 	public void testCanDiscardCards(){
 		// Initial test to check if it can pass
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.DISCARDING);
 		player0.setDiscarded(false);
 		assertTrue(CanCan.canDiscardCards(player0, turn));
 		
 		// Not players turn
+		SetUp1();
 		turn.setCurrentTurn(1);
 		turn.setStatus(TurnType.DISCARDING);
 		player0.setDiscarded(false);
 		assertFalse(CanCan.canDiscardCards(player0, turn));
 
 		// Not discarding phase
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.PLAYING);
 		player0.setDiscarded(false);
 		assertFalse(CanCan.canDiscardCards(player0, turn));
 		
 		// Already discarded
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.DISCARDING);
 		player0.setDiscarded(true);
@@ -199,16 +300,19 @@ public class Testing {
 	@Test
 	public void testCanRollNumber(){
 		// Initial test to check if it can pass
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.ROLLING);
 		assertTrue(CanCan.canRollNumber(player0, turn));
 
 		// Not players turn
+		SetUp1();
 		turn.setCurrentTurn(1);
 		turn.setStatus(TurnType.ROLLING);
 		assertFalse(CanCan.canRollNumber(player0, turn));
 		
 		// Not rolling phase
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.PLAYING);
 		assertFalse(CanCan.canRollNumber(player0, turn));
@@ -217,16 +321,19 @@ public class Testing {
 	@Test
 	public void testCanFinishTurn(){
 		// Initial test to check if it can pass
+		SetUp1();
 		turn.setCurrentTurn(0);
 		turn.setStatus(TurnType.PLAYING);
 		assertTrue(CanCan.canFinishTurn(player0, turn));
 		
 		// Not players turn
+		SetUp1();
 		turn.setCurrentTurn(1);
 		turn.setStatus(TurnType.PLAYING);
 		assertFalse(CanCan.canFinishTurn(player0, turn));
 		
 		// Not playing phase
+		SetUp1();
 		turn.setCurrentTurn(1);
 		turn.setStatus(TurnType.ROBBING);
 		assertFalse(CanCan.canFinishTurn(player0, turn));

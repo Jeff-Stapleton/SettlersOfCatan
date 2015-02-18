@@ -174,61 +174,97 @@ public class CanCan {
 	 * Checks to see if a dev card can be bought by this player
 	 * @return
 	 */
-	public static boolean canBuyDevCard(Player player, DevCardList bank){
-		if (player.getResources().getSheep() >= 1 && player.getResources().getWheat() >= 1 && player.getResources().getOre() >= 1)
-			if (bank.getTotal() > 0)
-				return true;
+	public static boolean canBuyDevCard(Player player, DevCardList bank, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getResources().getSheep() >= 1 && player.getResources().getWheat() >= 1 && player.getResources().getOre() >= 1)
+					if (bank.getTotal() > 0)
+						return true;
+			}
+		}
 
 		return false;
 
 	}
 	
-	public static boolean canUseYearOfPlenty(Player player){
-		if (player.getOldDevCards().getYearOfPlenty() > 0){
-			if (player.hasPlayedDevCard()){
-				return false;
+	public static boolean canUseYearOfPlenty(Player player, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getOldDevCards().getYearOfPlenty() > 0){
+					if (player.hasPlayedDevCard()){
+						return false;
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 		return false;
 	}
 	
-	public static boolean canUseRoadBuilder(Player player){
-		if (player.getOldDevCards().getRoadBuilding() > 0){
-			if (player.hasPlayedDevCard()){
-				return false;
+	public static boolean canUseRoadBuilder(Player player, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getOldDevCards().getRoadBuilding() > 0){
+					if (player.hasPlayedDevCard()){
+						return false;
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 		return false;
 	}
 	
-	public static boolean canUseSoldier(Player player){
-		if (player.getOldDevCards().getSoldier() > 0){
-			if (player.hasPlayedDevCard()){
-				return false;
+	public static boolean canUseSoldier(Player player, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getOldDevCards().getSoldier() > 0){
+					if (player.hasPlayedDevCard()){
+						return false;
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 		return false;
 	}
 	
-	public static boolean canUseMonopoly(Player player){
-		if (player.getOldDevCards().getMonopoly() > 0){
-			if (player.hasPlayedDevCard()){
-				return false;
+	public static boolean canUseMonopoly(Player player, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getOldDevCards().getMonopoly() > 0){
+					if (player.hasPlayedDevCard()){
+						return false;
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 		return false;
 	}
 	
-	public static boolean canUseMonument(Player player){
-		if (player.getOldDevCards().getMonument() > 0){
-			if (player.hasPlayedDevCard()){
-				return false;
+	public static boolean canUseMonument(Player player, TurnTracker turn){
+		// current players turn
+		if (turn.getCurrentTurn() == player.getPlayerIndex()){
+			// correct phase of the game
+			if (turn.getStatus() == TurnType.PLAYING){
+				if (player.getOldDevCards().getMonument() > 0){
+					if (player.hasPlayedDevCard()){
+						return false;
+					}
+					return true;
+				}
 			}
-			return true;
 		}
 		return false;
 	}
@@ -479,21 +515,24 @@ public class CanCan {
 		// Needs a settlement or road adjacent
 	}
 	
-	public static boolean canPlaceRobber(Hex location, Robber robber){
-		if (robber.getX() == location.getLocation().getX() &&
-			robber.getY() == location.getLocation().getY()){
-			// Robber must be moved from its location
-			return false;
+	public static boolean canPlaceRobber(Hex location, Robber robber, TurnTracker turn){
+		if (turn.getStatus() == TurnType.ROBBING){
+			if (robber.getX() == location.getLocation().getX() &&
+				robber.getY() == location.getLocation().getY()){
+				// Robber must be moved from its location
+				return false;
+			}
+			if (location.getResource() == HexType.DESERT){
+				// Robber cannot be placed on the Desert
+				return false;
+			}
+			if (location.getResource() == HexType.WATER){
+				// Robber cannot be placed on water
+				return false;
+			}
+			return true;	
 		}
-		if (location.getResource() == HexType.DESERT){
-			// Robber cannot be placed on the Desert
-			return false;
-		}
-		if (location.getResource() == HexType.WATER){
-			// Robber cannot be placed on water
-			return false;
-		}
-		return true;		
+		return false;
 	}
 	
 	public static boolean canDiscardCards(Player player, TurnTracker turn){
