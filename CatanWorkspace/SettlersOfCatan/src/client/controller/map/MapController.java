@@ -20,13 +20,13 @@ public class MapController extends Controller implements IMapController, Observe
 	private CatanModel catanModel;
 	private IRobView robView;
 	
-	public MapController(IMapView view, IRobView robView) {
+	public MapController(IMapView view, IRobView robView, CatanGame catanGame) {
 		
 		super(view);
 		
 		setRobView(robView);
 		
-		//initFromModel();
+		initFromModel(catanGame.getModel());
 	}
 	
 	public IMapView getView() {
@@ -41,11 +41,9 @@ public class MapController extends Controller implements IMapController, Observe
 		this.robView = robView;
 	}
 	
-	protected void updateFromModel(Observable obs, Object obj)
+	protected void updateFromModel()
 	{
-		if (obs instanceof CatanGame) 
-			catanModel = ((CatanGame) obs).getModel();
-		
+
 		
 		for (int i = 0; i < catanModel.getMap().getRoads().size(); i++)
 			for (int j = 0; j < catanModel.getPlayers().length; j++)
@@ -67,26 +65,22 @@ public class MapController extends Controller implements IMapController, Observe
 		
 	}
 	
-	protected void initFromModel(Observable obs, Object obj) 
+	protected void initFromModel(CatanModel initCatanModel) 
 	{
-		//initFromModel gets the catanModel, adds the hexes, numbers, and ports
-		
-		if (obs instanceof CatanGame) 
-			catanModel = ((CatanGame) obs).getModel();
+		//initFromModel gets the initCatanModel, adds the hexes, numbers, and ports
 			
-		for (int i = 0; i < catanModel.getMap().getHexes().length; i++)
+		for (int i = 0; i < initCatanModel.getMap().getHexes().length; i++)
 		{
-			getView().addHex(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getResource());
-			getView().addNumber(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getNumber());
+			getView().addHex(initCatanModel.getMap().getHexes()[i].getLocation(), initCatanModel.getMap().getHexes()[i].getResource());
+			getView().addNumber(initCatanModel.getMap().getHexes()[i].getLocation(), initCatanModel.getMap().getHexes()[i].getNumber());
 			
-			if (catanModel.getMap().getHexes()[i].getResource() == HexType.DESERT)
-				getView().placeRobber(catanModel.getMap().getHexes()[i].getLocation());
+			if (initCatanModel.getMap().getHexes()[i].getResource() == HexType.DESERT)
+				getView().placeRobber(initCatanModel.getMap().getHexes()[i].getLocation());
 				
 		}
 		
-		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
-			//getView().addPort(new EdgeLocation(new HexLocation()), portType);
-			getView().addPort(new EdgeLocation(catanModel.getMap().getPorts().get(i).getLocation().getX(), catanModel.getMap().getPorts().get(i).getLocation().getY(), catanModel.getMap().getPorts().get(i).getDirection()), catanModel.getMap().getPorts().get(i).getType());
+		for (int i = 0; i < initCatanModel.getMap().getPorts().size(); i++)
+			getView().addPort(new EdgeLocation(initCatanModel.getMap().getPorts().get(i).getLocation().getX(), initCatanModel.getMap().getPorts().get(i).getLocation().getY(), initCatanModel.getMap().getPorts().get(i).getDirection()), initCatanModel.getMap().getPorts().get(i).getType());
 			
 			/*
 			int maxY = 3 - x;			
@@ -215,7 +209,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void update(Observable obs, Object obj) {
 		if (obs instanceof CatanGame) {
 			catanModel = ((CatanGame) obs).getModel();
-			//updateFromModel();
+			updateFromModel();
 		}
 	}
 	
