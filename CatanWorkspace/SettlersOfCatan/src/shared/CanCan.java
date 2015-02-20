@@ -51,17 +51,17 @@ public class CanCan {
 					if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.SouthWest)
+							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY()&&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.SouthEast)
+							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.South)
+							newPorts.get(j).getDirection() == EdgeDirection.South)
 						return newPorts.get(j);
 				}
 				else if (newBuildings.get(i).getLocation().getDirection() == VertexDirection.SouthWest)
@@ -69,17 +69,17 @@ public class CanCan {
 					if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.SouthWest)
+							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.South)
+							newPorts.get(j).getDirection() == EdgeDirection.South)
 						return newPorts.get(j);
 					else if (newBuildings.get(i).getOwner() == player.getPlayerIndex() && 
 							newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
-							newPorts.get(j).getLocation().getDir() == EdgeDirection.SouthEast)
+							newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 						return newPorts.get(j);
 				}
 			}

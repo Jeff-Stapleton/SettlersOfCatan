@@ -85,7 +85,8 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		
 		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
-			getView().addPort(catanModel.getMap().getPorts().get(i).getLocation(), catanModel.getMap().getPorts().get(i).getType());
+			//getView().addPort(new EdgeLocation(new HexLocation()), portType);
+			getView().addPort(new EdgeLocation(catanModel.getMap().getPorts().get(i).getLocation().getX(), catanModel.getMap().getPorts().get(i).getLocation().getY(), catanModel.getMap().getPorts().get(i).getDirection()), catanModel.getMap().getPorts().get(i).getType());
 			
 			/*
 			int maxY = 3 - x;			
