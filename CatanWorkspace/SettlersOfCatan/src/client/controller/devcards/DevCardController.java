@@ -1,15 +1,23 @@
 package client.controller.devcards;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import shared.CanCan;
+import shared.CatanModel;
+import shared.Player;
 import shared.definitions.ResourceType;
+import client.CatanGame;
 import client.view.base.*;
 import client.view.devcards.IBuyDevCardView;
 import client.view.devcards.IPlayDevCardView;
+import client.view.resources.ResourceBarElement;
 
 
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController {
+public class DevCardController extends Controller implements IDevCardController, Observer {
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
@@ -95,6 +103,11 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
+		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
 		
 	}
 

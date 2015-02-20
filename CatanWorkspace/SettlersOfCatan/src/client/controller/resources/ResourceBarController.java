@@ -2,6 +2,10 @@ package client.controller.resources;
 
 import java.util.*;
 
+import shared.CanCan;
+import shared.CatanModel;
+import shared.Player;
+import client.CatanGame;
 import client.view.base.*;
 import client.view.resources.IResourceBarView;
 import client.view.resources.ResourceBarElement;
@@ -10,7 +14,7 @@ import client.view.resources.ResourceBarElement;
 /**
  * Implementation for the resource bar controller
  */
-public class ResourceBarController extends Controller implements IResourceBarController {
+public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
 	
@@ -69,6 +73,26 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			IAction action = elementActions.get(element);
 			action.execute();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		if (o instanceof CatanGame)
+		{
+			CatanModel model = ((CatanGame) o).getModel();
+			Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerID()];
+			// Check for enable disable DevCard Button
+			if (CanCan.canBuyDevCard(thisPlayer, model.getDeck(), model.getTurnTracker()))
+			{
+				getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
+			}
+			else
+			{
+				getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+			}
+		}
+		
 	}
 
 }

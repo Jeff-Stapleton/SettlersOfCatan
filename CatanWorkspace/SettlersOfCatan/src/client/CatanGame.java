@@ -30,5 +30,10 @@ public class CatanGame extends Observable {
 		this.model = model;
 		setChanged();
 		notifyObservers();
-	}	
+	}
+	
+	public int getPlayerID()
+	{
+		return 0;
+	}
 }
