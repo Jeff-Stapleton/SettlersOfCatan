@@ -1,9 +1,11 @@
 package shared;
 
+import shared.definitions.CatanColor;
+
 public class Player {
 
 	private int cities;
-	private String color;
+	private CatanColor color;
 	private boolean discarded;
 	private int monuments;
 	private String name;
@@ -98,7 +100,7 @@ public class Player {
 	 * Gets player color
 	 * @return
 	 */
-	public String getColor() {
+	public CatanColor getColor() {
 		return color;
 	}
 
@@ -106,7 +108,7 @@ public class Player {
 	 * Sets player color
 	 * @param color
 	 */
-	public void setColor(String color) {
+	public void setColor(CatanColor color) {
 		this.color = color;
 	}
 
@@ -348,5 +350,6 @@ public class Player {
 		
 		return string.toString();
 	}
+	
 	
 }

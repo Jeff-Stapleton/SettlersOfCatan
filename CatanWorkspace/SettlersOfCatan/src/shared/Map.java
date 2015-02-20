@@ -104,16 +104,15 @@ public class Map
 	 * 
 	 * @Return void
 	 */
-	public void moveRobber(int x, int y)//HexLocation hexLocation)
+	public void moveRobber(HexLocation hexLocation)
 	{
 		 for(int i = 0; i < 19; i++)
 			 if (getHexes()[i].hasRobber())
 				 getHexes()[i].takeRobber();
-			 else if (getHexes()[i].getLocation().getX() == x//hexLocation)
-					 && getHexes()[i].getLocation().getY() == y)
+			 else if (getHexes()[i].getLocation() == hexLocation)
 			 {
 				 getHexes()[i].giveRobber();
-				 robber.setLocation(x, y);//hexLocation);
+				 robber.setLocation(hexLocation.getX(), hexLocation.getY());
 			 }
 	}
 	
@@ -284,6 +283,15 @@ public class Map
 	public void setRoads(List<Road> roads) {
 		this.roads = roads;
 	}
+	
+	public void setRobber(HexLocation hexloc){
+		robber.setLocation(hexloc.getX(), hexloc.getY());
+		
+	}
+	
+	public Robber getRobber(){
+		return robber;
+	}
 
 	public List<Port> getPorts() {
 		return ports;
@@ -292,6 +300,7 @@ public class Map
 	public void setPorts(List<Port> ports) {
 		this.ports = ports;
 	}
+	
 	
 	@Override
 	public String toString() {
