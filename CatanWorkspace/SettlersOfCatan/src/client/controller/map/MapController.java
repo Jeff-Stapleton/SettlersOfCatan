@@ -3,7 +3,12 @@ package client.controller.map;
 import java.io.IOException;
 import java.util.*;
 
+import shared.CanCan;
 import shared.CatanModel;
+import shared.Hex;
+import shared.Map;
+import shared.Player;
+import shared.TurnTracker;
 import shared.definitions.*;
 import shared.locations.*;
 import client.CatanGame;
@@ -21,19 +26,18 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	private CatanModel catanModel;
 	private IRobView robView;
+	private IServerProxy serverProxy;
+	private boolean playingRoadBuildingCard;
 	
 	public MapController(IServerProxy serverProxy, IMapView view, IRobView robView) {
-		
 		super(view);
 		
 		setRobView(robView);
+		this.serverProxy = serverProxy;
 		
-		try {
-			initFromModel(serverProxy.gameModel(-1));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		initFromModel(null /*catanGame.getModel()*/);
+
+		playingRoadBuildingCard = false;
 	}
 	
 	public IMapView getView() {
@@ -149,27 +153,33 @@ public class MapController extends Controller implements IMapController, Observe
 		//</temp>*/
 	}
 
-	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+	public boolean canPlaceRoad(EdgeLocation edgeLoc) 
+	{
+		return CanCan.canBuildRoad(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		
-		return true;
+		return CanCan.canBuildSettlement(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		
-		return true;
+		return CanCan.canBuildCity(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
+		Hex robberHex = null;
 		
-		return true;
+		for (int i = 0; i < catanModel.getMap().getHexes().length; i++)
+			if (hexLoc.getX() == catanModel.getMap().getHexes()[i].getLocation().getX() && hexLoc.getY() == catanModel.getMap().getHexes()[i].getLocation().getY())
+				robberHex = catanModel.getMap().getHexes()[i];
+		
+		return CanCan.canPlaceRobber(robberHex, catanModel.getMap().getRobber(), catanModel.getTurnTracker());
 	}
 
-	public void placeRoad(EdgeLocation edgeLoc) {
+	public void placeRoad(EdgeLocation edgeLoc) 
+	{
 		
 		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
 	}
@@ -187,29 +197,33 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeRobber(HexLocation hexLoc) {
 		
 		getView().placeRobber(hexLoc);
-		
+	
 		getRobView().showModal();
 	}
 	
-	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-		
+	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
+	{	
 		getView().startDrop(pieceType, CatanColor.ORANGE, true);
 	}
 	
-	public void cancelMove() {
+	public void cancelMove() 
+	{
 		
 	}
 	
-	public void playSoldierCard() {	
+	public void playSoldierCard() 
+	{	
 		
 	}
 	
-	public void playRoadBuildingCard() {	
+	public void playRoadBuildingCard() 
+	{	
 		
 	}
 	
-	public void robPlayer(RobPlayerInfo victim) {	
-		
+	public void robPlayer(RobPlayerInfo victim) 
+	{
+
 	}
 
 	@Override
