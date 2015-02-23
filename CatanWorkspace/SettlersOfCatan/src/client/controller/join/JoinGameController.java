@@ -1,6 +1,7 @@
 package client.controller.join;
 
 import shared.definitions.CatanColor;
+import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.join.IJoinGameView;
@@ -27,7 +28,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 * @param selectColorView Select color view
 	 * @param messageView Message view (used to display error messages that occur while the user is joining a game)
 	 */
-	public JoinGameController(IJoinGameView view, INewGameView newGameView, 
+	public JoinGameController(IServerProxy serverProxy, IJoinGameView view, INewGameView newGameView, 
 								ISelectColorView selectColorView, IMessageView messageView) {
 
 		super(view);
@@ -36,7 +37,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
 	}
-	
+
 	public IJoinGameView getJoinGameView() {
 		
 		return (IJoinGameView)super.getView();

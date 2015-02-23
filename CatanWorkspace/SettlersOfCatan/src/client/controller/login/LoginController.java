@@ -29,8 +29,8 @@ public class LoginController extends Controller implements ILoginController {
 	 * @param view Login view
 	 * @param messageView Message view (used to display error messages that occur during the login process)
 	 */
-	public LoginController(ILoginView view, IMessageView messageView, IServerProxy serverProxy) {
-
+	public LoginController(IServerProxy serverProxy, ILoginView view,
+			IMessageView messageView) {
 		super(view);
 		
 		this.messageView = messageView;

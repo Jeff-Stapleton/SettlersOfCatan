@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import shared.definitions.ResourceType;
+import client.comm.IServerProxy;
 import client.controller.discard.DiscardController;
 import client.controller.roll.RollController;
 import client.view.discard.DiscardView;
@@ -31,12 +32,12 @@ public class CatanPanel extends JPanel
 	private RollResultView rollResultView;
 	private RollController rollController;
 	
-	public CatanPanel()
+	public CatanPanel(IServerProxy serverProxy)
 	{
 		this.setLayout(new BorderLayout());
 		
 		titlePanel = new TitlePanel();
-		midPanel = new MidPanel();
+		midPanel = new MidPanel(serverProxy);
 		leftPanel = new LeftPanel(titlePanel, midPanel.getGameStatePanel());
 		rightPanel = new RightPanel(midPanel.getMapController());
 		

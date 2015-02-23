@@ -1,5 +1,6 @@
 package client.controller.join;
 
+import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.join.IPlayerWaitingView;
 
@@ -9,9 +10,9 @@ import client.view.join.IPlayerWaitingView;
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
 
-	public PlayerWaitingController(IPlayerWaitingView view) {
-
+	public PlayerWaitingController(IServerProxy serverProxy, IPlayerWaitingView view) {
 		super(view);
+		
 	}
 
 	@Override

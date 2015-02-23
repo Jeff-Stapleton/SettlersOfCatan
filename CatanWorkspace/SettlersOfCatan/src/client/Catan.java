@@ -2,14 +2,20 @@ package client;
 
 import javax.swing.*;
 
+import client.comm.IServerProxy;
+import client.comm.ServerProxy;
 import client.controller.join.JoinGameController;
 import client.controller.join.PlayerWaitingController;
 import client.controller.login.LoginController;
-import client.view.base.*;
+import client.view.base.IAction;
+import client.view.base.OverlayView;
 import client.view.catan.CatanPanel;
-import client.view.join.*;
-import client.view.login.*;
-import client.view.misc.*;
+import client.view.join.JoinGameView;
+import client.view.join.NewGameView;
+import client.view.join.PlayerWaitingView;
+import client.view.join.SelectColorView;
+import client.view.login.LoginView;
+import client.view.misc.MessageView;
 
 /**
  * Main entry point for the Catan program
@@ -20,15 +26,15 @@ public class Catan extends JFrame
 	
 	private CatanPanel catanPanel;
 	
-	public Catan()
+	public Catan(IServerProxy serverProxy)
 	{
 		
-		client.view.base.OverlayView.setWindow(this);
+		OverlayView.setWindow(this);
 		
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		catanPanel = new CatanPanel();
+		catanPanel = new CatanPanel(serverProxy);
 		this.setContentPane(catanPanel);
 		
 		display();
@@ -46,6 +52,10 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
+		// TODO Parse args to get server and port
+		final String server = "localhost";
+		final int port = 8081;
+		
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -58,10 +68,12 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				new Catan();
+				ServerProxy serverProxy = new ServerProxy("http://" + server + ":" + port);
+				
+				new Catan(serverProxy);
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(serverProxy,
 																									playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
@@ -69,7 +81,7 @@ public class Catan extends JFrame
 				NewGameView newGameView = new NewGameView();
 				SelectColorView selectColorView = new SelectColorView();
 				MessageView joinMessageView = new MessageView();
-				final JoinGameController joinController = new JoinGameController(
+				final JoinGameController joinController = new JoinGameController(serverProxy,
 																				 joinView,
 																				 newGameView,
 																				 selectColorView,
@@ -88,7 +100,7 @@ public class Catan extends JFrame
 				
 				LoginView loginView = new LoginView();
 				MessageView loginMessageView = new MessageView();
-				LoginController loginController = new LoginController(
+				LoginController loginController = new LoginController(serverProxy,
 																	  loginView,
 																	  loginMessageView);
 				loginController.setLoginAction(new IAction() {

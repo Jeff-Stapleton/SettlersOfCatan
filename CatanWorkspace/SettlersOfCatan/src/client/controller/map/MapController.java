@@ -1,11 +1,13 @@
 package client.controller.map;
 
+import java.io.IOException;
 import java.util.*;
 
 import shared.CatanModel;
 import shared.definitions.*;
 import shared.locations.*;
 import client.CatanGame;
+import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.map.IMapView;
@@ -20,13 +22,18 @@ public class MapController extends Controller implements IMapController, Observe
 	private CatanModel catanModel;
 	private IRobView robView;
 	
-	public MapController(IMapView view, IRobView robView, CatanGame catanGame) {
+	public MapController(IServerProxy serverProxy, IMapView view, IRobView robView) {
 		
 		super(view);
 		
 		setRobView(robView);
 		
-		initFromModel(catanGame.getModel());
+		try {
+			initFromModel(serverProxy.gameModel(-1));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public IMapView getView() {
