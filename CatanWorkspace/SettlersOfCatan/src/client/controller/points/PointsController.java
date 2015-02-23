@@ -1,5 +1,10 @@
 package client.controller.points;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import shared.CatanModel;
+import client.CatanGame;
 import client.view.base.*;
 import client.view.points.IGameFinishedView;
 import client.view.points.IPointsView;
@@ -8,8 +13,9 @@ import client.view.points.IPointsView;
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController {
+public class PointsController extends Controller implements IPointsController, Observer {
 
+	private CatanModel catanModel;
 	private IGameFinishedView finishedView;
 	
 	/**
@@ -43,6 +49,15 @@ public class PointsController extends Controller implements IPointsController {
 		//<temp>		
 		getPointsView().setPoints(5);
 		//</temp>
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) 
+	{
+		if (obs instanceof CatanGame) 
+		{
+			catanModel = ((CatanGame) obs).getModel();
+		}
 	}
 	
 }

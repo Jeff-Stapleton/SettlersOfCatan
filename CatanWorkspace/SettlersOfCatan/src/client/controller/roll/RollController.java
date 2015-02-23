@@ -1,7 +1,11 @@
 package client.controller.roll;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
+import shared.CatanModel;
+import client.CatanGame;
 import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.roll.IRollResultView;
@@ -11,11 +15,12 @@ import client.view.roll.IRollView;
 /**
  * Implementation for the roll controller
  */
-public class RollController extends Controller implements IRollController {
+public class RollController extends Controller implements IRollController, Observer{
 
 	private IRollResultView resultView;
 	private IRollView rollView;
 	private IServerProxy serverProxy;
+	private CatanModel catanModel;
 	
 	private int rollValue;
 	/**
@@ -56,6 +61,13 @@ public class RollController extends Controller implements IRollController {
 		getResultView().showModal();	
 		//presenter.rollNumber(diceRoll);
 		rollValue = diceRoll;
+	}
+	
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof CatanGame) {
+			catanModel = ((CatanGame) obs).getModel();
+		}
 	}
 }
 
