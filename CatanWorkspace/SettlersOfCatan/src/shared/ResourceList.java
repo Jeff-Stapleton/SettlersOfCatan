@@ -1,5 +1,7 @@
 package shared;
 
+import shared.definitions.ResourceType;
+
 public class ResourceList {
 
 	private int brick;
@@ -77,6 +79,38 @@ public class ResourceList {
 	 */
 	public int totalCount(){
 		return getBrick()+getWood()+getWheat()+getSheep()+getOre();
+	}
+	
+	public int getResource(ResourceType type){
+		switch(type){
+		case BRICK:
+			return getBrick();
+		case ORE:
+			return getOre();
+		case SHEEP:
+			return getSheep();
+		case WHEAT:
+			return getWheat();
+		case WOOD:
+			return getWood();
+		default:
+			return 0;
+		}
+	}
+	
+	public void setResource(ResourceType type, int count){
+		switch(type){
+		case BRICK:
+			setBrick(count);
+		case ORE:
+			setOre(count);
+		case SHEEP:
+			setSheep(count);
+		case WHEAT:
+			setWheat(count);
+		case WOOD:
+			setWood(count);
+		}
 	}
 	
 	/**
