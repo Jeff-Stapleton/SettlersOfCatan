@@ -1,6 +1,9 @@
 package client.comm;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.StringTokenizer;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -34,6 +38,7 @@ import shared.comm.serialization.LoadGameRequest;
 import shared.comm.serialization.MaritimeTradeRequest;
 import shared.comm.serialization.MonopolyRequest;
 import shared.comm.serialization.MonumentRequest;
+import shared.comm.serialization.PlayerCookie;
 import shared.comm.serialization.RoadBuildingRequest;
 import shared.comm.serialization.RobPlayerRequest;
 import shared.comm.serialization.RollNumberRequest;
@@ -49,7 +54,7 @@ import shared.locations.VertexLocation;
 
 /**
  * A proxy for the http server that will call all the sever
- * command with coresponding names. This intermediate class
+ * command with corresponding names. This intermediate class
  * can be replaced with the FakeServerProxy for testing
  * purposes
  * @author Cory Beutler
@@ -112,6 +117,32 @@ public class ServerProxy extends AbstractServerProxy
 		    		if (header.getName().equals("Set-cookie"))
 		    		{
 		    			setPlayerCookie(header.getValue());
+		    			
+		    			// Get the user's information from the cookie
+//		    			String name = "";
+//		    			int playerId = -1;
+		    			String userJson = URLDecoder.decode(getPlayerCookie().split("=")[1], "UTF-8");
+		    			return userJson;
+		    			
+//		    			PlayerCookie playerCookie = gson.fromJson(userJson, PlayerCookie.class);
+//		    			//Cut off curly brackets
+//		    			userJson.substring(1, userJson.length() - 1);
+//		    			StringTokenizer kvp = new StringTokenizer(userJson, ",");
+//		    			while (kvp.hasMoreTokens())
+//		    			{
+//		    				String[] kv = kvp.nextToken().split(":");
+//		    				switch(kv[0])
+//		    				{
+//		    				case "\"name\"":
+//		    					name = kv[1].substring(1, kv[1].length() - 1); // remove ""
+//		    					break;
+//		    				case "\"playerID\"":
+//		    					playerId = Integer.valueOf(kv[1]);
+//		    				}
+//		    			}
+//		    			PlayerInfo playerInfo = new PlayerInfo();
+//		    			playerInfo.setId(playerId);
+//		    			playerInfo.setName(name);
 		    		}
 		    	}
 		    	
@@ -153,7 +184,12 @@ public class ServerProxy extends AbstractServerProxy
         
         HttpPost httpPost = new HttpPost(_server + "/user/login");
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
-        _httpClient.execute(httpPost, userHandler);
+        PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
+        // Login success! get user info.
+        if (cookie != null) {
+        	setPlayerName(cookie.getName());
+        	setPlayerId(cookie.getPlayerId());
+        }
 	}
 	
 	/**
@@ -170,7 +206,11 @@ public class ServerProxy extends AbstractServerProxy
         
         HttpPost httpPost = new HttpPost(_server + "/user/register");
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
-        _httpClient.execute(httpPost, userHandler);
+        PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
+        if (cookie != null) {
+        	setPlayerName(cookie.getName());
+        	setPlayerId(cookie.getPlayerId());
+        }
 	}
 	
 	/**

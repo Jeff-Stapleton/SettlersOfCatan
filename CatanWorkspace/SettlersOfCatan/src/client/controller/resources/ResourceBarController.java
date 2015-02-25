@@ -86,7 +86,7 @@ public class ResourceBarController extends Controller implements
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			CatanModel model = ((CatanGame) o).getModel();
-			Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerID()];
+			Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getId()];
 			TurnTracker turn = model.getTurnTracker();
 			DevCardList deck = model.getDeck();
 

@@ -27,6 +27,101 @@ public abstract class AbstractServerProxy implements IServerProxy
 	String _playerCookie = null;
 	String _gameCookie = null;
 	
+	String _playerName = null;
+	Integer _playerId = null;
+
+	/**
+	 * Set the cookie for the player logging in to the server
+	 * @param cookie
+	 */
+	protected void setPlayerCookie(String cookie)
+	{
+		StringTokenizer st = new StringTokenizer(cookie, ";");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			if (token.contains("catan.user="))
+			{
+				_playerCookie = token;
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * Get the cookie for the player's login
+	 * @return the string cookie to be used
+	 */
+	protected String getPlayerCookie()
+	{
+		return _playerCookie;
+	}
+	
+	/**
+	 * Set the cookie for the game
+	 * @param cookie
+	 */
+	protected void setGameCookie(String cookie)
+	{
+		StringTokenizer st = new StringTokenizer(cookie, ";");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			if (token.contains("catan.game="))
+			{
+				_gameCookie = token;
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * Get the cookie for the game
+	 * @return the string cookie to be used
+	 */
+	protected String getGameCookie()
+	{
+		return _gameCookie;
+	}
+	
+	protected String getCookie()
+	{
+		StringBuilder cookie = new StringBuilder();
+		if (getPlayerCookie() != null)
+		{
+			cookie.append(getPlayerCookie());
+			
+			if (getGameCookie() != null)
+			{
+				cookie.append("; ").append(getGameCookie());
+			}
+			return cookie.toString();
+		}
+		else
+		{
+			return null;
+		}
+		
+	}
+	
+	public String getPlayerName()
+	{
+		return _playerName;
+	}
+	
+	protected void setPlayerName(String playerName)
+	{
+		_playerName = playerName;
+	}
+	
+	public Integer getPlayerId()
+	{
+		return _playerId;
+	}
+	
+	protected void setPlayerId(Integer playerId)
+	{
+		_playerId = playerId;
+	}
+	
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -322,75 +417,4 @@ public abstract class AbstractServerProxy implements IServerProxy
 	@Override
 	public abstract void utilChangeLogLevel(String logLevel) throws IOException;
 	
-	/**
-	 * Set the cookie for the player logging in to the server
-	 * @param cookie
-	 */
-	protected void setPlayerCookie(String cookie)
-	{
-		StringTokenizer st = new StringTokenizer(cookie, ";");
-		while (st.hasMoreTokens()) {
-			String token = st.nextToken();
-			if (token.contains("catan.user="))
-			{
-				_playerCookie = token;
-				return;
-			}
-		}
-	}
-	
-	/**
-	 * Get the cookie for the player's login
-	 * @return the string cookie to be used
-	 */
-	protected String getPlayerCookie()
-	{
-		return _playerCookie;
-	}
-	
-	/**
-	 * Set the cookie for the game
-	 * @param cookie
-	 */
-	protected void setGameCookie(String cookie)
-	{
-		StringTokenizer st = new StringTokenizer(cookie, ";");
-		while (st.hasMoreTokens()) {
-			String token = st.nextToken();
-			if (token.contains("catan.game="))
-			{
-				_gameCookie = token;
-				return;
-			}
-		}
-	}
-	
-	/**
-	 * Get the cookie for the game
-	 * @return the string cookie to be used
-	 */
-	protected String getGameCookie()
-	{
-		return _gameCookie;
-	}
-	
-	protected String getCookie()
-	{
-		StringBuilder cookie = new StringBuilder();
-		if (getPlayerCookie() != null)
-		{
-			cookie.append(getPlayerCookie());
-			
-			if (getGameCookie() != null)
-			{
-				cookie.append("; ").append(getGameCookie());
-			}
-			return cookie.toString();
-		}
-		else
-		{
-			return null;
-		}
-		
-	}
 }

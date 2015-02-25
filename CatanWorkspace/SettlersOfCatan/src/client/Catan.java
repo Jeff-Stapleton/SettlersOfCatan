@@ -2,6 +2,13 @@ package client;
 
 import javax.swing.*;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import client.comm.IServerProxy;
 import client.comm.ServerProxy;
 import client.controller.join.JoinGameController;
@@ -52,9 +59,32 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
-		// TODO Parse args to get server and port
-		final String server = "localhost";
-		final int port = 8081;
+		String host = "localhost";
+		int port = 8081;
+		
+		Options options = new Options();
+		options.addOption("p", "port", true, "The port to run on");
+		options.addOption("h", "host", true, "hostname to connect to");
+		
+		try {
+			CommandLineParser parser = new GnuParser();
+			CommandLine cmd = parser.parse( options, args);
+			
+			String portArg = cmd.getOptionValue("p");
+			String hostArg = cmd.getOptionValue("h");
+			
+			if (portArg != null) {
+				port = Integer.valueOf(portArg);
+			}
+			if (hostArg != null) {
+				host = hostArg;
+			}
+			
+		} catch (ParseException e1) {
+			System.err.println("Cannot parse the command line options");
+			e1.printStackTrace();
+			System.exit(1);
+		}
 		
 		try
 		{
@@ -65,15 +95,19 @@ public class Catan extends JFrame
 			e.printStackTrace();
 		}
 		
+		// Make them final so we can use them in the anonymous inner class
+		final String fHost = host;
+		final Integer fPort = port;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				ServerProxy serverProxy = new ServerProxy("http://" + server + ":" + port);
+				ServerProxy serverProxy = new ServerProxy("http://" + fHost + ":" + fPort);
+				CatanGame catanGame = new CatanGame(serverProxy, null);
 				
 				new Catan(serverProxy);
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(serverProxy,
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(catanGame,
 																									playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
@@ -81,7 +115,7 @@ public class Catan extends JFrame
 				NewGameView newGameView = new NewGameView();
 				SelectColorView selectColorView = new SelectColorView();
 				MessageView joinMessageView = new MessageView();
-				final JoinGameController joinController = new JoinGameController(serverProxy,
+				final JoinGameController joinController = new JoinGameController(catanGame,
 																				 joinView,
 																				 newGameView,
 																				 selectColorView,
@@ -100,7 +134,7 @@ public class Catan extends JFrame
 				
 				LoginView loginView = new LoginView();
 				MessageView loginMessageView = new MessageView();
-				LoginController loginController = new LoginController(serverProxy,
+				LoginController loginController = new LoginController(catanGame,
 																	  loginView,
 																	  loginMessageView);
 				loginController.setLoginAction(new IAction() {

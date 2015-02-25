@@ -1,6 +1,6 @@
 package client.controller.login;
 
-import client.comm.IServerProxy;
+import client.CatanGame;
 import client.view.base.*;
 import client.view.login.ILoginView;
 import client.view.misc.*;
@@ -21,7 +21,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-	private IServerProxy serverProxy;
+	private CatanGame catanGame;
 	
 	/**
 	 * LoginController constructor
@@ -29,12 +29,12 @@ public class LoginController extends Controller implements ILoginController {
 	 * @param view Login view
 	 * @param messageView Message view (used to display error messages that occur during the login process)
 	 */
-	public LoginController(IServerProxy serverProxy, ILoginView view,
+	public LoginController(CatanGame catanGame, ILoginView view,
 			IMessageView messageView) {
 		super(view);
 		
 		this.messageView = messageView;
-		this.serverProxy = serverProxy;
+		this.catanGame = catanGame;
 	}
 	
 	public ILoginView getLoginView() {
@@ -85,7 +85,7 @@ public class LoginController extends Controller implements ILoginController {
 		//Login Here
 		try 
 		{
-			serverProxy.userLogin(username, password);
+			catanGame.getProxy().userLogin(username, password);
 			getLoginView().closeModal();
 			loginAction.execute();
 			//login success
@@ -111,34 +111,34 @@ public class LoginController extends Controller implements ILoginController {
 		String passwordError = "The password must be five or more characters: letters, digits, _ , and -";
 		String validCharsRegex = "[0-9]*[A-z]*[_]*[-]*";
 		
-		if(username.length()<3||username.length()>7){
+		if(username.length()<3||username.length()>7) {
 			//username isn't valid
 			messageView.setMessage(usernameError);
 			messageView.showModal();
-		}  
+		}
 		else if(!username.matches(validCharsRegex)) {
 			messageView.setMessage(usernameError);
 			messageView.showModal();
-		}  
-		else if (!password1.equals(password2)) {
-			//passwords don't match
-			messageView.setMessage("Passwords must match.");
-			messageView.showModal();
-		}  
+		}
 		else if(!password1.matches(validCharsRegex)) {
 			messageView.setMessage(passwordError);
 			messageView.showModal();
 		}
-		else if(password1.length() < 5){
+		else if(password1.length() < 5) {
 			//passwords length has to be greater than 4
 			messageView.setMessage(passwordError);
+			messageView.showModal();
+		}
+		else if (!password1.equals(password2)) {
+			//passwords don't match
+			messageView.setMessage("Passwords must match.");
 			messageView.showModal();
 		}
 		else 
 		{
 			try 
 			{
-				serverProxy.userRegister(username, password1);
+				catanGame.getProxy().userRegister(username, password1);
 				getLoginView().closeModal();
 				loginAction.execute();
 			} 

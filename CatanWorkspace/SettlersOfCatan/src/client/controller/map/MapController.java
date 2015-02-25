@@ -78,6 +78,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	protected void initFromModel(CatanModel initCatanModel) 
 	{
+		if (initCatanModel == null) return;
 		//initFromModel gets the initCatanModel, adds the hexes, numbers, and ports
 			
 		for (int i = 0; i < initCatanModel.getMap().getHexes().length; i++)

@@ -34,4 +34,18 @@ public class PlayerResponse
 	{
 		return color;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("id : ").append(id).append(",\n");
+		string.append("name : ").append(name).append(",\n");
+		string.append("color : ").append(color);
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 }

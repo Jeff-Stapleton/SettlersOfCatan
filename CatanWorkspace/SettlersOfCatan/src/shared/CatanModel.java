@@ -241,7 +241,6 @@ public class CatanModel {
 	public String toString() {
 		StringBuilder string = new StringBuilder("{\n");
 		
-		string.append(" (!deck is missing!) ");
 		string.append("deck : ").append(deck.toString()).append(",\n");
 		string.append("map : ").append(map.toString()).append(",\n");
 		
@@ -257,6 +256,8 @@ public class CatanModel {
 		string.append("turnTracker : ").append(turnTracker.toString()).append(",\n");
 		string.append("winner : ").append(winner).append(",\n");
 		string.append("version : ").append(version).append("\n");
+		
+		string.append("}");
 		
 		return string.toString();
 	}

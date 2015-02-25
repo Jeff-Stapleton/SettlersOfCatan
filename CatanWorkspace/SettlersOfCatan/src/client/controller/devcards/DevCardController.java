@@ -149,7 +149,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			model = ((CatanGame) o).getModel();
-			thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerID()];
+			thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getId()];
 			turn = model.getTurnTracker();
 			deck = model.getDeck();
 			bank = model.getBank();
