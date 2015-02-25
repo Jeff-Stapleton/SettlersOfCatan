@@ -26,16 +26,17 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	private CatanModel catanModel;
 	private IRobView robView;
-	private IServerProxy serverProxy;
+	private CatanGame catanGame;
 	private boolean playingRoadBuildingCard;
 	
-	public MapController(IServerProxy serverProxy, IMapView view, IRobView robView) {
+	public MapController(CatanGame catanGame, IMapView view, IRobView robView) {
 		super(view);
 		
 		setRobView(robView);
-		this.serverProxy = serverProxy;
+		catanGame.addObserver(this);
+		this.catanGame = catanGame;
 		
-		initFromModel(null /*catanGame.getModel()*/);
+		//initFromModel();
 
 		playingRoadBuildingCard = false;
 	}
@@ -73,100 +74,40 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		getView().placeRobber(new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY()));
 			
-		
 	}
 	
-	protected void initFromModel(CatanModel initCatanModel) 
+	protected void initFromModel() 
 	{
-		if (initCatanModel == null) return;
+		if (catanModel == null) return;
 		//initFromModel gets the initCatanModel, adds the hexes, numbers, and ports
 			
-		for (int i = 0; i < initCatanModel.getMap().getHexes().length; i++)
+		for (int i = 0; i < catanModel.getMap().getHexes().length; i++)
 		{
-			getView().addHex(initCatanModel.getMap().getHexes()[i].getLocation(), initCatanModel.getMap().getHexes()[i].getResource());
-			getView().addNumber(initCatanModel.getMap().getHexes()[i].getLocation(), initCatanModel.getMap().getHexes()[i].getNumber());
+			getView().addHex(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getResource());
+			getView().addNumber(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getNumber());
 			
-			if (initCatanModel.getMap().getHexes()[i].getResource() == HexType.DESERT)
-				getView().placeRobber(initCatanModel.getMap().getHexes()[i].getLocation());
+			if (catanModel.getMap().getHexes()[i].getResource() == HexType.DESERT)
+				getView().placeRobber(catanModel.getMap().getHexes()[i].getLocation());
 				
 		}
 		
-		for (int i = 0; i < initCatanModel.getMap().getPorts().size(); i++)
-			getView().addPort(new EdgeLocation(initCatanModel.getMap().getPorts().get(i).getLocation().getX(), initCatanModel.getMap().getPorts().get(i).getLocation().getY(), initCatanModel.getMap().getPorts().get(i).getDirection()), initCatanModel.getMap().getPorts().get(i).getType());
-			
-			/*
-			int maxY = 3 - x;			
-			for (int y = -3; y <= maxY; ++y) {				
-				int r = rand.nextInt(HexType.values().length);
-				HexType hexType = HexType.values()[r];
-				HexLocation hexLoc = new HexLocation(x, y);
-				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-				getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-			}
-			
-			if (x != 0) {
-				int minY = x - 3;
-				for (int y = minY; y <= 3; ++y) {
-					int r = rand.nextInt(HexType.values().length);
-					HexType hexType = HexType.values()[r];
-					HexLocation hexLoc = new HexLocation(-x, y);
-					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-					getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-				}
-			}
-		}
-		
-		PortType portType = PortType.BRICK;
-		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
-		
-		getView().placeRobber(new HexLocation(0, 0));
-		
-		getView().addNumber(new HexLocation(-2, 0), 2);
-		getView().addNumber(new HexLocation(-2, 1), 3);
-		getView().addNumber(new HexLocation(-2, 2), 4);
-		getView().addNumber(new HexLocation(-1, 0), 5);
-		getView().addNumber(new HexLocation(-1, 1), 6);
-		getView().addNumber(new HexLocation(1, -1), 8);
-		getView().addNumber(new HexLocation(1, 0), 9);
-		getView().addNumber(new HexLocation(2, -2), 10);
-		getView().addNumber(new HexLocation(2, -1), 11);
-		getView().addNumber(new HexLocation(2, 0), 12);
-		
-		//</temp>*/
+		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
+			getView().addPort(new EdgeLocation(catanModel.getMap().getPorts().get(i).getLocation().getX(), catanModel.getMap().getPorts().get(i).getLocation().getY(), catanModel.getMap().getPorts().get(i).getDirection()), catanModel.getMap().getPorts().get(i).getType());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) 
 	{
-		return CanCan.canBuildRoad(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildRoad(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		
-		return CanCan.canBuildSettlement(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildSettlement(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		
-		return CanCan.canBuildCity(catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildCity(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
@@ -181,30 +122,47 @@ public class MapController extends Controller implements IMapController, Observe
 
 	public void placeRoad(EdgeLocation edgeLoc) 
 	{
-		
-		getView().placeRoad(edgeLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
+		try 
+		{
+			catanGame.setModel(catanGame.getProxy().movesBuildRoad(catanGame.getPlayerInfo().getPlayerIndex(), edgeLoc, false));
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public void placeSettlement(VertexLocation vertLoc) {
-		
-		getView().placeSettlement(vertLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
+	public void placeSettlement(VertexLocation vertLoc) 
+	{
+		try 
+		{
+			catanGame.setModel(catanGame.getProxy().movesBuildSettlement(catanGame.getPlayerInfo().getPlayerIndex(), vertLoc, false));
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public void placeCity(VertexLocation vertLoc) {
-		
-		getView().placeCity(vertLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
+	public void placeCity(VertexLocation vertLoc) 
+	{
+		try 
+		{
+			catanGame.setModel(catanGame.getProxy().movesBuildCity(catanGame.getPlayerInfo().getPlayerIndex(), vertLoc, false));
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
 		
 		getView().placeRobber(hexLoc);
-	
+		
 		getRobView().showModal();
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
 	{	
-		getView().startDrop(pieceType, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor(), true);
+		getView().startDrop(pieceType, catanGame.getPlayerInfo().getColor(), true);
 	}
 	
 	public void cancelMove() 
@@ -224,13 +182,26 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void robPlayer(RobPlayerInfo victim) 
 	{
-
+		try 
+		{
+			catanGame.setModel(catanGame.getProxy().movesRobPlayer(catanGame.getPlayerInfo().getPlayerIndex(), victim.getId(), new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY())));
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void update(Observable obs, Object obj) {
-		if (obs instanceof CatanGame) {
-			catanModel = ((CatanGame) obs).getModel();
+	public void update(Observable obs, Object obj) 
+	{
+		if (obs instanceof CatanGame) 
+		{
+			if (catanModel == null)
+			{
+				catanModel = ((CatanGame) obs).getModel();
+				initFromModel();
+			}
+			
 			updateFromModel();
 		}
 	}
