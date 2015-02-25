@@ -175,6 +175,22 @@
         </java>
     </target>
 
+    <target name="octs" depends="package" description="run our client and their server">
+        <parallel>
+            <sequential>
+                <echo>Starting server daemon...</echo>
+                <daemons>
+                    <antcall target="server"/>
+                </daemons>
+            </sequential>
+            <sequential>
+                <sleep seconds="2"/>
+                <echo>Staring our-client...</echo>
+                <antcall target="our-client"/>
+            </sequential>
+        </parallel>
+    </target>
+
     <target name="test-with-server" depends="package" description="run tests with a server">
         <parallel>
             <echo>Starting server daemon...</echo>
