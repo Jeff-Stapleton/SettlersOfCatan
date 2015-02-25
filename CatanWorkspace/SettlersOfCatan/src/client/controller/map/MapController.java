@@ -182,17 +182,17 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeRoad(EdgeLocation edgeLoc) 
 	{
 		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		getView().placeRoad(edgeLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		getView().placeSettlement(vertLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
 		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		getView().placeCity(vertLoc, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor());
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
@@ -204,7 +204,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
 	{	
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		getView().startDrop(pieceType, catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()].getColor(), true);
 	}
 	
 	public void cancelMove() 
