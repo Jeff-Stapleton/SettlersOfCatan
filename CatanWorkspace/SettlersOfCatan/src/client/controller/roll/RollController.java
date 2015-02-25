@@ -19,7 +19,7 @@ public class RollController extends Controller implements IRollController, Obser
 
 	private IRollResultView resultView;
 	private IRollView rollView;
-	private IServerProxy serverProxy;
+	private CatanGame catanGame;
 	private CatanModel catanModel;
 	
 	private int rollValue;
@@ -29,11 +29,11 @@ public class RollController extends Controller implements IRollController, Obser
 	 * @param view Roll view
 	 * @param resultView Roll result view
 	 */
-	public RollController(IRollView view, IRollResultView resultView, IServerProxy serverProxy) 
+	public RollController(CatanGame catanGame, IRollView view, IRollResultView resultView) 
 	{
 		super(view);
 		setResultView(resultView);
-		this.serverProxy = serverProxy;
+		this.catanGame = catanGame;
 	}
 	
 	public IRollResultView getResultView() {

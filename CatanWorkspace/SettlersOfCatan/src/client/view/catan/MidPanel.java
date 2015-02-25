@@ -3,6 +3,7 @@ package client.view.catan;
 import java.awt.*;
 import javax.swing.*;
 
+import client.CatanGame;
 import client.comm.IServerProxy;
 import client.controller.map.IMapController;
 import client.controller.map.MapController;
@@ -18,7 +19,7 @@ public class MidPanel extends JPanel
 	private MapController mapController;
 	private GameStatePanel gameStatePanel;
 	
-	public MidPanel(IServerProxy serverProxy)
+	public MidPanel(CatanGame catanGame)
 	{
 		
 		this.setLayout(new BorderLayout());
@@ -27,7 +28,7 @@ public class MidPanel extends JPanel
 		
 		mapView = new MapView();
 		robView = new RobView();
-		mapController = new MapController(serverProxy, mapView, robView);
+		mapController = new MapController(catanGame, mapView, robView);
 		mapView.setController(mapController);
 		robView.setController(mapController);
 		

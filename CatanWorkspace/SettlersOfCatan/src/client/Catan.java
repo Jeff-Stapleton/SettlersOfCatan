@@ -33,7 +33,7 @@ public class Catan extends JFrame
 	
 	private CatanPanel catanPanel;
 	
-	public Catan(IServerProxy serverProxy)
+	public Catan(CatanGame catanGame)
 	{
 		
 		OverlayView.setWindow(this);
@@ -41,7 +41,7 @@ public class Catan extends JFrame
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		catanPanel = new CatanPanel(serverProxy);
+		catanPanel = new CatanPanel(catanGame);
 		this.setContentPane(catanPanel);
 		
 		display();
@@ -104,7 +104,7 @@ public class Catan extends JFrame
 				ServerProxy serverProxy = new ServerProxy("http://" + fHost + ":" + fPort);
 				CatanGame catanGame = new CatanGame(serverProxy, null);
 				
-				new Catan(serverProxy);
+				new Catan(catanGame);
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(catanGame,
