@@ -129,14 +129,14 @@
             <manifest>
                 <attribute name="Main-Class" value="client.Catan"/>
                 <attribute name="Class-Path"
-                        value="lib/gson-2.2.4.jar" />
+                    value="lib/gson-2.2.4.jar lib/commons-cli-1.2.jar lib/commons-logging-1.2.jar lib/org.apache.httpcomponents.httpclient_4.4.jar lib/org.apache.httpcomponents.httpcore_4.4.jar" />
             </manifest>
         </jar>
         <jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
             <manifest>
                 <attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
                 <attribute name="Class-Path"
-                        value="lib/gson-2.2.4.jar" />
+                    value="lib/gson-2.2.4.jar" />
             </manifest>
         </jar>
     </target>
