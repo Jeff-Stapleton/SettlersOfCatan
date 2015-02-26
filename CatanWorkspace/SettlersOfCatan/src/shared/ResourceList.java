@@ -113,6 +113,10 @@ public class ResourceList {
 		}
 	}
 	
+	public void clear(){
+		brick = wood = wheat = sheep = ore = 0;
+	}
+	
 	/**
 	 * Get number of brick
 	 * @return

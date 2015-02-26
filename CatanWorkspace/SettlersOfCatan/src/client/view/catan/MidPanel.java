@@ -24,7 +24,7 @@ public class MidPanel extends JPanel
 		
 		this.setLayout(new BorderLayout());
 		
-		tradePanel = new TradePanel();
+		tradePanel = new TradePanel(catanGame);
 		
 		mapView = new MapView();
 		robView = new RobView();
