@@ -3,6 +3,7 @@ package client.view.catan;
 import javax.swing.*;
 
 import shared.definitions.PieceType;
+import client.CatanGame;
 import client.controller.devcards.DevCardController;
 import client.controller.map.IMapController;
 import client.controller.points.PointsController;
@@ -26,9 +27,8 @@ public class RightPanel extends JPanel
 	private ResourceBarView resourceView;
 	private ResourceBarController resourceController;
 	
-	public RightPanel(final IMapController mapController)
+	public RightPanel(final IMapController mapController, CatanGame catanGame)
 	{
-		
 		this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		// Initialize development card views and controller
@@ -50,7 +50,7 @@ public class RightPanel extends JPanel
 			}
 		};
 		devCardController = new DevCardController(playCardView, buyCardView,
-												  soldierAction, roadAction);
+												  soldierAction, roadAction, catanGame);
 		playCardView.setController(devCardController);
 		buyCardView.setController(devCardController);
 		
@@ -58,13 +58,13 @@ public class RightPanel extends JPanel
 		//
 		pointsView = new PointsView();
 		finishedView = new GameFinishedView();
-		pointsController = new PointsController(pointsView, finishedView);
+		pointsController = new PointsController(pointsView, finishedView, catanGame);
 		pointsView.setController(pointsController);
 		
 		// Initialize resource bar view and controller
 		//
 		resourceView = new ResourceBarView();
-		resourceController = new ResourceBarController(resourceView);
+		resourceController = new ResourceBarController(resourceView, catanGame);
 		resourceController.setElementAction(ResourceBarElement.ROAD,
 											createStartMoveAction(mapController,
 																  PieceType.ROAD));

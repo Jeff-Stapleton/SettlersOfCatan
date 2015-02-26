@@ -20,10 +20,10 @@ public class ResourceBarController extends Controller implements
 
 	private Map<ResourceBarElement, IAction> elementActions;
 
-	public ResourceBarController(IResourceBarView view) {
+	public ResourceBarController(IResourceBarView view, CatanGame catanGame) {
 
 		super(view);
-
+		catanGame.addObserver(this);
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 	}
 
@@ -86,7 +86,8 @@ public class ResourceBarController extends Controller implements
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			CatanModel model = ((CatanGame) o).getModel();
-			Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getId()];
+			//Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getPlayerIndex()];
+			Player thisPlayer = model.getPlayers()[0];
 			TurnTracker turn = model.getTurnTracker();
 			DevCardList deck = model.getDeck();
 

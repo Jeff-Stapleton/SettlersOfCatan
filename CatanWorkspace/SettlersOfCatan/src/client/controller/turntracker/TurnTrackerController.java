@@ -21,15 +21,17 @@ import client.view.turntracker.ITurnTrackerView;
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer 
 {
 
+	private CatanGame catanGame;
 	private CatanModel catanModel;
-	private IServerProxy serverProxy;
+	private Player thisPlayer;
 	private int numPlayers;
 	
-	public TurnTrackerController(ITurnTrackerView view) 
+	public TurnTrackerController(ITurnTrackerView view, CatanGame catanGame) 
 	{
 		
 		super(view);
-		this.serverProxy = serverProxy;
+		this.catanGame = catanGame;
+		catanGame.addObserver(this);
 		numPlayers = 0;
 		initFromModel();
 	}
@@ -86,7 +88,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	public void endTurn() 
 	{
 		try {
-			serverProxy.movesFinishTurn(catanModel.getTurnTracker().getCurrentTurn());
+			catanGame.getProxy().movesFinishTurn(catanModel.getTurnTracker().getCurrentTurn());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,7 +97,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	
 	private void initFromModel() {
 		//<temp>
-		getView().setLocalPlayerColor(CatanColor.RED);
+		//getView().setLocalPlayerColor(thisPlayer.getColor());
+		getView().setLocalPlayerColor(CatanColor.BLUE);
 		//</temp>
 	}
 
@@ -103,7 +106,9 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	public void update(Observable obs, Object obj) {
 		if (obs instanceof CatanGame) {
 			catanModel = ((CatanGame) obs).getModel();
-			updateFromModel();
+			//thisPlayer = catanModel.getPlayers()[((CatanGame) obs).getPlayerInfo().getPlayerIndex()];
+			thisPlayer = catanModel.getPlayers()[0];
+			//updateFromModel();
 		}
 	}
 

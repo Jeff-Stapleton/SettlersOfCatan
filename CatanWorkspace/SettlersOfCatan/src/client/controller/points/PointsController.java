@@ -24,13 +24,15 @@ public class PointsController extends Controller implements IPointsController, O
 	 * @param view Points view
 	 * @param finishedView Game finished view, which is displayed when the game is over
 	 */
-	public PointsController(IPointsView view, IGameFinishedView finishedView) {
+	public PointsController(IPointsView view, IGameFinishedView finishedView, CatanGame catanGame) {
 		
 		super(view);
 		
 		setFinishedView(finishedView);
 		
-		initFromModel();
+		catanGame.addObserver(this);		
+		
+		//initFromModel();
 	}
 	
 	public IPointsView getPointsView() {
@@ -45,11 +47,11 @@ public class PointsController extends Controller implements IPointsController, O
 		this.finishedView = finishedView;
 	}
 
-	private void initFromModel() {
-		//<temp>		
-		getPointsView().setPoints(5);
-		//</temp>
-	}
+//	private void initFromModel() {
+//		//<temp>		
+//		getPointsView().setPoints(5);
+//		//</temp>
+//	}
 
 	@Override
 	public void update(Observable obs, Object obj) 
