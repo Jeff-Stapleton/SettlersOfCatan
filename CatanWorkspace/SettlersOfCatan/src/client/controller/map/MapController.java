@@ -72,12 +72,30 @@ public class MapController extends Controller implements IMapController, Observe
 				getView().addHex(hex.getLocation(), hex.getResource());
 				getView().addNumber(hex.getLocation(), hex.getNumber());
 			}
-				
+			getView().addHex(new HexLocation(-3, 3), HexType.WATER);
+			getView().addHex(new HexLocation(-3, 2), HexType.WATER);
+			getView().addHex(new HexLocation(-3, 1), HexType.WATER);
+			getView().addHex(new HexLocation(-3, 0), HexType.WATER);
+			getView().addHex(new HexLocation(-2, -1), HexType.WATER);
+			getView().addHex(new HexLocation(-2, 3), HexType.WATER);
+			getView().addHex(new HexLocation(-1, 3), HexType.WATER);
+			getView().addHex(new HexLocation(-1, -2), HexType.WATER);
+			getView().addHex(new HexLocation(0, 3), HexType.WATER);
+			getView().addHex(new HexLocation(0, -3), HexType.WATER);
+			getView().addHex(new HexLocation(1, -3), HexType.WATER);
+			getView().addHex(new HexLocation(1, 2), HexType.WATER);
+			getView().addHex(new HexLocation(2, 1), HexType.WATER);
+			getView().addHex(new HexLocation(2, -3), HexType.WATER);
+			getView().addHex(new HexLocation(3, -3), HexType.WATER);
+			getView().addHex(new HexLocation(3, -2), HexType.WATER);
+			getView().addHex(new HexLocation(3, -1), HexType.WATER);
+			getView().addHex(new HexLocation(3, 0), HexType.WATER);
 		}
 		
 		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
 		{
 			Port port = catanModel.getMap().getPorts().get(i);
+			System.out.println(port.toString());
 			if (port.getType() == null) {
 				// Three port
 				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
