@@ -159,7 +159,12 @@ public class CanCan {
 						return true;
 					else if (Math.abs(maritimeOffer.getWood()) >= 2 && onPort.getType() == PortType.WOOD)
 						return true;
-					else if ((Math.abs(maritimeOffer.getWood()) >= 3 || Math.abs(maritimeOffer.getWheat()) >= 3 || Math.abs(maritimeOffer.getSheep()) >= 3 || Math.abs(maritimeOffer.getOre()) >= 3 || Math.abs(maritimeOffer.getBrick()) >= 3) && onPort.getType() == PortType.THREE)
+					else if ((Math.abs(maritimeOffer.getWood()) >= 3 || 
+							  Math.abs(maritimeOffer.getWheat()) >= 3 || 
+							  Math.abs(maritimeOffer.getSheep()) >= 3 || 
+							  Math.abs(maritimeOffer.getOre()) >= 3 || 
+							  Math.abs(maritimeOffer.getBrick()) >= 3) && 
+							 onPort.getType() == null)
 						return true;
 				}
 				

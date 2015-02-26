@@ -4,17 +4,16 @@ import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.locations.EdgeDirection;
 
-
 public class Port {
 
-	private PortType type;
+	private PortType resource;
 	private HexLocation location;
 	private EdgeDirection direction;
 	private int ratio;
 	
 	public Port(PortType type, HexLocation location, EdgeDirection direction, int ratio)
 	{
-		this.type = type;
+		this.resource = type;
 		this.location = location;
 		this.direction = direction;
 		this.ratio = ratio;		
@@ -26,7 +25,7 @@ public class Port {
 	 * @Return The port type
 	 */
 	public PortType getType() {
-		return type;
+		return resource;
 	}
 	
 	/*
@@ -35,7 +34,7 @@ public class Port {
 	 * @Return void
 	 */
 	public void setType(PortType type) {
-		this.type = type;
+		this.resource = type;
 	}
 	
 	/*
@@ -97,7 +96,7 @@ public class Port {
 		StringBuilder string = new StringBuilder("{\n");
 		
 		string.append("ratio : ").append(ratio).append(",\n");
-		string.append("resource(!type! !missing when 'three'!) : ").append(type).append(",\n");
+		string.append("resource(!type! !missing when 'three'!) : ").append(resource).append(",\n");
 		string.append("direction : ").append(direction).append(",\n");
 		string.append("location : ").append(location).append("\n");
 		

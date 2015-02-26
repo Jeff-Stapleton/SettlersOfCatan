@@ -64,7 +64,7 @@ public class Testing {
 		port = new ArrayList<Port>();
 		port.add(new Port(PortType.WOOD, new HexLocation(2, 0), EdgeDirection.SouthEast, 2));
 		port.add(new Port(PortType.ORE, new HexLocation(0, 2), EdgeDirection.South, 2));
-		port.add(new Port(PortType.THREE, new HexLocation(2, -3), EdgeDirection.South, 3));
+		port.add(new Port(null, new HexLocation(2, -3), EdgeDirection.South, 3));
 		map.setPorts(port);
 		
 		road = new ArrayList<Road>();

@@ -8,6 +8,7 @@ import shared.CatanModel;
 import shared.Hex;
 import shared.Map;
 import shared.Player;
+import shared.Port;
 import shared.TurnTracker;
 import shared.definitions.*;
 import shared.locations.*;
@@ -24,7 +25,7 @@ import client.view.map.IRobView;
  */
 public class MapController extends Controller implements IMapController, Observer {
 	
-	private CatanModel catanModel;
+	private CatanModel catanModel = null;
 	private IRobView robView;
 	private CatanGame catanGame;
 	private boolean playingRoadBuildingCard;
@@ -33,12 +34,12 @@ public class MapController extends Controller implements IMapController, Observe
 		super(view);
 		
 		setRobView(robView);
-		catanGame.addObserver(this);
 		this.catanGame = catanGame;
 		
 		//initFromModel();
 
 		playingRoadBuildingCard = false;
+		catanGame.addObserver(this);
 	}
 	
 	public IMapView getView() {
@@ -51,6 +52,42 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	private void setRobView(IRobView robView) {
 		this.robView = robView;
+	}
+	
+	protected void initFromModel() 
+	{
+		//initFromModel gets the initCatanModel, adds the hexes, numbers, and ports
+		for (int i = 0; i < catanModel.getMap().getHexes().length; i++)
+		{
+			Hex hex = catanModel.getMap().getHexes()[i];
+			if (catanModel.getMap().getHexes()[i].getResource() == null)
+			{
+				// desert
+				getView().addHex(hex.getLocation(), HexType.DESERT);
+				getView().placeRobber(hex.getLocation());
+			}
+			else
+			{
+				// not desert
+				getView().addHex(hex.getLocation(), hex.getResource());
+				getView().addNumber(hex.getLocation(), hex.getNumber());
+			}
+				
+		}
+		
+		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
+		{
+			Port port = catanModel.getMap().getPorts().get(i);
+			if (port.getType() == null) {
+				// Three port
+				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
+			}
+			else
+			{
+				// Two port
+				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), port.getType());
+			}
+		}
 	}
 	
 	protected void updateFromModel()
@@ -74,25 +111,6 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		getView().placeRobber(new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY()));
 			
-	}
-	
-	protected void initFromModel() 
-	{
-		if (catanModel == null) return;
-		//initFromModel gets the initCatanModel, adds the hexes, numbers, and ports
-			
-		for (int i = 0; i < catanModel.getMap().getHexes().length; i++)
-		{
-			getView().addHex(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getResource());
-			getView().addNumber(catanModel.getMap().getHexes()[i].getLocation(), catanModel.getMap().getHexes()[i].getNumber());
-			
-			if (catanModel.getMap().getHexes()[i].getResource() == HexType.DESERT)
-				getView().placeRobber(catanModel.getMap().getHexes()[i].getLocation());
-				
-		}
-		
-		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
-			getView().addPort(new EdgeLocation(catanModel.getMap().getPorts().get(i).getLocation().getX(), catanModel.getMap().getPorts().get(i).getLocation().getY(), catanModel.getMap().getPorts().get(i).getDirection()), catanModel.getMap().getPorts().get(i).getType());
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) 
@@ -198,11 +216,17 @@ public class MapController extends Controller implements IMapController, Observe
 		{
 			if (catanModel == null)
 			{
+				System.out.println("Initializing model");
 				catanModel = ((CatanGame) obs).getModel();
 				initFromModel();
+				updateFromModel();
 			}
-			
-			updateFromModel();
+			else
+			{
+				System.out.println("Updating model");
+				catanModel = ((CatanGame) obs).getModel();
+				updateFromModel();
+			}
 		}
 	}
 	
