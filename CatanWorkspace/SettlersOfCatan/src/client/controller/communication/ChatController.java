@@ -7,10 +7,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.CatanModel;
+import shared.MessageLine;
+import shared.definitions.CatanColor;
 import client.CatanGame;
 import client.view.base.*;
 import client.view.communication.IChatView;
 import client.view.communication.LogEntry;
+import client.view.data.PlayerInfo;
 
 
 /**
@@ -20,8 +23,6 @@ public class ChatController extends Controller implements IChatController, Obser
 
 	private CatanModel catanModel;
 	private CatanGame catanGame;
-	private int localIndex;
-    private int playerIndex;
 	
 	public ChatController(CatanGame catanGame, IChatView view) {
 		
@@ -54,26 +55,15 @@ public class ChatController extends Controller implements IChatController, Obser
 			
 	        List<LogEntry> entries = new ArrayList<LogEntry>();
 
-	    	if (catanModel != null) {
-	    		if (catanGame.getPlayerInfo() != null) {
-		        	localIndex = catanGame.getPlayerInfo().getPlayerIndex();
-	    		}
-		        for (int i = 0; i < catanModel.getChat().getLines().size(); i++) 
-		        {
-		        	String name = catanModel.getChat().getLines().get(i).getSource();
-		        	for (int j = 0; j < 4; j++)
-		        	{
-		        		if (catanModel.getPlayers()[j].getName().equals(name))
-		        		{
-		        			playerIndex = catanModel.getPlayers()[j].getPlayerIndex();
-		        		}
-		        	}
-		        	
-		        	entries.add(new LogEntry(catanModel.getPlayers()[playerIndex].getColor(), catanModel.getChat().getLines().get(i).getMessage()));
-		        }
-	    	}
+	        for (MessageLine line : catanModel.getChat().getLines())
+	        {
+	        	String user = line.getSource();
+	        	CatanColor color = null;
+	        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
+	        	entries.add(new LogEntry(color, line.getMessage()));
+	        }
 	        
-	        //getView().setEntries(entries);
+	        getView().setEntries(entries);
 			
 		}
 	}

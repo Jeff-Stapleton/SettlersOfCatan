@@ -62,6 +62,42 @@ public class GameInfo
 	{
 		return Collections.unmodifiableList(players);
 	}
+	
+	public PlayerInfo getPlayerWithName(String playerName)
+	{
+		for (PlayerInfo player : players)
+		{
+			if (player.getName() == playerName)
+			{
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public PlayerInfo getPlayerWithId(int playerId)
+	{
+		for (PlayerInfo player : players)
+		{
+			if (player.getId() == playerId)
+			{
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public PlayerInfo getPlayerWithIndex(int playerIndex)
+	{
+		for (PlayerInfo player : players)
+		{
+			if (player.getPlayerIndex() == playerIndex)
+			{
+				return player;
+			}
+		}
+		return null;
+	}
 
 	public void setPlayers(List<PlayerInfo> players)
 	{
