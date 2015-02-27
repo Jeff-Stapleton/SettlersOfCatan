@@ -67,7 +67,7 @@ public class GameInfo
 	{
 		for (PlayerInfo player : players)
 		{
-			if (player.getName() == playerName)
+			if (player.getName().equals(playerName))
 			{
 				return player;
 			}

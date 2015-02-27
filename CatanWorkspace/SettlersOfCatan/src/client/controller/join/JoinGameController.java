@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import shared.definitions.CatanColor;
 import client.CatanGame;
+import client.comm.ServerPoller;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.join.IJoinGameView;
@@ -171,6 +172,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		// If join succeeded
 		getSelectColorView().closeModal();
 		//getJoinGameView().closeModal(); THIS WAS ALREADY CLOSED SOMEWHERE ELSE AND TAHT WAS CAUSING THE ASSERTION ERROR!!!
+		
+		catanGame.startServerPoller();
+		
 		joinAction.execute();
 	}
 

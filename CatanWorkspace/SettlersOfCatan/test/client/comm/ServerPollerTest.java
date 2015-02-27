@@ -28,7 +28,7 @@ public class ServerPollerTest {
 		CatanModel initialModel = server.gameModel();
 		CatanGame game = new CatanGame(server, initialModel);
 		
-		ServerPoller poller = new ServerPoller(server, game);
+		ServerPoller poller = new ServerPoller(game);
 		poller.start();
 		
 		Thread.sleep(3000);

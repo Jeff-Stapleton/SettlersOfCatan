@@ -7,6 +7,7 @@ package client.comm;
  * @author Cory Beutler
  *
  */
-public class IServerPoller extends Thread {
-
+public interface IServerPoller extends Runnable {
+    public void run();
+    public void close();
 }

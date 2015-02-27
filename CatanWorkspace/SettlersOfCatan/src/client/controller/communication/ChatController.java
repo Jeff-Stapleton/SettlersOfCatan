@@ -13,8 +13,6 @@ import client.CatanGame;
 import client.view.base.*;
 import client.view.communication.IChatView;
 import client.view.communication.LogEntry;
-import client.view.data.PlayerInfo;
-
 
 /**
  * Chat controller implementation

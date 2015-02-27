@@ -3,11 +3,13 @@ package client;
 import java.io.IOException;
 import java.util.Observable;
 
+import client.comm.ServerPoller;
 import client.comm.ServerProxy;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.ServerException;
 import shared.definitions.CatanColor;
 
 public class CatanGame extends Observable {
@@ -15,6 +17,7 @@ public class CatanGame extends Observable {
 	/** The log. */
 	private ServerProxy server;
 	private CatanModel model;
+	private ServerPoller serverPoller = null;
 	
 	private PlayerInfo playerInfo = null;
 	private GameInfo gameInfo = null;
@@ -117,6 +120,31 @@ public class CatanGame extends Observable {
 	}
 	
 	public void updateModel() throws IOException {
-		setModel(server.gameModel());
+		System.out.println("Updating model");
+		CatanModel model = server.gameModel();
+		
+		if (model != null) {
+			setModel(model);
+		}
+		else
+		{
+			throw new ServerException("Recieved null model from the server");
+		}
+	}
+	
+	public void startServerPoller()
+	{
+		stopServerPoller();
+		
+		serverPoller = new ServerPoller(this);
+		serverPoller.start();
+	}
+	
+	public void stopServerPoller()
+	{
+		if (serverPoller != null)
+		{
+			serverPoller.close();
+		}
 	}
 }

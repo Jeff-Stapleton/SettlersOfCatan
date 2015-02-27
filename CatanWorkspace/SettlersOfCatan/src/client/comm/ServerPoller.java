@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import client.CatanGame;
 
-import shared.CatanModel;
-
 /**
  * Server Poller polls the game model from the server
  * every few seconds and uses that to update the model
@@ -13,29 +11,27 @@ import shared.CatanModel;
  * @author Cory Beutler
  *
  */
-public class ServerPoller extends Thread {
-	IServerProxy _server;
+public class ServerPoller extends Thread implements IServerPoller
+{
 	CatanGame _catanGame;
 	
 	boolean _gameRunning = true;
 	
-    ServerPoller(IServerProxy proxy, CatanGame game) {
-        _server = proxy;
+    public ServerPoller(CatanGame game)
+    {
         _catanGame = game;
     }
 
-    public void run() {
+    @Override
+    public void run()
+    {
     	while(_gameRunning == true)
     	{
 	    	try
 	    	{
 		    	sleep(1000);
 		    	
-	        	CatanModel model = _server.gameModel(-1);
-	        	if (null != model)
-	        	{
-	        		_catanGame.setModel(model);
-	        	}
+		    	_catanGame.updateModel();
 	        	
 	    	}
 	    	catch(IOException e)
@@ -54,6 +50,7 @@ public class ServerPoller extends Thread {
     	}
     }
     
+    @Override
     public void close()
     {
     	_gameRunning = false;
