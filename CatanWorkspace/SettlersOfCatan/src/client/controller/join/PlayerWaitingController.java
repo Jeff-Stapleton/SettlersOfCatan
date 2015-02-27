@@ -1,7 +1,10 @@
 package client.controller.join;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JOptionPane;
 
 import shared.CatanModel;
 import client.CatanGame;
@@ -40,14 +43,30 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			{
 				getView().showModal();
 			}
+			
+			String[] AIChoices = {""};
+			try {
+				AIChoices = catanGame.getProxy().gameListAI();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			getView().setAIChoices(AIChoices);
 		}
 	}
 
 	@Override
-	public void addAI() {
-
-		// TEMPORARY
-		getView().closeModal();
+	public void addAI() 
+	{
+		try {
+			catanGame.getProxy().gameAddAI(getView().getSelectedAI());
+		} catch (IOException e) {
+			String outputStr = "Could not reach the server.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override

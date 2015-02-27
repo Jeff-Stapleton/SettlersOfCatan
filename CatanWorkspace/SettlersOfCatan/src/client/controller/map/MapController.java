@@ -96,7 +96,6 @@ public class MapController extends Controller implements IMapController, Observe
 		for (int i = 0; i < catanModel.getMap().getPorts().size(); i++)
 		{
 			Port port = catanModel.getMap().getPorts().get(i);
-			System.out.println(port.toString());
 			if (port.getType() == null) {
 				// Three port
 				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), PortType.THREE);
