@@ -27,5 +27,18 @@ public interface ISelectColorView extends IOverlayView
 	 * @return The color selected by the user
 	 */
 	CatanColor getSelectedColor();
+	
+	/**
+	 * Sets the selected color
+	 * 
+	 * @param color
+	 * 			  The color being selected
+	 */
+	void setSelectedColor(CatanColor color);
+	
+	/**
+	 * Reset the dialog to be unselected
+	 */
+	void reset();
 }
 

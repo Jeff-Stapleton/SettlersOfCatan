@@ -7,6 +7,7 @@ import client.comm.ServerProxy;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
+import shared.Player;
 import shared.definitions.CatanColor;
 
 public class CatanGame extends Observable {
@@ -54,6 +55,19 @@ public class CatanGame extends Observable {
 			if (game.getId() == id)
 			{
 				gameInfo = game;
+			}
+		}
+		
+		// Update the user indexes
+		CatanModel model = server.gameModel();
+		for (Player mPlayer : model.getPlayers())
+		{
+			for (PlayerInfo player : gameInfo.getPlayers())
+			{
+				if (mPlayer.getPlayerID() == player.getId())
+				{
+					player.setPlayerIndex(mPlayer.getPlayerIndex());
+				}
 			}
 		}
 		

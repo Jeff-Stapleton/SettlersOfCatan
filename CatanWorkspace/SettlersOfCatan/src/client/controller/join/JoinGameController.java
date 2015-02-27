@@ -1,11 +1,9 @@
 package client.controller.join;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import shared.definitions.CatanColor;
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.join.IJoinGameView;
@@ -132,12 +130,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void startJoinGame(GameInfo game) {
 		// Enable all to start (just to be safe)
-		for (CatanColor color : new CatanColor[] {CatanColor.BLUE, CatanColor.BROWN, CatanColor.GREEN,
-												  CatanColor.ORANGE, CatanColor.PUCE, CatanColor.PURPLE,
-												  CatanColor.RED, CatanColor.WHITE, CatanColor.YELLOW})
-		{
-			getSelectColorView().setColorEnabled(color, true);
-		}
+		getSelectColorView().reset();
 		
 		for (PlayerInfo player : game.getPlayers())
 		{
@@ -148,6 +141,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			else
 			{
 				catanGame.getPlayerInfo().setColor(player.getColor());
+				getSelectColorView().setSelectedColor(player.getColor());
 			}
 		}
 		
@@ -167,6 +161,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void joinGame(CatanColor color) {
 		try {
 			catanGame.gamesJoin(color, catanGame.getGameInfo().getId());
+			
 			catanGame.updateModel();
 		} catch (IOException e) {
 			System.out.println("Could not get model from server");
