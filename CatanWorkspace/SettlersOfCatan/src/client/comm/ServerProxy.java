@@ -2,7 +2,7 @@ package client.comm;
 
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.StringTokenizer;
+import java.util.LinkedList;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -17,6 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
@@ -32,7 +33,6 @@ import shared.comm.serialization.CreateGameRequest;
 import shared.comm.serialization.CredentialsRequest;
 import shared.comm.serialization.DiscardCardsRequest;
 import shared.comm.serialization.FinishTurnRequest;
-import shared.comm.serialization.GameResponse;
 import shared.comm.serialization.JoinGameRequest;
 import shared.comm.serialization.LoadGameRequest;
 import shared.comm.serialization.MaritimeTradeRequest;
@@ -119,30 +119,9 @@ public class ServerProxy extends AbstractServerProxy
 		    			setPlayerCookie(header.getValue());
 		    			
 		    			// Get the user's information from the cookie
-//		    			String name = "";
-//		    			int playerId = -1;
 		    			String userJson = URLDecoder.decode(getPlayerCookie().split("=")[1], "UTF-8");
 		    			return userJson;
 		    			
-//		    			PlayerCookie playerCookie = gson.fromJson(userJson, PlayerCookie.class);
-//		    			//Cut off curly brackets
-//		    			userJson.substring(1, userJson.length() - 1);
-//		    			StringTokenizer kvp = new StringTokenizer(userJson, ",");
-//		    			while (kvp.hasMoreTokens())
-//		    			{
-//		    				String[] kv = kvp.nextToken().split(":");
-//		    				switch(kv[0])
-//		    				{
-//		    				case "\"name\"":
-//		    					name = kv[1].substring(1, kv[1].length() - 1); // remove ""
-//		    					break;
-//		    				case "\"playerID\"":
-//		    					playerId = Integer.valueOf(kv[1]);
-//		    				}
-//		    			}
-//		    			PlayerInfo playerInfo = new PlayerInfo();
-//		    			playerInfo.setId(playerId);
-//		    			playerInfo.setName(name);
 		    		}
 		    	}
 		    	
@@ -178,7 +157,7 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public void userLogin(String user, String password) throws IOException
+	public PlayerInfo userLogin(String user, String password) throws IOException
 	{
 		String json = gson.toJson(new CredentialsRequest(user, password));
         
@@ -187,9 +166,9 @@ public class ServerProxy extends AbstractServerProxy
         PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
         // Login success! get user info.
         if (cookie != null) {
-        	setPlayerName(cookie.getName());
-        	setPlayerId(cookie.getPlayerId());
+        	return new PlayerInfo(cookie.getPlayerId(), -1, cookie.getName(), null);
         }
+        return null;
 	}
 	
 	/**
@@ -200,17 +179,18 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public void userRegister(String user, String password) throws IOException
+	public PlayerInfo userRegister(String user, String password) throws IOException
 	{
 		String json = gson.toJson(new CredentialsRequest(user, password));
         
         HttpPost httpPost = new HttpPost(_server + "/user/register");
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
         PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
+        // Register success! Get player info
         if (cookie != null) {
-        	setPlayerName(cookie.getName());
-        	setPlayerId(cookie.getPlayerId());
+        	return new PlayerInfo(cookie.getPlayerId(), -1, cookie.getName(), null);
         }
+        return null;
 	}
 	
 	/**
@@ -219,19 +199,36 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public GameResponse[] gamesList() throws IOException
+	public GameInfo[] gamesList() throws IOException
 	{
-		ResponseHandler<GameResponse[]> gamesListHandler = new ResponseHandler<GameResponse[]>() {
-	        public GameResponse[] handleResponse(final HttpResponse response) throws IOException
+		ResponseHandler<GameInfo[]> gamesListHandler = new ResponseHandler<GameInfo[]>() {
+	        public GameInfo[] handleResponse(final HttpResponse response) throws IOException
 	        {
+	    		GameInfo[] games = null;
 			    int status = response.getStatusLine().getStatusCode();
 			    if (status == 200) {
 			        HttpEntity entity = response.getEntity();
-			        return entity != null ? gson.fromJson(EntityUtils.toString(entity), GameResponse[].class) : null;
+			        if (entity != null) {
+			        	games = gson.fromJson(EntityUtils.toString(entity), GameInfo[].class);
+			        	
+			        	// This is dumb, but remove all players that came back empty
+			        	for (GameInfo game : games)
+			        	{
+			        		LinkedList<PlayerInfo> players = new LinkedList<PlayerInfo>(game.getPlayers());
+			        		for (int i = players.size() - 1; i >= 0; i--)
+			        		{
+			        			if (players.get(i).getId() == -1)
+			        			{
+			        				players.remove(i);
+			        			}
+			        		}
+			        		game.setPlayers(players);
+			        	}
+			        }
 			    } else {
 			    	throwResponseError(response);
-			    	return null;
 			    }
+		        return games;
 	        }
 		};
 		
@@ -246,7 +243,7 @@ public class ServerProxy extends AbstractServerProxy
 	}
 	
 	/**
-	 * Create a new game. This game will contain only the player initially.
+	 * Create a new game. This game will contain no player yet.
 	 * @param name the name of the game
 	 * @param randomTiles whether the game will have random tile position
 	 * @param randomNumbers whether the numbers of each hex will be random
@@ -255,15 +252,15 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException
+	public GameInfo gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException
 	{
-		ResponseHandler<GameResponse> gamesCreateHandler = new ResponseHandler<GameResponse>() {
-	        public GameResponse handleResponse(final HttpResponse response) throws IOException
+		ResponseHandler<GameInfo> gamesCreateHandler = new ResponseHandler<GameInfo>() {
+	        public GameInfo handleResponse(final HttpResponse response) throws IOException
 	        {
 			    int status = response.getStatusLine().getStatusCode();
 			    if (status == 200) {
 			        HttpEntity entity = response.getEntity();
-			        return entity != null ? gson.fromJson(EntityUtils.toString(entity), GameResponse.class) : null;
+			        return entity != null ? gson.fromJson(EntityUtils.toString(entity), GameInfo.class) : null;
 			    } else {
 			    	throwResponseError(response);
 			    	return null;

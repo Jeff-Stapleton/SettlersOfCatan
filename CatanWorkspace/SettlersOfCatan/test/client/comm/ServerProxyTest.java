@@ -11,11 +11,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import client.comm.ServerProxy;
+import client.view.data.GameInfo;
+import client.view.data.PlayerInfo;
 
 import com.google.gson.Gson;
 
-import shared.comm.serialization.GameResponse;
-import shared.comm.serialization.PlayerResponse;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -70,17 +70,18 @@ public class ServerProxyTest
 	{
 		proxy.userRegister("James", "Franco");
 
-		GameResponse[] games = proxy.gamesList();
+		GameInfo[] games = proxy.gamesList();
 		assertEquals("There should be 3 games", games.length, 3);
 		
-		GameResponse game = proxy.gamesCreate("Coolio Game Yo", true, true, true);
+		GameInfo game = proxy.gamesCreate("Coolio Game Yo", true, true, true);
 		
 		assertTrue("Game title comparison", game.getTitle().equals("Coolio Game Yo"));
 		assertEquals("Should be the third game on the server", game.getId(), 3);
-		for (PlayerResponse player : game.getPlayers())
+		for (PlayerInfo player : game.getPlayers())
 		{
-			assertEquals(player.getId(), -1);
-			assertTrue(player.getName() == null);
+			assertTrue(player.getId() == -1);
+			assertTrue(player.getPlayerIndex() == -1);
+			assertTrue(player.getName() == "");
 			assertTrue(player.getColor() == null);
 		}
 		

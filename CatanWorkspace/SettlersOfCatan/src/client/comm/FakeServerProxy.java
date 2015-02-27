@@ -2,10 +2,11 @@ package client.comm;
 
 import java.io.IOException;
 
+import client.view.data.GameInfo;
+import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
-import shared.comm.serialization.GameResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -31,8 +32,8 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public void userLogin(String user, String password) throws IOException {
-
+	public PlayerInfo userLogin(String user, String password) throws IOException {
+		return new PlayerInfo(1, -1, user, null);
 	}
 
 	/**
@@ -46,9 +47,8 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public void userRegister(String user, String password)
-			throws IOException {
-
+	public PlayerInfo userRegister(String user, String password) throws IOException {
+		return new PlayerInfo(1, -1, user, null);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public GameResponse[] gamesList() throws IOException
+	public GameInfo[] gamesList() throws IOException
 	{
 
 		String jsonResponse = ""
@@ -144,7 +144,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	+ " ] ";
 				
 		
-		return gson.fromJson(jsonResponse, GameResponse[].class);
+		return gson.fromJson(jsonResponse, GameInfo[].class);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public GameResponse gamesCreate(String name, boolean randomTiles,
+	public GameInfo gamesCreate(String name, boolean randomTiles,
 			boolean randomNumbers, boolean randomPorts) throws IOException {
 
 		String jsonResponse = ""
@@ -176,7 +176,7 @@ public class FakeServerProxy extends AbstractServerProxy {
 						+ " {} "
 					+ " ] "
 				+ " } ";
-		return gson.fromJson(jsonResponse, GameResponse.class);
+		return gson.fromJson(jsonResponse, GameInfo.class);
 	}
 
 	/**

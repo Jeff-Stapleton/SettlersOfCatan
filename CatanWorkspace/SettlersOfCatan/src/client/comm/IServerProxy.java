@@ -2,10 +2,11 @@ package client.comm;
 
 import java.io.IOException;
 
+import client.view.data.GameInfo;
+import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
-import shared.comm.serialization.GameResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -27,7 +28,7 @@ public interface IServerProxy
 	 * @param password the password for the player
 	 * @throws IOException 
 	 */
-	public void userLogin(String user, String password) throws IOException;
+	public PlayerInfo userLogin(String user, String password) throws IOException;
 	
 	/**
 	 * Register a new user with the server
@@ -36,14 +37,14 @@ public interface IServerProxy
 	 * @param password the players password
 	 * @throws IOException
 	 */
-	public void userRegister(String user, String password) throws IOException;
+	public PlayerInfo userRegister(String user, String password) throws IOException;
 	
 	/**
 	 * List the current games on the server that the player can join
 	 * @return an array of the games on the server
 	 * @throws IOException 
 	 */
-	public GameResponse[] gamesList() throws IOException;
+	public GameInfo[] gamesList() throws IOException;
 	
 	/**
 	 * Create a new game. This game will contain only the player initially.
@@ -54,7 +55,7 @@ public interface IServerProxy
 	 * @return the game object for the game created by the user
 	 * @throws IOException
 	 */
-	public GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException;
+	public GameInfo gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException;
 	
 	/**
 	 * Join a currently open game on the server

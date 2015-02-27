@@ -3,12 +3,14 @@ package client.comm;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import client.view.data.GameInfo;
+import client.view.data.PlayerInfo;
+
 import com.google.gson.Gson;
 
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
-import shared.comm.serialization.GameResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -26,9 +28,6 @@ public abstract class AbstractServerProxy implements IServerProxy
 	
 	String _playerCookie = null;
 	String _gameCookie = null;
-	
-	String _playerName = null;
-	Integer _playerId = null;
 
 	/**
 	 * Set the cookie for the player logging in to the server
@@ -102,26 +101,6 @@ public abstract class AbstractServerProxy implements IServerProxy
 		
 	}
 	
-	public String getPlayerName()
-	{
-		return _playerName;
-	}
-	
-	protected void setPlayerName(String playerName)
-	{
-		_playerName = playerName;
-	}
-	
-	public Integer getPlayerId()
-	{
-		return _playerId;
-	}
-	
-	protected void setPlayerId(Integer playerId)
-	{
-		_playerId = playerId;
-	}
-	
 	/**
 	 * Log an existing user into the server
 	 * This function will also set the cookie for the system
@@ -130,7 +109,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException 
 	 */
 	@Override
-	public abstract void userLogin(String user, String password) throws IOException;
+	public abstract PlayerInfo userLogin(String user, String password) throws IOException;
 	
 	/**
 	 * Register a new user with the server
@@ -140,7 +119,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract void userRegister(String user, String password) throws IOException;
+	public abstract PlayerInfo userRegister(String user, String password) throws IOException;
 	
 	/**
 	 * List the current games on the server that the player can join
@@ -148,7 +127,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException 
 	 */
 	@Override
-	public abstract GameResponse[] gamesList() throws IOException;
+	public abstract GameInfo[] gamesList() throws IOException;
 	
 	/**
 	 * Create a new game. This game will contain only the player initially.
@@ -160,7 +139,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract GameResponse gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException;
+	public abstract GameInfo gamesCreate(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws IOException;
 	
 	/**
 	 * Join a currently open game on the server

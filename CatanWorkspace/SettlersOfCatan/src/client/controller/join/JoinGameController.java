@@ -3,8 +3,6 @@ package client.controller.join;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import shared.comm.serialization.GameResponse;
-import shared.comm.serialization.PlayerResponse;
 import shared.definitions.CatanColor;
 import client.CatanGame;
 import client.comm.IServerProxy;
@@ -103,24 +101,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void start() {
 		try {
-			PlayerInfo currentPlayer = catanGame.getPlayerInfo();
-			GameResponse[] games = catanGame.getProxy().gamesList();
-			GameInfo[] gameInfos = new GameInfo[games.length];
-			for (int i = 0; i < games.length; i++) {
-				ArrayList<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
-				for (int j = 0; j < games[i].getPlayers().length; j++) {
-					PlayerResponse player = games[i].getPlayers()[j];
-					PlayerInfo playerInfo = new PlayerInfo(player.getId(), j, player.getName(), CatanColor.fromString(player.getColor()));
-					playerInfos.add(playerInfo);
-					if (playerInfo.getId() == currentPlayer.getId()) {
-						currentPlayer = playerInfo;
-					}
-				}
-				gameInfos[i] = new GameInfo(games[i].getId(), games[i].getTitle(), playerInfos);
-			}
+			GameInfo[] games = catanGame.getProxy().gamesList();
 			
-			// Game infos built, now put them in the view
-			((IJoinGameView)super.getView()).setGames(gameInfos, currentPlayer);
+			((IJoinGameView)super.getView()).setGames(games, catanGame.getPlayerInfo());
 		} catch (IOException e) {
 			System.out.println("Could not get games list from server.");
 			e.printStackTrace();
@@ -148,6 +131,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
+		// Enable all to start (just to be safe)
 		for (CatanColor color : new CatanColor[] {CatanColor.BLUE, CatanColor.BROWN, CatanColor.GREEN,
 												  CatanColor.ORANGE, CatanColor.PUCE, CatanColor.PURPLE,
 												  CatanColor.RED, CatanColor.WHITE, CatanColor.YELLOW})
@@ -160,6 +144,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			if (player.getId() != catanGame.getPlayerInfo().getId())
 			{
 				getSelectColorView().setColorEnabled(player.getColor(), false);
+			}
+			else
+			{
+				catanGame.getPlayerInfo().setColor(player.getColor());
 			}
 		}
 		
@@ -178,7 +166,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color) {
 		try {
-			catanGame.getProxy().gamesJoin(color, catanGame.getGameInfo().getId());
+			catanGame.gamesJoin(color, catanGame.getGameInfo().getId());
 			catanGame.updateModel();
 		} catch (IOException e) {
 			System.out.println("Could not get model from server");

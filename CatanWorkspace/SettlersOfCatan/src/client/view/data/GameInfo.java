@@ -62,5 +62,29 @@ public class GameInfo
 	{
 		return Collections.unmodifiableList(players);
 	}
+
+	public void setPlayers(List<PlayerInfo> players)
+	{
+		this.players = players;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("title : ").append(title).append(",\n");
+		string.append("id : ").append(id).append(",\n");
+		
+		string.append("players : [\n");
+		for (PlayerInfo player : players) {
+			string.append(player.toString()).append(",\n");
+		}
+		string.append("]");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
 }
 

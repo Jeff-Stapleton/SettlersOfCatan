@@ -75,24 +75,21 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void signIn() {
-		
-		// TODO: log in user
 		String password=this.getLoginView().getLoginPassword();
 		String username=this.getLoginView().getLoginUsername();
 		
-
-		// If log in succeeded
 		//Login Here
 		try 
 		{
-			catanGame.getProxy().userLogin(username, password);
+			catanGame.userLogin(username, password);
 			getLoginView().closeModal();
 			loginAction.execute();
 			//login success
 		} 
 		catch (IOException e) 
 		{
-			messageView.setMessage(e.toString());
+			e.printStackTrace();
+			messageView.setMessage("Could not login to the server");
 			messageView.showModal();
 		}
 
@@ -138,13 +135,14 @@ public class LoginController extends Controller implements ILoginController {
 		{
 			try 
 			{
-				catanGame.getProxy().userRegister(username, password1);
+				catanGame.userRegister(username, password1);
 				getLoginView().closeModal();
 				loginAction.execute();
 			} 
 			catch (IOException e) 
 			{
-				messageView.setMessage(e.toString());
+				e.printStackTrace();
+				messageView.setMessage("Could not register the user");
 				messageView.showModal();
 			}
 		}

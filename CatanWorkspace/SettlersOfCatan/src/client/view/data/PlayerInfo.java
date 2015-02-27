@@ -20,7 +20,7 @@ public class PlayerInfo
 	private int id;
 	private int playerIndex;
 	private String name;
-	private CatanColor color;
+	private String color;
 	
 	public PlayerInfo()
 	{
@@ -70,12 +70,12 @@ public class PlayerInfo
 	
 	public CatanColor getColor()
 	{
-		return color;
+		return color != null ? CatanColor.fromString(color) : null;
 	}
 	
 	public void setColor(CatanColor color)
 	{
-		this.color = color;
+		this.color = color != null ? color.toString() : null;
 	}
 
 	@Override
@@ -98,6 +98,21 @@ public class PlayerInfo
 		final PlayerInfo other = (PlayerInfo) obj;
 		
 		return this.id == other.id;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("id : ").append(id).append(",\n");
+		string.append("index : ").append(playerIndex).append(",\n");
+		string.append("name : ").append(name).append(",\n");
+		string.append("color : ").append(color);
+		
+		string.append("}");
+		
+		return string.toString();
 	}
 }
 

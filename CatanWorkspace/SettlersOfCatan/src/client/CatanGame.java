@@ -27,6 +27,46 @@ public class CatanGame extends Observable {
 		model = initialModel;
 	}
 	
+	public void userLogin(String user, String password) throws IOException
+	{
+		assert user != null;
+		assert password != null;
+		playerInfo = server.userLogin(user, password);
+	}
+	
+	public void userRegister(String user, String password) throws IOException
+	{
+		assert user != null;
+		assert password != null;
+		playerInfo = server.userRegister(user, password);
+	}
+	
+	public void gamesJoin(CatanColor color, int id) throws IOException
+	{
+		assert color != null;
+		// Join the game
+		server.gamesJoin(color, id);
+		
+		// Get the game's info
+		GameInfo[] games = server.gamesList();
+		for (GameInfo game : games)
+		{
+			if (game.getId() == id)
+			{
+				gameInfo = game;
+			}
+		}
+		
+		// Get the player's info from the game
+		for (PlayerInfo player : gameInfo.getPlayers())
+		{
+			if (player.getId() == playerInfo.getId())
+			{
+				playerInfo = player;
+			}
+		}
+	}
+	
 	public CatanModel getModel() 
 	{
 		return model;
@@ -41,14 +81,6 @@ public class CatanGame extends Observable {
 	
 	public PlayerInfo getPlayerInfo()
 	{
-		// TODO: Broken design here
-		// I want to remove the current-player-logged-in info from the server
-		// proxy and move it into here, but that will mean all logins and joins must
-		// happen through catan game instead of the proxy
-		if (playerInfo == null)
-		{
-			return new PlayerInfo(server.getPlayerId(), -1, server.getPlayerName(), CatanColor.WHITE);
-		}
 		return playerInfo;
 	}
 	
