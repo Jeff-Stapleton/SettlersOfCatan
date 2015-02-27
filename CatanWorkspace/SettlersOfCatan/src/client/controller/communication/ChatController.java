@@ -39,10 +39,28 @@ public class ChatController extends Controller implements IChatController, Obser
 	{
     	try {
     		catanGame.getProxy().movesSendChat(catanGame.getPlayerInfo().getPlayerIndex(), message);
+    		updateFromModel();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
 	}
+	
+	public void updateFromModel()
+	{
+		List<LogEntry> entries = new ArrayList<LogEntry>();
+
+        for (MessageLine line : catanModel.getChat().getLines())
+        {
+        	String user = line.getSource();
+        	CatanColor color = null;
+        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
+        	entries.add(new LogEntry(color, line.getMessage()));
+        }
+        
+        getView().setEntries(entries);
+	}
+	
 	
 	@Override
 	public void update(Observable obs, Object obj) 
@@ -51,17 +69,7 @@ public class ChatController extends Controller implements IChatController, Obser
 		{
 			catanModel = ((CatanGame) obs).getModel();
 			
-	        List<LogEntry> entries = new ArrayList<LogEntry>();
-
-	        for (MessageLine line : catanModel.getChat().getLines())
-	        {
-	        	String user = line.getSource();
-	        	CatanColor color = null;
-	        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
-	        	entries.add(new LogEntry(color, line.getMessage()));
-	        }
-	        
-	        getView().setEntries(entries);
+	        updateFromModel();
 			
 		}
 	}
