@@ -1,9 +1,22 @@
 package shared.definitions;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum PortType
 {
-	
-	WOOD, BRICK, SHEEP, WHEAT, ORE, THREE;
+
+	@SerializedName("wood")
+	WOOD,
+	@SerializedName("brick")
+	BRICK,
+	@SerializedName("sheep")
+	SHEEP,
+	@SerializedName("wheat")
+	WHEAT,
+	@SerializedName("ore")
+	ORE,
+	@SerializedName("three")
+	THREE;
 	
 	private String string;
 	
