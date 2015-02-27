@@ -567,6 +567,63 @@ public class CanCan {
 		return false;
 	}
 	
+	public static boolean notTouchingRobber(HexLocation location, Robber robber, Player player, Map map)
+	{
+		
+		List<Building> newBuildings = new ArrayList<Building>();
+		if (map.getSettlements() != null && !map.getSettlements().isEmpty())
+		{
+			newBuildings = new ArrayList<Building>(map.getSettlements());
+			if (map.getCities() != null && !map.getCities().isEmpty())
+				newBuildings.addAll(map.getCities());
+		}
+		else if (map.getCities() != null && !map.getCities().isEmpty())
+		{
+			newBuildings = new ArrayList<Building>(map.getCities());
+			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
+				newBuildings.addAll(map.getSettlements());
+		}
+		else
+			return false;
+		
+		for(int j = 0; j < newBuildings.size(); j++)
+		{
+			if (newBuildings.get(j).getLocation().getDirection() == VertexDirection.West)
+			{
+				if (location.getX() == newBuildings.get(j).getLocation().getX() && 
+				location.getY() == newBuildings.get(j).getLocation().getY() &&
+				newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+				else if (location.getX() == newBuildings.get(j).getLocation().getX() + 1 && 
+						location.getY() == newBuildings.get(j).getLocation().getY() &&
+						newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+				else if (location.getX() == newBuildings.get(j).getLocation().getX() + 1 && 
+						location.getY() == newBuildings.get(j).getLocation().getY() - 1 &&
+						newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+			}
+			else if (newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest)
+			{
+				if (location.getX() == newBuildings.get(j).getLocation().getX() && 
+				location.getY() == newBuildings.get(j).getLocation().getY() &&
+				newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+				else if (location.getX() == newBuildings.get(j).getLocation().getX() + 1 && 
+						location.getY() == newBuildings.get(j).getLocation().getY() - 1 &&
+						newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+				else if (location.getX() == newBuildings.get(j).getLocation().getX() && 
+						location.getY() == newBuildings.get(j).getLocation().getY() - 1 &&
+						newBuildings.get(j).getOwner() == player.getPlayerIndex())
+					return false;
+			}
+		}
+			
+		return true;
+		
+	}
+	
 	public static boolean canDiscardCards(Player player, TurnTracker turn){
 		if (turn.getCurrentTurn() == player.getPlayerIndex()){
 			if (turn.getStatus() == TurnType.DISCARDING){

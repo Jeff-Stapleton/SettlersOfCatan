@@ -29,6 +29,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private IRobView robView;
 	private CatanGame catanGame;
 	private boolean playingRoadBuildingCard;
+	private int numRoadsPlaced;
 	
 	public MapController(CatanGame catanGame, IMapView view, IRobView robView) {
 		super(view);
@@ -189,11 +190,27 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 	}
 
-	public void placeRobber(HexLocation hexLoc) {
-		
-		getView().placeRobber(hexLoc);
-		
-		getRobView().showModal();
+	public void placeRobber(HexLocation hexLoc) 
+	{
+		if (canPlaceRobber(hexLoc)) {
+			RobPlayerInfo[] candidateVictims = new RobPlayerInfo[3];
+			for(int i = 0; i < 4; i++){
+				int infoArrayIndex = 0;
+				if(i != catanGame.getPlayerInfo().getPlayerIndex() && CanCan.notTouchingRobber(hexLoc, catanModel.getMap().getRobber(), catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanModel.getMap())){
+					RobPlayerInfo robPlayerInfo = new RobPlayerInfo();
+					robPlayerInfo.setPlayerIndex(i);
+					robPlayerInfo.setColor(catanModel.getPlayers()[i].getColor());
+					robPlayerInfo.setName(catanModel.getPlayers()[i].getName());
+					robPlayerInfo.setNumCards(catanModel.getPlayers()[i].getResources().totalCount());
+					robPlayerInfo.setId(catanModel.getPlayers()[i].getPlayerID());
+					candidateVictims[infoArrayIndex] = robPlayerInfo;
+					infoArrayIndex += 1;
+				}
+			}
+			getRobView().setPlayers(candidateVictims);
+			getView().placeRobber(hexLoc);
+			getRobView().showModal();
+		}
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
@@ -207,12 +224,22 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playSoldierCard() 
-	{	
+	{
+		if (catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+		{
+			getView().startDrop(PieceType.ROBBER, catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getColor(), false);
+		}
 		
 	}
 	
 	public void playRoadBuildingCard() 
 	{	
+		if (catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+		{
+			playingRoadBuildingCard = true;
+			numRoadsPlaced = 0;
+			getView().startDrop(PieceType.ROBBER, catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getColor(), false);
+		}
 		
 	}
 	
