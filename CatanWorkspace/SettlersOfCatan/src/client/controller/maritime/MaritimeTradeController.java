@@ -63,7 +63,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	
 	public void handleGiveOptions()
 	{
-		ResourceType[] enabledResources = new ResourceType[4];
+		ResourceType[] enabledResources = new ResourceType[5];
 		int id = catanGame.getPlayerInfo().getPlayerIndex();
 		Player[] players = catanGame.getModel().getPlayers();
 		ResourceList bank = catanGame.getModel().getBank();
@@ -77,36 +77,47 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setWood(resources.getWood());	
-				CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map);
-				enabledResources[0] = ResourceType.WOOD;
+				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				{
+					enabledResources[0] = ResourceType.WOOD;
+				}
+
 			}
 			else if (i == 1) //brick
 			{
 				ResourceList list = new ResourceList();
 				list.setBrick(resources.getBrick());	
-				CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map);
-				enabledResources[1] = ResourceType.BRICK;
+				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				{
+					enabledResources[1] = ResourceType.BRICK;
+				}
 			}
 			else if (i == 2) //wool
 			{
 				ResourceList list = new ResourceList();
 				list.setSheep(resources.getSheep());
-				CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map);
-				enabledResources[2] = ResourceType.SHEEP;
+				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				{
+					enabledResources[2] = ResourceType.SHEEP;
+				}
 			}
 			else if (i == 3) //wheat
 			{
 				ResourceList list = new ResourceList();
 				list.setWheat(resources.getWheat());
-				CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map);
-				enabledResources[3] = ResourceType.WHEAT;
+				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				{
+					enabledResources[3] = ResourceType.WHEAT;
+				}
 			}
 			else //ore
 			{
 				ResourceList list = new ResourceList();
 				list.setOre(resources.getOre());
-				CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map);
-				enabledResources[4] = ResourceType.ORE;
+				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				{
+					enabledResources[4] = ResourceType.ORE;
+				}
 			}
 			
 		}

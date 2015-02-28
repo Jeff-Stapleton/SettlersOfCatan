@@ -31,6 +31,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private Player players[];
 	private ResourceType resourcesToGet[];
 	private ResourceType resourcesToGive[];
+	private Boolean sendingWood;
+	private Boolean sendingBrick;
+	private Boolean sendingSheep;
+	private Boolean sendingWheat;
+	private Boolean sendingOre;
 
 	/**
 	 * DomesticTradeController constructor
@@ -91,52 +96,268 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		
 		getTradeOverlay().showModal();
 	}
+	
+	public void handleEnablingResources(ResourceType resource)
+	{
+		switch (resource)
+		{
+			case WOOD:
+			{
+				if (sendingWood.equals(true))
+				{
+					if (trade.getWood() < players[instigator].getResources().getWood())
+					{
+						if (trade.getWood() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+						}
+					}
+					else
+					{
+						if (trade.getWood() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+						}
+					}
+				}
+				else
+				{
+					if (trade.getWood() > 0)
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
+					}
+					else
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+					}
+				}
+			}
+			case BRICK:
+			{
+				if (sendingBrick.equals(true))
+				{
+					if (trade.getBrick() < players[instigator].getResources().getBrick())
+					{
+						if (trade.getBrick() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
+						}
+					}
+					else
+					{
+						if (trade.getBrick() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+						}
+					}
+				}
+				else
+				{
+					if (trade.getBrick() > 0)
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
+					}
+					else
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
+					}
+				}
+			}
+			case SHEEP:
+			{
+				if (sendingSheep.equals(true))
+				{
+					if (trade.getSheep() < players[instigator].getResources().getSheep())
+					{
+						if (trade.getSheep() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+						}
+					}
+					else
+					{
+						if (trade.getSheep() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+						}
+					}
+				}
+				else
+				{
+					if (trade.getSheep() > 0)
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
+					}
+					else
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+					}
+				}
+			}
+			case WHEAT:
+			{
+				if (sendingWheat.equals(true))
+				{
+					if (trade.getWheat() < players[instigator].getResources().getWheat())
+					{
+						if (trade.getWheat() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+						}
+					}
+					else
+					{
+						if (trade.getWheat() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+						}
+					}
+				}
+				else
+				{
+					if (trade.getWheat() > 0)
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
+					}
+					else
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+					}
+				}
+			}
+			case ORE:
+			{
+				if (sendingOre.equals(true))
+				{
+					if (trade.getOre() < players[instigator].getResources().getOre())
+					{
+						if (trade.getOre() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+						}
+					}
+					else
+					{
+						if (trade.getOre() > 0)
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
+						}
+						else
+						{
+							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+						}
+					}
+				}
+				else
+				{
+					if (trade.getOre() > 0)
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
+					}
+					else
+					{
+						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+					}
+				}
+			}
+		}
+	}
 
 	@Override
 	public void decreaseResourceAmount(ResourceType resource) {
-		if (resource.equals(ResourceType.WOOD))
-		{
-			trade.setWood(trade.getWood() - 1);
-		}
-		else if (resource.equals(ResourceType.BRICK))
-		{
-			trade.setBrick(trade.getBrick() - 1);
-		}
-		else if (resource.equals(ResourceType.SHEEP))
-		{
-			trade.setSheep(trade.getSheep() - 1);
-		}
-		else if (resource.equals(ResourceType.WHEAT))
-		{
-			trade.setWheat(trade.getWheat() - 1);
-		}
-		else
-		{
-			trade.setOre(trade.getOre() - 1);
+		switch(resource) {
+			case WOOD:
+			{
+				trade.setWood(trade.getWood() - 1);
+				handleEnablingResources(resource);
+			}
+			case BRICK:
+			{
+				trade.setWood(trade.getBrick() - 1);
+				handleEnablingResources(resource);
+			}
+			case SHEEP:
+			{
+				trade.setWood(trade.getSheep() - 1);
+				handleEnablingResources(resource);
+			}
+			case WHEAT:
+			{
+				trade.setWood(trade.getWheat() - 1);
+				handleEnablingResources(resource);
+			}
+			case ORE:
+			{
+				trade.setWood(trade.getOre() - 1);
+				handleEnablingResources(resource);
+			}
 		}
 	}
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
-		if (resource.equals(ResourceType.WOOD))
-		{
-			trade.setWood(trade.getWood() + 1);
-		}
-		else if (resource.equals(ResourceType.BRICK))
-		{
-			trade.setBrick(trade.getBrick() + 1);
-		}
-		else if (resource.equals(ResourceType.SHEEP))
-		{
-			trade.setSheep(trade.getSheep() + 1);
-		}
-		else if (resource.equals(ResourceType.WHEAT))
-		{
-			trade.setWheat(trade.getWheat() + 1);
-		}
-		else
-		{
-			trade.setOre(trade.getOre() + 1);
+			switch(resource) {
+			case WOOD:
+			{
+				trade.setWood(trade.getWood() + 1);
+				handleEnablingResources(resource);
+			}
+			case BRICK:
+			{
+				trade.setWood(trade.getBrick() + 1);
+				handleEnablingResources(resource);
+			}
+			case SHEEP:
+			{
+				trade.setWood(trade.getSheep() + 1);
+				handleEnablingResources(resource);
+			}
+			case WHEAT:
+			{
+				trade.setWood(trade.getWheat() + 1);
+				handleEnablingResources(resource);
+			}
+			case ORE:
+			{
+				trade.setWood(trade.getOre() + 1);
+				handleEnablingResources(resource);
+			}
 		}
 	}
 
@@ -161,49 +382,73 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
-		if (resource.equals(ResourceType.WOOD))
-		{
-			resourcesToGet[0] = ResourceType.WOOD;
-		}
-		else if (resource.equals(ResourceType.BRICK))
-		{
-			resourcesToGet[1] = ResourceType.BRICK;
-		}
-		else if (resource.equals(ResourceType.SHEEP))
-		{
-			resourcesToGet[2] = ResourceType.SHEEP;
-		}
-		else if (resource.equals(ResourceType.WHEAT))
-		{
-			resourcesToGet[3] = ResourceType.WHEAT;
-		}
-		else
-		{
-			resourcesToGet[4] = ResourceType.ORE;
+		switch(resource) {
+			case WOOD:
+			{
+				sendingWood = false;
+				resourcesToGet[0] = ResourceType.WOOD;
+				handleEnablingResources(resource);
+			}
+			case BRICK:
+			{
+				sendingBrick = false;
+				resourcesToGet[1] = ResourceType.BRICK;
+				handleEnablingResources(resource);
+			}
+			case SHEEP:
+			{
+				sendingSheep = false;
+				resourcesToGet[2] = ResourceType.SHEEP;
+				handleEnablingResources(resource);
+			}
+			case WHEAT:
+			{
+				sendingWheat = false;
+				resourcesToGet[3] = ResourceType.WHEAT;
+				handleEnablingResources(resource);
+			}
+			case ORE:
+			{
+				sendingOre = false;
+				resourcesToGet[4] = ResourceType.ORE;
+				handleEnablingResources(resource);
+			}
 		}
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
-		if (resource.equals(ResourceType.WOOD))
-		{
-			resourcesToGive[0] = ResourceType.WOOD;
-		}
-		else if (resource.equals(ResourceType.BRICK))
-		{
-			resourcesToGive[1] = ResourceType.BRICK;
-		}
-		else if (resource.equals(ResourceType.SHEEP))
-		{
-			resourcesToGive[2] = ResourceType.SHEEP;
-		}
-		else if (resource.equals(ResourceType.WHEAT))
-		{
-			resourcesToGive[3] = ResourceType.WHEAT;
-		}
-		else
-		{
-			resourcesToGive[4] = ResourceType.ORE;
+		switch(resource) {
+			case WOOD:
+			{
+				sendingWood = true;
+				resourcesToGive[0] = ResourceType.WOOD;
+				handleEnablingResources(resource);
+			}
+			case BRICK:
+			{
+				sendingBrick = true;
+				resourcesToGive[1] = ResourceType.BRICK;
+				handleEnablingResources(resource);
+			}
+			case SHEEP:
+			{
+				sendingSheep = true;
+				resourcesToGive[2] = ResourceType.SHEEP;
+				handleEnablingResources(resource);
+			}
+			case WHEAT:
+			{
+				sendingWheat = true;
+				resourcesToGive[3] = ResourceType.WHEAT;
+				handleEnablingResources(resource);
+			}
+			case ORE:
+			{
+				sendingOre = true;
+				resourcesToGive[4] = ResourceType.ORE;
+				handleEnablingResources(resource);
+			}
 		}
 	}
 
@@ -212,22 +457,27 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		int none = 0;
 		if (resource.equals(ResourceType.WOOD))
 		{
+			sendingWood = null;
 			trade.setWood(none);
 		}
 		else if (resource.equals(ResourceType.BRICK))
 		{
+			sendingBrick = null;
 			trade.setBrick(none);
 		}
 		else if (resource.equals(ResourceType.SHEEP))
 		{
+			sendingSheep = null;
 			trade.setSheep(none);
 		}
 		else if (resource.equals(ResourceType.WHEAT))
 		{
+			sendingWheat = null;
 			trade.setWheat(none);
 		}
 		else
 		{
+			sendingOre = null;
 			trade.setOre(none);
 		}
 	}
