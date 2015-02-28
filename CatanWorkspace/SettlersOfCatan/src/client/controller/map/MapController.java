@@ -10,6 +10,7 @@ import shared.Map;
 import shared.Player;
 import shared.Port;
 import shared.TurnTracker;
+import shared.TurnType;
 import shared.definitions.*;
 import shared.locations.*;
 import client.CatanGame;
@@ -30,8 +31,14 @@ public class MapController extends Controller implements IMapController, Observe
 	private CatanGame catanGame;
 	private boolean playingRoadBuildingCard;
 	private int numRoadsPlaced;
+	private int playerIndex;
+	private CatanColor playerColor;
+	private TurnType mapState;
+	private Player player;
+	private boolean isBuilding;
 	
-	public MapController(CatanGame catanGame, IMapView view, IRobView robView) {
+	public MapController(CatanGame catanGame, IMapView view, IRobView robView) 
+	{
 		super(view);
 		
 		setRobView(robView);
@@ -41,6 +48,7 @@ public class MapController extends Controller implements IMapController, Observe
 
 		playingRoadBuildingCard = false;
 		catanGame.addObserver(this);
+		isBuilding = false;
 	}
 	
 	public IMapView getView() {
@@ -54,6 +62,18 @@ public class MapController extends Controller implements IMapController, Observe
 	private void setRobView(IRobView robView) {
 		this.robView = robView;
 	}
+	
+	private CatanColor getColor()
+	{
+		return playerColor;
+	}
+	
+	private void setColor(CatanColor color)
+	{
+		playerColor = color;
+	}
+	
+	
 	
 	protected void initFromModel() 
 	{
@@ -106,6 +126,7 @@ public class MapController extends Controller implements IMapController, Observe
 				getView().addPort(new EdgeLocation(port.getLocation().getX(), port.getLocation().getY(), port.getDirection()), port.getType());
 			}
 		}
+
 	}
 	
 	protected void updateFromModel()
@@ -133,17 +154,17 @@ public class MapController extends Controller implements IMapController, Observe
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) 
 	{
-		return CanCan.canBuildRoad(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildRoad(player, edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		
-		return CanCan.canBuildSettlement(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildSettlement(player, vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		
-		return CanCan.canBuildCity(catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
+		return CanCan.canBuildCity(player, vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
@@ -160,7 +181,7 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.setModel(catanGame.getProxy().movesBuildRoad(catanGame.getPlayerInfo().getPlayerIndex(), edgeLoc, false));
+			catanGame.setModel(catanGame.getProxy().movesBuildRoad(playerIndex, edgeLoc, false));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -171,7 +192,7 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.setModel(catanGame.getProxy().movesBuildSettlement(catanGame.getPlayerInfo().getPlayerIndex(), vertLoc, false));
+			catanGame.setModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, false));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -182,7 +203,7 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.setModel(catanGame.getProxy().movesBuildCity(catanGame.getPlayerInfo().getPlayerIndex(), vertLoc, false));
+			catanGame.setModel(catanGame.getProxy().movesBuildCity(playerIndex, vertLoc, false));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -195,7 +216,8 @@ public class MapController extends Controller implements IMapController, Observe
 			RobPlayerInfo[] candidateVictims = new RobPlayerInfo[3];
 			for(int i = 0; i < 4; i++){
 				int infoArrayIndex = 0;
-				if(i != catanGame.getPlayerInfo().getPlayerIndex() && CanCan.notTouchingRobber(hexLoc, catanModel.getMap().getRobber(), catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanModel.getMap())){
+				if(i != playerIndex && CanCan.notTouchingRobber(hexLoc, catanModel.getMap().getRobber(), player, catanModel.getMap()))
+				{
 					RobPlayerInfo robPlayerInfo = new RobPlayerInfo();
 					robPlayerInfo.setPlayerIndex(i);
 					robPlayerInfo.setColor(catanModel.getPlayers()[i].getColor());
@@ -214,7 +236,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
 	{	
-		getView().startDrop(pieceType, catanGame.getPlayerInfo().getColor(), true);
+		getView().startDrop(pieceType, getColor(), allowDisconnected);
 	}
 	
 	public void cancelMove() 
@@ -224,20 +246,20 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void playSoldierCard() 
 	{
-		if (catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
 		{
-			getView().startDrop(PieceType.ROBBER, catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getColor(), false);
+			getView().startDrop(PieceType.ROBBER, playerColor, false);
 		}
 		
 	}
 	
 	public void playRoadBuildingCard() 
 	{	
-		if (catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
 		{
 			playingRoadBuildingCard = true;
 			numRoadsPlaced = 0;
-			getView().startDrop(PieceType.ROBBER, catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getColor(), false);
+			getView().startDrop(PieceType.ROBBER, playerColor, false);
 		}
 		
 	}
@@ -246,30 +268,96 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.setModel(catanGame.getProxy().movesRobPlayer(catanGame.getPlayerInfo().getPlayerIndex(), victim.getId(), new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY())));
+			catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getId(), new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY())));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
 		}
 	}
+	
+	private void updateState()
+	{
+		switch(catanModel.getTurnTracker().getStatus()){
+		case FIRST_ROUND:
+			mapState = TurnType.FIRST_ROUND;
+			break;
+		case SECOND_ROUND:
+			mapState = TurnType.SECOND_ROUND;
+			break;
+		case ROLLING:
+			mapState = TurnType.ROLLING;
+			break;
+		case ROBBING:
+			mapState = TurnType.ROBBING;
+			break;
+		case PLAYING:
+			mapState = TurnType.PLAYING;
+			break;
+		case DISCARDING:
+			mapState = TurnType.DISCARDING;
+			break;
+		default:
+			System.out.println("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
+			break;
+		}		
+	}
 
 	@Override
 	public void update(Observable obs, Object obj) 
 	{
-		if (obs instanceof CatanGame) 
+		if (isBuilding == false)
 		{
-			if (catanModel == null)
+			if (obs instanceof CatanGame) 
 			{
-				System.out.println("Initializing model");
-				catanModel = ((CatanGame) obs).getModel();
-				initFromModel();
-				updateFromModel();
-			}
-			else
-			{
-				System.out.println("Updating model");
-				catanModel = ((CatanGame) obs).getModel();
-				updateFromModel();
+				if (catanModel == null)
+				{
+					System.out.println("Initializing model");
+					catanModel = ((CatanGame) obs).getModel();
+					initFromModel();
+				}
+				else 
+				{
+					setColor(catanModel.getPlayers()[playerIndex].getColor());
+					playerIndex = catanGame.getPlayerInfo().getPlayerIndex();
+					player = catanModel.getPlayers()[playerIndex];
+					
+					System.out.println("Updating model");
+					catanModel = ((CatanGame) obs).getModel();
+					updateState();
+					updateFromModel();
+					
+					
+					//THE SUPER TERRIBLE CHECKING SYSTEM FOR THE FIRST ROUND RIGHT NOW
+					
+					if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
+					{
+						
+						if (player.getRoads() == 15 && player.getSettlements() == 5 && !catanModel.getMap().getIsBuilding()) 
+						{ 
+							catanModel.getMap().setIsBuilding(true);
+							startMove(PieceType.ROAD, true, true);
+						}
+						else if (player.getRoads() == 14 && player.getSettlements() == 5 && !catanModel.getMap().getIsBuilding()) 
+						{
+							catanModel.getMap().setIsBuilding(true);
+							startMove(PieceType.SETTLEMENT, true, true);
+						}
+						else if (player.getRoads() == 14 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND) && !catanModel.getMap().getIsBuilding()) 
+						{ 
+							catanModel.getMap().setIsBuilding(true);
+							startMove(PieceType.ROAD, true, true);
+						}
+						else if (player.getRoads() == 13 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND) && !catanModel.getMap().getIsBuilding()) 
+						{ 
+							catanModel.getMap().setIsBuilding(true);
+							startMove(PieceType.SETTLEMENT, true, true);
+						}
+					}
+					
+					if (player.getRoads() == 14 && player.getSettlements() == 5)
+						catanModel.getMap().setIsBuilding(false);
+					
+				}
 			}
 		}
 	}

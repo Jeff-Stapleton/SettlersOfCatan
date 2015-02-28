@@ -24,6 +24,7 @@ public class Map
 	private List<Building> cities;
 	private Integer radius;
 	private Robber robber;	
+	private boolean isBuilding = false;
 	
 	/*public Map()
 	{
@@ -344,5 +345,16 @@ public class Map
 		string.append("}");
 		
 		return string.toString();
+	}
+	
+	// WE REALLY SHOULDN'T HAVE THESE HERE, BUT THESE TEST TO SEE IF WE ARE BUILDING FOR THE FIRST TIME
+	// TO KEEP THE MODALS OPEN
+
+	public boolean getIsBuilding() {
+		return isBuilding;
+	}
+	
+	public void setIsBuilding(boolean isBuilding) {
+		this.isBuilding = isBuilding;
 	}
 }
