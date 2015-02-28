@@ -129,23 +129,23 @@ public class MapController extends Controller implements IMapController, Observe
 
 	}
 	
-	protected void updateFromModel()
+	private void updateFromModel()
 	{
 
 		
 		for (int i = 0; i < catanModel.getMap().getRoads().size(); i++)
 			for (int j = 0; j < catanModel.getPlayers().length; j++)
-				if (catanModel.getPlayers()[j].getPlayerID() == catanModel.getMap().getRoads().get(i).getOwner())
+				if (catanModel.getPlayers()[j].getPlayerIndex() == catanModel.getMap().getRoads().get(i).getOwner())
 					getView().placeRoad(new EdgeLocation(catanModel.getMap().getRoads().get(i).getLocation().getX(), catanModel.getMap().getRoads().get(i).getLocation().getY(), catanModel.getMap().getRoads().get(i).getLocation().getDir()), catanModel.getPlayers()[j].getColor());
 		
 		for (int i = 0; i < catanModel.getMap().getSettlements().size(); i++)
 			for (int j = 0; j < catanModel.getPlayers().length; j++)
-				if (catanModel.getPlayers()[j].getPlayerID() == catanModel.getMap().getSettlements().get(i).getOwner())
+				if (catanModel.getPlayers()[j].getPlayerIndex() == catanModel.getMap().getSettlements().get(i).getOwner())
 					getView().placeSettlement(catanModel.getMap().getSettlements().get(i).getLocation(), catanModel.getPlayers()[j].getColor());
 		
 		for (int i = 0; i < catanModel.getMap().getCities().size(); i++)
 			for (int j = 0; j < catanModel.getPlayers().length; j++)
-				if (catanModel.getPlayers()[j].getPlayerID() == catanModel.getMap().getCities().get(i).getOwner())
+				if (catanModel.getPlayers()[j].getPlayerIndex() == catanModel.getMap().getCities().get(i).getOwner())
 					getView().placeCity(catanModel.getMap().getCities().get(i).getLocation(), catanModel.getPlayers()[j].getColor());
 		
 		getView().placeRobber(new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY()));
@@ -305,61 +305,62 @@ public class MapController extends Controller implements IMapController, Observe
 	@Override
 	public void update(Observable obs, Object obj) 
 	{
-		if (isBuilding == false)
+		if (obs instanceof CatanGame) 
 		{
-			if (obs instanceof CatanGame) 
+			if (catanModel == null)
 			{
-				if (catanModel == null)
+				System.out.println("Initializing model");
+				catanModel = ((CatanGame) obs).getModel();
+				initFromModel();
+			}
+			else 
+			{
+				setColor(catanModel.getPlayers()[playerIndex].getColor());
+				playerIndex = catanGame.getPlayerInfo().getPlayerIndex();
+				player = catanModel.getPlayers()[playerIndex];
+				
+				System.out.println("Updating model");
+				catanModel = ((CatanGame) obs).getModel();
+				updateState();
+				updateFromModel();
+				
+				
+				//THE SUPER TERRIBLE CHECKING SYSTEM FOR THE FIRST ROUND RIGHT NOW
+				
+				if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
 				{
-					System.out.println("Initializing model");
-					catanModel = ((CatanGame) obs).getModel();
-					initFromModel();
-				}
-				else 
-				{
-					setColor(catanModel.getPlayers()[playerIndex].getColor());
-					playerIndex = catanGame.getPlayerInfo().getPlayerIndex();
-					player = catanModel.getPlayers()[playerIndex];
-					
-					System.out.println("Updating model");
-					catanModel = ((CatanGame) obs).getModel();
-					updateState();
-					updateFromModel();
-					
-					
-					//THE SUPER TERRIBLE CHECKING SYSTEM FOR THE FIRST ROUND RIGHT NOW
-					
-					if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
+					System.out.println(mapState.toString());
+					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
 					{
-						
-						if (player.getRoads() == 15 && player.getSettlements() == 5 && !catanModel.getMap().getIsBuilding()) 
-						{ 
-							catanModel.getMap().setIsBuilding(true);
-							startMove(PieceType.ROAD, true, true);
-						}
-						else if (player.getRoads() == 14 && player.getSettlements() == 5 && !catanModel.getMap().getIsBuilding()) 
-						{
-							catanModel.getMap().setIsBuilding(true);
-							startMove(PieceType.SETTLEMENT, true, true);
-						}
-						else if (player.getRoads() == 14 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND) && !catanModel.getMap().getIsBuilding()) 
-						{ 
-							catanModel.getMap().setIsBuilding(true);
-							startMove(PieceType.ROAD, true, true);
-						}
-						else if (player.getRoads() == 13 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND) && !catanModel.getMap().getIsBuilding()) 
-						{ 
-							catanModel.getMap().setIsBuilding(true);
-							startMove(PieceType.SETTLEMENT, true, true);
+						try {
+							catanGame.getProxy().movesFinishTurn(playerIndex);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 					
-					if (player.getRoads() == 14 && player.getSettlements() == 5)
-						catanModel.getMap().setIsBuilding(false);
-					
+					if (player.getRoads() == 15 && player.getSettlements() == 5)
+					{ 
+						startMove(PieceType.ROAD, true, false);
+					}
+					else if (player.getRoads() == 14 && player.getSettlements() == 5)
+					{
+						startMove(PieceType.SETTLEMENT, true, false);
+					}
+					else if (player.getRoads() == 14 && player.getSettlements() == 4)
+					{ 
+						startMove(PieceType.ROAD, true, false);
+					}
+					else if (player.getRoads() == 13 && player.getSettlements() == 4)
+					{ 
+						startMove(PieceType.SETTLEMENT, true, false);
+					}
 				}
+				
 			}
 		}
+		
 	}
 	
 }

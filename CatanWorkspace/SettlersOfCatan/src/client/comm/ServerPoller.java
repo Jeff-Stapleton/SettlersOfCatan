@@ -31,9 +31,7 @@ public class ServerPoller extends Thread implements IServerPoller
 	    	{
 		    	sleep(1000);
 		    	
-		    	// THIS IS THE TEST THAT WON'T LET THE POLLER RUN IF WE'RE WORKING. 
-		    	if (!_catanGame.getModel().getMap().getIsBuilding())
-		    		_catanGame.updateModel();
+		    	_catanGame.updateModel();
 	        	
 	    	}
 	    	catch(IOException e)
