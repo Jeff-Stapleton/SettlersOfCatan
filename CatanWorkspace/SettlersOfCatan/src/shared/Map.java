@@ -24,7 +24,7 @@ public class Map extends Observable
 	private List<Building> settlements = new ArrayList<Building>();
 	private List<Building> cities = new ArrayList<Building>();
 	private Integer radius = 3;
-	private Robber robber = new Robber();	
+	private Robber robber = new Robber();
 	private boolean isBuilding = false;
 	
 	/*public Map()
@@ -367,72 +367,97 @@ public class Map extends Observable
 		}
 		
 		// Update hexes
-		for (int i = 0; i < rhs.hexes.size(); i++)
+		for (Hex other : rhs.hexes)
 		{
-			if (i == hexes.size())
+			boolean hasHex = false;
+			for (Hex hex : hexes)
 			{
-				Hex otherHex = rhs.hexes.get(i);
-				hexes.add(new Hex(otherHex.getLocation(), otherHex.getResource(), otherHex.getNumber()));
+				if (hex.getLocation().equals(other.getLocation()))
+				{
+					updated = updated | hex.updateFrom(other);
+					hasHex = true;
+					break;
+				}
 			}
-			else
+			if (!hasHex)
 			{
-				updated = updated | hexes.get(i).updateFrom(rhs.hexes.get(i));
+				hexes.add(new Hex(other.getLocation(), other.getResource(), other.getNumber()));
 			}
 		}
 		
 		// Update ports
-		for (int i = 0; i < rhs.ports.size(); i++)
+		for (Port other : rhs.ports)
 		{
-			if (i == ports.size())
+			boolean hasPort = false;
+			for (Port port : ports)
 			{
-				Port other = rhs.ports.get(i);
-				ports.add(new Port(other.getType(), other.getLocation(), other.getDirection(), other.getRatio()));
+				if (port.getLocation().equals(other.getLocation()))
+				{
+					updated = updated | port.updateFrom(other);
+					hasPort = true;
+					break;
+				}
 			}
-			else
+			if (!hasPort)
 			{
-				updated = updated | ports.get(i).updateFrom(rhs.ports.get(i));
+				ports.add(new Port(other.getType(), other.getLocation(), other.getDirection(), other.getRatio()));
 			}
 		}
 
 		// Update roads
-		for (int i = 0; i < rhs.roads.size(); i++)
+		for (Road other : rhs.roads)
 		{
-			if (i == roads.size())
+			boolean hasRoad = false;
+			for (Road road : roads)
 			{
-				Road other = rhs.roads.get(i);
-				roads.add(new Road(other.getOwner(), other.getLocation()));
+				if (road.getLocation().equals(other.getLocation()))
+				{
+					updated = updated | road.updateFrom(other);
+					hasRoad = true;
+					break;
+				}
 			}
-			else
+			if (!hasRoad)
 			{
-				updated = updated | roads.get(i).updateFrom(rhs.roads.get(i));
+				roads.add(new Road(other.getOwner(), other.getLocation()));
 			}
 		}
 
 		// Update settlements
-		for (int i = 0; i < rhs.settlements.size(); i++)
+		for (Building other : rhs.settlements)
 		{
-			if (i == settlements.size())
+			boolean hasSettlement = false;
+			for (Building settlement : settlements)
 			{
-				Building other = rhs.settlements.get(i);
-				settlements.add(new Building(other.getOwner(), other.getLocation()));
+				if (settlement.getLocation().equals(other.getLocation()))
+				{
+					updated = updated | settlement.updateFrom(other);
+					hasSettlement = true;
+					break;
+				}
 			}
-			else
+			if (!hasSettlement)
 			{
-				updated = updated | settlements.get(i).updateFrom(rhs.settlements.get(i));
+				settlements.add(new Building(other.getOwner(), other.getLocation()));
 			}
 		}
 
 		// Update cities
-		for (int i = 0; i < rhs.cities.size(); i++)
+		for (Building other : rhs.cities)
 		{
-			if (i == cities.size())
+			boolean hasCity = false;
+			for (Building city : cities)
 			{
-				Building other = rhs.cities.get(i);
-				cities.add(new Building(other.getOwner(), other.getLocation()));
+				if (city.getLocation().equals(other.getLocation()))
+				{
+					updated = updated | city.updateFrom(other);
+					hasCity = true;
+					break;
+				}
 			}
-			else
+			if (!hasCity)
 			{
-				updated = updated | cities.get(i).updateFrom(rhs.cities.get(i));
+				cities.add(new Building(other.getOwner(), other.getLocation()));
 			}
 		}
 		
