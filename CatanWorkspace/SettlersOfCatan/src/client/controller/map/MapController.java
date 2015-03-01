@@ -42,13 +42,13 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		super(view);
 		
-		setRobView(robView);
 		this.catanGame = catanGame;
 		
 		//initFromModel();
 
 		playingRoadBuildingCard = false;
 		catanGame.addObserver(this);
+		setRobView(robView);
 		isBuilding = false;
 		robber = null;
 	}
@@ -246,7 +246,7 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 			}
 		}
-		if(vics.size()==0)
+		if(vics == null || vics.size()==0)
 			return null;
 		return vics.toArray(new RobPlayerInfo[vics.size()]);
 	}
@@ -300,7 +300,7 @@ public class MapController extends Controller implements IMapController, Observe
 			{
 					if(victim!=null)
 					{
-						catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getId(), robber));
+						catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getPlayerIndex(), robber));
 					}
 					else
 					{
@@ -312,7 +312,7 @@ public class MapController extends Controller implements IMapController, Observe
 			{
 				if(victim!=null)
 				{
-					catanGame.setModel(catanGame.getProxy().movesSoldier(playerIndex, victim.getId(), robber));
+					catanGame.setModel(catanGame.getProxy().movesSoldier(playerIndex, victim.getPlayerIndex(), robber));
 				}
 				else
 				{

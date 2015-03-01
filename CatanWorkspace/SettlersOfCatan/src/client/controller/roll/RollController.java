@@ -34,10 +34,11 @@ public class RollController extends Controller implements IRollController, Obser
 	public RollController(CatanGame catanGame, IRollView view, IRollResultView resultView) 
 	{
 		super(view);
-		rollView = view;
-		setResultView(resultView);
+		
 		this.catanGame = catanGame;
 		catanGame.addObserver(this);
+		rollView = view;
+		setResultView(resultView);
 	}
 	
 	public IRollResultView getResultView() {
@@ -61,7 +62,7 @@ public class RollController extends Controller implements IRollController, Obser
 		getResultView().setRollValue(diceRoll);
 		rollView.closeModal();
 		getResultView().showModal();	
-		rollValue = 7;
+		rollValue = diceRoll;
 		try {
 			catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), rollValue);
 		} catch (IOException e) {
