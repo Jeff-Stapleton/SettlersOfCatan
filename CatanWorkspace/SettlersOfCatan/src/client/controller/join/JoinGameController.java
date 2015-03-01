@@ -216,6 +216,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		
 		// If join succeeded
+		catanLobby.getGame().getPlayerInfo().setColor(color);
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		
