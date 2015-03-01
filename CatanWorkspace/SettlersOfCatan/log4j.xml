@@ -10,18 +10,17 @@
 	    </layout>
 	</appender>
 	
-    <logger name="client.Catan" additivity="false">
+	<!-- To set log level for your specific file, copy one of these loggers
+		 and then set the name to the name of your package and file then
+		 set the log level to what you want. If you remove any of these
+		 entries, they will get the level of 'root' down below -->
+    <logger name="client.CatanGame" additivity="false">
     	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
 	
-    <logger name="client.CatanGame" additivity="false">
-    	<level value="TRACE"/>
-        <appender-ref ref="console" />
-    </logger>
-	
     <logger name="client.controller.map.MapController" additivity="false">
-    	<level value="TRACE"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
     
