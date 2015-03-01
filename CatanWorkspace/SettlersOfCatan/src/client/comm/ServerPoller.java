@@ -29,7 +29,7 @@ public class ServerPoller extends Thread implements IServerPoller
     	{
 	    	try
 	    	{
-		    	sleep(5000);
+		    	sleep(10000);
 		    	
 		    	_catanGame.updateModel();
 	        	

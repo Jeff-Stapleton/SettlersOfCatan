@@ -14,8 +14,6 @@ public enum ResourceType
 	WHEAT,
 	@SerializedName("ore")
 	ORE,
-	@SerializedName("three")
-	THREE;
 
 	private String string;
 	

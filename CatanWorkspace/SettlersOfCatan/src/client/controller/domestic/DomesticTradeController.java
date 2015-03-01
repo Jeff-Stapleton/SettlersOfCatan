@@ -56,6 +56,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		catanGame.addObserver(this);
 		
 		this.catanGame = catanGame;
+		trade = new ResourceList();
 		resourcesToGet = new ResourceType[4];
 		resourcesToGive = new ResourceType[4];
 	}
@@ -413,6 +414,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				resourcesToGet[4] = ResourceType.ORE;
 				handleEnablingResources(resource);
 			}
+		default:
+			break;
 		}
 	}
 
