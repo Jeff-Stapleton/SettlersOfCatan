@@ -1,10 +1,12 @@
 package client.controller.roll;
 
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
 import shared.CatanModel;
+import shared.TurnType;
 import client.CatanGame;
 import client.comm.IServerProxy;
 import client.view.base.*;
@@ -32,8 +34,10 @@ public class RollController extends Controller implements IRollController, Obser
 	public RollController(CatanGame catanGame, IRollView view, IRollResultView resultView) 
 	{
 		super(view);
+		rollView = view;
 		setResultView(resultView);
 		this.catanGame = catanGame;
+		catanGame.addObserver(this);
 	}
 	
 	public IRollResultView getResultView() {
@@ -54,19 +58,28 @@ public class RollController extends Controller implements IRollController, Obser
 		int dice1 = randomGenerator1.nextInt(6) + 1;
 		int dice2 = randomGenerator2.nextInt(6) + 1;
 		int diceRoll = dice1 + dice2;
-//		System.out.println("dice1 " + dice1 + " dice2 " + dice2);
 		getResultView().setRollValue(diceRoll);
-//		getResultView().setRollValue(7);
 		rollView.closeModal();
 		getResultView().showModal();	
-		//presenter.rollNumber(diceRoll);
-		rollValue = diceRoll;
+		rollValue = 7;
+		try {
+			catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), rollValue);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void update(Observable obs, Object obj) {
-		if (obs instanceof CatanGame) {
+	public void update(Observable obs, Object obj) 
+	{
+		if (obs instanceof CatanGame) 
+		{
 			catanModel = ((CatanGame) obs).getModel();
+			if (catanModel.getTurnTracker().getStatus().equals(TurnType.ROLLING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+			{
+				rollView.showModal();
+			}
 		}
 	}
 }

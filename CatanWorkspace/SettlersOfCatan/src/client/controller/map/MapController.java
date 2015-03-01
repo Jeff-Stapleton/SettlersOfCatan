@@ -36,6 +36,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private TurnType mapState;
 	private Player player;
 	private boolean isBuilding;
+	private HexLocation robber;
 	
 	public MapController(CatanGame catanGame, IMapView view, IRobView robView) 
 	{
@@ -49,6 +50,7 @@ public class MapController extends Controller implements IMapController, Observe
 		playingRoadBuildingCard = false;
 		catanGame.addObserver(this);
 		isBuilding = false;
+		robber = null;
 	}
 	
 	public IMapView getView() {
@@ -209,28 +211,54 @@ public class MapController extends Controller implements IMapController, Observe
 			e.printStackTrace();
 		}
 	}
+	
+	public RobPlayerInfo[] getVictims(int player,HexLocation spot) {
+		VertexLocation []vertices={new VertexLocation(spot.getX(), spot.getY() ,VertexDirection.NorthEast),new VertexLocation(spot.getX(), spot.getY() ,VertexDirection.NorthWest),
+								new VertexLocation(spot.getX() - 1, spot.getY() + 1 ,VertexDirection.NorthEast),new VertexLocation(spot.getX() + 1, spot.getY() ,VertexDirection.NorthWest),
+								new VertexLocation(spot.getX(), spot.getY() + 1,VertexDirection.NorthEast),new VertexLocation(spot.getX(), spot.getY() + 1,VertexDirection.NorthWest)};
+
+		List<RobPlayerInfo> vics=new ArrayList<RobPlayerInfo>();
+		VertexLocation building;
+		int owner;
+		for(int i=0;i<vertices.length;i++){
+			for(int s=0;s<catanModel.getMap().getSettlements().size();s++){
+				building=catanModel.getMap().getSettlements().get(s).getLocation().getNormalizedLocation();
+				owner=catanModel.getMap().getSettlements().get(s).getOwner();
+				if(building.equals(vertices[i]) && owner!=player && catanModel.getPlayers()[owner].getResources().totalCount()>0){
+					RobPlayerInfo ri=new RobPlayerInfo();
+					ri.setNumCards(catanModel.getPlayers()[owner].getResources().totalCount());
+					ri.setName(catanModel.getPlayers()[owner].getName());
+					ri.setPlayerIndex(owner);
+					ri.setColor(catanModel.getPlayers()[owner].getColor());
+					vics.add(ri);
+				}
+			}
+			for(int c=0;c<catanModel.getMap().getCities().size();c++){
+				building=catanModel.getMap().getCities().get(c).getLocation().getNormalizedLocation();
+				owner=catanModel.getMap().getCities().get(c).getOwner();
+				if(building.equals(vertices[i]) && owner!=player && catanModel.getPlayers()[owner].getResources().totalCount()>0){
+					RobPlayerInfo ri=new RobPlayerInfo();
+					ri.setNumCards(catanModel.getPlayers()[owner].getResources().totalCount());
+					ri.setName(catanModel.getPlayers()[owner].getName());
+					ri.setPlayerIndex(owner);
+					ri.setColor(catanModel.getPlayers()[owner].getColor());
+					vics.add(ri);
+				}
+			}
+		}
+		if(vics.size()==0)
+			return null;
+		return vics.toArray(new RobPlayerInfo[vics.size()]);
+	}
 
 	public void placeRobber(HexLocation hexLoc) 
 	{
-		if (canPlaceRobber(hexLoc)) {
-			RobPlayerInfo[] candidateVictims = new RobPlayerInfo[3];
-			for(int i = 0; i < 4; i++){
-				int infoArrayIndex = 0;
-				if(i != playerIndex && CanCan.notTouchingRobber(hexLoc, catanModel.getMap().getRobber(), player, catanModel.getMap()))
-				{
-					RobPlayerInfo robPlayerInfo = new RobPlayerInfo();
-					robPlayerInfo.setPlayerIndex(i);
-					robPlayerInfo.setColor(catanModel.getPlayers()[i].getColor());
-					robPlayerInfo.setName(catanModel.getPlayers()[i].getName());
-					robPlayerInfo.setNumCards(catanModel.getPlayers()[i].getResources().totalCount());
-					robPlayerInfo.setId(catanModel.getPlayers()[i].getPlayerID());
-					candidateVictims[infoArrayIndex] = robPlayerInfo;
-					infoArrayIndex += 1;
-				}
-			}
-			getRobView().setPlayers(candidateVictims);
+		if (canPlaceRobber(hexLoc)) {			
+			
+			getRobView().setPlayers(getVictims(playerIndex, hexLoc));
 			getView().placeRobber(hexLoc);
 			getRobView().showModal();
+			robber = hexLoc;
 		}
 	}
 	
@@ -268,9 +296,36 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getId(), new HexLocation(catanModel.getMap().getRobber().getX(), catanModel.getMap().getRobber().getY())));
-		} catch (IOException e) 
+			if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING))
+			{
+					if(victim!=null)
+					{
+						catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getId(), robber));
+					}
+					else
+					{
+						catanGame.setModel(catanGame.getProxy().movesRobPlayer(playerIndex, -1, robber));
+					}
+			}
+			else
+			
+			{
+				if(victim!=null)
+				{
+					catanGame.setModel(catanGame.getProxy().movesSoldier(playerIndex, victim.getId(), robber));
+				}
+				else
+				{
+					catanGame.setModel(catanGame.getProxy().movesSoldier(playerIndex, - 1, robber));
+				}
+			}
+			
+			robber=null;
+		}
+		 
+		catch (IOException e) 
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -319,18 +374,28 @@ public class MapController extends Controller implements IMapController, Observe
 				playerIndex = catanGame.getPlayerInfo().getPlayerIndex();
 				player = catanModel.getPlayers()[playerIndex];
 				
-				System.out.println("Updating model");
+				//System.out.println("Updating model");
 				catanModel = ((CatanGame) obs).getModel();
 				updateState();
 				updateFromModel();
 				
-				
-				//THE SUPER TERRIBLE CHECKING SYSTEM FOR THE FIRST ROUND RIGHT NOW
+				if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING) && catanModel.getTurnTracker().getCurrentTurn() == playerIndex){
+					getView().startDrop(PieceType.ROBBER, playerColor, false);
+				}
 				
 				if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
 				{
 					System.out.println(mapState.toString());
 					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
+					{
+						try {
+							catanGame.getProxy().movesFinishTurn(playerIndex);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else if ((player.getRoads() == 13 && player.getSettlements() == 3) && mapState.equals(TurnType.SECOND_ROUND))
 					{
 						try {
 							catanGame.getProxy().movesFinishTurn(playerIndex);

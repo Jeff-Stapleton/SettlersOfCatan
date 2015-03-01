@@ -8,6 +8,7 @@ import java.util.Observer;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.TurnType;
 import shared.definitions.CatanColor;
 import client.CatanGame;
 import client.comm.IServerProxy;
@@ -55,7 +56,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		}
 		
 		for(Player p : players){
-			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));									
+			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));			
 		}
 
 	}
@@ -107,7 +108,15 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		if (obs instanceof CatanGame) {
 			catanModel = ((CatanGame) obs).getModel();
 			//thisPlayer = catanModel.getPlayers()[((CatanGame) obs).getPlayerInfo().getPlayerIndex()];
-			thisPlayer = catanModel.getPlayers()[0];
+			if(catanModel.getTurnTracker().getStatus().equals(TurnType.PLAYING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex()) {
+				getView().updateGameState("Finish Turn", true);
+			}
+			else if (catanModel.getTurnTracker().getStatus().equals(TurnType.ROLLING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex()) {
+				getView().updateGameState("Finish Turn", false);
+			}
+			else {
+				getView().updateGameState("Waiting for other Players", false);
+			}
 			//updateFromModel();
 		}
 	}
