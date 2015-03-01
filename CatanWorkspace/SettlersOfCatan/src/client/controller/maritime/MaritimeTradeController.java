@@ -126,7 +126,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	
 	public void handleGetOptions()
 	{
-		ResourceType[] enabledResources = new ResourceType[4];
+		ResourceType[] enabledResources = new ResourceType[5];
 		enabledResources[0] = ResourceType.WOOD;
 		enabledResources[1] = ResourceType.BRICK;
 		enabledResources[2] = ResourceType.SHEEP;
