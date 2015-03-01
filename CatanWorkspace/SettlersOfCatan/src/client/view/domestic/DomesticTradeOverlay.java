@@ -173,7 +173,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			
 			JPanel upDownButtonsPanel = this.setupUpDownButtonsPanel(resourceType);
 			this.upDownPanelByResourceType.put(resourceType, upDownButtonsPanel);
-//			upDownButtonsPanel.setVisible(false);
+			upDownButtonsPanel.setVisible(false);
 			
 			ButtonGroup toggleButtonGroup = new ButtonGroup();
 			

@@ -2,6 +2,8 @@ package client.comm;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import client.CatanGame;
 
 /**
@@ -13,9 +15,9 @@ import client.CatanGame;
  */
 public class ServerPoller extends AbstractPoller
 {
-	CatanGame _catanGame;
+	private static final Logger log = Logger.getLogger(ServerPoller.class.getName());
 	
-	boolean _gameRunning = true;
+	private CatanGame _catanGame;
 	
     public ServerPoller(CatanGame game)
     {
@@ -26,8 +28,7 @@ public class ServerPoller extends AbstractPoller
     @Override
     public void poll() throws IOException
     {
-    	// THIS IS THE TEST THAT WON'T LET THE POLLER RUN IF WE'RE WORKING. 
-    	if (!_catanGame.getModel().getMap().getIsBuilding())
-    		_catanGame.updateModel();
+    	log.trace("Polling server");
+    	_catanGame.updateModel();
     }
 }

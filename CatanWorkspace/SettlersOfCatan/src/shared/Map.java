@@ -18,11 +18,11 @@ import shared.Robber;
 
 public class Map extends Observable
 {
-	private Hex[] hexes;
-	private List<Port> ports;
-	private List<Road> roads;
-	private List<Building> settlements;
-	private List<Building> cities;
+	private List<Hex> hexes = new ArrayList<Hex>();
+	private List<Port> ports = new ArrayList<Port>();
+	private List<Road> roads = new ArrayList<Road>();
+	private List<Building> settlements = new ArrayList<Building>();
+	private List<Building> cities = new ArrayList<Building>();
 	private Integer radius = 3;
 	private Robber robber = new Robber();	
 	private boolean isBuilding = false;
@@ -110,11 +110,11 @@ public class Map extends Observable
 	public void moveRobber(HexLocation hexLocation)
 	{
 		 for(int i = 0; i < 19; i++)
-			 if (getHexes()[i].hasRobber())
-				 getHexes()[i].takeRobber();
-			 else if (getHexes()[i].getLocation() == hexLocation)
+			 if (getHexes().get(i).hasRobber())
+				 getHexes().get(i).takeRobber();
+			 else if (getHexes().get(i).getLocation() == hexLocation)
 			 {
-				 getHexes()[i].giveRobber();
+				 getHexes().get(i).giveRobber();
 				 robber.setLocation(hexLocation.getX(), hexLocation.getY());
 			 }
 	}
@@ -255,11 +255,11 @@ public class Map extends Observable
 		return players;
 	}
 
-	public Hex[] getHexes() {
+	public List<Hex> getHexes() {
 		return hexes;
 	}
 
-	public void setHexes(Hex[] hexes) {
+	public void setHexes(List<Hex> hexes) {
 		this.hexes = hexes;
 	}
 
@@ -367,70 +367,70 @@ public class Map extends Observable
 		}
 		
 		// Update hexes
-		if (hexes == null || hexes.length != rhs.hexes.length)
+		for (int i = 0; i < rhs.hexes.size(); i++)
 		{
-			hexes = rhs.hexes;
-			updated = true;
-		}
-		else
-		{
-			for (int i = 0; i < hexes.length; i++)
+			if (i == hexes.size())
 			{
-				updated = updated | hexes[i].updateFrom(rhs.hexes[i]);
+				Hex otherHex = rhs.hexes.get(i);
+				hexes.add(new Hex(otherHex.getLocation(), otherHex.getResource(), otherHex.getNumber()));
+			}
+			else
+			{
+				updated = updated | hexes.get(i).updateFrom(rhs.hexes.get(i));
 			}
 		}
 		
 		// Update ports
-		if (ports == null || ports.size() != rhs.ports.size())
+		for (int i = 0; i < rhs.ports.size(); i++)
 		{
-			ports = rhs.ports;
-			updated = true;
-		}
-		else
-		{
-			for (int i = 0; i < ports.size(); i++)
+			if (i == ports.size())
+			{
+				Port other = rhs.ports.get(i);
+				ports.add(new Port(other.getType(), other.getLocation(), other.getDirection(), other.getRatio()));
+			}
+			else
 			{
 				updated = updated | ports.get(i).updateFrom(rhs.ports.get(i));
 			}
 		}
 
 		// Update roads
-		if (roads == null || roads.size() != rhs.roads.size())
+		for (int i = 0; i < rhs.roads.size(); i++)
 		{
-			roads = rhs.roads;
-			updated = true;
-		}
-		else
-		{
-			for (int i = 0; i < roads.size(); i++)
+			if (i == roads.size())
+			{
+				Road other = rhs.roads.get(i);
+				roads.add(new Road(other.getOwner(), other.getLocation()));
+			}
+			else
 			{
 				updated = updated | roads.get(i).updateFrom(rhs.roads.get(i));
 			}
 		}
 
 		// Update settlements
-		if (settlements == null || settlements.size() != rhs.settlements.size())
+		for (int i = 0; i < rhs.settlements.size(); i++)
 		{
-			settlements = rhs.settlements;
-			updated = true;
-		}
-		else
-		{
-			for (int i = 0; i < settlements.size(); i++)
+			if (i == settlements.size())
+			{
+				Building other = rhs.settlements.get(i);
+				settlements.add(new Building(other.getOwner(), other.getLocation()));
+			}
+			else
 			{
 				updated = updated | settlements.get(i).updateFrom(rhs.settlements.get(i));
 			}
 		}
 
 		// Update cities
-		if (cities == null || cities.size() != rhs.cities.size())
+		for (int i = 0; i < rhs.cities.size(); i++)
 		{
-			cities = rhs.cities;
-			updated = true;
-		}
-		else
-		{
-			for (int i = 0; i < cities.size(); i++)
+			if (i == cities.size())
+			{
+				Building other = rhs.cities.get(i);
+				cities.add(new Building(other.getOwner(), other.getLocation()));
+			}
+			else
 			{
 				updated = updated | cities.get(i).updateFrom(rhs.cities.get(i));
 			}
@@ -443,16 +443,5 @@ public class Map extends Observable
 		}
 		
 		return updated;
-	}
-	
-	// WE REALLY SHOULDN'T HAVE THESE HERE, BUT THESE TEST TO SEE IF WE ARE BUILDING FOR THE FIRST TIME
-	// TO KEEP THE MODALS OPEN
-
-	public boolean getIsBuilding() {
-		return isBuilding;
-	}
-	
-	public void setIsBuilding(boolean isBuilding) {
-		this.isBuilding = isBuilding;
 	}
 }

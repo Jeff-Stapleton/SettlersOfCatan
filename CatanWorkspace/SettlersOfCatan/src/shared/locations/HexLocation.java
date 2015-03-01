@@ -1,18 +1,16 @@
 package shared.locations;
 
-import java.util.Observable;
-
 /**
  * Represents the location of a hex on a hex map
  */
-public class HexLocation extends Observable
+public class HexLocation
 {
-	
 	private int x;
 	private int y;
 	
 	public HexLocation(int x, int y)
 	{
+		super();
 		setX(x);
 		setY(y);
 	}
@@ -109,12 +107,6 @@ public class HexLocation extends Observable
 		{
 			y = rhs.y;
 			updated = true;
-		}
-		
-		if (updated)
-		{
-			setChanged();
-			notifyObservers();
 		}
 		
 		return updated;

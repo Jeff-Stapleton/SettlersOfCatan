@@ -11,8 +11,8 @@ import java.io.IOException;
  */
 public abstract class AbstractPoller extends Thread implements IServerPoller
 {
-	boolean _running = true;
-	int _delay;
+	private boolean _running = true;
+	private int _delay;
 	
     public AbstractPoller(int delay)
     {

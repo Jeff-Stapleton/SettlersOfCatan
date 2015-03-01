@@ -217,7 +217,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		
 		// If join succeeded
 		getSelectColorView().closeModal();
-		getJoinGameView().closeModal(); //THIS WAS ALREADY CLOSED SOMEWHERE ELSE AND TAHT WAS CAUSING THE ASSERTION ERROR!!!
+		getJoinGameView().closeModal();
 		
 		joinAction.execute();
 	}

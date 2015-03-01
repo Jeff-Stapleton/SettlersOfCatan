@@ -3,6 +3,8 @@ package client;
 import java.io.IOException;
 import java.util.Observable;
 
+import org.apache.log4j.Logger;
+
 import client.comm.ServerPoller;
 import client.comm.ServerProxy;
 import client.view.data.GameInfo;
@@ -10,9 +12,10 @@ import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.comm.ServerException;
 
-public class CatanGame extends Observable {
+public class CatanGame extends Observable
+{
+	private static final Logger log = Logger.getLogger(CatanGame.class.getName());
 	
-	/** The log. */
 	private ServerProxy server;
 	private CatanModel catanModel = new CatanModel();
 	private ServerPoller serverPoller = null;
@@ -74,6 +77,7 @@ public class CatanGame extends Observable {
 	
 	public void updateModel() throws IOException
 	{
+		log.trace("Fetching a new model");
 		CatanModel model = server.gameModel();
 		
 		if (model != null)
@@ -88,6 +92,7 @@ public class CatanGame extends Observable {
 	
 	public void updateModel(CatanModel model)
 	{
+		log.trace("Updating model");
 		assert model != null;
 		if (catanModel.updateFrom(model))
 		{

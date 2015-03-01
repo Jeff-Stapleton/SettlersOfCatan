@@ -342,10 +342,8 @@ public class Player extends Observable {
 		string.append("discarded : ").append(discarded).append(",\n");
 		string.append("playerID : ").append(playerID).append(",\n");
 		string.append("playerIndex : ").append(playerIndex).append(",\n");
-		string.append("name : ").append(name).append(",\n");
 		string.append("color : ").append(color).append(",\n");
-		string.append("name : ").append(name).append(",\n");
-		string.append("name : ").append(name).append(",\n");
+		string.append("name : ").append(name).append("\n");
 		
 		string.append("}");
 		

@@ -2,6 +2,8 @@ package client.controller.resources;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 import shared.CanCan;
 import shared.CatanModel;
 import shared.DevCardList;
@@ -15,15 +17,18 @@ import client.view.resources.ResourceBarElement;
 /**
  * Implementation for the resource bar controller
  */
-public class ResourceBarController extends Controller implements
-		IResourceBarController, Observer {
+public class ResourceBarController extends Controller implements IResourceBarController, Observer 
+{
+	private static final Logger log = Logger.getLogger(ResourceBarController.class.getName());
 
+	private CatanGame catanGame;
 	private Map<ResourceBarElement, IAction> elementActions;
 
 	public ResourceBarController(IResourceBarView view, CatanGame catanGame) {
-
+		
 		super(view);
 		catanGame.addObserver(this);
+		this.catanGame = catanGame;
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 	}
 
@@ -87,9 +92,19 @@ public class ResourceBarController extends Controller implements
 		if (o instanceof CatanGame) {
 			CatanModel model = ((CatanGame) o).getModel();
 			//Player thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getPlayerIndex()];
-			Player thisPlayer = model.getPlayers()[0];
+			Player thisPlayer = model.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()];
 			TurnTracker turn = model.getTurnTracker();
 			DevCardList deck = model.getDeck();
+			
+			getView().setElementAmount(ResourceBarElement.BRICK, thisPlayer.getResources().getBrick());
+			getView().setElementAmount(ResourceBarElement.ORE, thisPlayer.getResources().getOre());
+			getView().setElementAmount(ResourceBarElement.SHEEP, thisPlayer.getResources().getSheep());
+			getView().setElementAmount(ResourceBarElement.WHEAT, thisPlayer.getResources().getWheat());
+			getView().setElementAmount(ResourceBarElement.WOOD, thisPlayer.getResources().getWood());
+			
+			getView().setElementAmount(ResourceBarElement.CITY, thisPlayer.getCities());
+			getView().setElementAmount(ResourceBarElement.SETTLEMENT, thisPlayer.getSettlements());
+			getView().setElementAmount(ResourceBarElement.ROAD, thisPlayer.getRoads());
 
 			// buildRoad check
 			if (CanCan.canBuyRoad(thisPlayer, turn)) {

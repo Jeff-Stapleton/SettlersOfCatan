@@ -3,6 +3,8 @@ package client;
 import java.io.IOException;
 import java.util.Observable;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.definitions.CatanColor;
@@ -11,9 +13,12 @@ import client.comm.LobbyPoller;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 
-public class CatanLobby extends Observable {
-	ServerProxy serverProxy;
-	CatanGame catanGame;
+public class CatanLobby extends Observable
+{
+	private static final Logger log = Logger.getLogger(CatanLobby.class.getName());
+	
+	private ServerProxy serverProxy;
+	private CatanGame catanGame;
 	private LobbyPoller waitPoller = null;
 	
 	boolean loggedIn = false;
@@ -70,6 +75,7 @@ public class CatanLobby extends Observable {
 	
 	private boolean _updateInfo(int gameId) throws IOException
 	{
+		log.trace("Updating game and player info");
 		boolean updated = false;
 		
 		// Get the game's info
@@ -100,22 +106,16 @@ public class CatanLobby extends Observable {
 							mPlayer.getPlayerIndex() != player.getPlayerIndex())
 						{
 							player.setPlayerIndex(mPlayer.getPlayerIndex());
+
+							if (player.getId() == catanGame.getPlayerInfo().getId())
+							{
+								catanGame.setPlayerInfo(player);
+								updated = true;
+							}
+							
 							updated = true;
 						}
 					}
-				}
-			}
-		}
-		
-		// Get the player's info from the game
-		for (PlayerInfo player : catanGame.getGameInfo().getPlayers())
-		{
-			if (player.getId() == catanGame.getPlayerInfo().getId())
-			{
-				if (!player.equals(catanGame.getPlayerInfo()))
-				{
-					catanGame.setPlayerInfo(player);
-					updated = true;
 				}
 			}
 		}
