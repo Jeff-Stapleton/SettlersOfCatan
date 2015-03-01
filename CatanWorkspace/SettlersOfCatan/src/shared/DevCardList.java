@@ -1,8 +1,9 @@
 package shared;
 
+import java.util.Observable;
 import java.util.Random;
 
-public class DevCardList {
+public class DevCardList extends Observable {
 
 	private int monopoly = 0;
 	private int monument = 0;
@@ -150,6 +151,79 @@ public class DevCardList {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + monopoly;
+		result = prime * result + monument;
+		result = prime * result + roadBuilding;
+		result = prime * result + soldier;
+		result = prime * result + yearOfPlenty;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DevCardList other = (DevCardList) obj;
+		if (monopoly != other.monopoly)
+			return false;
+		if (monument != other.monument)
+			return false;
+		if (roadBuilding != other.roadBuilding)
+			return false;
+		if (soldier != other.soldier)
+			return false;
+		if (yearOfPlenty != other.yearOfPlenty)
+			return false;
+		return true;
+	}
+
+	public boolean updateFrom(DevCardList dcl)
+	{
+		boolean updated = false;
+		
+		if (monopoly != dcl.monopoly)
+		{
+			monopoly = dcl.monopoly;
+			updated = true;
+		}
+		if (monument != dcl.monument)
+		{
+			monument = dcl.monument;
+			updated = true;
+		}
+		if (roadBuilding != dcl.roadBuilding)
+		{
+			roadBuilding = dcl.roadBuilding;
+			updated = true;
+		}
+		if (soldier != dcl.soldier)
+		{
+			soldier = dcl.soldier;
+			updated = true;
+		}
+		if (yearOfPlenty != dcl.yearOfPlenty)
+		{
+			yearOfPlenty = dcl.yearOfPlenty;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 
 }

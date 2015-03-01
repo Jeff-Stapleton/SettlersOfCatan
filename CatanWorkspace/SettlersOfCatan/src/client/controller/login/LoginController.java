@@ -1,18 +1,11 @@
 package client.controller.login;
 
-import client.CatanGame;
+import client.CatanLobby;
 import client.view.base.*;
 import client.view.login.ILoginView;
 import client.view.misc.*;
 
-import java.net.*;
 import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-
 
 /**
  * Implementation for the login controller
@@ -21,7 +14,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	private IMessageView messageView;
 	private IAction loginAction;
-	private CatanGame catanGame;
+	private CatanLobby catanLobby;
 	
 	/**
 	 * LoginController constructor
@@ -29,12 +22,12 @@ public class LoginController extends Controller implements ILoginController {
 	 * @param view Login view
 	 * @param messageView Message view (used to display error messages that occur during the login process)
 	 */
-	public LoginController(CatanGame catanGame, ILoginView view,
-			IMessageView messageView) {
+	public LoginController(CatanLobby catanLobby, ILoginView view, IMessageView messageView)
+	{
 		super(view);
 		
 		this.messageView = messageView;
-		this.catanGame = catanGame;
+		this.catanLobby = catanLobby;
 	}
 	
 	public ILoginView getLoginView() {
@@ -81,7 +74,7 @@ public class LoginController extends Controller implements ILoginController {
 		//Login Here
 		try 
 		{
-			catanGame.userLogin(username, password);
+			catanLobby.userLogin(username, password);
 			getLoginView().closeModal();
 			loginAction.execute();
 			//login success
@@ -135,7 +128,7 @@ public class LoginController extends Controller implements ILoginController {
 		{
 			try 
 			{
-				catanGame.userRegister(username, password1);
+				catanLobby.userRegister(username, password1);
 				getLoginView().closeModal();
 				loginAction.execute();
 			} 

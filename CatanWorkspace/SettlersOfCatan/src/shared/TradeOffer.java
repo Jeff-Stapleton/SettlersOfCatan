@@ -1,6 +1,6 @@
 package shared;
 
-public class TradeOffer 
+public class TradeOffer
 {
 	private String type;
 	private int playerIndex;
@@ -84,5 +84,57 @@ public class TradeOffer
 	public void setOffer(ResourceList offer) 
 	{
 		this.offer = offer;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("type : ").append(type).append(",\n");
+		string.append("playerIndex : ").append(playerIndex).append(",\n");
+		string.append("receiver : ").append(receiver).append(",\n");
+		string.append("offer : ").append(offer).append("\n");
+		
+		string.append("}");
+		
+		return string.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((offer == null) ? 0 : offer.hashCode());
+		result = prime * result + playerIndex;
+		result = prime * result + receiver;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TradeOffer other = (TradeOffer) obj;
+		if (offer == null) {
+			if (other.offer != null)
+				return false;
+		} else if (!offer.equals(other.offer))
+			return false;
+		if (playerIndex != other.playerIndex)
+			return false;
+		if (receiver != other.receiver)
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
 	}
 }

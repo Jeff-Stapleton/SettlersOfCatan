@@ -1,7 +1,6 @@
 package shared;
 
 import shared.locations.HexLocation;
-import shared.definitions.HexType;
 
 public class Robber extends HexLocation {
 //	private HexLocation location;

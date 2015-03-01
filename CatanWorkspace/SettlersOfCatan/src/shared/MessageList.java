@@ -6,8 +6,10 @@ package shared;
  */
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class MessageList {
+public class MessageList extends Observable
+{
 	
 	/** The list of messages. */
 	ArrayList<MessageLine> lines;
@@ -48,7 +50,8 @@ public class MessageList {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder string = new StringBuilder("{\n");
 		
 		string.append("lines : [\n");
@@ -60,6 +63,37 @@ public class MessageList {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(MessageList rhs)
+	{
+		boolean updated = false;
+		
+		if (lines.size() != rhs.getLines().size())
+		{
+			lines = rhs.getLines();
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < rhs.getLines().size(); i++)
+			{
+				if (!lines.get(i).equals(rhs.getLines().get(i)))
+				{
+					lines.get(i).setSource(rhs.getLines().get(i).getSource());
+					lines.get(i).setMessage(rhs.getLines().get(i).getSource());
+					updated = true;
+				}
+			}
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+
+		return updated;
 	}
 
 }

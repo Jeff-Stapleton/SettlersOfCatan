@@ -1,12 +1,14 @@
 package shared;
 
+import java.util.Observable;
+
 import shared.definitions.HexType;
 import shared.locations.HexLocation;
 
 /**
  * The Class Hex.
  */
-public class Hex {
+public class Hex extends Observable {
 	
 	/** The location. */
 	private HexLocation location;
@@ -140,5 +142,32 @@ public class Hex {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Hex rhs)
+	{
+		boolean updated = false;
+		
+		updated = updated | location.updateFrom(rhs.location);
+		
+		if (resource != rhs.resource)
+		{
+			resource = rhs.resource;
+			updated = true;
+		}
+		
+		if (number != rhs.number)
+		{
+			number = rhs.number;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 }

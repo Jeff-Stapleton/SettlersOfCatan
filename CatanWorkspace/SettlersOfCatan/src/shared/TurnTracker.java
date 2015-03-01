@@ -1,10 +1,12 @@
 package shared;
 
+import java.util.Observable;
+
 /**
  * Tracks whose turn it currently is, and changes the possession of the Longest road and largest army cards each turn if neccessary.
  * @author JJ
  */
-public class TurnTracker 
+public class TurnTracker extends Observable
 {
 	// singleton
     private static TurnTracker instance = new TurnTracker();
@@ -15,27 +17,21 @@ public class TurnTracker
     }
     
 	/** The current turn. */
-	private int currentTurn;
+	private int currentTurn = 0;
 	
 	/** The status. */
-	private TurnType status;
+	private TurnType status = TurnType.PLAYING;
 	
 	/** The longest road. */
-	private int longestRoad;
+	private int longestRoad = -1;
 	
 	/** The largest army. */
-	private int largestArmy;
+	private int largestArmy = -1;
 	
 	/**
 	 * Instantiates a new turn tracker in case of no variables to be input. 
 	 */
-	public TurnTracker() 
-	{
-		status = TurnType.PLAYING;
-		currentTurn = 0;
-		longestRoad=-1;
-		largestArmy=-1;
-	}
+	public TurnTracker() {}
 	
 
 	/**
@@ -170,5 +166,70 @@ public class TurnTracker
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + currentTurn;
+		result = prime * result + largestArmy;
+		result = prime * result + longestRoad;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TurnTracker other = (TurnTracker) obj;
+		if (currentTurn != other.currentTurn)
+			return false;
+		if (largestArmy != other.largestArmy)
+			return false;
+		if (longestRoad != other.longestRoad)
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
+
+	public boolean updateFrom(TurnTracker rhs)
+	{
+		boolean updated = false;
+		
+		if (currentTurn != rhs.currentTurn)
+		{
+			currentTurn = rhs.currentTurn;
+			updated = true;
+		}
+		if (status != rhs.status)
+		{
+			status = rhs.status;
+			updated = true;
+		}
+		if (longestRoad != rhs.longestRoad)
+		{
+			longestRoad = rhs.longestRoad;
+			updated = true;
+		}
+		if (largestArmy != rhs.largestArmy)
+		{
+			largestArmy = rhs.largestArmy;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 }

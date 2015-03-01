@@ -8,15 +8,13 @@ import client.comm.ServerProxy;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
-import shared.Player;
 import shared.comm.ServerException;
-import shared.definitions.CatanColor;
 
 public class CatanGame extends Observable {
 	
 	/** The log. */
 	private ServerProxy server;
-	private CatanModel model;
+	private CatanModel catanModel = new CatanModel();
 	private ServerPoller serverPoller = null;
 	
 	private PlayerInfo playerInfo = null;
@@ -25,75 +23,30 @@ public class CatanGame extends Observable {
 	/**
 	 * Instantiates a new Catan Game.
 	 */
-	public CatanGame(ServerProxy gameServer, CatanModel initialModel) 
+	public CatanGame(ServerProxy gameServer) 
 	{
 		server = gameServer;
-		model = initialModel;
-	}
-	
-	public void userLogin(String user, String password) throws IOException
-	{
-		assert user != null;
-		assert password != null;
-		playerInfo = server.userLogin(user, password);
-	}
-	
-	public void userRegister(String user, String password) throws IOException
-	{
-		assert user != null;
-		assert password != null;
-		playerInfo = server.userRegister(user, password);
-	}
-	
-	public void gamesJoin(CatanColor color, int id) throws IOException
-	{
-		assert color != null;
-		// Join the game
-		server.gamesJoin(color, id);
-		
-		// Get the game's info
-		GameInfo[] games = server.gamesList();
-		for (GameInfo game : games)
-		{
-			if (game.getId() == id)
-			{
-				gameInfo = game;
-			}
-		}
-		
-		// Update the user indexes
-		CatanModel model = server.gameModel();
-		for (Player mPlayer : model.getPlayers())
-		{
-			for (PlayerInfo player : gameInfo.getPlayers())
-			{
-				if (mPlayer.getPlayerID() == player.getId())
-				{
-					player.setPlayerIndex(mPlayer.getPlayerIndex());
-				}
-			}
-		}
-		
-		// Get the player's info from the game
-		for (PlayerInfo player : gameInfo.getPlayers())
-		{
-			if (player.getId() == playerInfo.getId())
-			{
-				playerInfo = player;
-			}
-		}
+		assert catanModel != null;
 	}
 	
 	public CatanModel getModel() 
 	{
-		return model;
+		return catanModel;
 	}
 
+	/**
+	 * Set the model to the model passed in
+	 * @deprecated please use updateModel(model) instead
+	 * @param model the model to set the model to
+	 */
+	@Deprecated
 	public void setModel(CatanModel model) 
 	{
-		this.model = model;
-		setChanged();
-		notifyObservers();
+		if (catanModel.updateFrom(model))
+		{
+			setChanged();
+			notifyObservers();
+		}
 	}
 	
 	public PlayerInfo getPlayerInfo()
@@ -119,16 +72,27 @@ public class CatanGame extends Observable {
 		return server;
 	}
 	
-	public void updateModel() throws IOException {
-		System.out.println("Updating model");
+	public void updateModel() throws IOException
+	{
 		CatanModel model = server.gameModel();
 		
-		if (model != null) {
-			setModel(model);
+		if (model != null)
+		{
+			updateModel(model);
 		}
 		else
 		{
 			throw new ServerException("Recieved null model from the server");
+		}
+	}
+	
+	public void updateModel(CatanModel model)
+	{
+		assert model != null;
+		if (catanModel.updateFrom(model))
+		{
+			setChanged();
+			notifyObservers();
 		}
 	}
 	
@@ -145,6 +109,7 @@ public class CatanGame extends Observable {
 		if (serverPoller != null)
 		{
 			serverPoller.close();
+			serverPoller = null;
 		}
 	}
 }

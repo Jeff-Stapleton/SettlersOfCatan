@@ -3,11 +3,13 @@ package client.view.catan;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import shared.definitions.ResourceType;
+import client.Catan;
 import client.CatanGame;
 import client.comm.IServerProxy;
 import client.controller.discard.DiscardController;
@@ -20,6 +22,8 @@ import client.view.roll.RollView;
 @SuppressWarnings("serial")
 public class CatanPanel extends JPanel
 {
+	private final static Logger log = Logger.getLogger(CatanPanel.class.getName());
+	
 	private TitlePanel titlePanel;
 	private LeftPanel leftPanel;
 	private MidPanel midPanel;
@@ -35,6 +39,8 @@ public class CatanPanel extends JPanel
 	
 	public CatanPanel(CatanGame catanGame)
 	{
+		log.finest("Creating CatanPanel");
+		
 		this.setLayout(new BorderLayout());
 		
 		titlePanel = new TitlePanel();
@@ -117,6 +123,8 @@ public class CatanPanel extends JPanel
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);
+		
+		log.finest("CatanPanel created");
 	}
 	
 }

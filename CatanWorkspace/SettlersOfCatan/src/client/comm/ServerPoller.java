@@ -11,7 +11,7 @@ import client.CatanGame;
  * @author Cory Beutler
  *
  */
-public class ServerPoller extends Thread implements IServerPoller
+public class ServerPoller extends AbstractPoller
 {
 	CatanGame _catanGame;
 	
@@ -19,42 +19,15 @@ public class ServerPoller extends Thread implements IServerPoller
 	
     public ServerPoller(CatanGame game)
     {
+    	super(1000);
         _catanGame = game;
     }
 
     @Override
-    public void run()
+    public void poll() throws IOException
     {
-    	while(_gameRunning == true)
-    	{
-	    	try
-	    	{
-		    	sleep(1000);
-		    	
-		    	// THIS IS THE TEST THAT WON'T LET THE POLLER RUN IF WE'RE WORKING. 
-		    	if (!_catanGame.getModel().getMap().getIsBuilding())
-		    		_catanGame.updateModel();
-	        	
-	    	}
-	    	catch(IOException e)
-	    	{
-	    		System.err.println(e.getMessage());
-	    		e.printStackTrace();
-	    	}
-	    	catch(InterruptedException e)
-	    	{
-	    		System.err.println(e.getMessage());
-	    		e.printStackTrace();
-	    		
-	    		break;
-	    	}
-	    	
-    	}
-    }
-    
-    @Override
-    public void close()
-    {
-    	_gameRunning = false;
+    	// THIS IS THE TEST THAT WON'T LET THE POLLER RUN IF WE'RE WORKING. 
+    	if (!_catanGame.getModel().getMap().getIsBuilding())
+    		_catanGame.updateModel();
     }
 }

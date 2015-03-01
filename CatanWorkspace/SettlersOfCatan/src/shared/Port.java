@@ -1,10 +1,13 @@
 package shared;
 
+import java.util.Observable;
+
 import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.locations.EdgeDirection;
 
-public class Port {
+public class Port extends Observable
+{
 
 	private PortType resource;
 	private HexLocation location;
@@ -103,5 +106,38 @@ public class Port {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Port rhs)
+	{
+		boolean updated = false;
+
+		updated = updated | location.updateFrom(rhs.location);
+		
+		if (resource != rhs.resource)
+		{
+			resource = rhs.resource;
+			updated = true;
+		}
+		
+		if (direction != rhs.direction)
+		{
+			direction = rhs.direction;
+			updated = true;
+		}
+		
+		if (ratio != rhs.ratio)
+		{
+			ratio = rhs.ratio;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 }

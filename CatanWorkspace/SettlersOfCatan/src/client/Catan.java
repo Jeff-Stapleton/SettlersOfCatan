@@ -5,11 +5,11 @@ import javax.swing.*;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
-import client.comm.IServerProxy;
 import client.comm.ServerProxy;
 import client.controller.join.JoinGameController;
 import client.controller.join.PlayerWaitingController;
@@ -30,21 +30,25 @@ import client.view.misc.MessageView;
 @SuppressWarnings("serial")
 public class Catan extends JFrame
 {
+	private final static Logger log = Logger.getLogger(Catan.class.getName());
 	
 	private CatanPanel catanPanel;
 	
-	public Catan(CatanGame catanGame)
+	public Catan(CatanLobby catanLobby)
 	{
+		log.trace("Creating catan window");
 		
 		OverlayView.setWindow(this);
 		
 		this.setTitle("Settlers of Catan");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		catanPanel = new CatanPanel(catanGame);
+		catanPanel = new CatanPanel(catanLobby.getGame());
 		this.setContentPane(catanPanel);
 		
 		display();
+		
+		log.trace("Catan window created");
 	}
 	
 	private void display()
@@ -59,6 +63,9 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
+		DOMConfigurator.configure("log4j.xml");
+		log.info("Starting Catan Client");
+		
 		String host = "localhost";
 		int port = 8081;
 		
@@ -101,13 +108,15 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				ServerProxy serverProxy = new ServerProxy("http://" + fHost + ":" + fPort);
-				CatanGame catanGame = new CatanGame(serverProxy, null);
+				log.info("Connecting to \"http://" + fHost + ":" + fPort + "\"");
 				
-				new Catan(catanGame);
+				ServerProxy serverProxy = new ServerProxy("http://" + fHost + ":" + fPort);
+				CatanLobby catanLobby = new CatanLobby(serverProxy);
+				
+				new Catan(catanLobby);
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(catanGame,
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(catanLobby,
 																									playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
@@ -115,7 +124,7 @@ public class Catan extends JFrame
 				NewGameView newGameView = new NewGameView();
 				SelectColorView selectColorView = new SelectColorView();
 				MessageView joinMessageView = new MessageView();
-				final JoinGameController joinController = new JoinGameController(catanGame,
+				final JoinGameController joinController = new JoinGameController(catanLobby,
 																				 joinView,
 																				 newGameView,
 																				 selectColorView,
@@ -124,6 +133,7 @@ public class Catan extends JFrame
 					@Override
 					public void execute()
 					{
+						log.trace("Starting playerWaitingController");
 						playerWaitingController.start();
 					}
 				});
@@ -134,18 +144,21 @@ public class Catan extends JFrame
 				
 				LoginView loginView = new LoginView();
 				MessageView loginMessageView = new MessageView();
-				LoginController loginController = new LoginController(catanGame,
+				LoginController loginController = new LoginController(catanLobby,
 																	  loginView,
 																	  loginMessageView);
 				loginController.setLoginAction(new IAction() {
 					@Override
 					public void execute()
 					{
+						log.trace("Starting joinController");
 						joinController.start();
 					}
 				});
 				loginView.setController(loginController);
 				loginView.setController(loginController);
+				
+				log.trace("Starting login controller");
 				
 				loginController.start();
 			}

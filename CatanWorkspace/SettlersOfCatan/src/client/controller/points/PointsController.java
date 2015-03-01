@@ -9,14 +9,13 @@ import client.view.base.*;
 import client.view.points.IGameFinishedView;
 import client.view.points.IPointsView;
 
-
 /**
  * Implementation for the points controller
  */
 public class PointsController extends Controller implements IPointsController, Observer {
 
-	private CatanModel catanModel;
 	private IGameFinishedView finishedView;
+	private CatanGame catanGame;
 	
 	/**
 	 * PointsController constructor
@@ -24,13 +23,15 @@ public class PointsController extends Controller implements IPointsController, O
 	 * @param view Points view
 	 * @param finishedView Game finished view, which is displayed when the game is over
 	 */
-	public PointsController(IPointsView view, IGameFinishedView finishedView, CatanGame catanGame) {
-		
+	public PointsController(IPointsView view, IGameFinishedView finishedView, CatanGame catanGame)
+	{
 		super(view);
 		
-		setFinishedView(finishedView);
+		this.catanGame = catanGame;
 		
-		catanGame.addObserver(this);		
+		catanGame.getModel().addObserver(this);
+		
+		setFinishedView(finishedView);
 		
 		//initFromModel();
 	}
@@ -56,9 +57,13 @@ public class PointsController extends Controller implements IPointsController, O
 	@Override
 	public void update(Observable obs, Object obj) 
 	{
-		if (obs instanceof CatanGame) 
+		if (obs instanceof CatanModel) 
 		{
-			catanModel = ((CatanGame) obs).getModel();
+			CatanModel model = (CatanModel) obs;
+			
+//			getPointsView()
+//			.setPoints(model.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()]
+//					            		  .getVictoryPoints());
 		}
 	}
 	

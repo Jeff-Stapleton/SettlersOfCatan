@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 
 import client.view.data.RobPlayerInfo;
@@ -15,15 +16,15 @@ import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.Robber;
 
-public class Map 
+public class Map extends Observable
 {
 	private Hex[] hexes;
 	private List<Port> ports;
 	private List<Road> roads;
 	private List<Building> settlements;
 	private List<Building> cities;
-	private Integer radius;
-	private Robber robber;	
+	private Integer radius = 3;
+	private Robber robber = new Robber();	
 	private boolean isBuilding = false;
 	
 	/*public Map()
@@ -345,6 +346,103 @@ public class Map
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Map rhs)
+	{
+		boolean updated = false;
+
+		updated = updated | robber.updateFrom(rhs.robber);
+		
+		if (radius != rhs.radius)
+		{
+			radius = rhs.radius;
+			updated = true;
+		}
+		
+		if (isBuilding != rhs.isBuilding)
+		{
+			isBuilding = rhs.isBuilding;
+			updated = true;
+		}
+		
+		// Update hexes
+		if (hexes == null || hexes.length != rhs.hexes.length)
+		{
+			hexes = rhs.hexes;
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < hexes.length; i++)
+			{
+				updated = updated | hexes[i].updateFrom(rhs.hexes[i]);
+			}
+		}
+		
+		// Update ports
+		if (ports == null || ports.size() != rhs.ports.size())
+		{
+			ports = rhs.ports;
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < ports.size(); i++)
+			{
+				updated = updated | ports.get(i).updateFrom(rhs.ports.get(i));
+			}
+		}
+
+		// Update roads
+		if (roads == null || roads.size() != rhs.roads.size())
+		{
+			roads = rhs.roads;
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < roads.size(); i++)
+			{
+				updated = updated | roads.get(i).updateFrom(rhs.roads.get(i));
+			}
+		}
+
+		// Update settlements
+		if (settlements == null || settlements.size() != rhs.settlements.size())
+		{
+			settlements = rhs.settlements;
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < settlements.size(); i++)
+			{
+				updated = updated | settlements.get(i).updateFrom(rhs.settlements.get(i));
+			}
+		}
+
+		// Update cities
+		if (cities == null || cities.size() != rhs.cities.size())
+		{
+			cities = rhs.cities;
+			updated = true;
+		}
+		else
+		{
+			for (int i = 0; i < cities.size(); i++)
+			{
+				updated = updated | cities.get(i).updateFrom(rhs.cities.get(i));
+			}
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 	
 	// WE REALLY SHOULDN'T HAVE THESE HERE, BUT THESE TEST TO SEE IF WE ARE BUILDING FOR THE FIRST TIME

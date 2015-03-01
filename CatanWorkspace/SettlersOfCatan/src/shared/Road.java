@@ -1,7 +1,10 @@
 package shared;
+import java.util.Observable;
+
 import shared.locations.EdgeLocation;
 
-public class Road {
+public class Road extends Observable
+{
 	private int owner;
 	private EdgeLocation location;
 	
@@ -57,6 +60,27 @@ public class Road {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Road rhs)
+	{
+		boolean updated = false;
+		
+		updated = updated | location.updateFrom(rhs.location);
+
+		if (owner != rhs.owner)
+		{
+			owner = rhs.owner;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 
 }

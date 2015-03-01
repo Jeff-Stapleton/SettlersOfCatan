@@ -47,7 +47,7 @@ public class MapController extends Controller implements IMapController, Observe
 		//initFromModel();
 
 		playingRoadBuildingCard = false;
-		catanGame.addObserver(this);
+//		catanGame.addObserver(this);
 		isBuilding = false;
 	}
 	

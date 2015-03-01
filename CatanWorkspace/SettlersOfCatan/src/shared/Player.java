@@ -1,25 +1,26 @@
 package shared;
 
+import java.util.Observable;
+
 import shared.definitions.CatanColor;
 
-public class Player {
+public class Player extends Observable {
 
-	private int cities;
-	private CatanColor color;
-	private boolean discarded;
-	private int monuments;
-	private String name;
-	private DevCardList newDevCards;
-	private DevCardList oldDevCards;
-	private int playerIndex;
-	private boolean playedDevCard;
-	private int playerID;
-	private ResourceList resources;
-	private int roads;
-	private int settlements;
-	private int soldiers;
-	private int victoryPoints;
-		
+	private int playerID = 0;
+	private int playerIndex = 0;
+	private String name = "";
+	private CatanColor color = CatanColor.WHITE;
+	private int cities = 4;
+	private int settlements = 5;
+	private int roads = 15;
+	private int monuments = 0;
+	private int soldiers = 0;
+	private int victoryPoints = 0;
+	private DevCardList newDevCards = new DevCardList();
+	private DevCardList oldDevCards = new DevCardList();
+	private ResourceList resources = new ResourceList();
+	private boolean playedDevCard = false;
+	private boolean discarded = false;
 	
 	/**
 	 * Buys settlement 
@@ -349,6 +350,84 @@ public class Player {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Player rhs)
+	{
+		boolean updated = false;
+		
+		if (cities != rhs.cities)
+		{
+			cities = rhs.cities;
+			updated = true;
+		}
+		if (color != rhs.getColor())
+		{
+			color = rhs.getColor();
+			updated = true;
+		}
+		if (discarded != rhs.discarded)
+		{
+			discarded = rhs.discarded;
+			updated = true;
+		}
+		if (monuments != rhs.monuments)
+		{
+			monuments = rhs.monuments;
+			updated = true;
+		}
+		if (!name.equals(rhs.name))
+		{
+			name = rhs.name;
+			updated = true;
+		}
+		if (playerIndex != rhs.playerIndex)
+		{
+			playerIndex = rhs.playerIndex;
+			updated = true;
+		}
+		if (playedDevCard != rhs.playedDevCard)
+		{
+			playedDevCard = rhs.playedDevCard;
+			updated = true;
+		}
+		if (playerID != rhs.playerID)
+		{
+			playerID = rhs.playerID;
+			updated = true;
+		}
+		if (roads != rhs.roads)
+		{
+			roads = rhs.roads;
+			updated = true;
+		}
+		if (settlements != rhs.settlements)
+		{
+			settlements = rhs.settlements;
+			updated = true;
+		}
+		if (soldiers != rhs.soldiers)
+		{
+			soldiers = rhs.soldiers;
+			updated = true;
+		}
+		if (victoryPoints != rhs.victoryPoints)
+		{
+			victoryPoints = rhs.victoryPoints;
+			updated = true;
+		}
+		
+		updated = updated | newDevCards.updateFrom(rhs.newDevCards);
+		updated = updated | oldDevCards.updateFrom(rhs.oldDevCards);
+		updated = updated | resources.updateFrom(rhs.resources);
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 	
 	

@@ -1,9 +1,11 @@
 package shared.locations;
 
+import java.util.Observable;
+
 /**
  * Represents the location of a hex on a hex map
  */
-public class HexLocation
+public class HexLocation extends Observable
 {
 	
 	private int x;
@@ -91,6 +93,31 @@ public class HexLocation
 				assert false;
 				return null;
 		}
+	}
+
+	public boolean updateFrom(HexLocation rhs)
+	{
+		boolean updated = false;
+		
+		if (x != rhs.x)
+		{
+			x = rhs.x;
+			updated = true;
+		}
+		
+		if (y != rhs.y)
+		{
+			y = rhs.y;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 	
 }

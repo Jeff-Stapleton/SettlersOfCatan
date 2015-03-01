@@ -1,60 +1,52 @@
 package shared;
 
-import java.util.Random;
-
-import shared.definitions.DevCardType;
-import shared.definitions.PortType;
+import java.util.Observable;
 
 /**
  * The main client side controller of the game.
  *
  * @author JJ
  */
-public class CatanModel {
+public class CatanModel extends Observable {
 	
 	/** The deck. */
-	private DevCardList deck;
+	private DevCardList deck = new DevCardList();
 	
 	/** The bank. */
-	private ResourceList bank;
+	private ResourceList bank = new ResourceList();
 	
 	/** The chat. */
-	private MessageList chat;
+	private MessageList chat = new MessageList();
 	
 	/** The log. */
-	private MessageList log;
+	private MessageList log = new MessageList();
 	
 	/** The map. */
-	private Map map;
+	private Map map = new Map();
 	
 	/** The trade offer. */
-	private TradeOffer tradeOffer;
+	private TradeOffer tradeOffer = null;
 	
 	/** The Players. */
-	private Player[] players;
+	private Player[] players = new Player[4];
+	{
+		for (int i = 0; i < players.length; i++)
+			players[i] = new Player();
+	}
 	
 	/** The turn tracker. */
-	private TurnTracker turnTracker;
+	private TurnTracker turnTracker = new TurnTracker();
 	
 	/** The version. */
-	@SuppressWarnings("unused")
 	private int version = -1;
 
 	/** The winner. */
-	@SuppressWarnings("unused")
 	private int winner = -1;
 	
 	/**
 	 * Instantiates a new catan model.
 	 */
-	public CatanModel() 
-	{
-		deck = new DevCardList();
-		bank = new ResourceList();
-		chat = new MessageList();
-		map = new Map();
-		turnTracker = new TurnTracker();
-	}
+	public CatanModel() {}
 	
 	/**
 	 * Gets the deck.
@@ -243,6 +235,7 @@ public class CatanModel {
 		
 		string.append("deck : ").append(deck.toString()).append(",\n");
 		string.append("map : ").append(map.toString()).append(",\n");
+		string.append("tradeOffer : ").append(tradeOffer == null? "null" : tradeOffer.toString()).append(",\n");
 		
 		string.append("players : [\n");
 		for (Player p : players) {
@@ -260,6 +253,68 @@ public class CatanModel {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	/**
+	 * Update the model from the model passed in and notify observers
+	 * if anything has changed.
+	 * @param model the model to update from
+	 * @return true if the model changed, false otherwise
+	 */
+	public boolean updateFrom(CatanModel model)
+	{
+		boolean updated = false;
+		
+		updated = updated | deck.updateFrom(model.getDeck());
+		updated = updated | bank.updateFrom(model.getBank());
+		updated = updated | chat.updateFrom(model.getChat());
+		updated = updated | log.updateFrom(model.getLog());
+		updated = updated | turnTracker.updateFrom(model.getTurnTracker());
+		updated = updated | map.updateFrom(model.getMap());
+		
+		// Update the trade offer
+		if (tradeOffer == null && model.getTradeOffer() != null)
+		{
+			tradeOffer = model.getTradeOffer();
+			updated = true;
+		}
+		else if (tradeOffer != null)
+		{
+			if (!tradeOffer.equals(model.getTradeOffer()))
+			{
+				tradeOffer = model.getTradeOffer();
+				updated = true;
+			}
+		}
+		
+		// Update the players
+		assert players.length == model.getPlayers().length;
+		for (int i = 0; i < players.length; i++)
+		{
+			updated = updated | players[i].updateFrom(model.getPlayers()[i]);
+		}
+		
+		// Update the version
+		if (version != model.getVersion())
+		{
+			version = model.getVersion();
+			updated = true;
+		}
+		
+		// Update the winner
+		if (winner != model.getWinner())
+		{
+			winner = model.getWinner();
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 	
 }

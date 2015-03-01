@@ -1,9 +1,12 @@
 package shared;
 
+import java.util.Observable;
+
 import shared.locations.VertexLocation;
 
 
-public class Building {
+public class Building extends Observable
+{
 	private int owner;
 	private VertexLocation location;
 	
@@ -59,5 +62,26 @@ public class Building {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public boolean updateFrom(Building rhs)
+	{
+		boolean updated = false;
+		
+		updated = updated | location.updateFrom(rhs.location);
+		
+		if (owner != rhs.owner)
+		{
+			owner = rhs.owner;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+
+		return false;
 	}
 }

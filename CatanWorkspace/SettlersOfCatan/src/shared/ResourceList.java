@@ -1,14 +1,17 @@
 package shared;
 
+import java.util.Observable;
+
 import shared.definitions.ResourceType;
 
-public class ResourceList {
+public class ResourceList extends Observable {
 
-	private int brick;
-	private int wood;
-	private int wheat;
-	private int sheep;
-	private int ore;
+
+	private int brick = 0;
+	private int wood = 0;
+	private int wheat = 0;
+	private int sheep = 0;
+	private int ore = 0;
 	
 	public ResourceList(){}
 	
@@ -201,6 +204,81 @@ public class ResourceList {
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + brick;
+		result = prime * result + ore;
+		result = prime * result + sheep;
+		result = prime * result + wheat;
+		result = prime * result + wood;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResourceList other = (ResourceList) obj;
+		if (brick != other.brick)
+			return false;
+		if (ore != other.ore)
+			return false;
+		if (sheep != other.sheep)
+			return false;
+		if (wheat != other.wheat)
+			return false;
+		if (wood != other.wood)
+			return false;
+		return true;
+	}
+
+
+	public boolean updateFrom(ResourceList rhs)
+	{
+		boolean updated = false;
+		
+		if (brick != rhs.brick)
+		{
+			brick = rhs.brick;
+			updated = true;
+		}
+		if (wood != rhs.wood)
+		{
+			wood = rhs.wood;
+			updated = true;
+		}
+		if (wheat != rhs.wheat)
+		{
+			wheat = rhs.wheat;
+			updated = true;
+		}
+		if (sheep != rhs.sheep)
+		{
+			sheep = rhs.sheep;
+			updated = true;
+		}
+		if (ore != rhs.ore)
+		{
+			ore = rhs.ore;
+			updated = true;
+		}
+		
+		if (updated)
+		{
+			setChanged();
+			notifyObservers();
+		}
+		
+		return updated;
 	}
 	
 }

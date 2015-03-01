@@ -6,53 +6,59 @@ import java.util.Observer;
 
 import javax.swing.JOptionPane;
 
-import shared.CatanModel;
-import client.CatanGame;
-import client.comm.IServerProxy;
+import client.CatanLobby;
 import client.view.base.*;
+import client.view.data.PlayerInfo;
 import client.view.join.IPlayerWaitingView;
-
 
 /**
  * Implementation for the player waiting controller
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer {
 	
-	CatanGame catanGame;
+	CatanLobby catanLobby;
 
-	public PlayerWaitingController(CatanGame catanGame, IPlayerWaitingView view) {
+	public PlayerWaitingController(CatanLobby catanLobby, IPlayerWaitingView view)
+	{
 		super(view);
 		
-		catanGame.addObserver(this);
-		this.catanGame = catanGame;
+		catanLobby.addObserver(this);
+		this.catanLobby = catanLobby;
 	}
 
 	@Override
-	public IPlayerWaitingView getView() {
-
+	public IPlayerWaitingView getView()
+	{
 		return (IPlayerWaitingView)super.getView();
 	}
 
 	@Override
-	public void start() {
-		if (catanGame.getModel() != null)
+	public void start()
+	{
+		if (catanLobby.getGame().getGameInfo().getPlayers().size() < 4)
 		{
-			CatanModel model = catanGame.getModel();
-			
-			if (model.getPlayers().length < 4)
-			{
-				getView().showModal();
-			}
-			
 			String[] AIChoices = {""};
 			try {
-				AIChoices = catanGame.getProxy().gameListAI();
+				AIChoices = catanLobby.getProxy().gameListAI();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			getView().setAIChoices(AIChoices);
+			getView().setPlayers(catanLobby.getGame().getGameInfo().getPlayers().toArray(new PlayerInfo[0]));
+			getView().showModal();
+
+			catanLobby.startLobbyPoller();
+		}
+		else
+		{
+			try {
+				catanLobby.getGame().updateModel();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -60,7 +66,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void addAI() 
 	{
 		try {
-			catanGame.getProxy().gameAddAI(getView().getSelectedAI());
+			catanLobby.getProxy().gameAddAI(getView().getSelectedAI());
 		} catch (IOException e) {
 			String outputStr = "Could not reach the server.";
 			JOptionPane.showMessageDialog(null, outputStr,
@@ -70,14 +76,23 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	@Override
-	public void update(Observable o, Object obj) {
-		if (o instanceof CatanGame) {
-			CatanGame game = (CatanGame) o;
-
-			if (game.getModel().getPlayers().length == 4)
-			{
-				getView().closeModal();
+	public void update(Observable o, Object obj)
+	{
+		if (catanLobby.getGame().getGameInfo().getPlayers().size() >= 4)
+		{
+			catanLobby.stopLobbyPoller();
+			try {
+				catanLobby.getGame().updateModel();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			getView().closeModal();
+		}
+		else
+		{
+			getView().setPlayers(catanLobby.getGame().getGameInfo().getPlayers().toArray(new PlayerInfo[0]));
+			getView().closeModal();
+			getView().showModal();
 		}
 	}
 
