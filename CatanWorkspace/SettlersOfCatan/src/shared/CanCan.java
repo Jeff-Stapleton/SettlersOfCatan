@@ -550,6 +550,565 @@ public class CanCan {
 		return false;
 	}
 	
+	public static boolean secondPhaseRoadCheck(List<Building> newBuildings, EdgeLocation edge)
+	{
+		if (edge.getDir().equals(EdgeDirection.North))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() 
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 2
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() 
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+		}
+		else if (edge.getDir().equals(EdgeDirection.NorthEast))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 2
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 2
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+		}
+		else if (edge.getDir().equals(EdgeDirection.SouthEast))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 2
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+			
+		}
+		else if (edge.getDir().equals(EdgeDirection.South))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() 
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 2
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+		}
+		else if (edge.getDir().equals(EdgeDirection.SouthWest))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() 
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 2
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 2
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+		}
+		else if (edge.getDir().equals(EdgeDirection.NorthWest))
+		{
+			boolean oneSettlement = false;
+			boolean twoSettlement = false;
+			
+			for(int i = 0; i < newBuildings.size(); i++)
+			{
+				// Checks if a road is built near a settlement
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					return false;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() 
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					return false;
+				
+				//Checks if there is a settlement on one side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 2
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.East))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthWest))
+					oneSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() + 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthWest))
+					oneSettlement = true;
+				
+				//Checks if there is a settlement on the other side which would prevent a build on that side
+				if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX() - 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() 
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				if (newBuildings.get(i).getLocation().getX() == edge.getX() + 1
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.West))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY() - 1
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.SouthEast))
+					twoSettlement = true;
+				else if (newBuildings.get(i).getLocation().getX() == edge.getX()
+						&& newBuildings.get(i).getLocation().getY() == edge.getY()
+						&& newBuildings.get(i).getLocation().getDirection().equals(VertexDirection.NorthEast))
+					twoSettlement = true;
+				
+				// If there is one blocking both than it returns false
+				if (oneSettlement && twoSettlement)
+					return false;
+			}
+		}
+
+		return true;
+	}
+	
 	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn, Map map)
 	{
 		if ((canBuyRoad(player, turn)) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
@@ -630,6 +1189,10 @@ public class CanCan {
 					(edge.getX() == -2 && edge.getY() == -1) 
 					&& edge.getDir() == EdgeDirection.North)
 				return false;
+			else if((edge.getX() == 1 && edge.getY() == 3) || 
+					(edge.getX() == 2 && edge.getY() == 2) 
+					&& edge.getDir() == EdgeDirection.North)
+				return false;
 			else if((edge.getY() == -3 || edge.getX() == 3) && edge.getDir().equals(EdgeDirection.NorthEast))
 				return false;
 			else if(((edge.getX() == -1 && edge.getY() == -2) || 
@@ -644,13 +1207,21 @@ public class CanCan {
 				return false;
 			else if((edge.getY() == -3 || edge.getX() == -3 || edge.getY() == 3) && edge.getDir().equals(EdgeDirection.NorthWest))
 				return false;
+			else if((edge.getX() == 2 && edge.getY() == 2) || 
+					(edge.getX() == 3 && edge.getY() == 1) 
+					&& edge.getDir() == EdgeDirection.NorthWest)
+				return false;
 			else if((edge.getX() == -2 && edge.getY() == -1) || 
 					(edge.getX() == -1 && edge.getY() == -2) 
 					&& edge.getDir() == EdgeDirection.NorthWest)
 				return false;
 			
-			if (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND)
+			if (turn.getStatus() == TurnType.FIRST_ROUND)
 				return true;
+			else if (turn.getStatus() == TurnType.SECOND_ROUND)
+				return secondPhaseRoadCheck(newBuildings, edge);
+			
+			
 			
 			if (!hasAdjacentRoad(player,edge, map))
 			{
@@ -751,12 +1322,33 @@ public class CanCan {
 
 				for(int i = 0; i < newRoads.size(); i++)
 				{
-					if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() + 1 && newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
+					if (newRoads.get(i).getOwner() == player.getPlayerIndex())
+					{
+						if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() + 1 && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() + 1 && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
+							hasRoad = true;
+					}
 				}
 			}
 			else if (vertexLocation.getDirection() == VertexDirection.NorthWest)
@@ -791,12 +1383,33 @@ public class CanCan {
 				
 				for(int i = 0; i < newRoads.size(); i++)
 				{
-					if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && newRoads.get(i).getLocation().getY()== vertexLocation.getY() - 1  && newRoads.get(i).getLocation().getDir() == EdgeDirection.South && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
-					else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() - 1 && newRoads.get(i).getLocation().getY()== vertexLocation.getY() && newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast && newRoads.get(i).getOwner() == player.getPlayerIndex())
-						hasRoad = true;
+					if (newRoads.get(i).getOwner() == player.getPlayerIndex())
+					{
+						if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() - 1 && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() + 1 && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
+							hasRoad = true;
+						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() - 1&& 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
+								newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
+							hasRoad = true;
+					}
 				}
 			}
 		}
