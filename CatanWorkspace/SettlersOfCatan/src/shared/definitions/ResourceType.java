@@ -13,7 +13,7 @@ public enum ResourceType
 	@SerializedName("wheat")
 	WHEAT,
 	@SerializedName("ore")
-	ORE,
+	ORE;
 
 	private String string;
 	
