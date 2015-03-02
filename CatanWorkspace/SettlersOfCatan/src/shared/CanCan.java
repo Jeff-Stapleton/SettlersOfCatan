@@ -351,6 +351,7 @@ public class CanCan {
 								break;
 							}
 						}
+						break;
 					}
 					case BRICK:
 					{
@@ -366,6 +367,7 @@ public class CanCan {
 								break;
 							}
 						}
+						break;
 					}
 					case SHEEP:
 					{
@@ -381,6 +383,7 @@ public class CanCan {
 								break;
 							}
 						}
+						break;
 					}
 					case WHEAT:
 					{
@@ -396,6 +399,7 @@ public class CanCan {
 								break;
 							}
 						}
+						break;
 					}
 					case ORE:
 					{
@@ -411,6 +415,7 @@ public class CanCan {
 								break;
 							}
 						}
+						break;
 					}
 				}
 				oneTimePorts.remove(onPort);
