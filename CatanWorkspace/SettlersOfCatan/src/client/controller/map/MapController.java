@@ -400,7 +400,6 @@ public class MapController extends Controller implements IMapController, Observe
 					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
 					{
 						try {
-							System.out.println("Finishing turn 1");
 							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
 							updateState();
 						} catch (IOException e) {
@@ -411,7 +410,6 @@ public class MapController extends Controller implements IMapController, Observe
 					else if ((player.getRoads() == 13 && player.getSettlements() == 3) && mapState.equals(TurnType.SECOND_ROUND))
 					{
 						try {
-							System.out.println("Finishing turn 2");
 							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
 							updateState();
 						} catch (IOException e) {
