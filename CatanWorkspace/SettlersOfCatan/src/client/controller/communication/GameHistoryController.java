@@ -34,14 +34,15 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 	}
 
 	@Override
-	public void update(Observable obs, Object obj) {
+	public void update(Observable obs, Object obj) 
+	{
 		if (obs instanceof CatanGame) 
 		{
 			catanModel = ((CatanGame) obs).getModel();
 			
 	        List<LogEntry> entries = new ArrayList<LogEntry>();
 
-	        for (MessageLine line : catanModel.getLog().getLines())
+	        for (MessageLine line : catanGame.getModel().getLog().getLines())
 	        {
 	        	String user = line.getSource();
 	        	CatanColor color = null;
