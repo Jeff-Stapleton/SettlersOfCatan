@@ -77,7 +77,12 @@ public class DevCardController extends Controller implements IDevCardController,
 	}
 
 	@Override
-	public void buyCard() {		
+	public void buyCard() {	
+		try {
+			catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		getBuyCardView().closeModal();
 	}
 
@@ -199,11 +204,11 @@ public class DevCardController extends Controller implements IDevCardController,
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		if (o instanceof CatanGame) {
-			model = ((CatanGame) o).getModel();
-			//thisPlayer = model.getPlayers()[((CatanGame) o).getPlayerInfo().getPlayerIndex()];
-			thisPlayer = model.getPlayers()[0];
+	public void update(Observable obs, Object arg) {
+		if (obs instanceof CatanGame) {
+			catanGame = (CatanGame) obs;
+			model = catanGame.getModel();
+			thisPlayer = model.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()];
 			turn = model.getTurnTracker();
 			deck = model.getDeck();
 			bank = model.getBank();
