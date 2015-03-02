@@ -222,6 +222,11 @@ public class DiscardController extends Controller implements IDiscardController,
 				break;
 			}
 		}
+		totalDiscardSelected--;
+		discardView.setDiscardButtonEnabled(false);
+		updateResourceValues();
+
+		discardView.setStateMessage(totalDiscardSelected + "/" + totalResources/2);
 	}
 	
 /*
@@ -422,7 +427,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		{
 			catanModel = ((CatanGame) obs).getModel();
 			
-			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING))
+			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING) && catanModel.getTurnTracker().getCurrentTurn() != catanGame.getPlayerInfo().getPlayerIndex())
 			{
 				initDiscardValues();
 				if (totalResources >= 7 && !hasDiscarded)
