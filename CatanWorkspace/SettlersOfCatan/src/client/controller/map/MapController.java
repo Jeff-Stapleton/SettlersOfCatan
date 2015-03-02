@@ -387,8 +387,7 @@ public class MapController extends Controller implements IMapController, Observe
 				
 				//System.out.println("Updating model");
 				catanModel = ((CatanGame) obs).getModel();
-				if (mapState != TurnType.FIRST_ROUND)
-					updateState();
+				updateState();
 				updateFromModel();
 				
 				if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING) && catanModel.getTurnTracker().getCurrentTurn() == playerIndex){

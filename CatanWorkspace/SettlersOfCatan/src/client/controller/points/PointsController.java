@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.CatanModel;
+import shared.Player;
 import client.CatanGame;
 import client.view.base.*;
 import client.view.points.IGameFinishedView;
@@ -29,41 +30,31 @@ public class PointsController extends Controller implements IPointsController, O
 		
 		this.catanGame = catanGame;
 		
-		catanGame.getModel().addObserver(this);
+		catanGame.addObserver(this);
 		
 		setFinishedView(finishedView);
-		
-		//initFromModel();
 	}
 	
-	public IPointsView getPointsView() {
-		
+	public IPointsView getPointsView() {		
 		return (IPointsView)super.getView();
 	}
 	
 	public IGameFinishedView getFinishedView() {
 		return finishedView;
 	}
+	
 	public void setFinishedView(IGameFinishedView finishedView) {
 		this.finishedView = finishedView;
 	}
 
-//	private void initFromModel() {
-//		//<temp>		
-//		getPointsView().setPoints(5);
-//		//</temp>
-//	}
-
 	@Override
 	public void update(Observable obs, Object obj) 
 	{
-		if (obs instanceof CatanModel) 
+		if (obs instanceof CatanGame) 
 		{
-			CatanModel model = (CatanModel) obs;
+			catanGame = (CatanGame) obs;
 			
-//			getPointsView()
-//			.setPoints(model.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()]
-//					            		  .getVictoryPoints());
+			getPointsView().setPoints(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getVictoryPoints());
 		}
 	}
 	

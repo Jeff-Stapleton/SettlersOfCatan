@@ -5,6 +5,7 @@ import java.util.List;
 
 import shared.definitions.HexType;
 import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 
 public class CanCan {
@@ -42,9 +43,9 @@ public class CanCan {
 	
 	public static Port isOnPort(List<Building> newBuildings, List<Port> newPorts, Player player)
 	{
-		for (int j = 0; j < newPorts.size(); j++)
+		for(int i = 0; i < newBuildings.size(); i++)
 		{
-			for(int i = 0; i < newBuildings.size(); i++)
+			for (int j = 0; j < newPorts.size(); j++)
 			{
 				if (newBuildings.get(i).getLocation().getDirection() == VertexDirection.West)
 				{
@@ -54,20 +55,20 @@ public class CanCan {
 						newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 						newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY()&&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY()  &&
 								newPorts.get(j).getDirection() == EdgeDirection.South)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.North)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
@@ -89,20 +90,20 @@ public class CanCan {
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.South)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.North)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+								newBuildings.get(i).getLocation().getY() + 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthWest)
 							return newPorts.get(j);
 					}
@@ -113,14 +114,14 @@ public class CanCan {
 					{
 					
 						if(newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+							newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+								newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.South)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
@@ -128,7 +129,7 @@ public class CanCan {
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.North)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() - 1 &&
+						else if (newBuildings.get(i).getLocation().getX() - 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
@@ -143,16 +144,16 @@ public class CanCan {
 					if (newBuildings.get(i).getOwner() == player.getPlayerIndex())
 					{
 					
-						if(newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
-							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+						if(newBuildings.get(i).getLocation().getX()  + 1 == newPorts.get(j).getLocation().getX() &&
+							newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+								newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.South)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+								newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
@@ -163,8 +164,8 @@ public class CanCan {
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+						else if (newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthWest)
 							return newPorts.get(j);
 					}
@@ -174,19 +175,19 @@ public class CanCan {
 					if (newBuildings.get(i).getOwner() == player.getPlayerIndex())
 					{
 					
-						if(newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
-							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+						if(newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
+							newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() - 1 &&
+						else if (newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
+								newBuildings.get(i).getLocation().getY() - 1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.South)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.North)
 							return newPorts.get(j);
@@ -194,7 +195,7 @@ public class CanCan {
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthWest)
 							return newPorts.get(j);
@@ -205,7 +206,7 @@ public class CanCan {
 					if (newBuildings.get(i).getOwner() == player.getPlayerIndex())
 					{
 					
-						if(newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
+						if(newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
 							newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 							newPorts.get(j).getDirection() == EdgeDirection.SouthWest)
 							return newPorts.get(j);
@@ -218,14 +219,14 @@ public class CanCan {
 								newPorts.get(j).getDirection() == EdgeDirection.SouthEast)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+								newBuildings.get(i).getLocation().getY() + 1  == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.North)
 							return newPorts.get(j);
 						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() &&
-								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() + 1 &&
+								newBuildings.get(i).getLocation().getY() +1 == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthEast)
 							return newPorts.get(j);
-						else if (newBuildings.get(i).getLocation().getX() == newPorts.get(j).getLocation().getX() + 1 &&
+						else if (newBuildings.get(i).getLocation().getX() + 1 == newPorts.get(j).getLocation().getX() &&
 								newBuildings.get(i).getLocation().getY() == newPorts.get(j).getLocation().getY() &&
 								newPorts.get(j).getDirection() == EdgeDirection.NorthWest)
 							return newPorts.get(j);
@@ -236,38 +237,22 @@ public class CanCan {
 		return null;
 	}
 	
-	public static int bestRatio(Player player, List<Port> newPorts, ResourceList maritimeOffer, List<Building> newBuildings)
+	public static int bestRatio(Player player, List<Port> newPorts, int maritimeOffer, Map map, PortType portType)
 	{
-		ArrayList<Integer> tradeRatio = new ArrayList<Integer>();
-		tradeRatio.add(maritimeOffer.getBrick());
-		tradeRatio.add(maritimeOffer.getWood());
-		tradeRatio.add(maritimeOffer.getWheat());
-		tradeRatio.add(maritimeOffer.getSheep());
-		tradeRatio.add(maritimeOffer.getOre());
-		
-		ArrayList<Integer> tradeRatioTemp = new ArrayList<Integer>();
-		
-		for (int i = 0; i < tradeRatio.size(); i++)
-			if (tradeRatio.get(i) != 0)
-				tradeRatioTemp.add(tradeRatio.get(i));
-
-		if (tradeRatioTemp.size() != 2)
-			return -1;
-		
-		int have = 0;
-		int give = 0;
-		if (tradeRatioTemp.get(0) > tradeRatioTemp.get(1) && Math.signum(tradeRatioTemp.get(0)) == 1 && Math.signum(tradeRatioTemp.get(1)) == -1)
+		List<Building> newBuildings = new ArrayList<Building>();
+		if (map.getSettlements() != null && !map.getSettlements().isEmpty())
 		{
-			have = tradeRatioTemp.get(0);
-			give = tradeRatioTemp.get(1);
+			newBuildings.addAll(map.getSettlements());
+			if (map.getCities() != null && !map.getCities().isEmpty())
+				newBuildings.addAll(map.getCities());
 		}
-		else if (Math.signum(tradeRatioTemp.get(1)) == 1 && Math.signum(tradeRatioTemp.get(0)) == -1)
+		else if (map.getCities() != null && !map.getCities().isEmpty())
 		{
-			have = tradeRatioTemp.get(1);
-			give = tradeRatioTemp.get(0);
+			newBuildings.addAll(map.getCities());
+			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
+				newBuildings.addAll(map.getSettlements());
 		}
-		else
-			return -1;
+		
 		
 		Port onPort = isOnPort(newBuildings, newPorts, player);
 		List<Port> oneTimePorts = new ArrayList<Port>();
@@ -275,36 +260,49 @@ public class CanCan {
 		for (int i = 0; i < newPorts.size(); i++)
 			oneTimePorts.add(newPorts.get(i));
 		
+		int bestRatio = 4;
+		
 		while(onPort != null)
 		{
-			if (Math.abs(have/give) == onPort.getRatio())
-			{
-				if (Math.abs(maritimeOffer.getBrick()) == 2 && onPort.getType() == PortType.BRICK)
-					return 2;
-				else if (Math.abs(maritimeOffer.getOre()) == 2 && onPort.getType() == PortType.ORE)
-					return 2;
-				else if (Math.abs(maritimeOffer.getSheep()) == 2 && onPort.getType() == PortType.SHEEP)
-					return 2;
-				else if (Math.abs(maritimeOffer.getWheat()) == 2 && onPort.getType() == PortType.WHEAT)
-					return 2;
-				else if (Math.abs(maritimeOffer.getWood()) == 2 && onPort.getType() == PortType.WOOD)
-					return 2;
-				else if ((Math.abs(maritimeOffer.getWood()) == 3 || 
-						  Math.abs(maritimeOffer.getWheat()) == 3 || 
-						  Math.abs(maritimeOffer.getSheep()) == 3 || 
-						  Math.abs(maritimeOffer.getOre()) == 3 || 
-						  Math.abs(maritimeOffer.getBrick()) == 3) && 
-						 onPort.getType() == null)
-					return 3;
-			}
+			if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (((maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3) && 
+					 onPort.getType() == null)
+				if (bestRatio > 3)
+					bestRatio = 3;
+			
+			oneTimePorts.remove(onPort);
+			onPort = isOnPort(newBuildings, oneTimePorts, player);
 		}
-		return 4;
+		return bestRatio;
 	}
 	
-	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceList bank, List<Port> newPorts, Map map)
+	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceType resource, ResourceList bank, List<Port> newPorts, Map map)
 	{
-		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) && ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) && turn.getCurrentTurn() == player.getPlayerIndex() && (player.getSettlements() >= 4 || player.getCities() <= 3) && turn.getStatus() == TurnType.PLAYING)
+		boolean validTrade = false;
+		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) 
+				&& ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) 
+				&& turn.getCurrentTurn() == player.getPlayerIndex()  
+				&& turn.getStatus() == TurnType.PLAYING)
 		{
+			
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
 			{
@@ -321,38 +319,6 @@ public class CanCan {
 			else
 				return false;
 			
-			ArrayList<Integer> tradeRatio = new ArrayList<Integer>();
-			tradeRatio.add(maritimeOffer.getBrick());
-			tradeRatio.add(maritimeOffer.getWood());
-			tradeRatio.add(maritimeOffer.getWheat());
-			tradeRatio.add(maritimeOffer.getSheep());
-			tradeRatio.add(maritimeOffer.getOre());
-			
-			ArrayList<Integer> tradeRatioTemp = new ArrayList<Integer>();
-			
-			for (int i = 0; i < tradeRatio.size(); i++)
-				if (tradeRatio.get(i) != 0)
-					tradeRatioTemp.add(tradeRatio.get(i));
-
-			if (tradeRatioTemp.size() != 2)
-				return false;
-			
-			int have = 0;
-			int give = 0;
-			if (tradeRatioTemp.get(0) > tradeRatioTemp.get(1) && Math.signum(tradeRatioTemp.get(0)) == 1 && Math.signum(tradeRatioTemp.get(1)) == -1)
-			{
-				have = tradeRatioTemp.get(0);
-				give = tradeRatioTemp.get(1);
-			}
-			else if (Math.signum(tradeRatioTemp.get(1)) == 1 && Math.signum(tradeRatioTemp.get(0)) == -1)
-			{
-				have = tradeRatioTemp.get(1);
-				give = tradeRatioTemp.get(0);
-			}
-			else
-				return false;
-				
-			//List<Port> newPorts = new ArrayList<Port>();
 			Port onPort = isOnPort(newBuildings, newPorts, player);
 			List<Port> oneTimePorts = new ArrayList<Port>();
 			
@@ -361,32 +327,158 @@ public class CanCan {
 			
 			while(onPort != null)
 			{
-				if (Math.abs(have/give) == onPort.getRatio())
+				switch (resource)
 				{
-					if (Math.abs(maritimeOffer.getBrick()) >= 2 && onPort.getType() == PortType.BRICK)
-						return true;
-					else if (Math.abs(maritimeOffer.getOre()) >= 2 && onPort.getType() == PortType.ORE)
-						return true;
-					else if (Math.abs(maritimeOffer.getSheep()) >= 2 && onPort.getType() == PortType.SHEEP)
-						return true;
-					else if (Math.abs(maritimeOffer.getWheat()) >= 2 && onPort.getType() == PortType.WHEAT)
-						return true;
-					else if (Math.abs(maritimeOffer.getWood()) >= 2 && onPort.getType() == PortType.WOOD)
-						return true;
-					else if ((Math.abs(maritimeOffer.getWood()) >= 3 || 
-							  Math.abs(maritimeOffer.getWheat()) >= 3 || 
-							  Math.abs(maritimeOffer.getSheep()) >= 3 || 
-							  Math.abs(maritimeOffer.getOre()) >= 3 || 
-							  Math.abs(maritimeOffer.getBrick()) >= 3) && 
-							 onPort.getType() == null)
-						return true;
+					case WOOD:
+					{
+						if(onPort.getType().equals(PortType.WOOD) || onPort.getType().equals(PortType.THREE))
+						{
+							if (maritimeOffer.getWood() <= onPort.getRatio())
+							{
+								validTrade = true;
+								return validTrade;
+							}
+							else
+							{
+								break;
+							}
+						}
+						break;
+					}
+					case BRICK:
+					{
+						if(onPort.getType().equals(PortType.BRICK) || onPort.getType().equals(PortType.THREE))
+						{
+							if (maritimeOffer.getBrick() <= onPort.getRatio())
+							{
+								validTrade = true;
+								return validTrade;
+							}
+							else
+							{
+								break;
+							}
+						}
+						break;
+					}
+					case SHEEP:
+					{
+						if(onPort.getType().equals(PortType.SHEEP) || onPort.getType().equals(PortType.THREE))
+						{
+							if (maritimeOffer.getSheep() <= onPort.getRatio())
+							{
+								validTrade = true;
+								return validTrade;
+							}
+							else
+							{
+								break;
+							}
+						}
+						break;
+					}
+					case WHEAT:
+					{
+						if(onPort.getType().equals(PortType.WHEAT) || onPort.getType().equals(PortType.THREE))
+						{
+							if (maritimeOffer.getWheat() <= onPort.getRatio())
+							{
+								validTrade = true;
+								return validTrade;
+							}
+							else
+							{
+								break;
+							}
+						}
+						break;
+					}
+					case ORE:
+					{
+						if(onPort.getType().equals(PortType.ORE) || onPort.getType().equals(PortType.THREE))
+						{
+							if (maritimeOffer.getOre() <= onPort.getRatio())
+							{
+								validTrade = true;
+								return validTrade;
+							}
+							else
+							{
+								break;
+							}
+						}
+						break;
+					}
 				}
-				
 				oneTimePorts.remove(onPort);
 				onPort = isOnPort(newBuildings, oneTimePorts, player);
 			}
+			
+			// no valid ports, default 4 to 1 exchange	
+			switch (resource)
+			{
+				case WOOD:
+				{
+					if (maritimeOffer.getWood() >= 4)
+					{
+						validTrade = true;
+						return validTrade;
+					}
+					else
+					{
+						break;
+					}
+				}
+				case BRICK:
+				{
+					if (maritimeOffer.getBrick() >= 4)
+					{
+						validTrade = true;
+						return validTrade;
+					}
+					else
+					{
+						break;
+					}
+				}
+				case SHEEP:
+				{
+					if (maritimeOffer.getSheep() >= 4)
+					{
+						validTrade = true;
+						return validTrade;
+					}
+					else
+					{
+						break;
+					}
+				}
+				case WHEAT:
+				{
+					if (maritimeOffer.getWheat() >= 4)
+					{
+						validTrade = true;
+						return validTrade;
+					}
+					else
+					{
+						break;
+					}
+				}
+				case ORE:
+				{
+					if (maritimeOffer.getOre() >= 4)
+					{
+						validTrade = true;
+						return validTrade;
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
 		}
-		
 		return false;
 	}
 	/**
@@ -425,15 +517,18 @@ public class CanCan {
 	}
 	
 	public static boolean canUseRoadBuilder(Player player, TurnTracker turn){
-		// current players turn
-		if (turn.getCurrentTurn() == player.getPlayerIndex()){
-			// correct phase of the game
-			if (turn.getStatus() == TurnType.PLAYING){
-				if (player.getOldDevCards().getRoadBuilding() > 0){
-					if (player.hasPlayedDevCard()){
-						return false;
+		// Make sure the player has the roads necessary to build with
+		if (player.getRoads() >= 2){
+			// current players turn
+			if (turn.getCurrentTurn() == player.getPlayerIndex()){
+				// correct phase of the game
+				if (turn.getStatus() == TurnType.PLAYING){
+					if (player.getOldDevCards().getRoadBuilding() > 0){
+						if (player.hasPlayedDevCard()){
+							return false;
+						}
+						return true;
 					}
-					return true;
 				}
 			}
 		}
