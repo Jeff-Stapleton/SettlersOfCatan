@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
+
 import shared.Player;
 import shared.ResourceList;
 import shared.TradeOffer;
 import shared.definitions.*;
 import client.CatanGame;
+import client.controller.map.MapController;
 import client.view.base.*;
 import client.view.data.PlayerInfo;
 import client.view.domestic.IAcceptTradeOverlay;
@@ -22,6 +25,8 @@ import client.view.misc.*;
  */
 public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
 
+	private static final Logger log = Logger.getLogger(DomesticTradeController.class.getName());
+	
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
@@ -396,7 +401,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
-			switch(resource) {
+		switch(resource) {
 			case WOOD:
 			{
 				trade.setWood(trade.getWood() + 1);
@@ -442,7 +447,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		
 		TradeOffer offer = new TradeOffer(instigator, trade, investigator);
 		try {
-			catanGame.setModel(catanGame.getProxy().movesOfferTrade(offer));
+			//catanGame.setModel(catanGame.getProxy().movesOfferTrade(offer));
+			catanGame.getProxy().movesOfferTrade(offer);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
