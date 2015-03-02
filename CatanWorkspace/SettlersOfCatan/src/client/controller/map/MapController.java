@@ -187,7 +187,7 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.updateModel(catanGame.getProxy().movesBuildRoad(playerIndex, edgeLoc, false));
+			catanGame.updateModel(catanGame.getProxy().movesBuildRoad(playerIndex, edgeLoc, (mapState == TurnType.FIRST_ROUND || mapState == TurnType.SECOND_ROUND)));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -198,7 +198,7 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, false));
+			catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, (mapState == TurnType.FIRST_ROUND || mapState == TurnType.SECOND_ROUND)));
 		} catch (IOException e) 
 		{
 			e.printStackTrace();

@@ -9,9 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import shared.definitions.ResourceType;
-import client.Catan;
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.controller.discard.DiscardController;
 import client.controller.roll.RollController;
 import client.view.discard.DiscardView;
@@ -56,7 +54,7 @@ public class CatanPanel extends JPanel
 		discardView = new DiscardView();
 		discardWaitView = new WaitView();
 		discardWaitView.setMessage("Waiting for other Players to Discard");
-		discardController = new DiscardController(discardView, discardWaitView);
+		discardController = new DiscardController(catanGame, discardView, discardWaitView);
 		discardView.setController(discardController);
 		discardWaitView.setController(discardController);
 		

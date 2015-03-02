@@ -55,7 +55,7 @@ public class Road extends Observable
 		StringBuilder string = new StringBuilder("{\n");
 		
 		string.append("owner : ").append(owner).append(",\n");
-		string.append("location(!x&y not in obj!) : ").append(location.toString()).append("\n");
+		string.append("location : ").append(location.toString()).append("\n");
 		
 		string.append("}");
 		

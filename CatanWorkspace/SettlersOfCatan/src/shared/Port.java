@@ -99,7 +99,7 @@ public class Port extends Observable
 		StringBuilder string = new StringBuilder("{\n");
 		
 		string.append("ratio : ").append(ratio).append(",\n");
-		string.append("resource(!type! !missing when 'three'!) : ").append(resource).append(",\n");
+		string.append("resource : ").append(resource).append(",\n");
 		string.append("direction : ").append(direction).append(",\n");
 		string.append("location : ").append(location).append("\n");
 		

@@ -99,7 +99,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	private void initFromModel() {
 		//<temp>
 		//getView().setLocalPlayerColor(thisPlayer.getColor());
-		getView().setLocalPlayerColor(CatanColor.BLUE);
+		getView().setLocalPlayerColor(CatanColor.WHITE);
 		//</temp>
 	}
 
@@ -108,6 +108,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		if (obs instanceof CatanGame) {
 			catanModel = ((CatanGame) obs).getModel();
 			//thisPlayer = catanModel.getPlayers()[((CatanGame) obs).getPlayerInfo().getPlayerIndex()];
+			getView().setLocalPlayerColor(catanGame.getPlayerInfo().getColor());
 			if(catanModel.getTurnTracker().getStatus().equals(TurnType.PLAYING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex()) {
 				getView().updateGameState("Finish Turn", true);
 			}
