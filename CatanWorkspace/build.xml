@@ -125,6 +125,7 @@
                 <include name="**"/>
             </fileset>
         </copy>
+        <copy todir="${java.dist}" file="${ta.dir}/log4j.xml"/>
         <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
             <manifest>
                 <attribute name="Main-Class" value="client.Catan"/>
