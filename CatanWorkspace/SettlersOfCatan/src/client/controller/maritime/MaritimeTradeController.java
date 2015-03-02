@@ -77,7 +77,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setWood(resources.getWood());	
-				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.WOOD, bank, map.getPorts(), map))
 				{
 					enabledResources[0] = ResourceType.WOOD;
 				}
@@ -87,7 +87,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setBrick(resources.getBrick());	
-				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.ORE, bank, map.getPorts(), map))
 				{
 					enabledResources[1] = ResourceType.BRICK;
 				}
@@ -96,7 +96,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setSheep(resources.getSheep());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.SHEEP, bank, map.getPorts(), map))
 				{
 					enabledResources[2] = ResourceType.SHEEP;
 				}
@@ -105,7 +105,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setWheat(resources.getWheat());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.WHEAT, bank, map.getPorts(), map))
 				{
 					enabledResources[3] = ResourceType.WHEAT;
 				}
@@ -114,7 +114,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setOre(resources.getOre());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.ORE, bank, map.getPorts(), map))
 				{
 					enabledResources[4] = ResourceType.ORE;
 				}
