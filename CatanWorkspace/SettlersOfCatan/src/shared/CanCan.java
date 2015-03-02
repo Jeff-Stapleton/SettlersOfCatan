@@ -525,15 +525,18 @@ public class CanCan {
 	}
 	
 	public static boolean canUseRoadBuilder(Player player, TurnTracker turn){
-		// current players turn
-		if (turn.getCurrentTurn() == player.getPlayerIndex()){
-			// correct phase of the game
-			if (turn.getStatus() == TurnType.PLAYING){
-				if (player.getOldDevCards().getRoadBuilding() > 0){
-					if (player.hasPlayedDevCard()){
-						return false;
+		// Make sure the player has the roads necessary to build with
+		if (player.getRoads() >= 2){
+			// current players turn
+			if (turn.getCurrentTurn() == player.getPlayerIndex()){
+				// correct phase of the game
+				if (turn.getStatus() == TurnType.PLAYING){
+					if (player.getOldDevCards().getRoadBuilding() > 0){
+						if (player.hasPlayedDevCard()){
+							return false;
+						}
+						return true;
 					}
-					return true;
 				}
 			}
 		}
