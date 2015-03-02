@@ -399,7 +399,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	}
 	
 	private void initDiscardValues(){
-		ResourceList r = catanModel.getPlayers()[catanGame.getPlayerInfo().getId()].getResources();
+		ResourceList r = catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources();
 		totalResources = r.getBrick()+r.getOre()+r.getSheep()+r.getWheat()+r.getWood();
 		discardView.setResourceMaxAmount(ResourceType.BRICK, r.getBrick());
 		discardView.setResourceMaxAmount(ResourceType.ORE, r.getOre());
