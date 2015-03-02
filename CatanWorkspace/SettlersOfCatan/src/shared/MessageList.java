@@ -71,15 +71,11 @@ public class MessageList extends Observable
 		
 		if (lines.size() != rhs.getLines().size())
 		{
-			System.out.println("First rhs : " + rhs.toString());
-			System.out.println("First this : " + this.toString());
 			lines = rhs.getLines();
 			updated = true;
 		}
 		else
 		{
-			System.out.println("Second rhs : " + rhs.toString());
-			System.out.println("Second this : " + this.toString());
 			
 			for (int i = 0; i < rhs.getLines().size(); i++)
 			{
