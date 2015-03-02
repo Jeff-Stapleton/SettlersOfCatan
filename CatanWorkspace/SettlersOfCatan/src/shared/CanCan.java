@@ -830,7 +830,7 @@ public class CanCan {
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
 						return true;
-					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
+					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
 						return true;
