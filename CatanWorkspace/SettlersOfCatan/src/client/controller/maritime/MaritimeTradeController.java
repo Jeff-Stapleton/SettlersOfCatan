@@ -35,13 +35,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	private int giveResourceAmount;
 	private int getResourceAmount;
 	
-	private int woodRatio;
-	private int brickRatio;
-	private int sheepRatio;
-	private int wheatRatio;
-	private int oreRatio;
-	private int generalRatio;
-	private int currentRatio;
 	private ResourceType getResource;
 	private ResourceType giveResource;
 	private ResourceType[] enabledResources;
@@ -174,7 +167,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		int id = catanGame.getPlayerInfo().getPlayerIndex();
 		
 		try {
-			catanGame.updateModel(catanGame.getProxy().movesMaritimeTrade(id, 3, giveResourceType, getResourceType));
+			catanGame.updateModel(catanGame.getProxy().movesMaritimeTrade(id, giveResourceAmount, giveResource, getResource));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();

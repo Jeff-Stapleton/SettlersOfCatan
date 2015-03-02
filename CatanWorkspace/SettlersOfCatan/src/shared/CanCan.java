@@ -268,66 +268,84 @@ public class CanCan {
 			{
 				case WOOD:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))//recall
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
 				}
 				case BRICK:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
 				}
 				case SHEEP:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
 				}
 				case WHEAT:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
 				}
 				case ORE:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
 				}
 				case THREE:
 				{
-					if (maritimeOffer >= onPort.getRatio())
+					if (onPort.getType().equals(portType))
 					{
-						if (onPort.getRatio() < bestRatio)
+						if (maritimeOffer >= onPort.getRatio())
 						{
-							bestRatio = onPort.getRatio();
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
 						}
 					}
 					break;
