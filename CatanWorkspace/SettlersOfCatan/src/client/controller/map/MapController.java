@@ -268,6 +268,10 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
 	{	
+		if (catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND) || catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND))
+			allowDisconnected = false;
+		else
+			allowDisconnected = true;
 		getView().startDrop(pieceType, getColor(), allowDisconnected);
 	}
 	
