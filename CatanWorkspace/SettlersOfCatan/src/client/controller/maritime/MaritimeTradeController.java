@@ -1,10 +1,13 @@
 package client.controller.maritime;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import shared.CanCan;
+import shared.CatanModel;
 import shared.Map;
 import shared.Player;
 import shared.ResourceList;
@@ -31,6 +34,19 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	private ResourceType getResourceType;
 	private int giveResourceAmount;
 	private int getResourceAmount;
+	
+	private int woodRatio;
+	private int brickRatio;
+	private int sheepRatio;
+	private int wheatRatio;
+	private int oreRatio;
+	private int generalRatio;
+	private int currentRatio;
+	private ResourceType getResource;
+	private ResourceType giveResource;
+	private ResourceType[] enabledResources;
+	private ResourceType[] allResources = {ResourceType.WOOD, ResourceType.BRICK, ResourceType.SHEEP, 
+			ResourceType.WHEAT, ResourceType.ORE};
 	
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay, CatanGame catanGame) {
 		
@@ -61,15 +77,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		//handleGetOptions();
 	}
 	
-	public void handleGiveOptions()
+	public ResourceType[] getEnabledResources(ResourceList resources, Player player, ResourceList bank, Map map, TurnTracker turn)
 	{
 		ResourceType[] enabledResources = new ResourceType[5];
-		int id = catanGame.getPlayerInfo().getPlayerIndex();
-		Player[] players = catanGame.getModel().getPlayers();
-		ResourceList bank = catanGame.getModel().getBank();
-		TurnTracker turn = catanGame.getModel().getTurnTracker();
-		Map map = catanGame.getModel().getMap();
-		ResourceList resources = players[id].getResources();
 		
 		for (int i = 0; i < enabledResources.length; i++)
 		{
@@ -77,7 +87,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setWood(resources.getWood());	
-				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.WOOD, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(player, turn, list, ResourceType.WOOD, bank, map.getPorts(), map))
 				{
 					enabledResources[0] = ResourceType.WOOD;
 				}
@@ -87,7 +97,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setBrick(resources.getBrick());	
-				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.ORE, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(player, turn, list, ResourceType.ORE, bank, map.getPorts(), map))
 				{
 					enabledResources[1] = ResourceType.BRICK;
 				}
@@ -96,7 +106,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setSheep(resources.getSheep());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.SHEEP, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(player, turn, list, ResourceType.SHEEP, bank, map.getPorts(), map))
 				{
 					enabledResources[2] = ResourceType.SHEEP;
 				}
@@ -105,7 +115,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setWheat(resources.getWheat());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.WHEAT, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(player, turn, list, ResourceType.WHEAT, bank, map.getPorts(), map))
 				{
 					enabledResources[3] = ResourceType.WHEAT;
 				}
@@ -114,14 +124,82 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			{
 				ResourceList list = new ResourceList();
 				list.setOre(resources.getOre());
-				if (CanCan.canMaritimeTrade(players[id], turn, list, ResourceType.ORE, bank, map.getPorts(), map))
+				if (CanCan.canMaritimeTrade(player, turn, list, ResourceType.ORE, bank, map.getPorts(), map))
 				{
 					enabledResources[4] = ResourceType.ORE;
 				}
 			}
+		}
+		return enabledResources;
+	}
+	
+	public void handleGiveOptions()
+	{
+		ResourceType[] enabledResources = new ResourceType[5];
+		int id = catanGame.getPlayerInfo().getPlayerIndex();
+		Player[] players = catanGame.getModel().getPlayers();
+		Player player = players[id];
+		ResourceList bank = catanGame.getModel().getBank();
+		TurnTracker turn = catanGame.getModel().getTurnTracker();
+		Map map = catanGame.getModel().getMap();
+		ResourceList resources = players[id].getResources();
+		
+		woodRatio = 4;
+		brickRatio = 4;
+		sheepRatio = 4;
+		wheatRatio = 4;
+		oreRatio = 4;
+		generalRatio = 4;
+		currentRatio = -1;
+		if(id != turn.getCurrentTurn()){
+			getTradeOverlay().setStateMessage("Not your turn.");
+			getTradeOverlay().setTradeEnabled(false);
+			getTradeOverlay().hideGetOptions();
+		}
+		else
+		{
+			enabledResources = getEnabledResources(resources, players[id], bank, map, turn);
+			
+			List<ResourceType> tempResourceList = new ArrayList<ResourceType>();
+			if (player.getResources().getWood() >= woodRatio && (generalRatio == 4 || woodRatio == 2)) {
+				tempResourceList.add(ResourceType.WOOD);
+			} else if (player.getResources().getWood() >= generalRatio) {
+				woodRatio = generalRatio;
+				tempResourceList.add(ResourceType.WOOD);
+			}
+			if (player.getResources().getBrick() >= brickRatio && (generalRatio == 4 || brickRatio == 2)) {
+				tempResourceList.add(ResourceType.BRICK);
+			} else if (player.getResources().getBrick() >= generalRatio) {
+				brickRatio = generalRatio;
+				tempResourceList.add(ResourceType.BRICK);
+			}
+			if (player.getResources().getSheep() >= sheepRatio && (generalRatio == 4 || sheepRatio == 2)) {
+				tempResourceList.add(ResourceType.SHEEP);
+			} else if (player.getResources().getSheep() >= generalRatio) {
+				sheepRatio = generalRatio;
+				tempResourceList.add(ResourceType.SHEEP);
+			}
+			if (player.getResources().getWheat() >= wheatRatio && (generalRatio == 4 || wheatRatio == 2)) {
+				tempResourceList.add(ResourceType.WHEAT);
+			} else if (player.getResources().getWheat() >= generalRatio) {
+				wheatRatio = generalRatio;
+				tempResourceList.add(ResourceType.WHEAT);
+			}
+			if (player.getResources().getOre() >= oreRatio && (generalRatio == 4 || oreRatio == 2)) {
+				tempResourceList.add(ResourceType.ORE);
+			} else if (player.getResources().getOre() >= generalRatio) {
+				oreRatio = generalRatio;
+				tempResourceList.add(ResourceType.ORE);
+			}
+			
+			//Build array of resources to enable based on ratios and player's resources
+			enabledResources = new ResourceType[tempResourceList.size()];
+			enabledResources = tempResourceList.toArray(enabledResources);
+			getTradeOverlay().showGiveOptions(enabledResources);
 			
 		}
-		getTradeOverlay().showGiveOptions(enabledResources);
+		
+		getTradeOverlay().showModal();
 	}
 	
 	public void handleGetOptions()
@@ -136,108 +214,80 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	}
 
 	@Override
-	public void makeTrade() {
+	public void makeTrade() 
+	{
 		int id = catanGame.getPlayerInfo().getPlayerIndex();
-				
-		ResourceList trade = new ResourceList();
-		ResourcesToGet(trade);
 
 		getTradeOverlay().closeModal();
 		
 		try {
-			catanGame.setModel(catanGame.getProxy().movesMaritimeTrade(id, 3, giveResourceType, getResourceType));
+			catanGame.setModel(catanGame.getProxy().movesMaritimeTrade(id, currentRatio, giveResource, getResource));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public ResourceList ResourcesToGet(ResourceList trade)
-	{
-		if (getResourceType.equals(ResourceType.WOOD))
-		{
-			trade.setWood(getResourceAmount);
-			trade = ResourcesToGive(trade);
-		}
-		else if (getResourceType.equals(ResourceType.BRICK))
-		{
-			trade.setBrick(getResourceAmount);
-			trade = ResourcesToGive(trade);
-		}
-		else if (getResourceType.equals(ResourceType.SHEEP))
-		{
-			trade.setSheep(getResourceAmount);
-			trade = ResourcesToGive(trade);
-		}
-		else if (getResourceType.equals(ResourceType.WHEAT))
-		{
-			trade.setWheat(getResourceAmount);
-			trade = ResourcesToGive(trade);
-		}
-		else
-		{
-			trade.setOre(getResourceAmount);
-			trade = ResourcesToGive(trade);
-		}
-		return trade;
-	}
-	
-	public ResourceList ResourcesToGive(ResourceList trade)
-	{
-		if (giveResourceType.equals(ResourceType.WOOD))
-		{
-			trade.setWood(-1 * getResourceAmount);
-		}
-		else if (giveResourceType.equals(ResourceType.BRICK))
-		{
-			trade.setBrick(-1 * getResourceAmount);
-		}
-		else if (giveResourceType.equals(ResourceType.SHEEP))
-		{
-			trade.setSheep(-1 * getResourceAmount);
-		}
-		else if (giveResourceType.equals(ResourceType.WHEAT))
-		{
-			trade.setWheat(-1 * getResourceAmount);
-		}
-		else
-		{
-			trade.setOre(-1 * getResourceAmount);
-		}
-		return trade;
-	}
 
 	@Override
 	public void cancelTrade() {
-		unsetGetValue();
-		unsetGiveValue(); 
+		//unsetGetValue();
+		//unsetGiveValue(); 
 		getTradeOverlay().closeModal();
 	}
 
 	@Override
 	public void setGetResource(ResourceType resource) {
-		getResourceType = resource;
-		//need to determine the best ratio from the port on which the player currently is built
-		getResourceAmount = 3;
-		getTradeOverlay().selectGetOption(getResourceType, getResourceAmount);
+		getResource = resource;
+		getTradeOverlay().selectGetOption(resource, 1);
+		getTradeOverlay().setTradeEnabled(true);//Now they can trade
 	}
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
-		giveResourceType = resource;
-		//need to determine the best ratio from the port on which the player currently is built
-		giveResourceAmount = 3;
-		getTradeOverlay().selectGiveOption(getResourceType, giveResourceAmount);
+		ResourceType[] enabledResources = new ResourceType[5];
+		int id = catanGame.getPlayerInfo().getPlayerIndex();
+		Player[] players = catanGame.getModel().getPlayers();
+		Player player = players[id];
+		ResourceList bank = catanGame.getModel().getBank();
+		TurnTracker turn = catanGame.getModel().getTurnTracker();
+		Map map = catanGame.getModel().getMap();
+		ResourceList resources = players[id].getResources();
+		giveResource = resource;
+		//Grab resource ratio
+		switch(resource){
+			case WOOD:	currentRatio = CanCan.bestRatio(player, map.getPorts(), player.getResources().getWood(), map, PortType.WOOD);
+						break;
+			case BRICK: currentRatio = CanCan.bestRatio(player, map.getPorts(), player.getResources().getBrick(), map, PortType.BRICK);
+						break;
+			case SHEEP:	currentRatio = CanCan.bestRatio(player, map.getPorts(), player.getResources().getSheep(), map, PortType.SHEEP);
+						break;
+			case WHEAT:	currentRatio = CanCan.bestRatio(player, map.getPorts(), player.getResources().getWheat(), map, PortType.WHEAT);
+						break;
+			case ORE:	currentRatio = CanCan.bestRatio(player, map.getPorts(), player.getResources().getOre(), map, PortType.ORE);
+						break;
+			default:	currentRatio = -1;
+						break;
+		}
+		
+		getTradeOverlay().selectGiveOption(resource, currentRatio);
+		getTradeOverlay().showGetOptions(allResources);
 	}
 
 	@Override
 	public void unsetGetValue() {
-		getResourceType = null;
+		getTradeOverlay().hideGetOptions();
+		//getTradeOverlay().hideGiveOptions();
+		//getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
+		getTradeOverlay().showGetOptions(allResources);
+		getTradeOverlay().setTradeEnabled(false);
 	}
 
 	@Override
 	public void unsetGiveValue() {
-		giveResourceType = null;
+		getTradeOverlay().hideGiveOptions();
+		getTradeOverlay().hideGetOptions();
+		getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
+		getTradeOverlay().setTradeEnabled(false);
 	}
 
 	@Override

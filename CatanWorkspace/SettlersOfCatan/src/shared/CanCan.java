@@ -237,38 +237,22 @@ public class CanCan {
 		return null;
 	}
 	
-	public static int bestRatio(Player player, List<Port> newPorts, ResourceList maritimeOffer, List<Building> newBuildings)
+	public static int bestRatio(Player player, List<Port> newPorts, int maritimeOffer, Map map, PortType portType)
 	{
-		ArrayList<Integer> tradeRatio = new ArrayList<Integer>();
-		tradeRatio.add(maritimeOffer.getBrick());
-		tradeRatio.add(maritimeOffer.getWood());
-		tradeRatio.add(maritimeOffer.getWheat());
-		tradeRatio.add(maritimeOffer.getSheep());
-		tradeRatio.add(maritimeOffer.getOre());
-		
-		ArrayList<Integer> tradeRatioTemp = new ArrayList<Integer>();
-		
-		for (int i = 0; i < tradeRatio.size(); i++)
-			if (tradeRatio.get(i) != 0)
-				tradeRatioTemp.add(tradeRatio.get(i));
-
-		if (tradeRatioTemp.size() != 2)
-			return -1;
-		
-		int have = 0;
-		int give = 0;
-		if (tradeRatioTemp.get(0) > tradeRatioTemp.get(1) && Math.signum(tradeRatioTemp.get(0)) == 1 && Math.signum(tradeRatioTemp.get(1)) == -1)
+		List<Building> newBuildings = new ArrayList<Building>();
+		if (map.getSettlements() != null && !map.getSettlements().isEmpty())
 		{
-			have = tradeRatioTemp.get(0);
-			give = tradeRatioTemp.get(1);
+			newBuildings.addAll(map.getSettlements());
+			if (map.getCities() != null && !map.getCities().isEmpty())
+				newBuildings.addAll(map.getCities());
 		}
-		else if (Math.signum(tradeRatioTemp.get(1)) == 1 && Math.signum(tradeRatioTemp.get(0)) == -1)
+		else if (map.getCities() != null && !map.getCities().isEmpty())
 		{
-			have = tradeRatioTemp.get(1);
-			give = tradeRatioTemp.get(0);
+			newBuildings.addAll(map.getCities());
+			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
+				newBuildings.addAll(map.getSettlements());
 		}
-		else
-			return -1;
+		
 		
 		Port onPort = isOnPort(newBuildings, newPorts, player);
 		List<Port> oneTimePorts = new ArrayList<Port>();
@@ -276,30 +260,38 @@ public class CanCan {
 		for (int i = 0; i < newPorts.size(); i++)
 			oneTimePorts.add(newPorts.get(i));
 		
+		int bestRatio = 4;
+		
 		while(onPort != null)
 		{
-			if (Math.abs(have/give) == onPort.getRatio())
-			{
-				if (Math.abs(maritimeOffer.getBrick()) == 2 && onPort.getType() == PortType.BRICK)
-					return 2;
-				else if (Math.abs(maritimeOffer.getOre()) == 2 && onPort.getType() == PortType.ORE)
-					return 2;
-				else if (Math.abs(maritimeOffer.getSheep()) == 2 && onPort.getType() == PortType.SHEEP)
-					return 2;
-				else if (Math.abs(maritimeOffer.getWheat()) == 2 && onPort.getType() == PortType.WHEAT)
-					return 2;
-				else if (Math.abs(maritimeOffer.getWood()) == 2 && onPort.getType() == PortType.WOOD)
-					return 2;
-				else if ((Math.abs(maritimeOffer.getWood()) == 3 || 
-						  Math.abs(maritimeOffer.getWheat()) == 3 || 
-						  Math.abs(maritimeOffer.getSheep()) == 3 || 
-						  Math.abs(maritimeOffer.getOre()) == 3 || 
-						  Math.abs(maritimeOffer.getBrick()) == 3) && 
-						 onPort.getType() == null)
-					return 3;
-			}
+			if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (maritimeOffer == 2 && onPort.getType() == portType)
+				if (bestRatio > 2)
+					bestRatio = 2;
+			else if (((maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3 || 
+					  (maritimeOffer) == 3) && 
+					 onPort.getType() == null)
+				if (bestRatio > 3)
+					bestRatio = 3;
+			
+			oneTimePorts.remove(onPort);
+			onPort = isOnPort(newBuildings, oneTimePorts, player);
 		}
-		return 4;
+		return bestRatio;
 	}
 	
 	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceType resource, ResourceList bank, List<Port> newPorts, Map map)
