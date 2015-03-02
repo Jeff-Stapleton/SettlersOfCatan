@@ -309,10 +309,12 @@ public class MapController extends Controller implements IMapController, Observe
 					if(victim!=null)
 					{
 						catanGame.updateModel(catanGame.getProxy().movesRobPlayer(playerIndex, victim.getPlayerIndex(), robber));
+						updateState();
 					}
 					else
 					{
 						catanGame.updateModel(catanGame.getProxy().movesRobPlayer(playerIndex, -1, robber));
+						updateState();
 					}
 			}
 			else
@@ -385,7 +387,8 @@ public class MapController extends Controller implements IMapController, Observe
 				
 				//System.out.println("Updating model");
 				catanModel = ((CatanGame) obs).getModel();
-				updateState();
+				if (mapState != TurnType.FIRST_ROUND)
+					updateState();
 				updateFromModel();
 				
 				if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING) && catanModel.getTurnTracker().getCurrentTurn() == playerIndex){
@@ -398,7 +401,9 @@ public class MapController extends Controller implements IMapController, Observe
 					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
 					{
 						try {
-							catanGame.getProxy().movesFinishTurn(playerIndex);
+							System.out.println("Finishing turn 1");
+							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
+							updateState();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -407,7 +412,9 @@ public class MapController extends Controller implements IMapController, Observe
 					else if ((player.getRoads() == 13 && player.getSettlements() == 3) && mapState.equals(TurnType.SECOND_ROUND))
 					{
 						try {
-							catanGame.getProxy().movesFinishTurn(playerIndex);
+							System.out.println("Finishing turn 2");
+							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
+							updateState();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

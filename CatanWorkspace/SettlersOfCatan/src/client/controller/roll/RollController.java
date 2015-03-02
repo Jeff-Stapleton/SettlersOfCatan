@@ -64,7 +64,7 @@ public class RollController extends Controller implements IRollController, Obser
 		getResultView().showModal();	
 		rollValue = diceRoll;
 		try {
-			catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), rollValue);
+			catanGame.updateModel(catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), rollValue));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

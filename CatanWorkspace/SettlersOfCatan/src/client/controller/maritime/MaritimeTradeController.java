@@ -145,7 +145,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		getTradeOverlay().closeModal();
 		
 		try {
-			catanGame.setModel(catanGame.getProxy().movesMaritimeTrade(id, 3, giveResourceType, getResourceType));
+			catanGame.updateModel(catanGame.getProxy().movesMaritimeTrade(id, 3, giveResourceType, getResourceType));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();

@@ -89,7 +89,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	public void endTurn() 
 	{
 		try {
-			catanGame.getProxy().movesFinishTurn(catanModel.getTurnTracker().getCurrentTurn());
+			catanGame.updateModel(catanGame.getProxy().movesFinishTurn(catanModel.getTurnTracker().getCurrentTurn()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

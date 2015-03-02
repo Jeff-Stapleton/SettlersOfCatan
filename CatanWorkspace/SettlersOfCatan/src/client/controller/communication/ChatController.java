@@ -38,8 +38,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	public void sendMessage(String message) 
 	{
     	try {
-    		catanGame.getProxy().movesSendChat(catanGame.getPlayerInfo().getPlayerIndex(), message);
-    		updateFromModel();
+    		catanGame.updateModel(catanGame.getProxy().movesSendChat(catanGame.getPlayerInfo().getPlayerIndex(), message));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +69,6 @@ public class ChatController extends Controller implements IChatController, Obser
 			catanModel = ((CatanGame) obs).getModel();
 			
 	        updateFromModel();
-			
 		}
 	}
 	

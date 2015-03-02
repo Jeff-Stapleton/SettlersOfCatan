@@ -11,7 +11,6 @@ import shared.ResourceList;
 import shared.TradeOffer;
 import shared.definitions.*;
 import client.CatanGame;
-import client.controller.map.MapController;
 import client.view.base.*;
 import client.view.data.PlayerInfo;
 import client.view.domestic.IAcceptTradeOverlay;
@@ -447,8 +446,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		
 		TradeOffer offer = new TradeOffer(instigator, trade, investigator);
 		try {
-			//catanGame.setModel(catanGame.getProxy().movesOfferTrade(offer));
-			catanGame.getProxy().movesOfferTrade(offer);
+			catanGame.updateModel(catanGame.getProxy().movesOfferTrade(offer));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();

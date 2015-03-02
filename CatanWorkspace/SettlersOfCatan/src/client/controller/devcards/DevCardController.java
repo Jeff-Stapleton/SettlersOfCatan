@@ -79,7 +79,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void buyCard() {	
 		try {
-			catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex());
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -100,7 +100,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
 		try {
-			catanGame.getProxy().movesMonopoly(thisPlayer.getPlayerIndex(), resource);
+			catanGame.updateModel(catanGame.getProxy().movesMonopoly(thisPlayer.getPlayerIndex(), resource));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -126,7 +126,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playMonumentCard() {
 		try {
-			catanGame.getProxy().movesMonument(thisPlayer.getPlayerIndex());
+			catanGame.updateModel(catanGame.getProxy().movesMonument(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -185,7 +185,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
 		try {
-			catanGame.getProxy().movesYearOfPlenty(thisPlayer.getPlayerIndex(), resource1, resource2);
+			catanGame.updateModel(catanGame.getProxy().movesYearOfPlenty(thisPlayer.getPlayerIndex(), resource1, resource2));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

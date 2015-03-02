@@ -369,7 +369,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		
 		ResourceList resourceHand = new ResourceList(brickDiscardAmount, woodDiscardAmount, wheatDiscardAmount, sheepDiscardAmount, oreDiscardAmount);
 		try {
-			catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), resourceHand);
+			catanGame.updateModel(catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), resourceHand));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
