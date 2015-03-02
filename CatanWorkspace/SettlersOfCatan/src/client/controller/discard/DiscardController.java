@@ -1,7 +1,13 @@
 package client.controller.discard;
 
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+
+import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
+import shared.TurnType;
 import shared.definitions.*;
 import client.CatanGame;
 import client.view.base.*;
@@ -12,13 +18,31 @@ import client.view.misc.*;
 /**
  * Discard controller implementation
  */
-public class DiscardController extends Controller implements IDiscardController {
+public class DiscardController extends Controller implements IDiscardController, Observer 
+{
 
 	private IWaitView waitView;
 	private ResourceList discard;
 	private CatanGame catanGame;
+	private CatanModel catanModel = null;
+	private IDiscardView discardView;
 	private Player players[];
 	private int player;
+	
+	private int brickMax;
+	private int brickDiscardAmount = 0;
+	private int oreMax;
+	private int oreDiscardAmount = 0;
+	private int sheepMax;
+	private int sheepDiscardAmount = 0;
+	private int wheatMax;
+	private int wheatDiscardAmount = 0;
+	private int woodMax;
+	private int woodDiscardAmount = 0;
+	private int totalResources;
+	private int totalDiscardSelected = 0;
+	
+	private boolean hasDiscarded;
 	
 	/**
 	 * DiscardController constructor
@@ -32,9 +56,14 @@ public class DiscardController extends Controller implements IDiscardController 
 		
 		this.catanGame = catanGame;
 		this.waitView = waitView;
+		this.discardView = view;
+		catanGame.addObserver(this);
+		discardView.setDiscardButtonEnabled(false);
 		
 		//player = catanGame.getPlayerInfo().getPlayerIndex();
 		//players = catanGame.getModel().getPlayers();
+		
+		hasDiscarded = false;
 	}
 
 	public IDiscardView getDiscardView() {
@@ -50,33 +79,101 @@ public class DiscardController extends Controller implements IDiscardController 
 		switch(resource) {
 			case WOOD:
 			{
-				discard.setWood(discard.getWood() + 1);
-				handleEnablingResources(resource);
+				//discard.setWood(discard.getWood() + 1);
+				discardView.setResourceDiscardAmount(ResourceType.WOOD, ++woodDiscardAmount);
+				updateButtons(woodDiscardAmount,woodMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case BRICK:
 			{
-				discard.setBrick(discard.getBrick() + 1);
-				handleEnablingResources(resource);
+				//discard.setBrick(discard.getBrick() + 1);
+				discardView.setResourceDiscardAmount(ResourceType.BRICK, ++brickDiscardAmount);
+				updateButtons(brickDiscardAmount,brickMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case SHEEP:
 			{
-				discard.setSheep(discard.getSheep() + 1);
-				handleEnablingResources(resource);
+				//discard.setSheep(discard.getSheep() + 1);
+				discardView.setResourceDiscardAmount(ResourceType.SHEEP, ++sheepDiscardAmount);
+				updateButtons(sheepDiscardAmount,sheepMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case WHEAT:
 			{
-				discard.setWheat(discard.getWheat() + 1);
-				handleEnablingResources(resource);
+				//discard.setWheat(discard.getWheat() + 1);
+				discardView.setResourceDiscardAmount(ResourceType.WHEAT, ++wheatDiscardAmount);
+				updateButtons(wheatDiscardAmount,wheatMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case ORE:
 			{
-				discard.setOre(discard.getOre() + 1);
-				handleEnablingResources(resource);
+				//discard.setOre(discard.getOre() + 1);
+				discardView.setResourceDiscardAmount(ResourceType.ORE, ++oreDiscardAmount);
+				updateButtons(oreDiscardAmount,oreMax,resource);
+				//handleEnablingResources(resource);
 				break;
+			}
+		}
+		
+		totalDiscardSelected++;
+		if(totalDiscardSelected == totalResources/2){
+			updateResourceValues();
+			discardView.setDiscardButtonEnabled(true);
+		}
+		else{
+			discardView.setDiscardButtonEnabled(false);
+		}
+
+		discardView.setStateMessage(totalDiscardSelected + "/" + totalResources/2);
+	}
+	
+	private void updateResourceValues(){
+		updateButtons(brickDiscardAmount,brickMax,ResourceType.BRICK);
+		updateButtons(oreDiscardAmount,oreMax,ResourceType.ORE);
+		updateButtons(sheepDiscardAmount,sheepMax,ResourceType.SHEEP);
+		updateButtons(wheatDiscardAmount,wheatMax,ResourceType.WHEAT);
+		updateButtons(woodDiscardAmount,woodMax,ResourceType.WOOD);
+	}
+	
+	public void updateButtons(int discardAmount, int totalAmount, ResourceType resource){
+		if(totalDiscardSelected == totalResources/2){
+			if(discardAmount < totalAmount){
+				if(discardAmount == 0){
+					discardView.setResourceAmountChangeEnabled(resource, false, false);
+				}
+				else{				
+					discardView.setResourceAmountChangeEnabled(resource, false, true);
+				}
+			}
+			else{
+				if(discardAmount == 0){
+					discardView.setResourceAmountChangeEnabled(resource, false, false);
+				}
+				else{
+					discardView.setResourceAmountChangeEnabled(resource, false, true);
+				}
+			}
+		}
+		else{
+			if(discardAmount < totalAmount){
+				if(discardAmount == 0){
+					discardView.setResourceAmountChangeEnabled(resource, true, false);
+				}
+				else{				
+					discardView.setResourceAmountChangeEnabled(resource, true, true);
+				}
+			}
+			else{
+				if(discardAmount == 0){
+					discardView.setResourceAmountChangeEnabled(resource, false, false);
+				}
+				else{
+					discardView.setResourceAmountChangeEnabled(resource, false, true);
+				}
 			}
 		}
 	}
@@ -86,38 +183,49 @@ public class DiscardController extends Controller implements IDiscardController 
 		switch(resource) {
 			case WOOD:
 			{
-				discard.setWood(discard.getWood() - 1);
-				handleEnablingResources(resource);
+				//discard.setWood(discard.getWood() - 1);
+				discardView.setResourceDiscardAmount(ResourceType.WOOD, --woodDiscardAmount);
+				updateButtons(woodDiscardAmount,woodMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case BRICK:
 			{
-				discard.setBrick(discard.getBrick() - 1);
-				handleEnablingResources(resource);
+				//discard.setBrick(discard.getBrick() - 1);
+				discardView.setResourceDiscardAmount(ResourceType.BRICK, --brickDiscardAmount);
+				updateButtons(brickDiscardAmount,brickMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case SHEEP:
 			{
-				discard.setSheep(discard.getSheep() - 1);
-				handleEnablingResources(resource);
+				//discard.setSheep(discard.getSheep() - 1);
+				discardView.setResourceDiscardAmount(ResourceType.SHEEP, --sheepDiscardAmount);
+				updateButtons(sheepDiscardAmount,sheepMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case WHEAT:
 			{
-				discard.setWheat(discard.getWheat() - 1);
-				handleEnablingResources(resource);
+				//discard.setWheat(discard.getWheat() - 1);
+				discardView.setResourceDiscardAmount(ResourceType.WHEAT, --wheatDiscardAmount);
+				updateButtons(wheatDiscardAmount,wheatMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 			case ORE:
 			{
-				discard.setOre(discard.getOre() - 1);
-				handleEnablingResources(resource);
+				//discard.setOre(discard.getOre() - 1);
+				discardView.setResourceDiscardAmount(ResourceType.ORE, --oreDiscardAmount);
+				updateButtons(oreDiscardAmount,oreMax,resource);
+				//handleEnablingResources(resource);
 				break;
 			}
 		}
 	}
 	
-	public void handleEnablingResources(ResourceType resource)
+/*
+ * 	public void handleEnablingResources(ResourceType resource)
 	{
 		switch (resource)
 		{
@@ -247,13 +355,93 @@ public class DiscardController extends Controller implements IDiscardController 
 				}
 			}
 		}
-	}
+	}(non-Javadoc)
+ * @see client.controller.discard.IDiscardController#discard()
+ */
 
 	@Override
 	public void discard() {
 		
+		ResourceList resourceHand = new ResourceList(brickDiscardAmount, woodDiscardAmount, wheatDiscardAmount, sheepDiscardAmount, oreDiscardAmount);
+		try {
+			catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), resourceHand);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		getDiscardView().closeModal();
+		brickDiscardAmount=0;
+		woodDiscardAmount=0;
+		sheepDiscardAmount=0;
+		wheatDiscardAmount=0;
+		oreDiscardAmount=0;
+		discardView.setDiscardButtonEnabled(false);
+		
+		//issue 209 fix
+		hasDiscarded = true;
 	}
-
+	
+	private void resetAllDiscardValues() 
+	{
+		brickDiscardAmount = 0;
+		oreDiscardAmount = 0;
+		sheepDiscardAmount = 0;
+		wheatDiscardAmount = 0;
+		woodDiscardAmount = 0;
+		totalDiscardSelected = 0;
+		
+		discardView.setStateMessage(totalDiscardSelected + "/" + totalResources/2);
+		discardView.setResourceDiscardAmount(ResourceType.BRICK, 0);
+		discardView.setResourceDiscardAmount(ResourceType.ORE, 0);
+		discardView.setResourceDiscardAmount(ResourceType.SHEEP, 0);
+		discardView.setResourceDiscardAmount(ResourceType.WHEAT, 0);
+		discardView.setResourceDiscardAmount(ResourceType.WOOD, 0);
+	}
+	
+	private void initDiscardValues(){
+		ResourceList r = catanModel.getPlayers()[catanGame.getPlayerInfo().getId()].getResources();
+		totalResources = r.getBrick()+r.getOre()+r.getSheep()+r.getWheat()+r.getWood();
+		discardView.setResourceMaxAmount(ResourceType.BRICK, r.getBrick());
+		discardView.setResourceMaxAmount(ResourceType.ORE, r.getOre());
+		discardView.setResourceMaxAmount(ResourceType.SHEEP, r.getSheep());
+		discardView.setResourceMaxAmount(ResourceType.WHEAT, r.getWheat());
+		discardView.setResourceMaxAmount(ResourceType.WOOD, r.getWood());	
+		this.brickMax = r.getBrick();
+		this.oreMax = r.getOre();
+		this.sheepMax = r.getSheep();
+		this.wheatMax = r.getWheat();
+		this.woodMax = r.getWood();
+		
+		resetAllDiscardValues();
+	}
+	
+	@Override
+	public void update(Observable obs, Object obj) 
+	{
+		if (obs instanceof CatanGame) 
+		{
+			catanModel = ((CatanGame) obs).getModel();
+			
+			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING))
+			{
+				initDiscardValues();
+				if (totalResources >= 7 && !hasDiscarded)
+				{
+					discardView.showModal();
+					updateResourceValues();
+				}
+				else if(totalResources<7 || hasDiscarded){
+					waitView.showModal();
+				}
+			}
+			else
+			{
+				if(waitView.isModalShowing()) {
+					waitView.closeModal();
+				}
+			}
+		}
+	}
 }
+
 

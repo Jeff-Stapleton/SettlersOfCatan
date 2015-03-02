@@ -76,12 +76,13 @@ public class MessageList extends Observable
 		}
 		else
 		{
+			
 			for (int i = 0; i < rhs.getLines().size(); i++)
 			{
 				if (!lines.get(i).equals(rhs.getLines().get(i)))
 				{
 					lines.get(i).setSource(rhs.getLines().get(i).getSource());
-					lines.get(i).setMessage(rhs.getLines().get(i).getSource());
+					lines.get(i).setMessage(rhs.getLines().get(i).getMessage());
 					updated = true;
 				}
 			}
