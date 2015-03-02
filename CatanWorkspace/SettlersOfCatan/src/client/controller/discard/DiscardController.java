@@ -444,6 +444,12 @@ public class DiscardController extends Controller implements IDiscardController,
 				if(waitView.isModalShowing()) {
 					waitView.closeModal();
 				}
+				if(this.getDiscardView().isModalShowing() && catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING)) {
+					this.getDiscardView().closeModal();
+				}
+				
+				//issue 209 fix
+				hasDiscarded = false;
 			}
 		}
 	}

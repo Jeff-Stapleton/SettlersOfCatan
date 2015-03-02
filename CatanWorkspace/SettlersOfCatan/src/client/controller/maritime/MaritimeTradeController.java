@@ -217,8 +217,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void makeTrade() 
 	{
 		int id = catanGame.getPlayerInfo().getPlayerIndex();
-
-		getTradeOverlay().closeModal();
 		
 		try {
 			catanGame.updateModel(catanGame.getProxy().movesMaritimeTrade(id, 3, giveResourceType, getResourceType));
@@ -226,6 +224,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		getTradeOverlay().closeModal();
 	}
 
 	@Override
@@ -275,7 +274,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void unsetGetValue() {
-		getTradeOverlay().hideGetOptions();
+		//getTradeOverlay().hideGetOptions();
 		//getTradeOverlay().hideGiveOptions();
 		//getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
 		getTradeOverlay().showGetOptions(allResources);
@@ -284,8 +283,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void unsetGiveValue() {
-		getTradeOverlay().hideGiveOptions();
-		getTradeOverlay().hideGetOptions();
 		getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
 		getTradeOverlay().setTradeEnabled(false);
 	}
