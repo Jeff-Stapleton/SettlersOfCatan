@@ -42,8 +42,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	private int totalResources;
 	private int totalDiscardSelected = 0;
 	
-	private boolean hasDiscarded;
-	
 	/**
 	 * DiscardController constructor
 	 * 
@@ -62,8 +60,6 @@ public class DiscardController extends Controller implements IDiscardController,
 		
 		//player = catanGame.getPlayerInfo().getPlayerIndex();
 		//players = catanGame.getModel().getPlayers();
-		
-		hasDiscarded = false;
 	}
 
 	public IDiscardView getDiscardView() {
@@ -381,9 +377,6 @@ public class DiscardController extends Controller implements IDiscardController,
 		wheatDiscardAmount=0;
 		oreDiscardAmount=0;
 		discardView.setDiscardButtonEnabled(false);
-		
-		//issue 209 fix
-		hasDiscarded = true;
 	}
 	
 	private void resetAllDiscardValues() 
@@ -427,15 +420,24 @@ public class DiscardController extends Controller implements IDiscardController,
 		{
 			catanModel = ((CatanGame) obs).getModel();
 			
-			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING) && catanModel.getTurnTracker().getCurrentTurn() != catanGame.getPlayerInfo().getPlayerIndex())
+			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING))
 			{
 				initDiscardValues();
-				if (totalResources >= 7 && !hasDiscarded)
+				if (totalResources >= 7 &&
+					catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].hasDiscarded())
 				{
 					discardView.showModal();
 					updateResourceValues();
 				}
-				else if(totalResources<7 || hasDiscarded){
+				else if(totalResources < 7 ||
+					catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].hasDiscarded())
+				{
+					try {
+						catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), new ResourceList());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					waitView.showModal();
 				}
 			}
