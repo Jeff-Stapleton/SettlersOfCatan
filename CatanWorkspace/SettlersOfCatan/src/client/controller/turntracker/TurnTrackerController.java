@@ -1,6 +1,7 @@
 package client.controller.turntracker;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
@@ -39,11 +40,14 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	
 	public void updateFromModel()
 	{
-		List<Player> players = null;
-		for (int i = 0; i < catanModel.getPlayers().length; i++)
+		//System.out.println("TurnTracker.updateFromModel() numPlayers: " + numPlayers);
+		List<Player> players = new ArrayList<Player>();
+		for (int i = 0; i < catanModel.getPlayers().length; i++){
 			players.add(catanModel.getPlayers()[i]);
+		}
 		players.removeAll(Collections.singleton(null));
 			
+
 		if (numPlayers < players.size()) 
 		{
 			for (int i = numPlayers; i < players.size(); i++) {
@@ -51,13 +55,31 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 						players.get(i).getName(), 
 						players.get(i).getColor());
 			}
-			
 			numPlayers = players.size();
 		}
-		
+//
+//		Player[] players = catanModel.getPlayers();
+//		
+//		if (numPlayers < players.length) 
+//		{
+//			for (int i = numPlayers; i < players.length; i++) {
+//				getView().initializePlayer(players[i].getPlayerIndex(), 
+//						players[i].getName(), 
+//						players[i].getColor());
+//			}
+//
+//			numPlayers = players.length;
+//		}
+//		
 		for(Player p : players){
-			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));			
+			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));
+			
 		}
+		
+//		for (Player p : catanModel.getPlayers()){
+//			getView().initializePlayer(p.getPlayerIndex(), p.getName(), p.getColor());
+//			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));
+//		}
 
 	}
 	
@@ -106,9 +128,11 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable obs, Object obj) {
 		if (obs instanceof CatanGame) {
-			catanModel = ((CatanGame) obs).getModel();
-			//thisPlayer = catanModel.getPlayers()[((CatanGame) obs).getPlayerInfo().getPlayerIndex()];
+			catanGame = ((CatanGame) obs);
+			catanModel = catanGame.getModel();
+			thisPlayer = catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()];
 			getView().setLocalPlayerColor(catanGame.getPlayerInfo().getColor());
+			updateFromModel();
 			if(catanModel.getTurnTracker().getStatus().equals(TurnType.PLAYING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex()) {
 				getView().updateGameState("Finish Turn", true);
 			}
@@ -118,7 +142,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			else {
 				getView().updateGameState("Waiting for other Players", false);
 			}
-			//updateFromModel();
 		}
 	}
 
