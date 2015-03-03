@@ -87,23 +87,6 @@ public class DevCardController extends Controller implements IDevCardController,
 	public void buyCard() {	
 		try {
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
-			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
