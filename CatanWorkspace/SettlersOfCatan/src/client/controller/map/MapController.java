@@ -201,7 +201,8 @@ public class MapController extends Controller implements IMapController, Observe
 			if (firstRoad == null){
 				firstRoad = edgeLoc;
 				catanGame.getModel().getMap().buildRoad(playerIndex, firstRoad);
-				getView().placeRoad(firstRoad, playerColor);
+				getView().placeRoad(firstRoad, playerColor);	
+				getView().startDrop(PieceType.ROAD, playerColor, false);
 			}
 			else if (secondRoad == null)
 				secondRoad = edgeLoc;
@@ -325,8 +326,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void playRoadBuildingCard() 
 	{	
 		player.setIsRoadBuilding(true);
-		getView().startDrop(PieceType.ROAD, playerColor, false);
-		getView().startDrop(PieceType.ROAD, playerColor, false);		
+		getView().startDrop(PieceType.ROAD, playerColor, true);		
 	}
 
 	@Override

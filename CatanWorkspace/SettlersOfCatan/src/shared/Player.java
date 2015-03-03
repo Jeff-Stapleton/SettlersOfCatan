@@ -333,9 +333,9 @@ public class Player extends Observable {
 	}
 	
 	public void setIsRoadBuilding(boolean isRoadBuilding){
-		System.out.println("Player.setIsRoadBuilding = " + isRoadBuilding);
+//		System.out.println("Player.setIsRoadBuilding = " + isRoadBuilding);
 		this.isRoadBuilding = isRoadBuilding;
-		System.out.println("Player.getIsRoadBuilding = " + getIsRoadBuilding());
+//		System.out.println("Player.getIsRoadBuilding = " + getIsRoadBuilding());
 	}
 	
 	public boolean getIsPlayingSoldier(){

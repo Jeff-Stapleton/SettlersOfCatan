@@ -104,6 +104,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			getView().setElementAmount(ResourceBarElement.CITY, thisPlayer.getCities());
 			getView().setElementAmount(ResourceBarElement.SETTLEMENT, thisPlayer.getSettlements());
 			getView().setElementAmount(ResourceBarElement.ROAD, thisPlayer.getRoads());
+			getView().setElementAmount(ResourceBarElement.SOLDIERS, thisPlayer.getSoldiers());
 
 			
 			getView().setElementEnabled(ResourceBarElement.ROAD, CanCan.canBuyRoad(thisPlayer, turn));
