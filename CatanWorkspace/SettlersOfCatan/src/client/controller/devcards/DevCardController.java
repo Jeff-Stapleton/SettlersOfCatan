@@ -90,6 +90,14 @@ public class DevCardController extends Controller implements IDevCardController,
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
