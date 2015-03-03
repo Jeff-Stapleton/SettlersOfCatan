@@ -54,6 +54,21 @@ public class PointsController extends Controller implements IPointsController, O
 		{
 			catanGame = (CatanGame) obs;
 			
+			if (catanGame.getModel().getTurnTracker().getStatus() != null) {
+				getPointsView().setPoints(catanGame.getModel().getPlayers()[catanGame.getCurrentPlayer().getPlayerIndex()].getVictoryPoints());
+				if (catanGame.getModel().getWinner() > -1) {
+					if (catanGame.getPlayerInfo().getId() == catanGame.getModel().getWinner()) 
+					{
+						getFinishedView().setWinner(catanGame.getModel().getPlayers()[catanGame.getModel().getTurnTracker().getCurrentTurn()].getName(), true);
+						getFinishedView().showModal();
+					}
+					else {
+						getFinishedView().setWinner(catanGame.getModel().getPlayers()[catanGame.getModel().getTurnTracker().getCurrentTurn()].getName(), false);
+						getFinishedView().showModal();
+					}
+				}
+			}
+			
 			getPointsView().setPoints(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getVictoryPoints());
 		}
 	}
