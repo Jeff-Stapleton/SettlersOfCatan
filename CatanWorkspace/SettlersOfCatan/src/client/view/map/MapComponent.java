@@ -540,6 +540,8 @@ public class MapComponent extends JComponent
 				}
 				
 				dropHexLoc = closestHexLoc;
+//				System.out.println("line before dropAllowed gets set");
+//				System.out.println("dropAllowed = getController().canPlaceRobber(dropHexLoc); = " + getController().canPlaceRobber(dropHexLoc));
 				dropAllowed = getController().canPlaceRobber(dropHexLoc);
 			}
 			else
@@ -579,6 +581,11 @@ public class MapComponent extends JComponent
 					}
 					
 					initDrop();
+				}
+				else
+				{
+					System.out.println("Drop not allowed here");
+					
 				}
 				
 				repaint();

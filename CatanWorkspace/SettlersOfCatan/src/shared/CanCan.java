@@ -637,9 +637,6 @@ public class CanCan {
 			// correct phase of the game
 			if (turn.getStatus() == TurnType.PLAYING){
 				if (player.getOldDevCards().getMonument() > 0){
-					if (player.hasPlayedDevCard()){
-						return false;
-					}
 					return true;
 				}
 			}
@@ -1469,7 +1466,7 @@ public class CanCan {
 	
 	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn, Map map)
 	{
-		if ((canBuyRoad(player, turn)) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
+		if (canBuyRoad(player, turn) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
 		{
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
@@ -2059,6 +2056,10 @@ public class CanCan {
 		if ((turn.getCurrentTurn() == player.getPlayerIndex() && player.getRoads() >= 1 && /* player.getRoads() <= 14 && */ player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1)){
 			return true;
 		}
+		if (player.getIsRoadBuilding()){
+//			System.out.println("Player can buy road because road building");
+			return true;
+		}
 		return false;
 	}
 	
@@ -2080,8 +2081,8 @@ public class CanCan {
 	
 	
 	
-	public static boolean canPlaceRobber(Hex location, Robber robber, TurnTracker turn){
-		if (turn.getStatus() == TurnType.ROBBING){
+	public static boolean canPlaceRobber(Hex location, Robber robber, TurnTracker turn, Player player){
+		if (turn.getStatus() == TurnType.ROBBING || player.getIsPlayingSoldier()){
 			if ((robber == null || location == null) || robber.getX() == location.getLocation().getX() &&
 				robber.getY() == location.getLocation().getY()){
 				// Robber must be moved from its location

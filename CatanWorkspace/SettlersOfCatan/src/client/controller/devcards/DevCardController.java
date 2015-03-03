@@ -14,6 +14,7 @@ import shared.DevCardList;
 import shared.Player;
 import shared.ResourceList;
 import shared.TurnTracker;
+import shared.TurnType;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import client.CatanGame;
@@ -85,6 +86,15 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void buyCard() {	
 		try {
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -182,7 +192,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		*/
 		// This eventually ends up being called in MapController.playRoadBuildingCard()
 		soldierAction.execute();
-
 		/*
 		// Apparently this is server code
 		// remove card from player
@@ -233,7 +242,7 @@ public class DevCardController extends Controller implements IDevCardController,
 			// enable based on OldDevCardList
 			getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, CanCan.canUseMonopoly(thisPlayer, turn));
 			getPlayCardView().setCardEnabled(DevCardType.MONUMENT, CanCan.canUseMonument(thisPlayer, turn));
-			getPlayCardView().setCardEnabled(DevCardType.ROAD_BUILD, CanCan.canUseRoadBuilder(thisPlayer, turn) && thisPlayer.getRoads() >= 1);
+			getPlayCardView().setCardEnabled(DevCardType.ROAD_BUILD, CanCan.canUseRoadBuilder(thisPlayer, turn));
 			getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CanCan.canUseSoldier(thisPlayer, turn));
 			getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, CanCan.canUseYearOfPlenty(thisPlayer, turn));		
 			
