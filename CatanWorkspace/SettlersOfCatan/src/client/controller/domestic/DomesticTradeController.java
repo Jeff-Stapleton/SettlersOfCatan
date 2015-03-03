@@ -863,8 +863,16 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
+			
 			catanGame = (CatanGame) o;
 			TradeOffer offer = catanGame.getModel().getTradeOffer();
+			
+			if (catanGame.getPlayerInfo().getPlayerIndex() == catanGame.getModel().getTurnTracker().getCurrentTurn()){
+				getTradeView().enableDomesticTrade(true);
+			}
+			else{
+				getTradeView().enableDomesticTrade(false);
+			}
 			
 			if(offer != null) 
 			{
