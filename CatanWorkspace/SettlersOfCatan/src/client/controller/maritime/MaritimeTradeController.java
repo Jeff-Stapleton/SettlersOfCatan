@@ -263,6 +263,14 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			catanGame = (CatanGame) o;
+			if(catanGame.getPlayerInfo().getPlayerIndex() == catanGame.getModel().getTurnTracker().getCurrentTurn())
+			{
+				getTradeView().enableMaritimeTrade(true);
+			}
+			else
+			{
+				getTradeView().enableMaritimeTrade(false);
+			}
 		}
 	}
 	
