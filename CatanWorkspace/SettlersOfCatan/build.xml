@@ -1,84 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="SettlersOfCatan">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../../../../usr/lib64/eclipse"/>
-    <property name="junit.output.dir" value="junit"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.7"/>
-    <property name="source" value="1.7"/>
-    <path id="SettlersOfCatan.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="lib/commons-logging-1.2-javadoc.jar"/>
-        <pathelement location="lib/commons-logging-1.2.jar"/>
-        <pathelement location="lib/gson-2.2.4.jar"/>
-        <pathelement location="lib/hamcrest-core-1.3.jar"/>
-        <pathelement location="lib/junit-4.11.jar"/>
-        <pathelement location="lib/org.apache.httpcomponents.httpclient_4.4.jar"/>
-        <pathelement location="lib/org.apache.httpcomponents.httpcore_4.4.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="test">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
+﻿<project name="Demo Server" default="server" basedir=".">
+
+    <!-- TARGETS -->
+    <!-- ******* -->
+
+    <target name="our-client" depends="input-port, input-host" description="compiles, packages, and runs the student client">
+        <java jar="catan-client.jar" fork="yes">
+            <sysproperty key="com.sun.management.jmxremote" value=""/>
+            <arg line="-h ${host}"/>
+            <arg line="-p ${port}"/>
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
     </target>
-    <target name="clean">
-        <delete dir="bin"/>
+
+    <target name="our-server" description="compiles, packages, and runs the student server">
+        <java jar="catan-server.jar" fork="yes">
+            <sysproperty key="com.sun.management.jmxremote" value=""/>
+            <assertions>
+                <enable/>
+            </assertions>
+        </java>
     </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <src path="test"/>
-            <classpath refid="SettlersOfCatan.classpath"/>
-        </javac>
+
+    <target name="input-port" unless="port" description="prompts for command line arguments if necessary">
+        <input addProperty="port" message="Type the desired port:"/>
     </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
+
+    <target name="input-host" unless="host" description="prompts for command line arguments if necessary">
+        <input addProperty="host" message="Type the desired host:"/>
     </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="SettlersOfCatan">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit printsummary="yes">
-            <formatter type="xml"/>
-            <test name="comm.client.ServerProxyTest" todir="${junit.output.dir}"/>
-            <test name="comm.client.Testing" todir="${junit.output.dir}"/>
-            <test name="comm.client.Testing2" todir="${junit.output.dir}"/>
-            <test name="shared.Testing" todir="${junit.output.dir}"/>
-            <test name="shared.Testing2" todir="${junit.output.dir}"/>
-            <classpath refid="SettlersOfCatan.classpath"/>
-        </junit>
-    </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+
 </project>
+
