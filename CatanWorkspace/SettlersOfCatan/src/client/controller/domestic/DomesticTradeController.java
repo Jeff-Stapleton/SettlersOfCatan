@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import org.apache.log4j.Logger;
 
+import shared.CanCan;
 import shared.Player;
 import shared.ResourceList;
 import shared.TradeOffer;
@@ -20,7 +21,7 @@ import client.view.misc.*;
 
 
 /**
- * Domestic trade controller implementation
+ * Domestic tradeSend controller implementation
  */
 public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
 
@@ -30,7 +31,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
 	private CatanGame catanGame;
-	private ResourceList trade;
+	private ResourceList tradeSend;
+	private ResourceList tradeRecieve;
 	private int instigator;
 	private int investigator;
 	private Player players[];
@@ -45,10 +47,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	/**
 	 * DomesticTradeController constructor
 	 * 
-	 * @param tradeView Domestic trade view (i.e., view that contains the "Domestic Trade" button)
-	 * @param tradeOverlay Domestic trade overlay (i.e., view that lets the user propose a domestic trade)
-	 * @param waitOverlay Wait overlay used to notify the user they are waiting for another player to accept a trade
-	 * @param acceptOverlay Accept trade overlay which lets the user accept or reject a proposed trade
+	 * @param tradeView Domestic tradeSend view (i.e., view that contains the "Domestic Trade" button)
+	 * @param tradeOverlay Domestic tradeSend overlay (i.e., view that lets the user propose a domestic tradeSend)
+	 * @param waitOverlay Wait overlay used to notify the user they are waiting for another player to accept a tradeSend
+	 * @param acceptOverlay Accept tradeSend overlay which lets the user accept or reject a proposed tradeSend
 	 */
 	public DomesticTradeController(IDomesticTradeView tradeView, IDomesticTradeOverlay tradeOverlay,
 									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay, CatanGame catanGame) {
@@ -61,7 +63,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		catanGame.addObserver(this);
 		
 		this.catanGame = catanGame;
-		trade = new ResourceList();
+		tradeSend = new ResourceList();
+		tradeRecieve = new ResourceList();
 		investigator = -1;
 		resourcesToGet = new ResourceType[5];
 		resourcesToGive = new ResourceType[5];
@@ -133,9 +136,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingWood.equals(true))
 				{
-					if (trade.getWood() < players[instigator].getResources().getWood())
+					if (tradeSend.getWood() < players[instigator].getResources().getWood())
 					{
-						if (trade.getWood() > 0)
+						if (tradeSend.getWood() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
 							break;
@@ -148,7 +151,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					}
 					else
 					{
-						if (trade.getWood() > 0)
+						if (tradeSend.getWood() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
 							break;
@@ -162,7 +165,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				else
 				{
-					if (trade.getWood() > 0)
+					if (tradeRecieve.getWood() > 0)
 					{
 						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
 						break;
@@ -178,9 +181,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingBrick.equals(true))
 				{
-					if (trade.getBrick() < players[instigator].getResources().getBrick())
+					if (tradeSend.getBrick() < players[instigator].getResources().getBrick())
 					{
-						if (trade.getBrick() > 0)
+						if (tradeSend.getBrick() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
 							break;
@@ -193,7 +196,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					}
 					else
 					{
-						if (trade.getBrick() > 0)
+						if (tradeSend.getBrick() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
 							break;
@@ -207,7 +210,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				else
 				{
-					if (trade.getBrick() > 0)
+					if (tradeRecieve.getBrick() > 0)
 					{
 						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
 						break;
@@ -223,9 +226,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingSheep.equals(true))
 				{
-					if (trade.getSheep() < players[instigator].getResources().getSheep())
+					if (tradeSend.getSheep() < players[instigator].getResources().getSheep())
 					{
-						if (trade.getSheep() > 0)
+						if (tradeSend.getSheep() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
 							break;
@@ -238,7 +241,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					}
 					else
 					{
-						if (trade.getSheep() > 0)
+						if (tradeSend.getSheep() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
 							break;
@@ -252,7 +255,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				else
 				{
-					if (trade.getSheep() > 0)
+					if (tradeRecieve.getSheep() > 0)
 					{
 						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
 						break;
@@ -268,9 +271,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingWheat.equals(true))
 				{
-					if (trade.getWheat() < players[instigator].getResources().getWheat())
+					if (tradeSend.getWheat() < players[instigator].getResources().getWheat())
 					{
-						if (trade.getWheat() > 0)
+						if (tradeSend.getWheat() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
 							break;
@@ -283,7 +286,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					}
 					else
 					{
-						if (trade.getWheat() > 0)
+						if (tradeSend.getWheat() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
 							break;
@@ -297,7 +300,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				else
 				{
-					if (trade.getWheat() > 0)
+					if (tradeRecieve.getWheat() > 0)
 					{
 						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
 						break;
@@ -313,9 +316,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingOre.equals(true))
 				{
-					if (trade.getOre() < players[instigator].getResources().getOre())
+					if (tradeSend.getOre() < players[instigator].getResources().getOre())
 					{
-						if (trade.getOre() > 0)
+						if (tradeSend.getOre() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
 							break;
@@ -328,7 +331,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 					}
 					else
 					{
-						if (trade.getOre() > 0)
+						if (tradeSend.getOre() > 0)
 						{
 							getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
 							break;
@@ -342,7 +345,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				}
 				else
 				{
-					if (trade.getOre() > 0)
+					if (tradeRecieve.getOre() > 0)
 					{
 						getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
 						break;
@@ -362,37 +365,82 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		switch(resource) {
 			case WOOD:
 			{
-				trade.setWood(trade.getWood() - 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingWood == true)
+				{
+					tradeSend.setWood(tradeSend.getWood() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setWood(tradeRecieve.getWood() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case BRICK:
 			{
-				trade.setBrick(trade.getBrick() - 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingBrick == true)
+				{
+					tradeSend.setBrick(tradeSend.getBrick() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setBrick(tradeRecieve.getBrick() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case SHEEP:
 			{
-				trade.setSheep(trade.getSheep() - 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingSheep == true)
+				{
+					tradeSend.setSheep(tradeSend.getSheep() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setSheep(tradeRecieve.getSheep() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case WHEAT:
 			{
-				trade.setWheat(trade.getWheat() - 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingWheat == true)
+				{
+					tradeSend.setWheat(tradeSend.getWheat() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setWheat(tradeRecieve.getWheat() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case ORE:
 			{
-				trade.setOre(trade.getOre() - 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingOre == true)
+				{
+					tradeSend.setWood(tradeSend.getOre() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setOre(tradeRecieve.getOre() - 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 		}
@@ -403,37 +451,82 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		switch(resource) {
 			case WOOD:
 			{
-				trade.setWood(trade.getWood() + 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingWood == true)
+				{
+					tradeSend.setWood(tradeSend.getWood() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setWood(tradeRecieve.getWood() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case BRICK:
 			{
-				trade.setBrick(trade.getBrick() + 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingBrick == true)
+				{
+					tradeSend.setBrick(tradeSend.getBrick() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setBrick(tradeRecieve.getBrick() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case SHEEP:
 			{
-				trade.setSheep(trade.getSheep() + 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingSheep == true)
+				{
+					tradeSend.setSheep(tradeSend.getSheep() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setSheep(tradeRecieve.getSheep() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case WHEAT:
 			{
-				trade.setWheat(trade.getWheat() + 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingWheat == true)
+				{
+					tradeSend.setWheat(tradeSend.getWheat() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setWheat(tradeRecieve.getWheat() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 			case ORE:
 			{
-				trade.setOre(trade.getOre() + 1);
-				handleEnablingResources(resource);
-				isValidTrade();
+				if (sendingOre == true)
+				{
+					tradeSend.setWood(tradeSend.getOre() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
+				else
+				{
+					tradeRecieve.setOre(tradeRecieve.getOre() + 1);
+					handleEnablingResources(resource);
+					isValidTrade();
+				}
 				break;
 			}
 		}
@@ -444,7 +537,67 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().closeModal();
 		getWaitOverlay().showModal();
 		
-		TradeOffer offer = new TradeOffer(instigator, trade, investigator);
+		ResourceList theTrade = new ResourceList();
+		for (int i = 0; i < 5; i++)
+		{
+			if (i == 0)
+			{
+				if (tradeSend.getWood() > 0)
+				{
+					theTrade.setWood(tradeSend.getWood());
+				}
+				else
+				{
+					theTrade.setWood(tradeRecieve.getWood() * -1);
+				}
+			}
+			else if (i == 1)
+			{
+				if (tradeSend.getBrick() > 0)
+				{
+					theTrade.setBrick(tradeSend.getBrick());
+				}
+				else
+				{
+					theTrade.setBrick(tradeRecieve.getBrick() * -1);
+				}
+			}
+			else if (i == 2)
+			{
+				if (tradeSend.getSheep() > 0)
+				{
+					theTrade.setSheep(tradeSend.getSheep());
+				}
+				else
+				{
+					theTrade.setSheep(tradeRecieve.getSheep() * -1);
+				}
+			}
+			else if (i == 3)
+			{
+				if (tradeSend.getWheat() > 0)
+				{
+					theTrade.setWheat(tradeSend.getWheat());
+				}
+				else
+				{
+					theTrade.setWheat(tradeRecieve.getWheat() * -1);
+				}
+			}
+			else
+			{
+				if (tradeSend.getOre() > 0)
+				{
+					theTrade.setOre(tradeSend.getOre());
+				}
+				else
+				{
+					theTrade.setOre(tradeRecieve.getOre() * -1);
+				}
+			}
+		}
+		
+		TradeOffer offer = new TradeOffer(instigator, theTrade, investigator);
 		try {
 			catanGame.updateModel(catanGame.getProxy().movesOfferTrade(offer));
 		} 
@@ -465,8 +618,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WOOD:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setWood(0);
+				tradeSend.setWood(0);
+				tradeRecieve.setWood(0);
 				sendingWood = false;
+				resourcesToGive[0] = null;
 				resourcesToGet[0] = ResourceType.WOOD;
 				handleEnablingResources(resource);
 				break;
@@ -474,8 +629,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case BRICK:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setBrick(0);
+				tradeSend.setBrick(0);
+				tradeRecieve.setBrick(0);
 				sendingBrick = false;
+				resourcesToGive[1] = null;
 				resourcesToGet[1] = ResourceType.BRICK;
 				handleEnablingResources(resource);
 				break;
@@ -483,8 +640,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case SHEEP:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setSheep(0);
+				tradeSend.setSheep(0);
+				tradeRecieve.setSheep(0);
 				sendingSheep = false;
+				resourcesToGive[2] = null;
 				resourcesToGet[2] = ResourceType.SHEEP;
 				handleEnablingResources(resource);
 				break;
@@ -492,8 +651,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WHEAT:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setWheat(0);
+				tradeSend.setWheat(0);
+				tradeRecieve.setWheat(0);
 				sendingWheat = false;
+				resourcesToGive[3] = null;
 				resourcesToGet[3] = ResourceType.WHEAT;
 				handleEnablingResources(resource);
 				break;
@@ -501,8 +662,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case ORE:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setOre(0);
+				tradeSend.setOre(0);
+				tradeRecieve.setOre(0);
 				sendingOre = false;
+				resourcesToGive[4] = null;
 				resourcesToGet[4] = ResourceType.ORE;
 				handleEnablingResources(resource);
 				break;
@@ -516,8 +679,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WOOD:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setWood(0);
+				tradeSend.setWood(0);
 				sendingWood = true;
+				resourcesToGet[0] = null;
 				resourcesToGive[0] = ResourceType.WOOD;
 				handleEnablingResources(resource);
 				break;
@@ -525,8 +689,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case BRICK:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setBrick(0);
+				tradeSend.setBrick(0);
 				sendingBrick = true;
+				resourcesToGet[1] = null;
 				resourcesToGive[1] = ResourceType.BRICK;
 				handleEnablingResources(resource);
 				break;
@@ -534,8 +699,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case SHEEP:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setSheep(0);
+				tradeSend.setSheep(0);
 				sendingSheep = true;
+				resourcesToGet[2] = null;
 				resourcesToGive[2] = ResourceType.SHEEP;
 				handleEnablingResources(resource);
 				break;
@@ -543,8 +709,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WHEAT:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setWheat(0);
+				tradeSend.setWheat(0);
 				sendingWheat = true;
+				resourcesToGet[3] = null;
 				resourcesToGive[3] = ResourceType.WHEAT;
 				handleEnablingResources(resource);
 				break;
@@ -552,8 +719,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case ORE:
 			{
 				getTradeOverlay().setResourceAmount(resource, "0");
-				trade.setOre(0);
+				tradeSend.setOre(0);
 				sendingOre = true;
+				resourcesToGet[4] = null;
 				resourcesToGive[4] = ResourceType.ORE;
 				handleEnablingResources(resource);
 				break;
@@ -568,7 +736,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WOOD:
 			{
 				sendingWood = null;
-				trade.setWood(none);
+				tradeSend.setWood(none);
 				resourcesToGet[0] = null;
 				resourcesToGive[0] = null;
 				isValidTrade();
@@ -577,7 +745,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case BRICK:
 			{
 				sendingBrick = null;
-				trade.setBrick(none);
+				tradeSend.setBrick(none);
 				resourcesToGet[1] = null;
 				resourcesToGive[1] = null;
 				isValidTrade();
@@ -586,7 +754,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case SHEEP:
 			{
 				sendingSheep = null;
-				trade.setSheep(none);
+				tradeSend.setSheep(none);
 				resourcesToGet[2] = null;
 				resourcesToGive[2] = null;
 				isValidTrade();
@@ -595,7 +763,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case WHEAT:
 			{
 				sendingWheat = null;
-				trade.setWheat(none);
+				tradeSend.setWheat(none);
 				resourcesToGet[3] = null;
 				resourcesToGive[3] = null;
 				isValidTrade();
@@ -604,7 +772,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			case ORE:
 			{
 				sendingOre = null;
-				trade.setOre(none);
+				tradeSend.setOre(none);
 				resourcesToGet[4] = null;
 				resourcesToGive[4] = null;
 				isValidTrade();
@@ -615,7 +783,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void cancelTrade() {
-		trade.clear();
+		tradeSend.clear();
+		tradeRecieve.clear();
 		investigator = -1;
 		resourcesToGet = new ResourceType[5];
 		resourcesToGive = new ResourceType[5];
@@ -623,16 +792,25 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	}
 
 	@Override
-	public void acceptTrade(boolean willAccept) {
-		if (willAccept == true)
+	public void acceptTrade(boolean willAccept) {		
+		players = catanGame.getModel().getPlayers();
+		if (CanCan.canOfferTrade(players[catanGame.getModel().getTradeOffer().getSender()], players[catanGame.getModel().getTradeOffer().getReceiver()], catanGame.getModel().getTurnTracker(), catanGame.getModel().getTradeOffer().getOffer()))
 		{
-			ResourceList.moveResources(players[instigator].getResources(), players[investigator].getResources(), trade);
+			try {
+				catanGame.updateModel(catanGame.getProxy().movesAcceptTrade(catanGame.getModel().getTradeOffer().getSender(), willAccept));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		else
 		{
-			System.out.println("screw you!");
+			try {
+				catanGame.updateModel(catanGame.getProxy().movesAcceptTrade(catanGame.getModel().getTradeOffer().getSender(), false));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		getAcceptOverlay().closeModal();
 	}
 
@@ -669,7 +847,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			getTradeOverlay().setTradeEnabled(false);
 			return;
 		}
-		String message = "set the trade you want to make";
+		String message = "set the tradeSend you want to make";
 		getTradeOverlay().setStateMessage(message);
 		getTradeOverlay().setTradeEnabled(false);
 		return;
@@ -679,7 +857,85 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			catanGame = (CatanGame) o;
+			TradeOffer offer = catanGame.getModel().getTradeOffer();
 			
+			if(offer != null) 
+			{
+				if(offer.getReceiver() == catanGame.getPlayerInfo().getPlayerIndex() && !this.getAcceptOverlay().isModalShowing()) 
+				{
+					ResourceList resources = offer.getOffer();
+					boolean canAccept = true;
+					Player players[] = catanGame.getModel().getPlayers();
+					Player receiver = players[catanGame.getPlayerInfo().getPlayerIndex()];
+					
+					int brick = resources.getBrick();	
+					if(brick > 0)
+					{
+						this.getAcceptOverlay().addGetResource(ResourceType.BRICK, brick);
+					}
+					else if(brick < 0) 
+					{
+						this.getAcceptOverlay().addGiveResource(ResourceType.BRICK, brick);
+						canAccept = (receiver.getResources().getBrick() + brick > -1) && canAccept;
+					}
+					
+					int sheep = resources.getSheep();
+					if(sheep > 0) 
+					{
+						this.getAcceptOverlay().addGetResource(ResourceType.SHEEP, sheep);
+					}
+					else if(sheep < 0) 
+					{
+						this.getAcceptOverlay().addGiveResource(ResourceType.SHEEP, sheep);
+						canAccept = (receiver.getResources().getSheep() + sheep > -1) && canAccept;
+					}
+					
+					int ore = resources.getOre();
+					if(ore > 0) 
+					{
+						this.getAcceptOverlay().addGetResource(ResourceType.ORE, ore);
+					}
+					else if(ore < 0) 
+					{
+						this.getAcceptOverlay().addGiveResource(ResourceType.ORE, ore);
+						canAccept = (receiver.getResources().getOre() + ore > -1) && canAccept;
+					}
+					
+					int wheat = resources.getWheat();
+					if(wheat > 0) 
+					{
+						this.getAcceptOverlay().addGetResource(ResourceType.WHEAT, wheat);
+					}
+					else if(wheat < 0) 
+					{
+						this.getAcceptOverlay().addGiveResource(ResourceType.WHEAT, wheat);
+						canAccept = (receiver.getResources().getWheat() + wheat > -1) && canAccept;
+					}
+					
+					int wood = resources.getWood();
+					if(wood > 0) 
+					{
+						this.getAcceptOverlay().addGetResource(ResourceType.WOOD, wood);
+					}
+					else if(wood < 0) 
+					{
+						this.getAcceptOverlay().addGiveResource(ResourceType.WOOD, wood);
+						canAccept = (receiver.getResources().getWood() + wood > -1) && canAccept;
+					}
+					
+					String senderName = players[offer.getSender()].getName();
+					this.getAcceptOverlay().setPlayerName(senderName);
+					this.getAcceptOverlay().setAcceptEnabled(canAccept);
+					this.getAcceptOverlay().showModal();
+				}
+			}
+			else 
+			{
+				if(this.getWaitOverlay().isModalShowing()) 
+				{
+					this.getWaitOverlay().closeModal();
+				}
+			}
 		}		
 	}
 
