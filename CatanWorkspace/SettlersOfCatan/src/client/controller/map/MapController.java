@@ -57,6 +57,7 @@ public class MapController extends Controller implements IMapController, Observe
 		robber = null;
 	}
 	
+	@Override
 	public IMapView getView() {
 		
 		return (IMapView)super.getView();
@@ -65,6 +66,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private IRobView getRobView() {
 		return robView;
 	}
+	
 	private void setRobView(IRobView robView) {
 		this.robView = robView;
 	}
@@ -158,21 +160,25 @@ public class MapController extends Controller implements IMapController, Observe
 			
 	}
 
+	@Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) 
 	{
 		return CanCan.canBuildRoad(player, edgeLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
+	@Override
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		
 		return CanCan.canBuildSettlement(player, vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
+	@Override
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		
 		return CanCan.canBuildCity(player, vertLoc, catanModel.getTurnTracker(), catanModel.getMap());
 	}
 
+	@Override
 	public boolean canPlaceRobber(HexLocation hexLoc) {
 		Hex robberHex = null;
 		
@@ -183,6 +189,7 @@ public class MapController extends Controller implements IMapController, Observe
 		return CanCan.canPlaceRobber(robberHex, catanModel.getMap().getRobber(), catanModel.getTurnTracker());
 	}
 
+	@Override
 	public void placeRoad(EdgeLocation edgeLoc) 
 	{
 		try 
@@ -194,6 +201,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 	}
 
+	@Override
 	public void placeSettlement(VertexLocation vertLoc) 
 	{
 		try 
@@ -205,6 +213,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 	}
 
+	@Override
 	public void placeCity(VertexLocation vertLoc) 
 	{
 		try 
@@ -254,20 +263,10 @@ public class MapController extends Controller implements IMapController, Observe
 			return null;
 		return vics.toArray(new RobPlayerInfo[vics.size()]);
 	}
-
-	public void placeRobber(HexLocation hexLoc) 
-	{
-		if (canPlaceRobber(hexLoc)) {			
-			
-			getRobView().setPlayers(getVictims(playerIndex, hexLoc));
-			getView().placeRobber(hexLoc);
-			getRobView().showModal();
-			robber = hexLoc;
-		}
-	}
 	
+	@Override
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
-	{	
+	{
 		if (catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND) || catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND))
 			allowDisconnected = false;
 		else
@@ -275,11 +274,13 @@ public class MapController extends Controller implements IMapController, Observe
 		getView().startDrop(pieceType, getColor(), allowDisconnected);
 	}
 	
+	@Override
 	public void cancelMove() 
 	{
 		
 	}
 	
+	@Override
 	public void playSoldierCard() 
 	{
 		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
@@ -289,6 +290,7 @@ public class MapController extends Controller implements IMapController, Observe
 		
 	}
 	
+	@Override
 	public void playRoadBuildingCard() 
 	{	
 		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
@@ -299,7 +301,22 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		
 	}
+
+	@Override
+	public void placeRobber(HexLocation hexLoc) 
+	{
+		log.trace("Placing robber on hex");
+		if (canPlaceRobber(hexLoc)) {			
+			
+			getRobView().setPlayers(getVictims(playerIndex, hexLoc));
+			getView().placeRobber(hexLoc);
+			log.trace("Showing rob view modal --\\");
+			getRobView().showModal();
+			robber = hexLoc;
+		}
+	}
 	
+	@Override
 	public void robPlayer(RobPlayerInfo victim) 
 	{
 		try 
@@ -396,7 +413,7 @@ public class MapController extends Controller implements IMapController, Observe
 				
 				if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
 				{
-					System.out.println(mapState.toString());
+					log.trace("Game state: " + mapState.toString());
 					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
 					{
 						try {
@@ -420,19 +437,23 @@ public class MapController extends Controller implements IMapController, Observe
 					
 					if (player.getRoads() == 15 && player.getSettlements() == 5)
 					{ 
-						startMove(PieceType.ROAD, true, false);
+						if (!getView().isDropping())
+							startMove(PieceType.ROAD, true, false);
 					}
 					else if (player.getRoads() == 14 && player.getSettlements() == 5)
 					{
-						startMove(PieceType.SETTLEMENT, true, false);
+						if (!getView().isDropping())
+							startMove(PieceType.SETTLEMENT, true, false);
 					}
 					else if (player.getRoads() == 14 && player.getSettlements() == 4)
-					{ 
-						startMove(PieceType.ROAD, true, false);
+					{
+						if (!getView().isDropping())
+							startMove(PieceType.ROAD, true, false);
 					}
 					else if (player.getRoads() == 13 && player.getSettlements() == 4)
 					{ 
-						startMove(PieceType.SETTLEMENT, true, false);
+						if (!getView().isDropping())
+							startMove(PieceType.SETTLEMENT, true, false);
 					}
 				}
 				

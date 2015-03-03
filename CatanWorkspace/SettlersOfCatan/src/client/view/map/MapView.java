@@ -2,7 +2,10 @@ package client.view.map;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import org.apache.log4j.Logger;
 
 import client.controller.map.IMapController;
 import client.view.base.*;
@@ -16,9 +19,10 @@ import shared.locations.*;
 @SuppressWarnings("serial")
 public class MapView extends PanelView implements IMapView
 {
+	private static final Logger log = Logger.getLogger(MapView.class.getName());
 	
 	private MapComponent map;
-	private MapOverlay overlay;
+	private MapOverlay overlay = null;
 	
 	public MapView()
 	{
@@ -95,6 +99,7 @@ public class MapView extends PanelView implements IMapView
 		overlay = new MapOverlay(map);
 		overlay.setController(overlayController);
 		overlay.startDrop(pieceType, pieceColor, isCancelAllowed);
+		log.trace("Showing map placement modal --\\");
 		overlay.showModal();
 	}
 	
@@ -200,6 +205,8 @@ public class MapView extends PanelView implements IMapView
 		{
 			overlay.cancelDrop();
 			overlay.closeModal();
+			log.trace("Closed map placement modal --/");
+			overlay = null;
 		}
 	};
 	
@@ -307,6 +314,11 @@ public class MapView extends PanelView implements IMapView
 					return "";
 			}
 		}
+	}
+
+	@Override
+	public boolean isDropping() {
+		return overlay != null;
 	}
 	
 }

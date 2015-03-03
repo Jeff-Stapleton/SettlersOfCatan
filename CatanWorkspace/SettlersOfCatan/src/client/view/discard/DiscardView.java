@@ -40,6 +40,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.apache.log4j.Logger;
+
 import shared.definitions.ResourceType;
 import client.controller.discard.IDiscardController;
 import client.view.base.OverlayView;
@@ -70,6 +72,7 @@ import client.view.utils.ImageUtils;
 @SuppressWarnings({"serial", "unused"})
 public class DiscardView extends OverlayView implements IDiscardView
 {
+	private static final Logger log = Logger.getLogger(DiscardView.class.getName());
 	private final boolean TESTING = false;
 	
 	private final int LABEL_TEXT_SIZE = 20;
@@ -312,7 +315,9 @@ public class DiscardView extends OverlayView implements IDiscardView
 		{
 			if(e.getSource() == discardButton)
 			{
+				closeModal();
 				getController().discard();
+				log.trace("Closed discard view modal --/");
 			}
 			else if(e.getSource() == testButton)
 			{

@@ -13,5 +13,10 @@ public interface IRollController extends IController
 	 */
 	void rollDice();
 	
+	/**
+	 * 
+	 */
+	void sendRoll(int number);
+	
 }
 

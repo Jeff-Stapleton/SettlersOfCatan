@@ -5,6 +5,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.TurnType;
 import client.CatanGame;
@@ -17,7 +19,9 @@ import client.view.roll.IRollView;
 /**
  * Implementation for the roll controller
  */
-public class RollController extends Controller implements IRollController, Observer{
+public class RollController extends Controller implements IRollController, Observer
+{
+	private static final Logger log = Logger.getLogger(RollController.class.getName());
 
 	private IRollResultView resultView;
 	private IRollView rollView;
@@ -46,6 +50,7 @@ public class RollController extends Controller implements IRollController, Obser
 	}
 	public void setResultView(IRollResultView resultView) {
 		this.resultView = resultView;
+		resultView.setController(this);
 	}
 
 	public IRollView getRollView() {
@@ -60,15 +65,11 @@ public class RollController extends Controller implements IRollController, Obser
 		int dice2 = randomGenerator2.nextInt(6) + 1;
 		int diceRoll = dice1 + dice2;
 		getResultView().setRollValue(diceRoll);
-		rollView.closeModal();
+//		rollView.closeModal();
+//		log.trace("Closed roll view modal --/");
+		log.trace("Showing roll result modal --\\");
 		getResultView().showModal();	
 		rollValue = diceRoll;
-		try {
-			catanGame.updateModel(catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), rollValue));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
@@ -77,10 +78,23 @@ public class RollController extends Controller implements IRollController, Obser
 		if (obs instanceof CatanGame) 
 		{
 			catanModel = ((CatanGame) obs).getModel();
-			if (catanModel.getTurnTracker().getStatus().equals(TurnType.ROLLING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex())
+			if (catanModel.getTurnTracker().getStatus().equals(TurnType.ROLLING) &&
+				catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex() &&
+				!rollView.isModalShowing())
 			{
+				System.out.println(catanModel.getTurnTracker().toString());
+				log.trace("Showing roll view modal --\\");
 				rollView.showModal();
 			}
+		}
+	}
+
+	@Override
+	public void sendRoll(int number) {
+		try {
+			catanGame.updateModel(catanGame.getProxy().movesRollNumber(catanGame.getPlayerInfo().getPlayerIndex(), number));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

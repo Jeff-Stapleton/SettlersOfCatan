@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 import shared.definitions.PieceType;
@@ -18,7 +20,9 @@ import client.view.data.*;
  * Implementation for the rob view, which lets the user select a player to rob
  */
 @SuppressWarnings({"serial", "unused"})
-public class RobView extends OverlayView implements IRobView {
+public class RobView extends OverlayView implements IRobView
+{
+	private static final Logger log = Logger.getLogger(RobView.class.getName());
 
 	private final int LABEL_TEXT_SIZE = 40;
 	private final int BORDER_WIDTH = 10;
@@ -73,12 +77,14 @@ public class RobView extends OverlayView implements IRobView {
 			
 			if (e.getSource() == defaultButton) {
 				closeModal();
+				log.trace("Closed rob view modal --/");
 			}
 			else{
 				
 				for(int i = 0; i < victimButtons.size(); i++){
 					if(e.getSource() == victimButtons.get(i)){
 						closeModal();
+						log.trace("Closed rob view modal --/");
 						getController().robPlayer(victims[i]);
 					}
 				}
@@ -86,6 +92,12 @@ public class RobView extends OverlayView implements IRobView {
 			}
 		}	
 	};
+	
+	@Override
+	public void showModal()
+	{
+		super.showModal();
+	}
 
 	@Override
 	public IMapController getController() {

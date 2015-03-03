@@ -120,14 +120,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	{
 		log.trace("Updating game list");
 		updateGameList();
-		log.trace("Showing modal");
+		log.trace("Showing join game modal --\\");
 		getJoinGameView().showModal();
 	}
 
 	@Override
 	public void startCreateNewGame()
 	{
-		log.trace("Starting to create a new game");
+		log.trace("Showing new game modal --\\");
 		getNewGameView().showModal();
 	}
 
@@ -136,6 +136,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	{
 		log.trace("Canceled creating a new game");
 		getNewGameView().closeModal();
+		log.trace("Closed new game modal --/");
 		
 		try {
 			log.trace("Refreshing games list");
@@ -156,8 +157,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 											  getNewGameView().getRandomlyPlaceHexes(),
 											  getNewGameView().getRandomlyPlaceNumbers(),
 											  getNewGameView().getUseRandomPorts());
-			log.trace("Closing game creation modal");
 			getNewGameView().closeModal();
+			log.trace("Closed new game modal --/");
 			
 			log.trace("Refreshing games list for joining");
 			getJoinGameView().setGames(catanLobby.getProxy().gamesList(), catanLobby.getPlayerInfo());
@@ -191,7 +192,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		
 		catanLobby.getGame().setGameInfo(game);
 		
-		log.trace("Showing color selection view");
+		log.trace("Showing color selection modal --\\");
 		getSelectColorView().showModal();
 	}
 
@@ -201,8 +202,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		log.trace("Join game canceled");
 		catanLobby.getGame().setGameInfo(null);
 		
-		log.trace("Closing join game modal");
 		getJoinGameView().closeModal();
+		log.trace("Closed join game modal --/");
 	}
 
 	@Override
@@ -218,7 +219,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		// If join succeeded
 		catanLobby.getGame().getPlayerInfo().setColor(color);
 		getSelectColorView().closeModal();
+		log.trace("Closed color selection modal --/");
 		getJoinGameView().closeModal();
+		log.trace("Closed join game modal --/");
 		
 		joinAction.execute();
 	}

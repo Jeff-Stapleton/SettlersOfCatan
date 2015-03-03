@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
@@ -20,6 +22,7 @@ import client.view.misc.*;
  */
 public class DiscardController extends Controller implements IDiscardController, Observer 
 {
+	private static final Logger log = Logger.getLogger(DiscardController.class.getName());
 
 	private IWaitView waitView;
 	private ResourceList discard;
@@ -370,7 +373,6 @@ public class DiscardController extends Controller implements IDiscardController,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getDiscardView().closeModal();
 		brickDiscardAmount=0;
 		woodDiscardAmount=0;
 		sheepDiscardAmount=0;
@@ -416,42 +418,66 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void update(Observable obs, Object obj) 
 	{
+		log.trace("Updating");
 		if (obs instanceof CatanGame) 
 		{
 			catanModel = ((CatanGame) obs).getModel();
 			
 			if (catanModel.getTurnTracker().getStatus().equals(TurnType.DISCARDING))
 			{
+				log.trace("In discarding state");
 				initDiscardValues();
-				if (totalResources >= 7 &&
-					catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].hasDiscarded())
+				if (!catanGame.getCurrentPlayer().hasDiscarded() &&
+					!discardView.isModalShowing())
 				{
-					discardView.showModal();
-					updateResourceValues();
-				}
-				else if(totalResources < 7 ||
-					catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].hasDiscarded())
-				{
-					try {
-						catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), new ResourceList());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					log.trace("Player has not discarded yet");
+					if (totalResources >= 7)
+					{
+						log.trace("Showing discard modal --\\");
+						discardView.showModal();
+						updateResourceValues();
 					}
+					else
+					{
+						try {
+							log.trace("Sending empty discard");
+							catanGame.getProxy().movesDiscardCards(catanGame.getPlayerInfo().getPlayerIndex(), new ResourceList());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				
+				if (catanGame.getCurrentPlayer().hasDiscarded() &&
+					discardView.isModalShowing())
+				{
+					log.trace("Player has discarded");
+					discardView.closeModal();
+					log.trace("Closed discard view modal --/");
+				}
+				
+				if (catanGame.getCurrentPlayer().hasDiscarded() &&
+					waitView.isModalShowing())
+				{
+					log.trace("Player has discarded, showing wait dialog");
+					// We discarded, but the wait modal isn't up
+					log.trace("Showing wait modal --\\");
 					waitView.showModal();
 				}
+				
 			}
 			else
 			{
+				log.trace("Not in discarding state");
+				if (discardView.isModalShowing()) {
+					discardView.closeModal();
+					log.trace("Closed discard view --/");
+				}
 				if(waitView.isModalShowing()) {
 					waitView.closeModal();
+					log.trace("Closed wait view --/");
 				}
-				if(this.getDiscardView().isModalShowing() && catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING)) {
-					this.getDiscardView().closeModal();
-				}
-				
-				//issue 209 fix
-				hasDiscarded = false;
 			}
 		}
 	}

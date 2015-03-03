@@ -22,7 +22,8 @@ import client.view.misc.*;
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
+public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer
+{
 
 	private static final Logger log = Logger.getLogger(DomesticTradeController.class.getName());
 	
@@ -51,7 +52,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	 * @param acceptOverlay Accept trade overlay which lets the user accept or reject a proposed trade
 	 */
 	public DomesticTradeController(IDomesticTradeView tradeView, IDomesticTradeOverlay tradeOverlay,
-									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay, CatanGame catanGame) {
+									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay, CatanGame catanGame)
+	{
 
 		super(tradeView);
 		
@@ -120,6 +122,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			}
 		}
 		
+		log.trace("Showing domestic trade modal --\\");
 		getTradeOverlay().showModal();	
 		getTradeOverlay().setPlayerSelectionEnabled(true);
 		getTradeOverlay().setPlayers(playerInfo);
@@ -442,6 +445,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void sendTradeOffer() {
 		getTradeOverlay().closeModal();
+		log.trace("Closed domestic trade modal --/");
+		log.trace("Showing wait overlay modal --\\");
 		getWaitOverlay().showModal();
 		
 		TradeOffer offer = new TradeOffer(instigator, trade, investigator);
@@ -620,6 +625,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		resourcesToGet = new ResourceType[5];
 		resourcesToGive = new ResourceType[5];
 		getTradeOverlay().closeModal();
+		log.trace("Closed domestic trade modal --/");
 	}
 
 	@Override
@@ -634,6 +640,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		
 		getAcceptOverlay().closeModal();
+		log.trace("Closed accept trade modal --/");
 	}
 
 	public void isValidTrade()

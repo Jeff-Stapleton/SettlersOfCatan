@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.apache.log4j.Logger;
+
 import shared.definitions.*;
 import client.controller.devcards.IDevCardController;
 import client.view.base.*;
@@ -19,7 +21,9 @@ import java.util.*;
  * "Play dev card" view implementation
  */
 @SuppressWarnings("serial")
-public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
+public class PlayDevCardView extends OverlayView implements IPlayDevCardView
+{
+	private static final Logger log = Logger.getLogger(PlayDevCardView.class.getName());
 	
 	private final int LABEL_TEXT_SIZE = 40;
 	private final int BUTTON_TEXT_SIZE = 20;
@@ -153,12 +157,16 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 				getController().cancelPlayCard();
 			} 
 			else if (e.getSource() == useButton) {
-				if (devCards.getSelectedDevCard() == DevCardType.MONOPOLY) {					
+				if (devCards.getSelectedDevCard() == DevCardType.MONOPOLY)
+				{
 					closeModal();
+					log.trace("Closed dev card modal --/");
 					getController().playMonopolyCard(resCard1.getSelectedResourceCard());
 				}
-				else if (devCards.getSelectedDevCard() == DevCardType.YEAR_OF_PLENTY) {
+				else if (devCards.getSelectedDevCard() == DevCardType.YEAR_OF_PLENTY)
+				{
 					closeModal();
+					log.trace("Closed dev card modal --/");
 					getController().playYearOfPlentyCard(resCard1.getSelectedResourceCard(),
 														resCard2.getSelectedResourceCard());
 				}
@@ -186,6 +194,7 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 				resCard2.setEnabled(false);
 				
 				closeModal();
+				log.trace("Closed dev card modal --/");
 				getController().playMonumentCard();
 			}
 			else if (selectedDevCard == DevCardType.ROAD_BUILD) {
@@ -195,6 +204,7 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 				resCard2.setEnabled(false);
 				
 				closeModal();
+				log.trace("Closed dev card modal --/");
 				getController().playRoadBuildCard();
 			}
 			else if (selectedDevCard == DevCardType.SOLDIER) {
@@ -204,6 +214,7 @@ public class PlayDevCardView extends OverlayView implements IPlayDevCardView {
 				resCard2.setEnabled(false);
 				
 				closeModal();
+				log.trace("Closed dev card modal --/");
 				getController().playSoldierCard();
 			}
 			else if (selectedDevCard == DevCardType.MONOPOLY) {

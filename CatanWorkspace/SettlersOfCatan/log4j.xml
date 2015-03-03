@@ -6,7 +6,7 @@
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 	    <layout class="org.apache.log4j.PatternLayout">
 		<param name="ConversionPattern" 
-		  value="[%d{HH:mm:ss} %c{1}:%-3L %-5p] %m%n" />
+		  value="[%d{HH:mm:ss} %c{1}.java:%-3L %-5p] %m%n" />
 	    </layout>
 	</appender>
 	
@@ -15,12 +15,17 @@
 		 set the log level to what you want. If you remove any of these
 		 entries, they will get the level of 'root' down below -->
     <logger name="client.CatanGame" additivity="false">
-    	<level value="DEBUG"/>
+    	<level value="WARN"/>
         <appender-ref ref="console" />
     </logger>
 	
-    <logger name="client.controller.map.MapController" additivity="false">
-    	<level value="DEBUG"/>
+    <logger name="client.controller.discard.DiscardController" additivity="false">
+    	<level value="WARN"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+    <logger name="client.comm.ServerPoller" additivity="false">
+    	<level value="WARN"/>
         <appender-ref ref="console" />
     </logger>
     
@@ -29,7 +34,7 @@
 	</logger>
  
 	<root>
-		<level value="DEBUG" />
+		<level value="WARN" />
 		<appender-ref ref="console" />
 	</root>
  

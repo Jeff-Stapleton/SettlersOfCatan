@@ -69,8 +69,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	}
 
 	@Override
-	public void startTrade() {
-		
+	public void startTrade()
+	{
+		log.trace("Showing maritime trade modal --\\");
 		getTradeOverlay().showModal();
 		handleGiveOptions();
 	}
@@ -151,6 +152,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			enabledResources = getEnabledResources(resources, players[id], bank, map, turn);
 			getTradeOverlay().showGiveOptions(enabledResources);
 		}
+//		log.trace("Showing maritime trade modal --\\");
 		//getTradeOverlay().showModal();
 	}
 	
@@ -170,6 +172,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	{
 		int id = catanGame.getPlayerInfo().getPlayerIndex();
 		getTradeOverlay().closeModal();
+		log.trace("Closed maritime trade modal --/");
 		
 		try {
 			catanGame.updateModel(catanGame.getProxy().movesMaritimeTrade(id, giveResourceAmount, giveResource, getResource));
@@ -184,6 +187,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		unsetGetValue();
 		unsetGiveValue();
 		getTradeOverlay().closeModal();
+		log.trace("Closed maritime trade modal --/");
 	}
 
 	@Override

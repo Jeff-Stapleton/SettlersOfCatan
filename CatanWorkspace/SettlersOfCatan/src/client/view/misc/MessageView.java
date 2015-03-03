@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import org.apache.log4j.Logger;
+
 import client.view.base.*;
 
 
@@ -12,7 +14,9 @@ import client.view.base.*;
  * Implementation for the message view, which is used to display messages to the user
  */
 @SuppressWarnings("serial")
-public class MessageView extends OverlayView implements IMessageView {
+public class MessageView extends OverlayView implements IMessageView
+{
+	private static final Logger log = Logger.getLogger(MessageView.class.getName());
 
 	private final int LABEL_TEXT_SIZE = 20;
 	private final int BUTTON_TEXT_SIZE = 20;
@@ -60,6 +64,7 @@ public class MessageView extends OverlayView implements IMessageView {
 			
 			if (e.getSource() == closeButton) {
 				closeModal();
+				log.trace("Closed message view modal --/");
 			}
 		}	
 	};

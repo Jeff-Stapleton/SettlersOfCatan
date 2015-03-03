@@ -13,6 +13,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import org.apache.log4j.Logger;
+
 import client.controller.roll.IRollController;
 import client.view.base.*;
 
@@ -20,7 +22,9 @@ import client.view.base.*;
  * Implementation for the roll view, which allows the user to roll the dice
  */
 @SuppressWarnings("serial")
-public class RollView extends OverlayView implements IRollView {
+public class RollView extends OverlayView implements IRollView
+{
+	private static final Logger log = Logger.getLogger(RollView.class.getName());
 
 	private final int LABEL_TEXT_SIZE = 20;
 	private final int BUTTON_TEXT_SIZE = 28;
@@ -71,6 +75,7 @@ public class RollView extends OverlayView implements IRollView {
 			if (e.getSource() == rollButton) {
 				
 				closeModal();
+				log.trace("Closed roll view modal --/");
 				
 				getController().rollDice();
 			}

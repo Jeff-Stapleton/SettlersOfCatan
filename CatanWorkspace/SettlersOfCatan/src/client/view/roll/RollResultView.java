@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 
 import javax.swing.*;
 
+import org.apache.log4j.Logger;
+
 import client.controller.roll.IRollController;
 import client.view.base.*;
 import client.view.utils.ImageUtils;
@@ -15,7 +17,9 @@ import client.view.utils.ImageUtils;
  * Implementation for the roll result view, which displays the result of a roll
  */
 @SuppressWarnings({"serial", "unused"})
-public class RollResultView extends OverlayView implements IRollResultView {
+public class RollResultView extends OverlayView implements IRollResultView
+{
+	private static final Logger log = Logger.getLogger(RollResultView.class.getName());
 
 	private final int TITLE_TEXT_SIZE = 40;
 	private final int LABEL_TEXT_SIZE = 28;
@@ -29,6 +33,8 @@ public class RollResultView extends OverlayView implements IRollResultView {
 	private JLabel rollLabel;
 	private ImageIcon picture;
 	private JLabel pictureLabel;
+	
+	int value = 0;
 
 	public RollResultView() {
 		
@@ -84,6 +90,8 @@ public class RollResultView extends OverlayView implements IRollResultView {
 			if (e.getSource() == okayButton) {
 				
 				closeModal();
+				log.trace("Closed roll result modal --/");
+				getController().sendRoll(value);
 			}
 		}	
 	};
@@ -96,6 +104,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 
 	@Override
 	public void setRollValue(int value) {
+		this.value = value;
 		String rollText = String.format("You rolled a %d.", value);
 		rollLabel.setText(rollText);
 	}

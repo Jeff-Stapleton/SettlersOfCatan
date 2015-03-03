@@ -110,16 +110,16 @@ public class CatanPanel extends JPanel
 				
 				discardView.setDiscardButtonEnabled(true);
 				
-				if(state == 0)
-				{
-					discardView.showModal();
-					state = 1;
-				}
-				else if(state == 1)
-				{
-					discardWaitView.showModal();
-					state = 2;
-				}
+//				if(state == 0)
+//				{
+//					discardView.showModal();
+//					state = 1;
+//				}
+//				else if(state == 1)
+//				{
+//					discardWaitView.showModal();
+//					state = 2;
+//				}
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);

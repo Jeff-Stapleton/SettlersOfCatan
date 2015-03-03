@@ -10,6 +10,7 @@ import client.comm.ServerProxy;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
+import shared.Player;
 import shared.comm.ServerException;
 
 public class CatanGame extends Observable
@@ -60,6 +61,11 @@ public class CatanGame extends Observable
 	public void setPlayerInfo(PlayerInfo info)
 	{
 		playerInfo = info;
+	}
+	
+	public Player getCurrentPlayer()
+	{
+		return getModel().getPlayers()[getPlayerInfo().getPlayerIndex()];
 	}
 	
 	public GameInfo getGameInfo()

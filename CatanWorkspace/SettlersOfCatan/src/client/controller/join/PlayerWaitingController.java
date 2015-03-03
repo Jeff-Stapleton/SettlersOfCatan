@@ -6,6 +6,8 @@ import java.util.Observer;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import client.CatanLobby;
 import client.view.base.*;
 import client.view.data.PlayerInfo;
@@ -14,7 +16,9 @@ import client.view.join.IPlayerWaitingView;
 /**
  * Implementation for the player waiting controller
  */
-public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer {
+public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer
+{
+	private static final Logger log = Logger.getLogger(PlayerWaitingController.class.getName());
 	
 	CatanLobby catanLobby;
 
@@ -47,6 +51,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			
 			getView().setAIChoices(AIChoices);
 			getView().setPlayers(catanLobby.getGame().getGameInfo().getPlayers().toArray(new PlayerInfo[0]));
+			log.trace("Showing player waiting modal --\\");
 			getView().showModal();
 
 			catanLobby.startLobbyPoller();
@@ -88,12 +93,15 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 				e.printStackTrace();
 			}
 			getView().closeModal();
+			log.trace("Closed player waiting modal --/");
 			catanLobby.getGame().startServerPoller();
 		}
 		else
 		{
 			getView().setPlayers(catanLobby.getGame().getGameInfo().getPlayers().toArray(new PlayerInfo[0]));
 			getView().closeModal();
+			log.trace("Closed player waiting modal --/");
+			log.trace("Showing player waiting modal --\\");
 			getView().showModal();
 		}
 	}

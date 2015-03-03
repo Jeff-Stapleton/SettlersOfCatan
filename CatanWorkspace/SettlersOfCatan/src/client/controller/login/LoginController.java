@@ -7,10 +7,14 @@ import client.view.misc.*;
 
 import java.io.*;
 
+import org.apache.log4j.Logger;
+
 /**
  * Implementation for the login controller
  */
-public class LoginController extends Controller implements ILoginController {
+public class LoginController extends Controller implements ILoginController
+{
+	private static final Logger log = Logger.getLogger(LoginController.class.getName());
 
 	private IMessageView messageView;
 	private IAction loginAction;
@@ -30,12 +34,14 @@ public class LoginController extends Controller implements ILoginController {
 		this.catanLobby = catanLobby;
 	}
 	
-	public ILoginView getLoginView() {
+	public ILoginView getLoginView()
+	{
 		
 		return (ILoginView)super.getView();
 	}
 	
-	public IMessageView getMessageView() {
+	public IMessageView getMessageView()
+	{
 		
 		return messageView;
 	}
@@ -45,7 +51,8 @@ public class LoginController extends Controller implements ILoginController {
 	 * 
 	 * @param value The action to be executed when the user logs in
 	 */
-	public void setLoginAction(IAction value) {
+	public void setLoginAction(IAction value)
+	{
 		
 		loginAction = value;
 	}
@@ -55,14 +62,16 @@ public class LoginController extends Controller implements ILoginController {
 	 * 
 	 * @return The action to be executed when the user logs in
 	 */
-	public IAction getLoginAction() {
+	public IAction getLoginAction()
+	{
 		
 		return loginAction;
 	}
 
 	@Override
-	public void start() {
-		
+	public void start()
+	{
+		log.trace("Showing login modal --\\");
 		getLoginView().showModal();
 	}
 
@@ -76,6 +85,7 @@ public class LoginController extends Controller implements ILoginController {
 		{
 			catanLobby.userLogin(username, password);
 			getLoginView().closeModal();
+			log.trace("Closed login modal --/");
 			loginAction.execute();
 			//login success
 		} 
@@ -83,6 +93,7 @@ public class LoginController extends Controller implements ILoginController {
 		{
 			e.printStackTrace();
 			messageView.setMessage("Could not login to the server");
+			log.trace("Showing message view modal --\\");
 			messageView.showModal();
 		}
 
@@ -104,24 +115,29 @@ public class LoginController extends Controller implements ILoginController {
 		if(username.length()<3||username.length()>7) {
 			//username isn't valid
 			messageView.setMessage(usernameError);
+			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else if(!username.matches(validCharsRegex)) {
 			messageView.setMessage(usernameError);
+			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else if(!password1.matches(validCharsRegex)) {
 			messageView.setMessage(passwordError);
+			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else if(password1.length() < 5) {
 			//passwords length has to be greater than 4
 			messageView.setMessage(passwordError);
+			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else if (!password1.equals(password2)) {
 			//passwords don't match
 			messageView.setMessage("Passwords must match.");
+			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else 
@@ -130,12 +146,14 @@ public class LoginController extends Controller implements ILoginController {
 			{
 				catanLobby.userRegister(username, password1);
 				getLoginView().closeModal();
+				log.trace("Closed login modal --/");
 				loginAction.execute();
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
 				messageView.setMessage("Could not register the user");
+				log.trace("Showing message view --\\");
 				messageView.showModal();
 			}
 		}

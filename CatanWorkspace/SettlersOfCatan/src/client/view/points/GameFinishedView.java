@@ -6,6 +6,8 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import org.apache.log4j.Logger;
+
 import client.controller.points.IPointsController;
 import client.view.base.*;
 import client.view.utils.*;
@@ -15,7 +17,9 @@ import client.view.utils.*;
  * Implementation for the game finished view, which is displayed when the game is over
  */
 @SuppressWarnings({"serial", "unused"})
-public class GameFinishedView extends OverlayView implements IGameFinishedView {
+public class GameFinishedView extends OverlayView implements IGameFinishedView
+{
+	private static final Logger log = Logger.getLogger(GameFinishedView.class.getName());
 
 	private final int LABEL_TEXT_SIZE = 40;
 	private final int MESSAGE_TEXT_SIZE = 14;
@@ -77,8 +81,10 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource() == okButton) {
+			if (e.getSource() == okButton)
+			{
 				closeModal();
+				log.trace("Closed game finished modal --/");
 			}
 		}	
 	};

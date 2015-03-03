@@ -6,6 +6,8 @@ import java.util.Observer;
 
 import javax.swing.JToggleButton;
 
+import org.apache.log4j.Logger;
+
 import shared.CanCan;
 import shared.CatanModel;
 import shared.DevCardList;
@@ -24,7 +26,9 @@ import client.view.resources.ResourceBarElement;
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController, Observer {
+public class DevCardController extends Controller implements IDevCardController, Observer
+{
+	private static final Logger log = Logger.getLogger(DevCardController.class.getName());
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
@@ -68,12 +72,14 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void startBuyCard() {
+		log.trace("Showing buy card modal --\\");
 		getBuyCardView().showModal();
 	}
 
 	@Override
-	public void cancelBuyCard() {		
+	public void cancelBuyCard() {
 		getBuyCardView().closeModal();
+		log.trace("Closed buy card modal --/");
 	}
 
 	@Override
@@ -84,16 +90,19 @@ public class DevCardController extends Controller implements IDevCardController,
 			e.printStackTrace();
 		}
 		getBuyCardView().closeModal();
+		log.trace("Closed buy card modal --/");
 	}
 
 	@Override
-	public void startPlayCard() {		
+	public void startPlayCard() {
+		log.trace("Showing play card modal --\\");
 		getPlayCardView().showModal();
 	}
 
 	@Override
 	public void cancelPlayCard() {
 		getPlayCardView().closeModal();
+		log.trace("Closed play card modal --/");
 	}
 
 	// Implemented -Jordan
