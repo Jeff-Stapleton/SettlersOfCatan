@@ -390,7 +390,7 @@ public class Testing {
 		// Initial test to check if it can pass
 		SetUp1();
 		turn.setStatus(TurnType.ROBBING);
-		assertTrue(CanCan.canPlaceRobber(new Hex(new HexLocation(1,0), HexType.ORE, 3), robber, turn));
+		assertTrue(CanCan.canPlaceRobber(new Hex(new HexLocation(1,0), HexType.ORE, 3), robber, turn, player0));
 
 		// Incorrect phase of the game
 		SetUp1();
@@ -399,15 +399,15 @@ public class Testing {
 		
 		// Try to move robber to same hex he is already on
 		SetUp1();
-		assertFalse(CanCan.canPlaceRobber(robberHex, robber, turn));
+		assertFalse(CanCan.canPlaceRobber(robberHex, robber, turn, player0));
 
 		// Try to move robber to desert hex
 		SetUp1();
-		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,0), HexType.DESERT, 0), robber, turn));
+		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,0), HexType.DESERT, 0), robber, turn, player0));
 		
 		// Try to move robber to water hex
 		SetUp1();
-		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,2), HexType.WATER, 0), robber, turn));
+		assertFalse(CanCan.canPlaceRobber(new Hex(new HexLocation(2,2), HexType.WATER, 0), robber, turn, player0));
 	}
 
 	@Test

@@ -181,7 +181,7 @@ public class MapController extends Controller implements IMapController, Observe
 				robberHex = catanModel.getMap().getHexes().get(i);
 		
 //		System.out.println("canPlaceRobber in MapController: " + catanModel.getTurnTracker().toString());
-		return CanCan.canPlaceRobber(robberHex, catanModel.getMap().getRobber(), catanModel.getTurnTracker());
+		return CanCan.canPlaceRobber(robberHex, catanModel.getMap().getRobber(), catanModel.getTurnTracker(), player);
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) 
@@ -300,6 +300,7 @@ public class MapController extends Controller implements IMapController, Observe
 //		System.out.println("Played RoadBuilding in MapController");
 		player.setIsRoadBuilding(true);
 		getView().startDrop(PieceType.ROAD, playerColor, true);
+		player.setIsRoadBuilding(true);
 		getView().startDrop(PieceType.ROAD, playerColor, false);
 		player.setIsRoadBuilding(false);
 //			numRoadsPlaced++;

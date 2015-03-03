@@ -2081,8 +2081,8 @@ public class CanCan {
 	
 	
 	
-	public static boolean canPlaceRobber(Hex location, Robber robber, TurnTracker turn){
-		if (turn.getStatus() == TurnType.ROBBING){
+	public static boolean canPlaceRobber(Hex location, Robber robber, TurnTracker turn, Player player){
+		if (turn.getStatus() == TurnType.ROBBING || player.getIsPlayingSoldier()){
 			if ((robber == null || location == null) || robber.getX() == location.getLocation().getX() &&
 				robber.getY() == location.getLocation().getY()){
 				// Robber must be moved from its location

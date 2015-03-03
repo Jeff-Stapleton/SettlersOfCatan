@@ -21,8 +21,9 @@ public class Player extends Observable {
 	private ResourceList resources = new ResourceList();
 	private boolean playedDevCard = false;
 	private boolean discarded = false;
-	
+
 	private transient boolean isRoadBuilding = false;
+	private transient boolean isPlayingSoldier = false;
 	
 	/**
 	 * Buys settlement 
@@ -333,6 +334,14 @@ public class Player extends Observable {
 	
 	public void setIsRoadBuilding(boolean isRoadBuilding){
 		this.isRoadBuilding = isRoadBuilding;
+	}
+	
+	public boolean getIsPlayingSoldier(){
+		return isPlayingSoldier;
+	}
+	
+	public void setIsPlayingSoldier(boolean isPlayingSoldier){
+		this.isPlayingSoldier = isPlayingSoldier;
 	}
 	
 	@Override
