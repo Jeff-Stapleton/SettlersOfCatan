@@ -84,14 +84,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void update(Observable o, Object obj)
 	{
-		if (catanLobby.getGame().getGameInfo().getPlayers().size() >= 4)
+		if (catanLobby.getGame().getGameInfo().getPlayers().size() == 4)
 		{
 			catanLobby.stopLobbyPoller();
-			try {
-				catanLobby.getGame().updateModel();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
 			getView().closeModal();
 			log.trace("Closed player waiting modal --/");
 			catanLobby.getGame().startServerPoller();
