@@ -12,6 +12,7 @@ import shared.DevCardList;
 import shared.Player;
 import shared.ResourceList;
 import shared.TurnTracker;
+import shared.TurnType;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import client.CatanGame;
@@ -79,6 +80,15 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void buyCard() {	
 		try {
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
+			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 			catanGame.updateModel(catanGame.getProxy().movesBuyDevCard(thisPlayer.getPlayerIndex()));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -173,7 +183,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		*/
 		// This eventually ends up being called in MapController.playRoadBuildingCard()
 		soldierAction.execute();
-
 		/*
 		// Apparently this is server code
 		// remove card from player

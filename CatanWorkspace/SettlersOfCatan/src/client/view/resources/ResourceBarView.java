@@ -531,7 +531,7 @@ public class ResourceBarView extends PanelView implements IResourceBarView
 		public void update()
 		{
 			_elementImageButton.setEnabled(this.isEnabled());
-			if(_elementCount >= 0)
+//			if(_elementCount >= 0)
 				_elementCountLabel.setText(""+_elementCount);
 			_resourceElementPanel.repaint();
 		}

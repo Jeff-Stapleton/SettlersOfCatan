@@ -1466,7 +1466,7 @@ public class CanCan {
 	
 	public static boolean canBuildRoad(Player player, EdgeLocation edge, TurnTracker turn, Map map)
 	{
-		if ((canBuyRoad(player, turn)) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
+		if (canBuyRoad(player, turn) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
 		{
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
@@ -2054,6 +2054,10 @@ public class CanCan {
 	// Need checks here to see if player can buy a road
 	public static boolean canBuyRoad(Player player, TurnTracker turn) {
 		if ((turn.getCurrentTurn() == player.getPlayerIndex() && player.getRoads() >= 1 && /* player.getRoads() <= 14 && */ player.getResources().getBrick() >= 1 && player.getResources().getWood() >= 1)){
+			return true;
+		}
+		if (player.getIsRoadBuilding()){
+//			System.out.println("Player can buy road because road building");
 			return true;
 		}
 		return false;

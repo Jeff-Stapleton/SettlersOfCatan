@@ -110,7 +110,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			getView().setElementEnabled(ResourceBarElement.SETTLEMENT, CanCan.canBuySettlement(thisPlayer, turn));
 			getView().setElementEnabled(ResourceBarElement.CITY, CanCan.canBuyCity(thisPlayer, turn));
 			getView().setElementEnabled(ResourceBarElement.BUY_CARD, CanCan.canBuyDevCard(thisPlayer, deck, turn));
-			getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
+			getView().setElementEnabled(ResourceBarElement.PLAY_CARD, turn.getCurrentTurn() == thisPlayer.getPlayerIndex());
 		}
 	}
 }

@@ -180,6 +180,7 @@ public class MapController extends Controller implements IMapController, Observe
 			if (hexLoc.getX() == catanModel.getMap().getHexes().get(i).getLocation().getX() && hexLoc.getY() == catanModel.getMap().getHexes().get(i).getLocation().getY())
 				robberHex = catanModel.getMap().getHexes().get(i);
 		
+//		System.out.println("canPlaceRobber in MapController: " + catanModel.getTurnTracker().toString());
 		return CanCan.canPlaceRobber(robberHex, catanModel.getMap().getRobber(), catanModel.getTurnTracker());
 	}
 
@@ -283,6 +284,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void playSoldierCard() 
 	{
 		// Checks handled in DevCardController
+		
 		getView().startDrop(PieceType.ROBBER, playerColor, true);
 //		if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING) && catanModel.getTurnTracker().getCurrentTurn() == playerIndex){
 //			getView().startDrop(PieceType.ROBBER, playerColor, false);
@@ -295,8 +297,11 @@ public class MapController extends Controller implements IMapController, Observe
 		//playingRoadBuildingCard = true;
 //		int numRoadsPlaced = 0;
 //		while (numRoadsPlaced < 2){
+//		System.out.println("Played RoadBuilding in MapController");
+		player.setIsRoadBuilding(true);
 		getView().startDrop(PieceType.ROAD, playerColor, true);
 		getView().startDrop(PieceType.ROAD, playerColor, false);
+		player.setIsRoadBuilding(false);
 //			numRoadsPlaced++;
 //		}
 		
