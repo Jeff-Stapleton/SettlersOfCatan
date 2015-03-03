@@ -40,7 +40,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	
 	private ResourceType getResource;
 	private ResourceType giveResource;
-	private ResourceType[] enabledResources;
+	private ResourceType[] enabledResources = new ResourceType[5];
 	private ResourceType[] allResources = {ResourceType.WOOD, ResourceType.BRICK, ResourceType.SHEEP, 
 			ResourceType.WHEAT, ResourceType.ORE};
 	
@@ -72,6 +72,14 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void startTrade()
 	{
 		log.trace("Showing maritime trade modal --\\");
+		/*giveResourceAmount = 0;
+		getResourceAmount = 0;
+		getResource = null;
+		giveResource = null;
+		getTradeOverlay().showGiveOptions(enabledResources);
+		cancelTrade();*/
+		getTradeOverlay().reset();
+		
 		getTradeOverlay().showModal();
 		handleGiveOptions();
 	}
@@ -182,6 +190,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		}
 		unsetGetValue();
 		unsetGiveValue();
+		giveResourceAmount = 0;
+		getResourceAmount = 0;
+		getResource = null;
+		giveResource = null;
 		getTradeOverlay().closeModal();
 		log.trace("Closed maritime trade modal --/");
 	}
@@ -237,13 +249,13 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void unsetGetValue() {
-		//getTradeOverlay().showGetOptions(allResources);
+		getTradeOverlay().showGetOptions(allResources);
 		getTradeOverlay().setTradeEnabled(false);
 	}
 
 	@Override
 	public void unsetGiveValue() {
-		//getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
+		getTradeOverlay().showGiveOptions(getEnabledResources(catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()].getResources(), catanGame.getModel().getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()], catanGame.getModel().getBank(), catanGame.getModel().getMap(), catanGame.getModel().getTurnTracker()));
 		getTradeOverlay().setTradeEnabled(false);
 	}
 
