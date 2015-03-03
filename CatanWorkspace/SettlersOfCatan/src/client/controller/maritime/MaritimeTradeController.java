@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
+
 import shared.CanCan;
 import shared.CatanModel;
 import shared.Map;
@@ -18,6 +20,7 @@ import shared.definitions.*;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import client.CatanGame;
+import client.controller.domestic.DomesticTradeController;
 import client.view.base.*;
 import client.view.maritime.IMaritimeTradeOverlay;
 import client.view.maritime.IMaritimeTradeView;
@@ -28,6 +31,8 @@ import client.view.maritime.IMaritimeTradeView;
  */
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController, Observer {
 
+	private static final Logger log = Logger.getLogger(MaritimeTradeController.class.getName());
+	
 	private IMaritimeTradeOverlay tradeOverlay;
 	private CatanGame catanGame;
 	private int giveResourceAmount;
@@ -42,9 +47,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay, CatanGame catanGame) {
 		
 		super(tradeView);
-		catanGame.addObserver(this);
-		this.catanGame = catanGame;
+		
 		setTradeOverlay(tradeOverlay);
+		catanGame.addObserver(this);
+		
+		this.catanGame = catanGame;
+		
 	}
 	
 	public IMaritimeTradeView getTradeView() {
@@ -143,7 +151,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			enabledResources = getEnabledResources(resources, players[id], bank, map, turn);
 			getTradeOverlay().showGiveOptions(enabledResources);
 		}
-		getTradeOverlay().showModal();
+		//getTradeOverlay().showModal();
 	}
 	
 	public void handleGetOptions()
@@ -181,8 +189,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void setGetResource(ResourceType resource) {
 		getResource = resource;
-		getTradeOverlay().selectGetOption(resource, 1);
-		getTradeOverlay().setTradeEnabled(true);//Now they can trade
+		getTradeOverlay().selectGetOption(getResource, 1);
+		getTradeOverlay().setTradeEnabled(true);
 	}
 
 	@Override
@@ -194,7 +202,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		Map map = catanGame.getModel().getMap();
 		giveResource = resource;
 
-		switch(resource){
+		switch(giveResource){
 			case WOOD:	
 				giveResourceAmount = CanCan.bestRatio(player, map.getPorts(), player.getResources().getWood(), map, PortType.WOOD);
 				break;
@@ -235,8 +243,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void update(Observable o, Object arg) {
 		if (o instanceof CatanGame) {
 			catanGame = (CatanGame) o;
-			
-			
 		}
 	}
 	
