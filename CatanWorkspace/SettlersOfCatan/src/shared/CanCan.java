@@ -637,9 +637,6 @@ public class CanCan {
 			// correct phase of the game
 			if (turn.getStatus() == TurnType.PLAYING){
 				if (player.getOldDevCards().getMonument() > 0){
-					if (player.hasPlayedDevCard()){
-						return false;
-					}
 					return true;
 				}
 			}

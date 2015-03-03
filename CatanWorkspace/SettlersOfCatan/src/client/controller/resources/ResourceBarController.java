@@ -105,45 +105,12 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			getView().setElementAmount(ResourceBarElement.SETTLEMENT, thisPlayer.getSettlements());
 			getView().setElementAmount(ResourceBarElement.ROAD, thisPlayer.getRoads());
 
-			// buildRoad check
-			if (CanCan.canBuyRoad(thisPlayer, turn)) {
-				getView().setElementEnabled(ResourceBarElement.ROAD, true);
-			} else {
-				getView().setElementEnabled(ResourceBarElement.ROAD, false);
-			}
 			
-			// buildSettlement check
-			if (CanCan.canBuySettlement(thisPlayer, turn)) {
-				getView().setElementEnabled(ResourceBarElement.SETTLEMENT, true);
-			} else {
-				getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
-			}
-			
-			// buildCity check
-			if (CanCan.canBuyCity(thisPlayer, turn)) {
-				getView().setElementEnabled(ResourceBarElement.CITY, true);
-			} else {
-				getView().setElementEnabled(ResourceBarElement.CITY, false);
-			}
-			
-			// buyCard check
-			if (CanCan.canBuyDevCard(thisPlayer, deck, turn)) {
-				getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
-			} else {
-				getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
-			}
-			
-			// playCard check
-			if (thisPlayer.getOldDevCards().getTotal() > 0) {
-				getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
-			} else {
-				getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
-				// apparently you can always click on play dev card, i'll remove this whole section if true
-				//getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
-			}
-
+			getView().setElementEnabled(ResourceBarElement.ROAD, CanCan.canBuyRoad(thisPlayer, turn));
+			getView().setElementEnabled(ResourceBarElement.SETTLEMENT, CanCan.canBuySettlement(thisPlayer, turn));
+			getView().setElementEnabled(ResourceBarElement.CITY, CanCan.canBuyCity(thisPlayer, turn));
+			getView().setElementEnabled(ResourceBarElement.BUY_CARD, CanCan.canBuyDevCard(thisPlayer, deck, turn));
+			getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
 		}
-
 	}
-
 }

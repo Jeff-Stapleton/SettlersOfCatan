@@ -33,8 +33,8 @@ public class MapController extends Controller implements IMapController, Observe
 	private CatanModel catanModel = null;
 	private IRobView robView;
 	private CatanGame catanGame;
-	private boolean playingRoadBuildingCard;
-	private int numRoadsPlaced;
+	//private boolean playingRoadBuildingCard;
+	//private int numRoadsPlaced;
 	private int playerIndex;
 	private CatanColor playerColor;
 	private TurnType mapState;
@@ -50,7 +50,7 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		//initFromModel();
 
-		playingRoadBuildingCard = false;
+		//playingRoadBuildingCard = false;
 		catanGame.addObserver(this);
 		setRobView(robView);
 		isBuilding = false;
@@ -282,21 +282,23 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void playSoldierCard() 
 	{
-		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
-		{
-			getView().startDrop(PieceType.ROBBER, playerColor, false);
-		}
-		
+		// Checks handled in DevCardController
+		getView().startDrop(PieceType.ROBBER, playerColor, true);
+//		if(catanModel.getTurnTracker().getStatus().equals(TurnType.ROBBING) && catanModel.getTurnTracker().getCurrentTurn() == playerIndex){
+//			getView().startDrop(PieceType.ROBBER, playerColor, false);
+//		}
 	}
 	
 	public void playRoadBuildingCard() 
 	{	
-		if (catanModel.getTurnTracker().getCurrentTurn() == playerIndex)
-		{
-			playingRoadBuildingCard = true;
-			numRoadsPlaced = 0;
-			getView().startDrop(PieceType.ROBBER, playerColor, false);
-		}
+		// Checks handled in DevCardController
+		//playingRoadBuildingCard = true;
+//		int numRoadsPlaced = 0;
+//		while (numRoadsPlaced < 2){
+		getView().startDrop(PieceType.ROAD, playerColor, true);
+		getView().startDrop(PieceType.ROAD, playerColor, false);
+//			numRoadsPlaced++;
+//		}
 		
 	}
 	
