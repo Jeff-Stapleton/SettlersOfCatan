@@ -264,17 +264,35 @@ public class CanCan {
 		
 		while(onPort != null)
 		{
-			switch(portType)
+			Port onPort1 = null;
+			if (onPort.getType() == null)
+				onPort1 = new Port(PortType.THREE, onPort.getLocation(), onPort.getDirection(), onPort.getRatio());
+			else
+				onPort1 = new Port(onPort.getType(), onPort.getLocation(), onPort.getDirection(), onPort.getRatio());
+			switch(onPort1.getType())
 			{
+				case THREE:
+				{
+					//if (portType.equals(onPort1.getType()))
+						if (maritimeOffer >= onPort1.getRatio())
+						{
+							if (onPort1.getRatio() < bestRatio)
+							{
+								bestRatio = onPort1.getRatio();
+							}
+						}
+					break;
+				}
+				
 				case WOOD:
 				{
-					if (onPort.getType().equals(portType))//recall
+					if (portType.equals(onPort1.getType()))//recall
 					{
-						if (maritimeOffer >= onPort.getRatio())
+						if (maritimeOffer >= onPort1.getRatio())
 						{
-							if (onPort.getRatio() < bestRatio)
+							if (onPort1.getRatio() < bestRatio)
 							{
-								bestRatio = onPort.getRatio();
+								bestRatio = onPort1.getRatio();
 							}
 						}
 					}
@@ -282,13 +300,13 @@ public class CanCan {
 				}
 				case BRICK:
 				{
-					if (onPort.getType().equals(portType))
+					if (portType.equals(onPort1.getType()))
 					{
-						if (maritimeOffer >= onPort.getRatio())
+						if (maritimeOffer >= onPort1.getRatio())
 						{
-							if (onPort.getRatio() < bestRatio)
+							if (onPort1.getRatio() < bestRatio)
 							{
-								bestRatio = onPort.getRatio();
+								bestRatio = onPort1.getRatio();
 							}
 						}
 					}
@@ -296,13 +314,13 @@ public class CanCan {
 				}
 				case SHEEP:
 				{
-					if (onPort.getType().equals(portType))
+					if (portType.equals(onPort1.getType()))
 					{
-						if (maritimeOffer >= onPort.getRatio())
+						if (maritimeOffer >= onPort1.getRatio())
 						{
-							if (onPort.getRatio() < bestRatio)
+							if (onPort1.getRatio() < bestRatio)
 							{
-								bestRatio = onPort.getRatio();
+								bestRatio = onPort1.getRatio();
 							}
 						}
 					}
@@ -310,13 +328,13 @@ public class CanCan {
 				}
 				case WHEAT:
 				{
-					if (onPort.getType().equals(portType))
+					if (portType.equals(onPort1.getType()))
 					{
-						if (maritimeOffer >= onPort.getRatio())
+						if (maritimeOffer >= onPort1.getRatio())
 						{
-							if (onPort.getRatio() < bestRatio)
+							if (onPort1.getRatio() < bestRatio)
 							{
-								bestRatio = onPort.getRatio();
+								bestRatio = onPort1.getRatio();
 							}
 						}
 					}
@@ -324,27 +342,13 @@ public class CanCan {
 				}
 				case ORE:
 				{
-					if (onPort.getType().equals(portType))
+					if (portType.equals(onPort1.getType()))
 					{
-						if (maritimeOffer >= onPort.getRatio())
+						if (maritimeOffer >= onPort1.getRatio())
 						{
-							if (onPort.getRatio() < bestRatio)
+							if (onPort1.getRatio() < bestRatio)
 							{
-								bestRatio = onPort.getRatio();
-							}
-						}
-					}
-					break;
-				}
-				case THREE:
-				{
-					if (onPort.getType().equals(portType))
-					{
-						if (maritimeOffer >= onPort.getRatio())
-						{
-							if (onPort.getRatio() < bestRatio)
-							{
-								bestRatio = onPort.getRatio();
+								bestRatio = onPort1.getRatio();
 							}
 						}
 					}
@@ -395,7 +399,7 @@ public class CanCan {
 				{
 					case WOOD:
 					{
-						if(onPort.getType().equals(PortType.WOOD) || onPort.getType().equals(PortType.THREE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.WOOD) )
 						{
 							if (maritimeOffer.getWood() >= onPort.getRatio())
 							{
@@ -411,7 +415,7 @@ public class CanCan {
 					}
 					case BRICK:
 					{
-						if(onPort.getType().equals(PortType.BRICK) || onPort.getType().equals(PortType.THREE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.BRICK))
 						{
 							if (maritimeOffer.getBrick() >= onPort.getRatio())
 							{
@@ -427,7 +431,7 @@ public class CanCan {
 					}
 					case SHEEP:
 					{
-						if(onPort.getType().equals(PortType.SHEEP) || onPort.getType().equals(PortType.THREE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.SHEEP))
 						{
 							if (maritimeOffer.getSheep() >= onPort.getRatio())
 							{
@@ -443,7 +447,7 @@ public class CanCan {
 					}
 					case WHEAT:
 					{
-						if(onPort.getType().equals(PortType.WHEAT) || onPort.getType().equals(PortType.THREE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.WHEAT))
 						{
 							if (maritimeOffer.getWheat() >= onPort.getRatio())
 							{
@@ -459,7 +463,7 @@ public class CanCan {
 					}
 					case ORE:
 					{
-						if(onPort.getType().equals(PortType.ORE) || onPort.getType().equals(PortType.THREE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.ORE))
 						{
 							if (maritimeOffer.getOre() >= onPort.getRatio())
 							{
