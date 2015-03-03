@@ -301,6 +301,7 @@ public class MaritimeTradeOverlay extends OverlayView implements
 							// view and starts a new one. should the controller
 							// do that?
 					getController().cancelTrade();
+					reset();
 				}
 			}
 		};

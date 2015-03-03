@@ -264,29 +264,93 @@ public class CanCan {
 		
 		while(onPort != null)
 		{
-			if (maritimeOffer == 2 && onPort.getType() == portType)
-				if (bestRatio > 2)
-					bestRatio = 2;
-			else if (maritimeOffer == 2 && onPort.getType() == portType)
-				if (bestRatio > 2)
-					bestRatio = 2;
-			else if (maritimeOffer == 2 && onPort.getType() == portType)
-				if (bestRatio > 2)
-					bestRatio = 2;
-			else if (maritimeOffer == 2 && onPort.getType() == portType)
-				if (bestRatio > 2)
-					bestRatio = 2;
-			else if (maritimeOffer == 2 && onPort.getType() == portType)
-				if (bestRatio > 2)
-					bestRatio = 2;
-			else if (((maritimeOffer) == 3 || 
-					  (maritimeOffer) == 3 || 
-					  (maritimeOffer) == 3 || 
-					  (maritimeOffer) == 3 || 
-					  (maritimeOffer) == 3) && 
-					 onPort.getType() == null)
-				if (bestRatio > 3)
-					bestRatio = 3;
+			switch(portType)
+			{
+				case WOOD:
+				{
+					if (onPort.getType().equals(portType))//recall
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+				case BRICK:
+				{
+					if (onPort.getType().equals(portType))
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+				case SHEEP:
+				{
+					if (onPort.getType().equals(portType))
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+				case WHEAT:
+				{
+					if (onPort.getType().equals(portType))
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+				case ORE:
+				{
+					if (onPort.getType().equals(portType))
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+				case THREE:
+				{
+					if (onPort.getType().equals(portType))
+					{
+						if (maritimeOffer >= onPort.getRatio())
+						{
+							if (onPort.getRatio() < bestRatio)
+							{
+								bestRatio = onPort.getRatio();
+							}
+						}
+					}
+					break;
+				}
+			}
 			
 			oneTimePorts.remove(onPort);
 			onPort = isOnPort(newBuildings, oneTimePorts, player);
@@ -333,7 +397,7 @@ public class CanCan {
 					{
 						if(onPort.getType().equals(PortType.WOOD) || onPort.getType().equals(PortType.THREE))
 						{
-							if (maritimeOffer.getWood() <= onPort.getRatio())
+							if (maritimeOffer.getWood() >= onPort.getRatio())
 							{
 								validTrade = true;
 								return validTrade;
@@ -349,7 +413,7 @@ public class CanCan {
 					{
 						if(onPort.getType().equals(PortType.BRICK) || onPort.getType().equals(PortType.THREE))
 						{
-							if (maritimeOffer.getBrick() <= onPort.getRatio())
+							if (maritimeOffer.getBrick() >= onPort.getRatio())
 							{
 								validTrade = true;
 								return validTrade;
@@ -365,7 +429,7 @@ public class CanCan {
 					{
 						if(onPort.getType().equals(PortType.SHEEP) || onPort.getType().equals(PortType.THREE))
 						{
-							if (maritimeOffer.getSheep() <= onPort.getRatio())
+							if (maritimeOffer.getSheep() >= onPort.getRatio())
 							{
 								validTrade = true;
 								return validTrade;
@@ -381,7 +445,7 @@ public class CanCan {
 					{
 						if(onPort.getType().equals(PortType.WHEAT) || onPort.getType().equals(PortType.THREE))
 						{
-							if (maritimeOffer.getWheat() <= onPort.getRatio())
+							if (maritimeOffer.getWheat() >= onPort.getRatio())
 							{
 								validTrade = true;
 								return validTrade;
@@ -397,7 +461,7 @@ public class CanCan {
 					{
 						if(onPort.getType().equals(PortType.ORE) || onPort.getType().equals(PortType.THREE))
 						{
-							if (maritimeOffer.getOre() <= onPort.getRatio())
+							if (maritimeOffer.getOre() >= onPort.getRatio())
 							{
 								validTrade = true;
 								return validTrade;
@@ -582,7 +646,6 @@ public class CanCan {
 		}
 		return false;
 	}
-	
 
 	
 	public static boolean hasAdjacentRoad(Player player, EdgeLocation edge, Map map)
