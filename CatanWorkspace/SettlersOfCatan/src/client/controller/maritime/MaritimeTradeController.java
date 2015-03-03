@@ -180,6 +180,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		unsetGetValue();
+		unsetGiveValue();
+		getTradeOverlay().closeModal();
+		log.trace("Closed maritime trade modal --/");
 	}
 
 	@Override
