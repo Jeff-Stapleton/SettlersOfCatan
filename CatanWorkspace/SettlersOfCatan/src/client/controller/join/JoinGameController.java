@@ -152,16 +152,21 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	{
 		try
 		{
-			log.trace("Creating a new game");
-			catanLobby.getProxy().gamesCreate(getNewGameView().getTitle(),
-											  getNewGameView().getRandomlyPlaceHexes(),
-											  getNewGameView().getRandomlyPlaceNumbers(),
-											  getNewGameView().getUseRandomPorts());
-			getNewGameView().closeModal();
-			log.trace("Closed new game modal --/");
-			
-			log.trace("Refreshing games list for joining");
-			getJoinGameView().setGames(catanLobby.getProxy().gamesList(), catanLobby.getPlayerInfo());
+			if (getNewGameView().getTitle().toString().length() > 0)
+			{
+				log.trace("Creating a new game");
+				catanLobby.getProxy().gamesCreate(getNewGameView().getTitle(),
+												  getNewGameView().getRandomlyPlaceHexes(),
+												  getNewGameView().getRandomlyPlaceNumbers(),
+												  getNewGameView().getUseRandomPorts());
+				getNewGameView().closeModal();
+				log.trace("Closed new game modal --/");
+				
+				log.trace("Refreshing games list for joining");
+				getJoinGameView().setGames(catanLobby.getProxy().gamesList(), catanLobby.getPlayerInfo());
+			}
+			else
+				getNewGameView().setTitle("Please enter a valid game name");
 		}
 		catch (IOException e)
 		{
