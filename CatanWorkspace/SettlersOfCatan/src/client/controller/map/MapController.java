@@ -299,13 +299,32 @@ public class MapController extends Controller implements IMapController, Observe
 			for(int c=0;c<catanModel.getMap().getCities().size();c++){
 				building=catanModel.getMap().getCities().get(c).getLocation().getNormalizedLocation();
 				owner=catanModel.getMap().getCities().get(c).getOwner();
-				if(building.equals(vertices[i]) && owner!=player && catanModel.getPlayers()[owner].getResources().totalCount()>0){
-					RobPlayerInfo ri=new RobPlayerInfo();
-					ri.setNumCards(catanModel.getPlayers()[owner].getResources().totalCount());
-					ri.setName(catanModel.getPlayers()[owner].getName());
-					ri.setPlayerIndex(owner);
-					ri.setColor(catanModel.getPlayers()[owner].getColor());
-					vics.add(ri);
+				if(building.equals(vertices[i]) && owner!=player && catanModel.getPlayers()[owner].getResources().totalCount()>0)
+				{
+					if (!vics.isEmpty())
+					{
+						for (int j = 0; j < vics.size(); j++)
+						{
+							if (!vics.get(j).getName().equals(catanModel.getPlayers()[owner].getName()))
+							{
+								RobPlayerInfo ri=new RobPlayerInfo();
+								ri.setNumCards(catanModel.getPlayers()[owner].getResources().totalCount());
+								ri.setName(catanModel.getPlayers()[owner].getName());
+								ri.setPlayerIndex(owner);
+								ri.setColor(catanModel.getPlayers()[owner].getColor());
+								vics.add(ri);
+							}
+						}
+					}
+					else
+					{
+						RobPlayerInfo ri=new RobPlayerInfo();
+						ri.setNumCards(catanModel.getPlayers()[owner].getResources().totalCount());
+						ri.setName(catanModel.getPlayers()[owner].getName());
+						ri.setPlayerIndex(owner);
+						ri.setColor(catanModel.getPlayers()[owner].getColor());
+						vics.add(ri);
+					}
 				}
 			}
 		}
