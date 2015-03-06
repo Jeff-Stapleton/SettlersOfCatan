@@ -109,7 +109,8 @@ public class LoginController extends Controller implements ILoginController
 		String password2=this.getLoginView().getRegisterPasswordRepeat();
 		
 		String usernameError = "The username must be between three and seven characters: letters, digits, _ , and -";
-		String passwordError = "The password must be five or more characters: letters, digits, _ , and -";
+		String passwordError1 = "The password must consist of the following characters: letters, digits, _ , and -";
+		String passwordError2 = "The password must be five or more characters";
 		String validCharsRegex = "[0-9]*[A-z]*[_]*[-]*";
 		
 		if(username.length()<3||username.length()>7) {
@@ -123,14 +124,14 @@ public class LoginController extends Controller implements ILoginController
 			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
-		else if(!password1.matches(validCharsRegex)) {
-			messageView.setMessage(passwordError);
+		else if(!password1.matches("[a-zA-Z0-9_-]+")) {
+			messageView.setMessage(passwordError1);
 			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
 		else if(password1.length() < 5) {
 			//passwords length has to be greater than 4
-			messageView.setMessage(passwordError);
+			messageView.setMessage(passwordError2);
 			log.trace("Showing message view --\\");
 			messageView.showModal();
 		}
