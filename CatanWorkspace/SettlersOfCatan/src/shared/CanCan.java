@@ -649,48 +649,187 @@ public class CanCan {
 	}
 
 	
-	public static boolean hasAdjacentRoad(Player player, EdgeLocation edge, Map map)
+	public static boolean hasAdjacentRoad(Player player, EdgeLocation edge, Map map, List<Building> newBuildings)
 	{
 		List<Road> newRoads = map.getRoads();
+		//boolean hasCity = false;
+		boolean hasRoad = false;
 		
 		if (edge.getDir() == EdgeDirection.South)
 		{
 			for (int i = 0; i < newRoads.size(); i++)
 			{
+
 				if (newRoads.get(i).getOwner() == player.getPlayerIndex())
 				{
 					if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() &&
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() &&
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 &&
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true;
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East))
+										hasRoad = false;
+						}
+					}
 				}
 			}
 		}
@@ -704,35 +843,174 @@ public class CanCan {
 					if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() &&  
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+										hasRoad = false;
+						}
+						
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() &&
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+										hasRoad = false;
+						}
+						
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+										hasRoad = false;
+						}
+						
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 				}
 			}
 			
@@ -744,38 +1022,175 @@ public class CanCan {
 			{
 				if (newRoads.get(i).getOwner() == player.getPlayerIndex())
 				{
+
 					if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+									hasRoad = false;
+						}
+					}
 					if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1&& 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest))
+										hasRoad = false;
+						}
+					}
 				}
 			}
 		}
@@ -789,35 +1204,171 @@ public class CanCan {
 					if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
-							newRoads.get(i).getLocation().getY() == edge.getY() + 1&& 
+							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() + 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+									hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() + 1 &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+								
+								(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+								newBuildings.get(j).getLocation().getY() == edge.getY() &&
+								newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+									hasRoad = false;
+						}
+					}
 				}
 			}
 		}
@@ -831,35 +1382,171 @@ public class CanCan {
 					if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() - 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() - 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 				}
 			}
 		}
@@ -873,40 +1560,177 @@ public class CanCan {
 					if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthEast) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.West) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthEast))
+										hasRoad = false;
+						}
+					}
 					if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() - 1 && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.South)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.North)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
 					else if (newRoads.get(i).getLocation().getX() == edge.getX() + 1 && 
 							newRoads.get(i).getLocation().getY() == edge.getY() && 
 							newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
-						return true;
+					{
+						hasRoad = true; 
+						for (int j = 0; j < newBuildings.size(); j++)
+						{
+							if ((newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.NorthWest) ||
+	
+									(newBuildings.get(j).getLocation().getX() == edge.getX() && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.East) ||
+									
+									(newBuildings.get(j).getLocation().getX() == edge.getX() + 1 && 
+									newBuildings.get(j).getLocation().getY() == edge.getY() - 1 &&
+									newBuildings.get(j).getLocation().getDirection() == VertexDirection.SouthWest))
+										hasRoad = false;
+						}
+					}
+				
 				}
 			}
 		}
 		
-		return false;
+		return hasRoad;
 	}
 	
 	public static boolean secondPhaseRoadCheck(List<Building> newBuildings, EdgeLocation edge)
@@ -1582,7 +2406,7 @@ public class CanCan {
 			
 			
 			
-			if (!hasAdjacentRoad(player,edge, map))
+			if (!hasAdjacentRoad(player,edge, map, newBuildings))
 			{
 				if (edge.getDir() == EdgeDirection.South)
 				{
