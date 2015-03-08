@@ -371,15 +371,14 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeRobber(HexLocation hexLoc) 
 	{
 		log.trace("Placing robber on hex");
-		if (canPlaceRobber(hexLoc)) {			
-			
-			getRobView().setPlayers(getVictims(playerIndex, hexLoc));
-			getView().placeRobber(hexLoc);
-			log.trace("Showing rob view modal --\\");
-			getRobView().showModal();
-			robber = hexLoc;
-			player.setIsPlayingSoldier(false);
-		}
+		
+		getView().placeRobber(hexLoc);
+		getRobView().setPlayers(getVictims(playerIndex, hexLoc));
+		log.trace("Showing rob view modal --\\");
+		getRobView().showModal();
+		robber = hexLoc;
+		player.setIsPlayingSoldier(false);
+
 	}
 	
 	@Override
