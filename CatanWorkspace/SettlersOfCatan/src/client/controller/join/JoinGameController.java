@@ -155,10 +155,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			if (getNewGameView().getTitle().toString().length() > 0)
 			{
 				log.trace("Creating a new game");
-				catanLobby.getProxy().gamesCreate(getNewGameView().getTitle(),
-												  getNewGameView().getRandomlyPlaceHexes(),
-												  getNewGameView().getRandomlyPlaceNumbers(),
-												  getNewGameView().getUseRandomPorts());
+				GameInfo game = catanLobby.getProxy().gamesCreate(getNewGameView().getTitle(),
+						getNewGameView().getRandomlyPlaceHexes(),
+						getNewGameView().getRandomlyPlaceNumbers(),
+						getNewGameView().getUseRandomPorts());
+				catanLobby.getProxy().gamesJoin(CatanColor.RED, game.getId());
 				getNewGameView().closeModal();
 				log.trace("Closed new game modal --/");
 				
