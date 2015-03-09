@@ -2,12 +2,16 @@ package shared;
 
 import java.util.Observable;
 
+import org.apache.log4j.Logger;
+
 /**
  * The main client side controller of the game.
  *
  * @author JJ
  */
-public class CatanModel extends Observable {
+public class CatanModel extends Observable
+{
+	private static final Logger logger = Logger.getLogger(CatanModel.class);
 	
 	/** The deck. */
 	private DevCardList deck = new DevCardList();
@@ -263,6 +267,7 @@ public class CatanModel extends Observable {
 	 */
 	public boolean updateFrom(CatanModel model)
 	{
+		logger.trace("Updating catan model");
 		boolean updated = false;
 		
 		updated = updated | deck.updateFrom(model.getDeck());
@@ -310,6 +315,7 @@ public class CatanModel extends Observable {
 		
 		if (updated)
 		{
+			logger.trace("Notifying observers");
 			setChanged();
 			notifyObservers();
 		}

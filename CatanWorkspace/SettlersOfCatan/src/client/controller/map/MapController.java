@@ -237,7 +237,16 @@ public class MapController extends Controller implements IMapController, Observe
 	{
 		try 
 		{
-			catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, (mapState == TurnType.FIRST_ROUND || mapState == TurnType.SECOND_ROUND)));
+			if (mapState == TurnType.FIRST_ROUND || mapState == TurnType.SECOND_ROUND)
+			{
+				catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, true);
+				catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
+				updateState();
+			}
+			else
+			{
+				catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, true));
+			}
 		} catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -462,43 +471,43 @@ public class MapController extends Controller implements IMapController, Observe
 				if (player != null && playerIndex == catanModel.getTurnTracker().getCurrentTurn())
 				{
 					log.trace("Game state: " + mapState.toString());
-					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
-					{
-						try {
-							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
-							updateState();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					else if ((player.getRoads() == 13 && player.getSettlements() == 3) && mapState.equals(TurnType.SECOND_ROUND))
-					{
-						try {
-							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
-							updateState();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+//					if ((player.getRoads() == 14 && player.getSettlements() == 4) && mapState.equals(TurnType.FIRST_ROUND))
+//					{
+//						try {
+//							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
+//							updateState();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//					else if ((player.getRoads() == 13 && player.getSettlements() == 3) && mapState.equals(TurnType.SECOND_ROUND))
+//					{
+//						try {
+//							catanGame.updateModel(catanGame.getProxy().movesFinishTurn(playerIndex));
+//							updateState();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
 					
-					if (player.getRoads() == 15 && player.getSettlements() == 5)
+					if (player.getRoads() == 15 && player.getSettlements() == 5 && mapState.equals(TurnType.FIRST_ROUND))
 					{ 
 						if (!getView().isDropping())
 							startMove(PieceType.ROAD, true, false);
 					}
-					else if (player.getRoads() == 14 && player.getSettlements() == 5)
+					else if (player.getRoads() == 14 && player.getSettlements() == 5 && mapState.equals(TurnType.FIRST_ROUND))
 					{
 						if (!getView().isDropping())
 							startMove(PieceType.SETTLEMENT, true, false);
 					}
-					else if (player.getRoads() == 14 && player.getSettlements() == 4)
+					else if (player.getRoads() == 14 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND))
 					{
 						if (!getView().isDropping())
 							startMove(PieceType.ROAD, true, false);
 					}
-					else if (player.getRoads() == 13 && player.getSettlements() == 4)
+					else if (player.getRoads() == 13 && player.getSettlements() == 4 && mapState.equals(TurnType.SECOND_ROUND))
 					{ 
 						if (!getView().isDropping())
 							startMove(PieceType.SETTLEMENT, true, false);

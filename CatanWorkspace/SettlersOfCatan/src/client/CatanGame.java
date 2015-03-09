@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.util.Observable;
+import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
 
@@ -81,29 +82,30 @@ public class CatanGame extends Observable
 		return server;
 	}
 	
-	public void updateModel() throws IOException
-	{
-		log.trace("Fetching a new model");
-		CatanModel model = server.gameModel();
-		
-		if (model != null)
-		{
-			updateModel(model);
-		}
-		else
-		{
-			throw new ServerException("Recieved null model from the server");
-		}
-	}
-	
 	public void updateModel(CatanModel model)
 	{
-		log.trace("Updating model");
-		assert model != null;
-		if (catanModel.updateFrom(model))
-		{
-			setChanged();
-			notifyObservers();
+		serverPoller.setLatestModel(model);
+//		log.trace("Updating model");
+//		assert model != null;
+//		if (catanModel.updateFrom(model))
+//		{
+//			setChanged();
+//			notifyObservers();
+//		}
+//		log.trace("Model updated");
+	}
+	
+	public void updateFrom(CatanModel model)
+	{
+		synchronized (this) {
+			log.trace("Updating model");
+			assert model != null;
+			if (catanModel.updateFrom(model))
+			{
+				setChanged();
+				notifyObservers();
+			}
+			log.trace("Model updated");
 		}
 	}
 	

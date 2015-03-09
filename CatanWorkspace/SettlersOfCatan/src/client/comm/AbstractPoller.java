@@ -1,6 +1,9 @@
 package client.comm;
 
 import java.io.IOException;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Server Poller polls the game model from the server
@@ -13,6 +16,8 @@ public abstract class AbstractPoller extends Thread implements IServerPoller
 {
 	private boolean _running = true;
 	private int _delay;
+	
+	protected final Lock lock = new ReentrantLock();
 	
     public AbstractPoller(int delay)
     {
@@ -28,8 +33,13 @@ public abstract class AbstractPoller extends Thread implements IServerPoller
     	{
 	    	try
 	    	{
-		    	sleep(_delay);
-		    	poll();
+	    		lock.lock();
+	    		
+	    		synchronized (lock) {
+	    			lock.wait(_delay);
+		    		poll();
+	    		}
+		    	lock.unlock();
 	    	}
 	    	catch(IOException e)
 	    	{

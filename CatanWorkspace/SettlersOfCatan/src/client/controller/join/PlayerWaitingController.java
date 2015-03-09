@@ -59,8 +59,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else
 		{
 			try {
-				catanLobby.getGame().updateModel();
 				catanLobby.getGame().startServerPoller();
+				catanLobby.getGame().updateModel(catanLobby.getProxy().gameModel());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
