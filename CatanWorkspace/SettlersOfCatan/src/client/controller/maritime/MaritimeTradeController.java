@@ -72,13 +72,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void startTrade()
 	{
 		log.trace("Showing maritime trade modal --\\");
-		/*giveResourceAmount = 0;
-		getResourceAmount = 0;
-		getResource = null;
-		giveResource = null;
-		getTradeOverlay().showGiveOptions(enabledResources);
-		cancelTrade();*/
 		getTradeOverlay().reset();
+		getTradeOverlay().setTradeEnabled(false);
 		
 		getTradeOverlay().showModal();
 		handleGiveOptions();
@@ -194,6 +189,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		getResourceAmount = 0;
 		getResource = null;
 		giveResource = null;
+		getTradeOverlay().reset();
 		getTradeOverlay().closeModal();
 		log.trace("Closed maritime trade modal --/");
 	}
@@ -202,6 +198,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void cancelTrade() {
 		unsetGetValue();
 		unsetGiveValue();
+		getTradeOverlay().reset();
 		getTradeOverlay().closeModal();
 		log.trace("Closed maritime trade modal --/");
 	}
