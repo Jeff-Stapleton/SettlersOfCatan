@@ -2,12 +2,14 @@ package client.controller.communication;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import shared.CatanModel;
 import shared.MessageLine;
+import shared.Player;
 import shared.definitions.CatanColor;
 import client.CatanGame;
 import client.view.base.*;
@@ -49,14 +51,17 @@ public class ChatController extends Controller implements IChatController, Obser
 	{
 		List<LogEntry> entries = new ArrayList<LogEntry>();
 
+        HashMap<String, CatanColor> player_colors = new HashMap<>();
+		for (Player player : catanModel.getPlayers())
+		{
+				player_colors.put(player.getName(), player.getColor());
+		}
         for (MessageLine line : catanModel.getChat().getLines())
         {
         	System.out.println(line.toString());
         	String user = line.getSource();
         	CatanColor color = null;
-        	// catanGame.getGameInfo().getPlayerWithName(user) is not returning the correct player. I suspect this is not ever getting updated or something...
-        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
-//			System.out.println("ChatColor: " + color);
+        	color = player_colors.get(user);
         	entries.add(new LogEntry(color, line.getMessage()));
         }
         

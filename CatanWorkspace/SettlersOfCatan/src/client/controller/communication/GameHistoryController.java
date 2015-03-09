@@ -6,6 +6,7 @@ import client.CatanGame;
 import client.view.base.*;
 import client.view.communication.IGameHistoryView;
 import client.view.communication.LogEntry;
+import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.MessageLine;
 import shared.Player;
@@ -41,13 +42,17 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 			catanModel = catanGame.getModel();
 			
 	        List<LogEntry> entries = new ArrayList<LogEntry>();
-
+	        HashMap<String, CatanColor> player_colors = new HashMap<>();
+			for (Player player : catanModel.getPlayers())
+			{
+					player_colors.put(player.getName(), player.getColor());
+			}
+	        
 	        for (MessageLine line : catanGame.getModel().getLog().getLines())
 	        {
 	        	String user = line.getSource();
 	        	CatanColor color = null;
-	        	// catanGame.getGameInfo().getPlayerWithName(user) is not returning the correct player. I suspect this is not ever getting updated or something...
-	        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
+	        	color = player_colors.get(user);
 	        	entries.add(new LogEntry(color, line.getMessage()));
 	        }
 	        getView().setEntries(entries);
