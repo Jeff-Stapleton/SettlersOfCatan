@@ -38,7 +38,7 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 	{
 		if (obs instanceof CatanGame) 
 		{
-			catanModel = ((CatanGame) obs).getModel();
+			catanModel = catanGame.getModel();
 			
 	        List<LogEntry> entries = new ArrayList<LogEntry>();
 
@@ -46,10 +46,10 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 	        {
 	        	String user = line.getSource();
 	        	CatanColor color = null;
+	        	// catanGame.getGameInfo().getPlayerWithName(user) is not returning the correct player. I suspect this is not ever getting updated or something...
 	        	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
 	        	entries.add(new LogEntry(color, line.getMessage()));
 	        }
-	        
 	        getView().setEntries(entries);
 			
 		}

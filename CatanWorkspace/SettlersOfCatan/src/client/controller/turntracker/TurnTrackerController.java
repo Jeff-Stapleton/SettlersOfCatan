@@ -40,7 +40,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	
 	public void updateFromModel()
 	{
-		//System.out.println("TurnTracker.updateFromModel() numPlayers: " + numPlayers);
 		List<Player> players = new ArrayList<Player>();
 		for (int i = 0; i < catanModel.getPlayers().length; i++){
 			players.add(catanModel.getPlayers()[i]);
@@ -57,29 +56,11 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			}
 			numPlayers = players.size();
 		}
-//
-//		Player[] players = catanModel.getPlayers();
-//		
-//		if (numPlayers < players.length) 
-//		{
-//			for (int i = numPlayers; i < players.length; i++) {
-//				getView().initializePlayer(players[i].getPlayerIndex(), 
-//						players[i].getName(), 
-//						players[i].getColor());
-//			}
-//
-//			numPlayers = players.length;
-//		}
-//		
-		for(Player p : players){
-			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));
-			
-		}
 		
-//		for (Player p : catanModel.getPlayers()){
-//			getView().initializePlayer(p.getPlayerIndex(), p.getName(), p.getColor());
-//			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p));
-//		}
+		for (Player p : catanModel.getPlayers()){
+			getView().updatePlayer(p.getPlayerIndex(), p.getVictoryPoints(), isPlayersTurn(p), ifLargestArmy(p), ifLongestRoad(p), p.getColor());
+		}
+		getView().redrawAll();
 
 	}
 	
@@ -133,6 +114,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			thisPlayer = catanModel.getPlayers()[catanGame.getPlayerInfo().getPlayerIndex()];
 			getView().setLocalPlayerColor(catanGame.getPlayerInfo().getColor());
 			updateFromModel();
+			
 			if(catanModel.getTurnTracker().getStatus().equals(TurnType.PLAYING) && catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex()) {
 				getView().updateGameState("Finish Turn", true);
 			}

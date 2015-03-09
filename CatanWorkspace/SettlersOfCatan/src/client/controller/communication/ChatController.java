@@ -51,9 +51,12 @@ public class ChatController extends Controller implements IChatController, Obser
 
         for (MessageLine line : catanModel.getChat().getLines())
         {
+        	System.out.println(line.toString());
         	String user = line.getSource();
         	CatanColor color = null;
+        	// catanGame.getGameInfo().getPlayerWithName(user) is not returning the correct player. I suspect this is not ever getting updated or something...
         	color = catanGame.getGameInfo().getPlayerWithName(user).getColor();
+//			System.out.println("ChatColor: " + color);
         	entries.add(new LogEntry(color, line.getMessage()));
         }
         
@@ -66,7 +69,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	{
 		if (obs instanceof CatanGame) 
 		{
-			catanModel = ((CatanGame) obs).getModel();
+			catanModel = catanGame.getModel();
 			
 	        updateFromModel();
 		}
