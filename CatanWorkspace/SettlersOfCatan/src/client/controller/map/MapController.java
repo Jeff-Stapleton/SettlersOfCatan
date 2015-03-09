@@ -245,7 +245,7 @@ public class MapController extends Controller implements IMapController, Observe
 			}
 			else
 			{
-				catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, true));
+				catanGame.updateModel(catanGame.getProxy().movesBuildSettlement(playerIndex, vertLoc, false));
 			}
 		} catch (IOException e) 
 		{
@@ -319,10 +319,10 @@ public class MapController extends Controller implements IMapController, Observe
 				vicsClean.add(vics.get(i));
 		}
 		
-		if(vics == null || vics.size()==0)
+		if(vicsClean == null || vicsClean.size()==0)
 			return null;
 		
-		return vics.toArray(new RobPlayerInfo[vics.size()]);
+		return vicsClean.toArray(new RobPlayerInfo[vicsClean.size()]);
 	}
 	
 	@Override
