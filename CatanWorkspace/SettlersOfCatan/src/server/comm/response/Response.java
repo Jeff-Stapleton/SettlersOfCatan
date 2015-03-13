@@ -1,5 +1,5 @@
 package server.comm.response;
 
-public class Response {
+public abstract class Response {
 
 }

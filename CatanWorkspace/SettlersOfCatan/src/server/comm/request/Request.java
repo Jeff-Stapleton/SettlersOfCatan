@@ -1,5 +1,5 @@
 package server.comm.request;
 
-public class Request {
+public abstract class Request {
 
 }
