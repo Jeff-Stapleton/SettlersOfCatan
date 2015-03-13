@@ -71,6 +71,7 @@ public class Server {
 			
 			Util.setEnv(env);
 			
+			// May need this for saving stuff later
 			dataFolder = new File(Config.getConfig().getProperty(Config.DATA_FOLDER));
 		} 
 		catch (IOException e) {
@@ -81,8 +82,37 @@ public class Server {
 
 		server.setExecutor(null); // use the default executor
 
-		// TODO: Add on all of the url specifiers
-		//server.createContext("/user/login", new ReqResHandler<UserResponse,UserLoginRequest>());
+//		server.createContext("/user/login", new ReqResHandler<UserResponse,UserLoginRequest>());
+//		server.createContext("/user/register", new ReqResHandler<UserResponse,UserRegisterRequest>());
+//		
+//		server.createContext("/games/list", new ReqResHandler<GameInfosResponse,GamesListRequest>());
+//		server.createContext("/games/create", new ReqResHandler<GameInfoResponse,GamesCreateRequest>());
+//		server.createContext("/games/join", new ReqResHandler<GameResponse,GamesJoinRequest>());
+//		server.createContext("/games/save", new ReqResHandler<MessageResponse,GamesSaveRequest>());
+//		server.createContext("/games/load", new ReqResHandler<MessageResponse,GamesLoadRequest>());
+//		
+//		server.createContext("/game/model", new ReqResHandler<GameModelResponse,GameModelRequest>());
+//		server.createContext("/game/reset", new ReqResHandler<GameModelResponse,GameResetRequest>());
+//		server.createContext("/game/commands", new ReqResHandler<CommandsResponse,GameCommandsRequest>());
+//		
+//		server.createContext("/moves/sendChat", new ReqResHandler<GameModelResponse,MovesSendChatRequest>());
+//		server.createContext("/moves/rollNumber", new ReqResHandler<GameModelResponse,MovesRollNumberRequest>());
+//		server.createContext("/moves/robPlayer", new ReqResHandler<GameModelResponse,MovesRobPlayerRequest>());
+//		server.createContext("/moves/finishTurn", new ReqResHandler<GameModelResponse,MovesFinishTurnRequest>());
+//		server.createContext("/moves/buyDevCard", new ReqResHandler<GameModelResponse,MovesBuyDevCardRequest>());
+//		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<GameModelResponse,MovesYearOfPlentyRequest>());
+//		server.createContext("/moves/Road_Building", new ReqResHandler<GameModelResponse,MovesRoadBuildingRequest>());
+//		server.createContext("/moves/Soldier", new ReqResHandler<GameModelResponse,MovesSoldierRequest>());
+//		server.createContext("/moves/Monument", new ReqResHandler<GameModelResponse,MovesMonumentRequest>());
+//		server.createContext("/moves/buildRoad", new ReqResHandler<GameModelResponse,MovesBuildRoadRequest>());
+//		server.createContext("/moves/buildCity", new ReqResHandler<GameModelResponse,MovesBuildCityRequest>());
+//		server.createContext("/moves/buildSettlement", new ReqResHandler<GameModelResponse,MovesBuildSettlementRequest>());
+//		server.createContext("/moves/offerTrade", new ReqResHandler<GameModelResponse,MovesOfferTradeRequest>());
+//		server.createContext("/moves/acceptTrade", new ReqResHandler<GameModelResponse,MovesAcceptTradeRequest>());
+//		server.createContext("/moves/maritimeTrade", new ReqResHandler<GameModelResponse,MovesMaritimeTradeRequest>());
+//		server.createContext("/moves/discardCards", new ReqResHandler<GameModelResponse,MovesDiscardCardsRequest>());
+//		
+//		server.createContext("/util/changeLogLevel", new ReqResHandler<MessageResponse,UtilChangeLogLevelRequest>());
 
 		server.start();
 	}
