@@ -7,10 +7,13 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
+/**
+ * The Class MovesFacade implements all the different move commands that can be issued to the server
+ *
+ */
 public class MovesFacade {
   
   /**
-<<<<<<< HEAD
    * Executes "Send Chat", send the instigator's message to be broadcast to all other players
    *
    * @pre player is logged in and joined a game
@@ -18,16 +21,7 @@ public class MovesFacade {
    * 
    * @param playerIndex the index of the player sending the chat message
    * @param content the content of the message the player wants to send
-=======
-   * content: string [the message you want to send]
    * 
-   * @pre
-   *  None
-   * @post
-   *  The chat contains your message at the end
-   * 
-   * @param
->>>>>>> 7fef1aeb7149143bdf5aeee722cf3ffd8f19eadc
    */
   public void sendChat(int playerIndex, String content){
     
@@ -47,7 +41,6 @@ public class MovesFacade {
   }
   
   /**
-<<<<<<< HEAD
    * Executes "Rob Player", player picks from a list of robbable player.  The selected player
    * must give the player one card at random.
    *
@@ -57,18 +50,6 @@ public class MovesFacade {
    * @param playerIndex the player doing the robbing
    * @param victimIndex the player being robbed from
    * @param location the location to move the robber to
-=======
-   *  number: integer in the range 2�12 [the number you rolled]
-   * 
-   * @pre
-   *  It is your turn
-   *  The client model�s status is �Rolling�
-   * 
-   * @post
-   *  The client model�s status is now in �Discarding� or �Robbing� or �Playing�
-   * 
-   * @param
->>>>>>> 7fef1aeb7149143bdf5aeee722cf3ffd8f19eadc
    */
   public void robPlayer(int playerIndex, int victimIndex, HexLocation location){
     
