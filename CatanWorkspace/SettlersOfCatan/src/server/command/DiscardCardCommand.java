@@ -10,7 +10,7 @@ public class DiscardCardCommand implements ICommand<CatanModel>{
 	 * @pre The player has the assigned cards to discard
 	 * @post completes the discard card
 	 * 
-	 * @param a ResourceList
+	 * @param DiscardCards
 	 */
 	@Override
 	public CatanModel execute() {

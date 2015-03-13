@@ -11,7 +11,7 @@ public class BuildCityCommand implements ICommand<CatanModel>{
 	 * @pre The player has enough resources, enough cities and is a valid vertex location
 	 * @post completes the build city
 	 * 
-	 * @param a ResourceList
+	 * @param BuildCity
 	 */
 	@Override
 	public CatanModel execute() {

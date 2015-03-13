@@ -11,7 +11,7 @@ public class BuildRoadCommand implements ICommand<CatanModel>{
 	 * @pre The player has enough resources, enough roads and is a valid edge location
 	 * @post completes the build road
 	 * 
-	 * @param a ResourceList
+	 * @param BuildRoad
 	 */
 	@Override
 	public CatanModel execute() {

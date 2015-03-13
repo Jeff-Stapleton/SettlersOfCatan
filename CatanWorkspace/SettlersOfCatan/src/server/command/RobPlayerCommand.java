@@ -11,7 +11,7 @@ public class RobPlayerCommand implements ICommand<CatanModel>{
 	 * @pre The victim is built on the hex and has at least one card 
 	 * @post completes the rob player
 	 * 
-	 * @param a Hex Location
+	 * @param RobPlayer
 	 */
 	@Override
 	public CatanModel execute() {

@@ -11,7 +11,7 @@ public class BuyDevCardCommand implements ICommand<CatanModel>{
 	 * @pre The player has enough resources, enough card and is the proper phase/turn
 	 * @post completes the buy dev card
 	 * 
-	 * @param a ResourceList
+	 * @param BuyDevCard
 	 */
 	@Override
 	public CatanModel execute() {

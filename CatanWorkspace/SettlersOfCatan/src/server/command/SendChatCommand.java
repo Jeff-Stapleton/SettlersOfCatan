@@ -10,7 +10,7 @@ public class SendChatCommand implements ICommand<CatanModel>{
 	 * @pre player is logged in and joined a game
 	 * @post completes the send chat
 	 * 
-	 * @param a message
+	 * @param SendChat
 	 */
 	@Override
 	public CatanModel execute() {

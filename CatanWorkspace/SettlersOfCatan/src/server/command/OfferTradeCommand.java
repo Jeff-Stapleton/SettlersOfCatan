@@ -11,7 +11,7 @@ public class OfferTradeCommand implements ICommand<CatanModel>{
 	 * @pre The player has the resources in questions and is the correct turn/state
 	 * @post completes the offer trade
 	 * 
-	 * @param a Trade Offer
+	 * @param OfferTrade
 	 */
 	@Override
 	public CatanModel execute() {

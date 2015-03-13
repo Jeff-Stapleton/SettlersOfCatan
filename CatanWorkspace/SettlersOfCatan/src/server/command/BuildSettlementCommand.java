@@ -11,7 +11,7 @@ public class BuildSettlementCommand implements ICommand<CatanModel>{
 	 * @pre The player has enough resources, enough settlements and is a valid vertex location
 	 * @post completes the build settlement
 	 * 
-	 * @param a ResourceList
+	 * @param BuildSettlement
 	 */
 	@Override
 	public CatanModel execute() {
