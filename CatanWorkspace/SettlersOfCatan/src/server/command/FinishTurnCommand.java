@@ -11,7 +11,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 	 * @pre Its is indeed the players turn and no other actions ie "trading" are currently pending
 	 * @post completes the finish turn
 	 * 
-	 * @param FinishTurn
+	 * @param a PlayerIndex
 	 */
 	@Override
 	public CatanModel execute() {

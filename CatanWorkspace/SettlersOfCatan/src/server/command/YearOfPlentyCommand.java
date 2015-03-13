@@ -11,7 +11,7 @@ public class YearOfPlentyCommand implements ICommand<CatanModel>{
 	 * @pre The player does in deed have the card and it the correct turn/state
 	 * @post completes the play year of plenty card
 	 * 
-	 * @param Year_of_Plenty_
+	 * @param a PlayerIndex, a ResourceOne, a ResourceTwo
 	 */
 	@Override
 	public CatanModel execute() {

@@ -11,7 +11,7 @@ public class AcceptTradeCommand implements ICommand<CatanModel>{
 	 * @pre is a valid trade offer
 	 * @post completes the domestic trade
 	 * 
-	 * @param AcceptTrade 
+	 * @param a PlayerIndex, a willAcceptBoolean
 	 */
 	@Override
 	public CatanModel execute() {

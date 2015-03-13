@@ -11,7 +11,7 @@ public class MonumentCommand implements ICommand<CatanModel>{
 	 * @pre The player does in deed have the card and it the correct turn/state
 	 * @post completes the play monument card
 	 * 
-	 * @param Monument_
+	 * @param a PlayerIndex
 	 */
 	@Override
 	public CatanModel execute() {

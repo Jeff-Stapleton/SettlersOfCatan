@@ -12,7 +12,7 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 	 * @pre The player does in deed have the card and it the correct turn/state
 	 * @post completes the play monopoly card
 	 * 
-	 * @param Monopoly_
+	 * @param a PlayerIndex, a Resource
 	 */
 	@Override
 	public CatanModel execute() {

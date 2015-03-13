@@ -11,7 +11,7 @@ public class SoldierCommand implements ICommand<CatanModel>{
 	 * @pre The player does in deed have the card and it the correct turn/state
 	 * @post completes the play soldier card
 	 * 
-	 * @param Soldier_
+	 * @param a PlayerIndex, a VictimIndex, a Location
 	 */
 	@Override
 	public CatanModel execute() {

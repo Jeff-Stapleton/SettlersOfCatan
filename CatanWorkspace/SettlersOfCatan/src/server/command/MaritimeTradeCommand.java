@@ -11,7 +11,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel>{
 	 * @pre Bank and player have enough resources, players is built on a port and it correct turn/state
 	 * @post completes the maritime trade
 	 * 
-	 * @param MaritimeTrade
+	 * @param a PlayerIndex, a Ratio, a GetResource, a GiveResource
 	 */
 	@Override
 	public CatanModel execute() {
