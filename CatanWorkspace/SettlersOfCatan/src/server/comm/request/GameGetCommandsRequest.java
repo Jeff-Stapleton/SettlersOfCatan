@@ -1,4 +1,8 @@
 package server.comm.request;
+
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesGetCommandsRequest, Returns a list of commands that have been executed in the current game.
  * @pre 
@@ -12,6 +16,12 @@ package server.comm.request;
  * 	If it fails, The server returns an HTTP 400 error response, and the body contains an error message.
  * 	
  */
-public class GamesGetCommandsRequest extends Request {
+public class GameGetCommandsRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

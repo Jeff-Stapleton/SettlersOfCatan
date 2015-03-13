@@ -7,8 +7,8 @@ import server.comm.cookie.ICookie;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class UserResponse, returned from UserRegisterRequest and UserLoginRequest
+ * The Class GameResponse, returned from GamesJoinRequest
  */
-public class UserResponse extends JsonResponse {
+public class GameResponse extends JsonResponse {
 	
 }

@@ -1,5 +1,8 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesSaveRequest, This method is for testing and debugging purposes. When a bug is found, you can use the /games/save method to save the state of the game to a file, and attach the file to a bug report. A developer can later restore the state of the game when the bug occurred by loading the previously saved file using the /games/load method. Game files are saved to and loaded from the server's saves/ directory.
  * 
@@ -11,5 +14,11 @@ package server.comm.request;
  *  The current state of the specified game (including its ID) has been saved to the specified file name in the server’s saves/ directory
  */
 public class GamesSaveRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

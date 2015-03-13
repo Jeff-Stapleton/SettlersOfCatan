@@ -1,5 +1,8 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesModelVersionRequest, Returns the current state of the game in JSON format.
  * @pre 
@@ -11,6 +14,12 @@ package server.comm.request;
  * 	The response body contains JSON data
  * 	
  */
-public class GamesModelVersionRequest extends Request {
+public class GameModelRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

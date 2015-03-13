@@ -2,7 +2,14 @@ package server.facade;
 
 public class MovesFacade {
 	/**
+	 * content: string [the message you want to send]
 	 * 
+	 * @pre
+	 * 	None
+	 * @post
+	 * 	The chat contains your message at the end
+	 * 
+	 * @param
 	 */
 	public void sendChat(){
 		
@@ -21,10 +28,14 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Explanation
+	 *  number: integer in the range 2­12 [the number you rolled]
 	 * 
 	 * @pre
+	 * 	It is your turn
+	 * 	The client model’s status is ‘Rolling’
+	 * 
 	 * @post
+	 * 	The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
 	 * 
 	 * @param
 	 */

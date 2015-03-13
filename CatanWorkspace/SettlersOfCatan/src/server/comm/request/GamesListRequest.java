@@ -1,4 +1,8 @@
 package server.comm.request;
+
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesListRequest, Returns information about all of the current games on the server.
  * 
@@ -11,5 +15,11 @@ package server.comm.request;
  * 	
  */
 public class GamesListRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

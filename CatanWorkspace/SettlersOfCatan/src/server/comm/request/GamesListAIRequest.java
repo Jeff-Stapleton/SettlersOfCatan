@@ -1,4 +1,8 @@
 package server.comm.request;
+
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesListAIRequest, Adds an AI player to the current game
  * 
@@ -13,5 +17,11 @@ package server.comm.request;
  * 	
  */
 public class GamesListAIRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

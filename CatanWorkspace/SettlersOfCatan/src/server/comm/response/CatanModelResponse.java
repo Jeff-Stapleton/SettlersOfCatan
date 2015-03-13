@@ -7,8 +7,8 @@ import server.comm.cookie.ICookie;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class UserResponse, returned from UserRegisterRequest and UserLoginRequest
+ * The Class CatanModelResponse
  */
-public class UserResponse extends JsonResponse {
+public class CatanModelResponse extends JsonResponse {
 	
 }

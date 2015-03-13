@@ -1,4 +1,8 @@
 package server.comm.request;
+
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesListAIRequest, Returns a list of supported AI player types
  * @pre 
@@ -11,5 +15,11 @@ package server.comm.request;
  * 	
  */
 public class GamesAddAIRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -1,4 +1,8 @@
 package server.comm.request;
+
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesResetRequest, Clears out the command history of the current game.
  * @pre 
@@ -12,6 +16,12 @@ package server.comm.request;
  * 	The body contains the game’s updated client model JSON
  * 	
  */
-public class GamesResetRequest extends Request {
+public class GameResetRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

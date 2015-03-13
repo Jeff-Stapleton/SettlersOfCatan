@@ -1,5 +1,8 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesExecuteCommandsRequest, Executes the specified command list in the current game.
  * @pre 
@@ -10,6 +13,12 @@ package server.comm.request;
  * 	The server returns an HTTP 200 success response
  * 	The body contains the game’s updated client model JSON
  */
-public class GamesExecuteCommandsRequest extends Request {
+public class GamePostCommandsRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

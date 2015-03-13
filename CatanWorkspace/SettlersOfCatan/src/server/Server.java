@@ -13,25 +13,40 @@ import shared.Util;
 
 import com.sun.net.httpserver.HttpServer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Server.
+ */
 public class Server {
+	
+	/** The Constant DEFAULT_SERVER_PORT_NUMBER. */
 	private static final int DEFAULT_SERVER_PORT_NUMBER = 8081;
+	
+	/** The Constant DEFAULT_MAX_WAITING_CONNECTIONS. */
 	private static final int DEFAULT_MAX_WAITING_CONNECTIONS = 10;
 	
+	/** The server port number. */
 	private Integer serverPortNumber = null;
+	
+	/** The max waiting connections. */
 	private Integer maxWaitingConnections = null;
+	
+	/** The data folder. */
 	private File dataFolder = null;
 
+	/** The server. */
 	private HttpServer server;
 	
 	/**
-	 * Starts a server on the default port
+	 * Starts a server on the default port.
 	 */
 	public Server() {
 		init(DEFAULT_SERVER_PORT_NUMBER, DEFAULT_MAX_WAITING_CONNECTIONS);
 	}
 	
 	/**
-	 * Starts a server on the given port
+	 * Starts a server on the given port.
+	 *
 	 * @param port the port to start the server listening on
 	 */
 	public Server(int port) {
@@ -39,7 +54,8 @@ public class Server {
 	}
 
 	/**
-	 * Starts a server on the given port with the max connections specified
+	 * Starts a server on the given port with the max connections specified.
+	 *
 	 * @param port the port to start the server listening on
 	 * @param maxConnections the maximum number of connections for the server
 	 */
@@ -48,6 +64,12 @@ public class Server {
 		init(port, maxConnections);
 	}
 	
+	/**
+	 * Inits the.
+	 *
+	 * @param port the port
+	 * @param maxConnections the max connections
+	 */
 	private void init(int port, int maxConnections)
 	{
 		serverPortNumber = port;
@@ -125,7 +147,8 @@ public class Server {
 	}
 	
 	/**
-	 * Start a server on the default port or a port specified on the command line
+	 * Start a server on the default port or a port specified on the command line.
+	 *
 	 * @param args a port can be specified as the first parameter
 	 */
 	public static void main(String[] args) {

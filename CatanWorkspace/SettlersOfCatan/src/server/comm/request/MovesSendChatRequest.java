@@ -4,18 +4,15 @@ import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
 /**
- * The Class MovesRollNumberRequest.
+ * The Class MovesSendChatRequest.
  * 
  * @pre
- * 	It is your turn
- * 	The client model’s status is ‘Rolling’
+ * 	None
  * 
  * @post
- * 	The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
- * 	
- * 
+ * 	The chat contains your message at the end
  */
-public class MovesRollNumberRequest extends Request {
+public class MovesSendChatRequest extends Request {
 
 	@Override
 	public IResponse getResponse() throws ServerException {

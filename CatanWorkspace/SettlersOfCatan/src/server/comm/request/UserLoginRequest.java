@@ -1,5 +1,9 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class UserLoginRequest, Logs the caller in to the server, and sets their catan.user HTTP cookie.
  * 
@@ -12,5 +16,14 @@ package server.comm.request;
  * 	The HTTP response headers set the catan.user cookie to contain the identity of the logged­in player. The cookie uses ”Path=/”, and its value contains a url­encoded JSON object 
  */
 public class UserLoginRequest extends Request {
+
+	/* (non-Javadoc)
+	 * @see server.comm.request.IRequest#getResponse()
+	 */
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

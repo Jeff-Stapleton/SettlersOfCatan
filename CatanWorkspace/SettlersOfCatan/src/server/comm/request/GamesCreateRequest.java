@@ -1,5 +1,8 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesCreateRequest, creates a new game on the server
  * @pre 
@@ -12,5 +15,11 @@ package server.comm.request;
  * 	The body contains a JSON object describing the newly created game
  */
 public class GamesCreateRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

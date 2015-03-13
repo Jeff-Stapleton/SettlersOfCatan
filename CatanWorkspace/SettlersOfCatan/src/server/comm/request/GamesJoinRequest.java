@@ -1,5 +1,8 @@
 package server.comm.request;
 
+import server.comm.response.IResponse;
+import shared.comm.ServerException;
+
 /**
  * The Class GamesJoinRequest, Adds the player to the specified game and sets their catan.game cookie
  * 
@@ -17,5 +20,11 @@ package server.comm.request;
  *  The server response includes the “Set­cookie” response header setting the catan.game
  */
 public class GamesJoinRequest extends Request {
+
+	@Override
+	public IResponse getResponse() throws ServerException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
