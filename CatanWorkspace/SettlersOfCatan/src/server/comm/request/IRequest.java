@@ -36,40 +36,28 @@ public interface IRequest<Response extends IResponse> {
 	 *
 	 * @param exchange the exchange
 	 */
-	public static void loadFromExchange(HttpExchange exchange)
-	{
-		
-	}
+	public void loadFromExchange(HttpExchange exchange);
 	
 	/**
 	 * Execute.
 	 *
 	 * @param server the server
 	 */
-	public static void execute(Server server)
-	{
-		
-	}
+	public void execute(Server server);
 	
 	/**
 	 * Adds the cookie.
 	 *
 	 * @param cookie the cookie
 	 */
-	public static void addCookie(ICookie cookie)
-	{
-		
-	}
+	public void addCookie(ICookie cookie);
 	
 	/**
 	 * Gets the cookies.
 	 *
 	 * @return the cookies
 	 */
-	public static List<ICookie> getCookies()
-	{
-		return null;
-	}
+	public List<ICookie> getCookies();
 	
 	/**
 	 * Sets the header.
@@ -77,19 +65,12 @@ public interface IRequest<Response extends IResponse> {
 	 * @param key the key
 	 * @param value the value
 	 */
-	public static void setHeader(String key, String value)
-	{
-		
-	}
+	public void setHeader(String key, String value);
 	
 	/**
 	 * Gets the headers.
 	 *
 	 * @return the headers
 	 */
-	public static Map<String,String> getHeaders()
-	{
-		return null;
-		
-	}
+	public Map<String,String> getHeaders();
 }

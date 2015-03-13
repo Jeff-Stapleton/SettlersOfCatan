@@ -9,24 +9,12 @@ import server.comm.cookie.ICookie;
  * The Interface IResponse.
  */
 public interface IResponse {
-	public static Map<String, String> getHeaders()
-	{
-		return null;
-	}
+	public Map<String, String> getHeaders();
 	
-	public static void setHeader(String key, String value)
-	{
-		
-	}
+	public void setHeader(String key, String value);
 	
-	public static List<ICookie> getCookies()
-	{
-		return null;
-	}
+	public List<ICookie> getCookies();
 	
-	public static void addCookie(ICookie cookie)
-	{
-		
-	}
+	public void addCookie(ICookie cookie);
 	
 }
