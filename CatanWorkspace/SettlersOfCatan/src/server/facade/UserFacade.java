@@ -1,5 +1,32 @@
 package server.facade;
 
-public class UserFacade {
+import client.CatanLobby;
 
+public class UserFacade {
+	private CatanLobby gameLobby;
+	
+
+	/**
+	 * Explanation
+	 * 
+	 * @pre
+	 * @post
+	 * 
+	 * @param
+	 */
+	public void register(){
+		
+	}
+
+	/**
+	 * Explanation
+	 * 
+	 * @pre
+	 * @post
+	 * 
+	 * @param
+	 */
+	public void login(){
+		
+	}
 }
