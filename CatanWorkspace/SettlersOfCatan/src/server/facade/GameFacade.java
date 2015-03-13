@@ -2,53 +2,39 @@ package server.facade;
 
 import client.CatanGame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GameFacade implements the model, reset, commands, addAI, listAI commands
+ */
 public class GameFacade {
+	
+	/** The catan game. */
 	private CatanGame catanGame;
 	
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * returns the model
 	 */
 	public void model(){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * resets the game
 	 */
 	public void reset(){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * posts the command 
 	 */
 	public void postCommands(){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * gets a command
 	 */
 	public void getCommands(){
 		

@@ -7,66 +7,54 @@ import shared.comm.serialization.SaveGameRequest;
 import client.CatanGame;
 import client.CatanLobby;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GamesFacade implements the list, create, join, save, and load commands
+ */
 public class GamesFacade {
+	
+	/** The game lobby. */
 	private CatanLobby gameLobby;
 	
 
+	/** The catan game. */
 	private CatanGame catanGame;
+	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * Returns a list of the games
+	 *
 	 */
 	public void list(){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * Creates a game
+	 *
+	 * @param request the request
 	 */
 	public void create(CreateGameRequest request){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * Joins a game
+	 *
+	 * @param request the request
 	 */
 	public void join(JoinGameRequest request){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * Saves the game (for testing purposes)
 	 */
 	public void save(SaveGameRequest request){
 		
 	}
 	
 	/**
-	 * Explanation
-	 * 
-	 * @pre
-	 * @post
-	 * 
-	 * @param
+	 * Loads the game (for testing purposes)
 	 */
 	public void load(LoadGameRequest request){
 		
