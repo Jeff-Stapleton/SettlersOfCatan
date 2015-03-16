@@ -1,5 +1,9 @@
 package server.facade;
 
+/**
+ * The Class UtilFacade implements the changeLogLevel command
+ *
+ */
 import server.Server;
 
 public class UtilFacade
