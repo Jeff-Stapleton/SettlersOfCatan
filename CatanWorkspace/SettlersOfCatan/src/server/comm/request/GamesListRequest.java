@@ -1,5 +1,6 @@
 package server.comm.request;
 
+import server.comm.response.GameInfosResponse;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
@@ -11,13 +12,13 @@ import shared.comm.ServerException;
  * 
  * @post
  * 	The server returns an HTTP 200 success response.
- *  The body contains a JSON array containing a list of objects that contain information about the server’s games
+ *  The body contains a JSON array containing a list of objects that contain information about the serverï¿½s games
  * 	
  */
-public class GamesListRequest extends Request {
+public class GamesListRequest extends Request<GameInfosResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public GameInfosResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

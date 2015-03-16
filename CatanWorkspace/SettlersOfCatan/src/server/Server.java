@@ -7,7 +7,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import server.comm.ReqResHandler;
+import server.comm.request.GameModelRequest;
+import server.comm.request.GameResetRequest;
+import server.comm.request.GamesCreateRequest;
+import server.comm.request.GamesJoinRequest;
+import server.comm.request.GamesListRequest;
+import server.comm.request.GamesLoadRequest;
+import server.comm.request.GamesSaveRequest;
+import server.comm.request.MovesBuyDevCardRequest;
+import server.comm.request.MovesFinishTurnRequest;
+import server.comm.request.MovesRobPlayerRequest;
+import server.comm.request.MovesRollNumberRequest;
+import server.comm.request.MovesSendChatRequest;
 import server.comm.request.UserLoginRequest;
+import server.comm.request.UserRegisterRequest;
+import server.comm.response.CatanModelResponse;
+import server.comm.response.CommandsResponse;
+import server.comm.response.GameInfoResponse;
+import server.comm.response.GameInfosResponse;
+import server.comm.response.GameResponse;
+import server.comm.response.MessageResponse;
 import server.comm.response.UserResponse;
 import shared.Util;
 
@@ -104,35 +123,35 @@ public class Server {
 
 		server.setExecutor(null); // use the default executor
 
-//		server.createContext("/user/login", new ReqResHandler<UserResponse,UserLoginRequest>());
-//		server.createContext("/user/register", new ReqResHandler<UserResponse,UserRegisterRequest>());
-//		
-//		server.createContext("/games/list", new ReqResHandler<GameInfosResponse,GamesListRequest>());
-//		server.createContext("/games/create", new ReqResHandler<GameInfoResponse,GamesCreateRequest>());
-//		server.createContext("/games/join", new ReqResHandler<GameResponse,GamesJoinRequest>());
-//		server.createContext("/games/save", new ReqResHandler<MessageResponse,GamesSaveRequest>());
-//		server.createContext("/games/load", new ReqResHandler<MessageResponse,GamesLoadRequest>());
-//		
-//		server.createContext("/game/model", new ReqResHandler<GameModelResponse,GameModelRequest>());
-//		server.createContext("/game/reset", new ReqResHandler<GameModelResponse,GameResetRequest>());
+		server.createContext("/user/login", new ReqResHandler<UserResponse,UserLoginRequest>());
+		server.createContext("/user/register", new ReqResHandler<UserResponse,UserRegisterRequest>());
+		
+		server.createContext("/games/list", new ReqResHandler<GameInfosResponse,GamesListRequest>());
+		server.createContext("/games/create", new ReqResHandler<GameInfoResponse,GamesCreateRequest>());
+		server.createContext("/games/join", new ReqResHandler<GameResponse,GamesJoinRequest>());
+		server.createContext("/games/save", new ReqResHandler<MessageResponse,GamesSaveRequest>());
+		server.createContext("/games/load", new ReqResHandler<MessageResponse,GamesLoadRequest>());
+		
+		server.createContext("/game/model", new ReqResHandler<CatanModelResponse,GameModelRequest>());
+		server.createContext("/game/reset", new ReqResHandler<CatanModelResponse,GameResetRequest>());
 //		server.createContext("/game/commands", new ReqResHandler<CommandsResponse,GameCommandsRequest>());
-//		
-//		server.createContext("/moves/sendChat", new ReqResHandler<GameModelResponse,MovesSendChatRequest>());
-//		server.createContext("/moves/rollNumber", new ReqResHandler<GameModelResponse,MovesRollNumberRequest>());
-//		server.createContext("/moves/robPlayer", new ReqResHandler<GameModelResponse,MovesRobPlayerRequest>());
-//		server.createContext("/moves/finishTurn", new ReqResHandler<GameModelResponse,MovesFinishTurnRequest>());
-//		server.createContext("/moves/buyDevCard", new ReqResHandler<GameModelResponse,MovesBuyDevCardRequest>());
-//		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<GameModelResponse,MovesYearOfPlentyRequest>());
-//		server.createContext("/moves/Road_Building", new ReqResHandler<GameModelResponse,MovesRoadBuildingRequest>());
-//		server.createContext("/moves/Soldier", new ReqResHandler<GameModelResponse,MovesSoldierRequest>());
-//		server.createContext("/moves/Monument", new ReqResHandler<GameModelResponse,MovesMonumentRequest>());
-//		server.createContext("/moves/buildRoad", new ReqResHandler<GameModelResponse,MovesBuildRoadRequest>());
-//		server.createContext("/moves/buildCity", new ReqResHandler<GameModelResponse,MovesBuildCityRequest>());
-//		server.createContext("/moves/buildSettlement", new ReqResHandler<GameModelResponse,MovesBuildSettlementRequest>());
-//		server.createContext("/moves/offerTrade", new ReqResHandler<GameModelResponse,MovesOfferTradeRequest>());
-//		server.createContext("/moves/acceptTrade", new ReqResHandler<GameModelResponse,MovesAcceptTradeRequest>());
-//		server.createContext("/moves/maritimeTrade", new ReqResHandler<GameModelResponse,MovesMaritimeTradeRequest>());
-//		server.createContext("/moves/discardCards", new ReqResHandler<GameModelResponse,MovesDiscardCardsRequest>());
+		
+		server.createContext("/moves/sendChat", new ReqResHandler<CatanModelResponse,MovesSendChatRequest>());
+		server.createContext("/moves/rollNumber", new ReqResHandler<CatanModelResponse,MovesRollNumberRequest>());
+		server.createContext("/moves/robPlayer", new ReqResHandler<CatanModelResponse,MovesRobPlayerRequest>());
+		server.createContext("/moves/finishTurn", new ReqResHandler<CatanModelResponse,MovesFinishTurnRequest>());
+		server.createContext("/moves/buyDevCard", new ReqResHandler<CatanModelResponse,MovesBuyDevCardRequest>());
+//		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<CatanModelResponse,MovesYearOfPlentyRequest>());
+//		server.createContext("/moves/Road_Building", new ReqResHandler<CatanModelResponse,MovesRoadBuildingRequest>());
+//		server.createContext("/moves/Soldier", new ReqResHandler<CatanModelResponse,MovesSoldierRequest>());
+//		server.createContext("/moves/Monument", new ReqResHandler<CatanModelResponse,MovesMonumentRequest>());
+//		server.createContext("/moves/buildRoad", new ReqResHandler<CatanModelResponse,MovesBuildRoadRequest>());
+//		server.createContext("/moves/buildCity", new ReqResHandler<CatanModelResponse,MovesBuildCityRequest>());
+//		server.createContext("/moves/buildSettlement", new ReqResHandler<CatanModelResponse,MovesBuildSettlementRequest>());
+//		server.createContext("/moves/offerTrade", new ReqResHandler<CatanModelResponse,MovesOfferTradeRequest>());
+//		server.createContext("/moves/acceptTrade", new ReqResHandler<CatanModelResponse,MovesAcceptTradeRequest>());
+//		server.createContext("/moves/maritimeTrade", new ReqResHandler<CatanModelResponse,MovesMaritimeTradeRequest>());
+//		server.createContext("/moves/discardCards", new ReqResHandler<CatanModelResponse,MovesDiscardCardsRequest>());
 //		
 //		server.createContext("/util/changeLogLevel", new ReqResHandler<MessageResponse,UtilChangeLogLevelRequest>());
 
