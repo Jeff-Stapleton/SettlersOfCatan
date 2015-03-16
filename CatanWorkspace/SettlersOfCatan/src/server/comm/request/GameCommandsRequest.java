@@ -1,10 +1,12 @@
 package server.comm.request;
 
+import server.comm.response.CatanModelResponse;
+import server.comm.response.CommandsResponse;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
 /**
- * The Class GamesGetCommandsRequest, Returns a list of commands that have been executed in the current game.
+ * The Class GameGetCommandsRequest, Returns a list of commands that have been executed in the current game.
  * @pre 
  * 	The caller has previously logged in to the server and joined a game
  * 
@@ -16,10 +18,10 @@ import shared.comm.ServerException;
  * 	If it fails, The server returns an HTTP 400 error response, and the body contains an error message.
  * 	
  */
-public class GameGetCommandsRequest extends Request {
+public class GameCommandsRequest extends Request<CommandsResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CommandsResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
