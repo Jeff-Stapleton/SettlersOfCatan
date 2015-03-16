@@ -11,8 +11,5 @@ public interface ICookie {
 	 *
 	 * @return the cookie
 	 */
-	public static String getCookie()
-	{
-		return null;
-	}
+	public String getCookie();
 }
