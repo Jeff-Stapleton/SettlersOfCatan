@@ -15,8 +15,19 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Resource
 	 */
 	@Override
-	public CatanModel execute() {
-		// TODO Auto-generated method stub
+	public CatanModel execute(){//CatanModel model) {
+//		int count = 0;
+//		// collect all the resources from other players
+//		for(Player p : model.getPlayers()){
+//			if (p.getPlayerID() != thisPlayer.getPlayerID()){
+//				count += p.getResources().getResource(resource);
+//				p.getResources().setResource(resource, 0);
+//			}
+//		}
+//		// add resources to thisPlayer
+//		thisPlayer.getResources().setResource(resource, count);
+//		// remove card from player
+//		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
 		return null;
 	}
 
