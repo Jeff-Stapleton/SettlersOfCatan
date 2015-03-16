@@ -1,5 +1,6 @@
 package server.comm.request;
 
+import server.comm.response.GameInfoResponse;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
@@ -14,10 +15,10 @@ import shared.comm.ServerException;
  * 	The server returns an HTTP 200 success response
  * 	The body contains a JSON object describing the newly created game
  */
-public class GamesCreateRequest extends Request {
+public class GamesCreateRequest extends Request<GameInfoResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public GameInfoResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

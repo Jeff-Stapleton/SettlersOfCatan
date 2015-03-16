@@ -18,7 +18,7 @@ import com.sun.net.httpserver.HttpHandler;
  *
  * @param <Response> the generic type
  */
-public interface IRequest<Response extends IResponse> {
+public interface IRequest<Resp extends IResponse> {
 	
 	/**
 	 * Generate a response from information in the database.
@@ -29,7 +29,7 @@ public interface IRequest<Response extends IResponse> {
 	 * @return the response
 	 * @throws ServerException the server exception
 	 */
-	public Response getResponse() throws ServerException;
+	public Resp getResponse() throws ServerException;
 	
 	/**
 	 * Load from exchange.

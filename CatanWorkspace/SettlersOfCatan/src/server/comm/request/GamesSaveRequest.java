@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.MessageResponse;
 import shared.comm.ServerException;
 
 /**
@@ -10,13 +10,13 @@ import shared.comm.ServerException;
  * 	The specified game ID is valid
  *  The specified file name is valid (i.e., not null or empty)
  * @post
- *  The server returns an HTTP 200 success response with “Success” in the body
- *  The current state of the specified game (including its ID) has been saved to the specified file name in the server’s saves/ directory
+ *  The server returns an HTTP 200 success response with ï¿½Successï¿½ in the body
+ *  The current state of the specified game (including its ID) has been saved to the specified file name in the serverï¿½s saves/ directory
  */
-public class GamesSaveRequest extends Request {
+public class GamesSaveRequest extends Request<MessageResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public MessageResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

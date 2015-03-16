@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.CatanModelResponse;
 import shared.comm.ServerException;
 
 /**
@@ -11,12 +11,12 @@ import shared.comm.ServerException;
  * 
  * @post
  * 	The cards in your new dev card hand have been transferred to your old dev card hand
- * 	It is the next player’s turn
+ * 	It is the next playerï¿½s turn
  */
-public class MovesFinishTurnRequest extends Request {
+public class MovesFinishTurnRequest extends Request<CatanModelResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CatanModelResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

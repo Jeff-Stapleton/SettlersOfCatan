@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.CatanModelResponse;
 import shared.comm.ServerException;
 
 /**
@@ -13,12 +13,12 @@ import shared.comm.ServerException;
  * @post
  * 	You have a new card
  * 	If it is a monument card, it has been added to your old devcard hand
- * 	If it is a non­monument card, it has been added to your new devcard hand
+ * 	If it is a nonï¿½monument card, it has been added to your new devcard hand
  */
-public class MovesBuyDevCardRequest extends Request {
+public class MovesBuyDevCardRequest extends Request<CatanModelResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CatanModelResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,5 +1,6 @@
 package server.comm.request;
 
+import server.comm.response.GameResponse;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
@@ -15,14 +16,14 @@ import shared.comm.ServerException;
  *  The specified color is valid (red, green, blue, yellow, puce, brown, white, purple, orange)
  *  
  * @post
- *  The server returns an HTTP 200 success response with “Success” in the body.
+ *  The server returns an HTTP 200 success response with ï¿½Successï¿½ in the body.
  *  The player is in the game with the specified color (i.e. calls to /games/list method will show the player in the game with the chosen color).
- *  The server response includes the “Set­cookie” response header setting the catan.game
+ *  The server response includes the ï¿½Setï¿½cookieï¿½ response header setting the catan.game
  */
-public class GamesJoinRequest extends Request {
+public class GamesJoinRequest extends Request<GameResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public GameResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
