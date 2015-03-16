@@ -1,5 +1,10 @@
 package server;
 
+import java.util.List;
+
+import server.facade.GamesFacade;
+import server.facade.UserFacade;
+import server.facade.UtilFacade;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 
@@ -7,7 +12,21 @@ import client.view.data.PlayerInfo;
 /**
  * The Class ServerLobby.
  */
-public class ServerLobby {
+public class ServerLobby
+{
+	Server server;
+	List<GameInfo> games;
+	List<PlayerInfo> players;
+	UserFacade userFacade = null;
+	GamesFacade gamesFacade = null;
+	UtilFacade utilFacade = null;
+	
+	public ServerLobby(Server server)
+	{
+		userFacade = new UserFacade(this);
+		gamesFacade = new GamesFacade(this);
+		utilFacade = new UtilFacade(server);
+	}
 	
 	/**
 	 * User register.

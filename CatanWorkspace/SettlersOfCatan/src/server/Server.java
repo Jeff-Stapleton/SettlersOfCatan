@@ -179,4 +179,8 @@ public class Server {
 			System.err.println("Usage: server [port]");
 		}
 	}
+
+	public void setLogLevel(String logLevel) {
+		// TODO Auto-generated method stub
+	}
 }

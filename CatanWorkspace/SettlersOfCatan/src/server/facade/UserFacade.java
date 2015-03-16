@@ -1,8 +1,8 @@
 package server.facade;
 
+import server.ServerLobby;
 import server.comm.request.UserLoginRequest;
 import server.comm.request.UserRegisterRequest;
-import client.CatanLobby;
 
 /**
  * The Class UserFacade, This Facade implements the Login and Register commands
@@ -10,8 +10,12 @@ import client.CatanLobby;
 public class UserFacade {
 	
 	/** The game lobby. */
-	private CatanLobby gameLobby;
+	private ServerLobby serverLobby;
 	
+
+	public UserFacade(ServerLobby serverLobby) {
+		this.serverLobby = serverLobby;
+	}
 
 	/**
 	 * Registers a user

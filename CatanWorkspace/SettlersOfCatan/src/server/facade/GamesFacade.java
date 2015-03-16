@@ -1,11 +1,10 @@
 package server.facade;
 
+import server.ServerLobby;
 import shared.comm.serialization.CreateGameRequest;
 import shared.comm.serialization.JoinGameRequest;
 import shared.comm.serialization.LoadGameRequest;
 import shared.comm.serialization.SaveGameRequest;
-import client.CatanGame;
-import client.CatanLobby;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,12 +13,12 @@ import client.CatanLobby;
 public class GamesFacade {
 	
 	/** The game lobby. */
-	private CatanLobby gameLobby;
+	private ServerLobby serverLobby;
 	
+	public GamesFacade(ServerLobby serverLobby) {
+		this.serverLobby = serverLobby;
+	}
 
-	/** The catan game. */
-	private CatanGame catanGame;
-	
 	/**
 	 * Returns a list of the games
 	 *
