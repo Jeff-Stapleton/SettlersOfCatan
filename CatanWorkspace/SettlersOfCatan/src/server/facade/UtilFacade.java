@@ -1,5 +1,10 @@
 package server.facade;
 
+
+/**
+ * The Class UtilFacade implements the changeLogLevel command
+ *
+ */
 public class UtilFacade {
 
 	/**
