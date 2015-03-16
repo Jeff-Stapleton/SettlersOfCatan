@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.CatanModelResponse;
 import shared.comm.ServerException;
 
 /**
@@ -12,10 +12,10 @@ import shared.comm.ServerException;
  * @post
  * 	The chat contains your message at the end
  */
-public class MovesSendChatRequest extends Request {
+public class MovesSendChatRequest extends Request<CatanModelResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CatanModelResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

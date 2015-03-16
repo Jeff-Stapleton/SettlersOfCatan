@@ -15,9 +15,10 @@ import com.sun.net.httpserver.HttpExchange;
 /**
  * The Class Request.
  */
-public abstract class Request implements IRequest {
+public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
+{
 	
-	public IResponse getResponse() throws ServerException
+	public Resp getResponse() throws ServerException
 	{
 		return null;
 	}
@@ -27,7 +28,7 @@ public abstract class Request implements IRequest {
 	 *
 	 * @param exchange the exchange
 	 */
-	public   void loadFromExchange(HttpExchange exchange)
+	public void loadFromExchange(HttpExchange exchange)
 	{
 		
 	}

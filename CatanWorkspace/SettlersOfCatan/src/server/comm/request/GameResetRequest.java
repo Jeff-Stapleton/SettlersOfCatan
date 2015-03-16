@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.CatanModelResponse;
 import shared.comm.ServerException;
 
 /**
@@ -10,16 +10,16 @@ import shared.comm.ServerException;
  * 
  * 
  * @post
- * 	The game’s command history has been cleared out
- *  The game’s players have NOT been cleared out
+ * 	The gameï¿½s command history has been cleared out
+ *  The gameï¿½s players have NOT been cleared out
  *  The server returns an HTTP 200 success response.
- * 	The body contains the game’s updated client model JSON
+ * 	The body contains the gameï¿½s updated client model JSON
  * 	
  */
-public class GameResetRequest extends Request {
+public class GameResetRequest extends Request<CatanModelResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CatanModelResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

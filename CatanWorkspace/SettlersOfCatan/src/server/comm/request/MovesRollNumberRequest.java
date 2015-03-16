@@ -1,6 +1,6 @@
 package server.comm.request;
 
-import server.comm.response.IResponse;
+import server.comm.response.CatanModelResponse;
 import shared.comm.ServerException;
 
 /**
@@ -8,17 +8,17 @@ import shared.comm.ServerException;
  * 
  * @pre
  * 	It is your turn
- * 	The client model’s status is ‘Rolling’
+ * 	The client modelï¿½s status is ï¿½Rollingï¿½
  * 
  * @post
- * 	The client model’s status is now in ‘Discarding’ or ‘Robbing’ or ‘Playing’
+ * 	The client modelï¿½s status is now in ï¿½Discardingï¿½ or ï¿½Robbingï¿½ or ï¿½Playingï¿½
  * 	
  * 
  */
-public class MovesRollNumberRequest extends Request {
+public class MovesRollNumberRequest extends Request<CatanModelResponse> {
 
 	@Override
-	public IResponse getResponse() throws ServerException {
+	public CatanModelResponse getResponse() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
