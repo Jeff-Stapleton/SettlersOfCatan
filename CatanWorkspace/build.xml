@@ -128,6 +128,10 @@
         <copy todir="${java.dist}" file="${ta.dir}/log4j.xml"/>
         <copy todir="${java.dist}" file="${ta.dir}/build.xml"/>
         <copy todir="${java.dist}" file="${ta.dir}/config.xml"/>
+        <mkdir dir="${java.dist}/docs/api"/>
+        <copy todir="${java.dist}/docs/api">
+            <fileset dir="${ta.dir}/doc/api" includes="**"/>
+        </copy>
         <jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
             <manifest>
                 <attribute name="Main-Class" value="client.Catan"/>
