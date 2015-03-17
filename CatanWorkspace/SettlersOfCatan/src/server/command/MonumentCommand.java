@@ -14,7 +14,7 @@ public class MonumentCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

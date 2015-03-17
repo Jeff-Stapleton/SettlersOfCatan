@@ -14,7 +14,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Ratio, a GetResource, a GiveResource
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

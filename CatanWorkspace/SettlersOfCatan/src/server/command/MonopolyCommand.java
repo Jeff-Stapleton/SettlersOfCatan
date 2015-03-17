@@ -15,7 +15,7 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Resource
 	 */
 	@Override
-	public CatanModel execute(){//CatanModel model) {
+	public CatanModel execute(CatanModel catanModel){//CatanModel model) {
 //		int count = 0;
 //		// collect all the resources from other players
 //		for(Player p : model.getPlayers()){

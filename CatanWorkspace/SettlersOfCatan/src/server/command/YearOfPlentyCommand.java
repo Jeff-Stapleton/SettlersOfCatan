@@ -14,7 +14,7 @@ public class YearOfPlentyCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a ResourceOne, a ResourceTwo
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

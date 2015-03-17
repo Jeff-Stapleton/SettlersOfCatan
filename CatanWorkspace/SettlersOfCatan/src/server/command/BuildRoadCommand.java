@@ -14,7 +14,7 @@ public class BuildRoadCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Location, a isFreeBoolean
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -13,7 +13,7 @@ public class DiscardCardCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, Cards
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,7 +2,8 @@ package server.command;
 
 import shared.CatanModel;
 
-public class BuildCityCommand implements ICommand<CatanModel>{
+public class BuildCityCommand implements ICommand<CatanModel>
+{
 
 	/**
 	 * Executes "Build City", subtracts the resources from the instigator
@@ -14,7 +15,7 @@ public class BuildCityCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Location, a isFreeBoolean
 	 */
 	@Override
-	public CatanModel execute() {
+	public CatanModel execute(CatanModel catanModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
