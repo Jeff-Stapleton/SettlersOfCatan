@@ -16,13 +16,22 @@ public class RoadBuildingCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
+		// should be receiving a player index and two road edgeLocations here
+		
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
 		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
-		/*
-		// Apparently this is server code
+//		Player thisPlayer = catanModel.getPlayers()[playerIndex];
+		
+		// subtract 2 roads from the player
+		thisPlayer.setRoads(thisPlayer.getRoads() - 2);
+		
+		// place roads into correct locations on the map
+//		catanModel.getMap().buildRoad(thisPlayer.getPlayerIndex(), firstRoadLoc);
+//		catanModel.getMap().buildRoad(thisPlayer.getPlayerIndex(), secondRoadLoc);
+		
 		// remove card from player
 		thisPlayer.getOldDevCards().setRoadBuilding(thisPlayer.getOldDevCards().getRoadBuilding() - 1);
-		*/
+		thisPlayer.setPlayedDevCard(true);
 		return catanModel;
 	}
 

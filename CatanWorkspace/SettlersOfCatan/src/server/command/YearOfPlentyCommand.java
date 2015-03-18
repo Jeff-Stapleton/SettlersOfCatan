@@ -27,6 +27,7 @@ public class YearOfPlentyCommand implements ICommand<CatanModel>{
 //		bank.setResource(resource2, bank.getResource(resource2) - 1);
 		// remove card from player
 		thisPlayer.getOldDevCards().setYearOfPlenty(thisPlayer.getOldDevCards().getYearOfPlenty() - 1);
+		thisPlayer.setPlayedDevCard(true);
 		return catanModel;
 	}
 

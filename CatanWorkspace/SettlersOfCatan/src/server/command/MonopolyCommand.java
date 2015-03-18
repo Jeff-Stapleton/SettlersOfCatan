@@ -32,6 +32,7 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 //		thisPlayer.getResources().setResource(resource, count);
 		// remove card from player
 		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
+		thisPlayer.setPlayedDevCard(true);
 		return catanModel;
 	}
 

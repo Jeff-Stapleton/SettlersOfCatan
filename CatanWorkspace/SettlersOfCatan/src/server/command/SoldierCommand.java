@@ -2,6 +2,7 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.ResourceList;
 
 public class SoldierCommand implements ICommand<CatanModel>{
 
@@ -16,13 +17,19 @@ public class SoldierCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
+		// expecting these params: playerIndex, victim.getPlayerIndex(), robber
+		
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
 		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
-		/*
-		// Apparently this is server code
+//		Player thisPlayer = catanModel.getPlayers()[playerIndex];
+		
+//		Player victim = catanModel.getPlayers()[victimIndex];
+//		ResourceList.moveResources(victim, thisPlayer, victim.Rob());
+		
+		
 		// remove card from player
 		thisPlayer.getOldDevCards().setSoldier(thisPlayer.getOldDevCards().getSoldier() - 1);
-		*/
+		thisPlayer.setPlayedDevCard(true);
 		return catanModel;
 	}
 
