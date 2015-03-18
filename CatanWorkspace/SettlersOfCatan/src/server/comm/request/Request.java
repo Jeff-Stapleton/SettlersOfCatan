@@ -1,9 +1,10 @@
 package server.comm.request;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.ws.Response;
+import org.apache.log4j.Logger;
 
 import server.Server;
 import server.comm.cookie.ICookie;
@@ -17,6 +18,9 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 {
+	private static final Logger log = Logger.getLogger(Request.class.getName());
+	private Server server;
+	private Map<String, List<String>> headers = null;
 	
 	public Resp getResponse() throws ServerException
 	{
@@ -30,6 +34,20 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 */
 	public void loadFromExchange(HttpExchange exchange)
 	{
+		log.trace("Loading from httpexchange");
+		// Check for the cookie header
+		if (!exchange.getRequestHeaders().isEmpty())
+		{
+			log.trace("Loading headers from exchange");
+			headers = new HashMap<String, List<String>>();
+			exchange.getRequestHeaders().putAll(headers);
+		}
+		
+		if (headers.containsKey("Cookie"))
+		{
+			log.trace("Cookies found. Loading cookies.");
+			//TODO: Load the cookies in
+		}
 		
 	}
 	
@@ -38,7 +56,7 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 *
 	 * @param server the server
 	 */
-	public   void execute(Server server)
+	public void execute(Server server)
 	{
 		
 	}
@@ -48,7 +66,7 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 *
 	 * @param cookie the cookie
 	 */
-	public   void addCookie(ICookie cookie)
+	public void addCookie(ICookie cookie)
 	{
 		
 	}
@@ -58,7 +76,7 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 *
 	 * @return the cookies
 	 */
-	public   List<ICookie> getCookies()
+	public List<ICookie> getCookies()
 	{
 		return null;
 	}
@@ -69,7 +87,7 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 * @param key the key
 	 * @param value the value
 	 */
-	public   void setHeader(String key, String value)
+	public void setHeader(String key, String value)
 	{
 		
 	}
@@ -79,10 +97,20 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 	 *
 	 * @return the headers
 	 */
-	public   Map<String,String> getHeaders()
+	public Map<String,String> getHeaders()
 	{
 		return null;
 		
+	}
+
+	public void setServer(Server server)
+	{
+		this.server = server;
+	}
+	
+	public Server getServer()
+	{
+		return server;
 	}
 
 

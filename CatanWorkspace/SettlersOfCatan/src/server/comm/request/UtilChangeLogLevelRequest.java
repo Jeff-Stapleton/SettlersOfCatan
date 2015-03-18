@@ -1,6 +1,5 @@
 package server.comm.request;
 
-import server.comm.response.CatanModelResponse;
 import server.comm.response.MessageResponse;
 import shared.comm.ServerException;
 
@@ -16,10 +15,12 @@ import shared.comm.ServerException;
  * 	
  * 
  */
-public class UtilChangeLogLevelRequest extends Request<MessageResponse> {
+public class UtilChangeLogLevelRequest extends Request<MessageResponse>
+{
 
 	@Override
-	public MessageResponse getResponse() throws ServerException {
+	public MessageResponse getResponse() throws ServerException
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}

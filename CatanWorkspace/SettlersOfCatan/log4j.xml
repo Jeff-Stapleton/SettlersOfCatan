@@ -19,8 +19,8 @@
         <appender-ref ref="console" />
     </logger>
 	
-    <logger name="client.controller.discard.DiscardController" additivity="false">
-    	<level value="WARN"/>
+    <logger name="server" additivity="false">
+    	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
     

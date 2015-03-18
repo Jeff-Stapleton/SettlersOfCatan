@@ -9,7 +9,6 @@ import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 
 // TODO: Auto-generated Javadoc
@@ -18,8 +17,8 @@ import com.sun.net.httpserver.HttpHandler;
  *
  * @param <Response> the generic type
  */
-public interface IRequest<Resp extends IResponse> {
-	
+public interface IRequest<Resp extends IResponse>
+{	
 	/**
 	 * Generate a response from information in the database.
 	 * Upon entering this function, the database has an open

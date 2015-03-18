@@ -143,7 +143,7 @@
             <manifest>
                 <attribute name="Main-Class" value="server.Server"/>
                 <attribute name="Class-Path"
-                    value="lib/gson-2.2.4.jar" />
+                    value="lib/gson-2.2.4.jar lib/commons-cli-1.2.jar lib/commons-logging-1.2.jar lib/org.apache.httpcomponents.httpcore_4.4.jar lib/log4j-1.2.17.jar" />
             </manifest>
         </jar>
     </target>

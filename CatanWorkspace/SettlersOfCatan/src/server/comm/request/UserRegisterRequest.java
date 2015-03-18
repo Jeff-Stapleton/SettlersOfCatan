@@ -1,5 +1,9 @@
 package server.comm.request;
 
+import org.apache.log4j.Logger;
+
+import com.sun.net.httpserver.HttpExchange;
+
 import server.comm.response.IResponse;
 import server.comm.response.UserResponse;
 import shared.comm.ServerException;
@@ -17,10 +21,24 @@ import shared.comm.ServerException;
  * 	The server returns an HTTP 200 success response with �Success� in the body
  * 	The HTTP response headers set the catan.user cookie to contain the identity of the logged�in player. The cookie uses �Path=/�, and its value contains a url�encoded JSON object
  */
-public class UserRegisterRequest extends Request<UserResponse> {
+public class UserRegisterRequest extends Request<UserResponse>
+{
+	private static final Logger log = Logger.getLogger(UserRegisterRequest.class.getName());
+	
+	/**
+	 * Load from exchange.
+	 *
+	 * @param exchange the exchange
+	 */
+	@Override
+	public void loadFromExchange(HttpExchange exchange)
+	{
+		super.loadFromExchange(exchange);
+	}
 
 	@Override
-	public UserResponse getResponse() throws ServerException {
+	public UserResponse getResponse() throws ServerException
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
