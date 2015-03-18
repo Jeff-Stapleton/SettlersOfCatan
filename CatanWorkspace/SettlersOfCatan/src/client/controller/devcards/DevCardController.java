@@ -106,7 +106,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		log.trace("Closed play card modal --/");
 	}
 
-	// Implemented -Jordan
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
 		try {
@@ -114,25 +113,8 @@ public class DevCardController extends Controller implements IDevCardController,
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		/*
-		// Apparently this is server code
-		int count = 0;
-		// collect all the resources from other players
-		for(Player p : model.getPlayers()){
-			if (p.getPlayerID() != thisPlayer.getPlayerID()){
-				count += p.getResources().getResource(resource);
-				p.getResources().setResource(resource, 0);
-			}
-		}
-		// add resources to thisPlayer
-		thisPlayer.getResources().setResource(resource, count);
-		// remove card from player
-		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
-		*/
 	}
 
-	// Implemented -Jordan
 	@Override
 	public void playMonumentCard() {
 		try {
@@ -140,57 +122,20 @@ public class DevCardController extends Controller implements IDevCardController,
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		/*
-		// Apparently this is server code
-		// add 1 to players VictoryPoints
-		thisPlayer.setVictoryPoints(thisPlayer.getVictoryPoints()+1);
-		// remove card from player
-		thisPlayer.getOldDevCards().setMonument(thisPlayer.getOldDevCards().getMonument() - 1);
-		*/
 	}
 
-	// Partially implemented? -Jordan
 	@Override
 	public void playRoadBuildCard() {
-		/*
-		try {
-			catanGame.getProxy().movesRoadBuilding(playerIndex, spot1, spot2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 		// This eventually ends up being called in MapController.playRoadBuildingCard()
 		roadAction.execute();
-		
-
-		/*
-		// Apparently this is server code
-		// remove card from player
-		thisPlayer.getOldDevCards().setRoadBuilding(thisPlayer.getOldDevCards().getRoadBuilding() - 1);
-		*/
 	}
 
-	// Partially implemented? -Jordan
 	@Override
 	public void playSoldierCard() {
-		/*
-		try {
-			catanGame.getProxy().movesSoldier(playerIndex, victimIndex, location);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 		// This eventually ends up being called in MapController.playRoadBuildingCard()
 		soldierAction.execute();
-		/*
-		// Apparently this is server code
-		// remove card from player
-		thisPlayer.getOldDevCards().setSoldier(thisPlayer.getOldDevCards().getSoldier() - 1);
-		*/
 	}
 
-	// Implemented -Jordan
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
 		try {
@@ -198,18 +143,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		/*
-		// Apparently this is server code
-		// add resources to thisPlayer
-		thisPlayer.getResources().setResource(resource1, thisPlayer.getResources().getResource(resource1) + 1);
-		thisPlayer.getResources().setResource(resource2, thisPlayer.getResources().getResource(resource2) + 1);
-		// remove resources from bank
-		bank.setResource(resource1, bank.getResource(resource1) - 1);
-		bank.setResource(resource2, bank.getResource(resource2) - 1);
-		// remove card from player
-		thisPlayer.getOldDevCards().setYearOfPlenty(thisPlayer.getOldDevCards().getYearOfPlenty() - 1);
-		*/
 	}
 
 	@Override

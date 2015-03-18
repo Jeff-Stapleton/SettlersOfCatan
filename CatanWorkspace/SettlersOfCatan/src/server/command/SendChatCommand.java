@@ -14,8 +14,8 @@ public class SendChatCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		// TODO Auto-generated method stub
-		return null;
+//		catanModel.getChat().addLine(newLine);
+		return catanModel;
 	}
 
 }

@@ -1,6 +1,7 @@
 package server.command;
 
 import shared.CatanModel;
+import shared.Player;
 
 public class RoadBuildingCommand implements ICommand<CatanModel>{
 
@@ -15,8 +16,14 @@ public class RoadBuildingCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		// TODO Auto-generated method stub
-		return null;
+		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
+		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		/*
+		// Apparently this is server code
+		// remove card from player
+		thisPlayer.getOldDevCards().setRoadBuilding(thisPlayer.getOldDevCards().getRoadBuilding() - 1);
+		*/
+		return catanModel;
 	}
 
 }

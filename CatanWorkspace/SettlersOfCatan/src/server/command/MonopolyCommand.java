@@ -1,6 +1,7 @@
 package server.command;
 
 import shared.CatanModel;
+import shared.Player;
 
 public class MonopolyCommand implements ICommand<CatanModel>{
 
@@ -16,19 +17,22 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel){//CatanModel model) {
-//		int count = 0;
-//		// collect all the resources from other players
-//		for(Player p : model.getPlayers()){
-//			if (p.getPlayerID() != thisPlayer.getPlayerID()){
+		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
+		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		
+		int count = 0;
+		// collect all the resources from other players
+		for(Player p : catanModel.getPlayers()){
+			if (p.getPlayerID() != thisPlayer.getPlayerID()){
 //				count += p.getResources().getResource(resource);
 //				p.getResources().setResource(resource, 0);
-//			}
-//		}
-//		// add resources to thisPlayer
+			}
+		}
+		// add resources to thisPlayer
 //		thisPlayer.getResources().setResource(resource, count);
-//		// remove card from player
-//		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
-		return null;
+		// remove card from player
+		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
+		return catanModel;
 	}
 
 }

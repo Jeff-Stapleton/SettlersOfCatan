@@ -1,6 +1,9 @@
 package server.command;
 
+import shared.CanCan;
 import shared.CatanModel;
+import shared.DevCardList;
+import shared.Player;
 
 public class BuyDevCardCommand implements ICommand<CatanModel>{
 
@@ -15,7 +18,11 @@ public class BuyDevCardCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		// TODO Auto-generated method stub
+		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
+		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		if (CanCan.canBuyDevCard(thisPlayer, catanModel.getDeck(), catanModel.getTurnTracker())){
+			thisPlayer.buyDevCard(catanModel.getBank(), catanModel.getDeck());			
+		}
 		return null;
 	}
 

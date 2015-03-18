@@ -55,12 +55,15 @@ public class Player extends Observable {
 	}
 	
 	/**
-	 * Buys dev card
+	 * Moves the resources needed to buy the card from the players resources to the bank and then chooses a random devCard remaining in the deck and moves it from the deck to the players hand
+	 * 
+	 * @param bankResources the bank resources
+	 * @param bankDevCards the deck of remaining dev cards available to be bought
 	 */
 	public void buyDevCard(ResourceList bankResources, DevCardList bankDevCards){
 		// send resources to the bank
 		ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));		
-		DevCardList.moveCard(newDevCards, bankDevCards, DevCardList.getRandomCard());		
+		DevCardList.moveCard(newDevCards, bankDevCards, bankDevCards.getRandomCard());		
 	}
 		
 	/**

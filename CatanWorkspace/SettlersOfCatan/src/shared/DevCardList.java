@@ -1,5 +1,8 @@
 package shared;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
@@ -22,39 +25,87 @@ public class DevCardList extends Observable {
 	}
 	
 	/**
+	 * Returns a random card from the DevCardList by add all remaining cards to a list, randomizing the list, and choosing the first one
 	 * @return
 	 */
-	public static DevCardList getRandomCard(){
-		Random rand = new Random();
-		int card = rand.nextInt(5);
+	public DevCardList getRandomCard(){
 		DevCardList devCard = new DevCardList();
-		
-		if (card == 0)
-		{
-			devCard.setMonopoly(1);
-		}
-		else if (card == 1)
-		{
-			devCard.setMonument(1);
-		}
-		else if (card == 2)
-		{
-			devCard.setRoadBuilding(1);
-		}
-		else if (card == 3)
-		{
-			devCard.setSoldier(1);
-		}
-		else
-		{
-			devCard.setYearOfPlenty(1);
-		}
+		List<String> list = toList();
+		Collections.shuffle(list);
+	    String nameOfRandomCard = list.get(0); 
+	    devCard.addCardByName(nameOfRandomCard);
 		return devCard;
 	}
+	
+	public void addCardByName(String name){
+		switch (name){
+		case "monopoly":
+			setMonopoly(getMonopoly() + 1);
+			break;
+		case "monument":
+			setMonument(getMonument() + 1);
+			break;
+		case "roadBuilding":
+			setRoadBuilding(getRoadBuilding() + 1);
+			break;
+		case "soldier":
+			setSoldier(getSoldier() + 1);
+			break;
+		case "yearOfPlenty":
+			setYearOfPlenty(getYearOfPlenty() + 1);
+			break;
+		}
+	}
+	
+	public void removeCardByName(String name){
+		switch (name){
+		case "monopoly":
+			setMonopoly(getMonopoly() - 1);
+			break;
+		case "monument":
+			setMonument(getMonument() - 1);
+			break;
+		case "roadBuilding":
+			setRoadBuilding(getRoadBuilding() - 1);
+			break;
+		case "soldier":
+			setSoldier(getSoldier() - 1);
+			break;
+		case "yearOfPlenty":
+			setYearOfPlenty(getYearOfPlenty() - 1);
+			break;
+		}
+	}
 
-
+	private List<String> toList(){
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < getMonopoly(); i++)
+		{
+			list.add("monopoly");
+		}
+		for (int i = 0; i < getMonument(); i++)
+		{
+			list.add("monumnet");
+		}
+		for (int i = 0; i < getRoadBuilding(); i++)
+		{
+			list.add("roadBuilding");
+		}
+		for (int i = 0; i < getSoldier(); i++)
+		{
+			list.add("soldier");
+		}
+		for (int i = 0; i < getYearOfPlenty(); i++)
+		{
+			list.add("yearOfPlenty");
+		}
+		return list;
+	}
+	
 	public static void moveCard(DevCardList newDevCards, DevCardList bankDevCards, DevCardList card) {
-		
+		String cardType = card.toList().get(0);
+		bankDevCards.removeCardByName(cardType);
+		newDevCards.addCardByName(cardType);		
 	}
 	
 	public int getTotal(){
