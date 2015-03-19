@@ -1,17 +1,24 @@
 package server.comm.response;
 
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
-import server.comm.cookie.ICookie;
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class Response.
+ * The Class MessageResponse.
  */
-public abstract class MessageResponse extends Response {
+public class MessageResponse extends Response
+{
+	private static final Logger log = Logger.getLogger(MessageResponse.class);
+	int code = 200;
+	String msg = "Success";
+	public MessageResponse(int code, String msg)
+	{
+		this.code = code;
+		this.msg = msg;
+	}
+	
 		
 	/**
 	 * Sets the json body.
@@ -22,6 +29,37 @@ public abstract class MessageResponse extends Response {
 	public <T> void setMessage(String message)
 	{
 		
+	}
+
+
+	/**
+	 * Get the response code
+	 * @return the response code
+	 */
+	public int getCode()
+	{
+		return code;
+	}
+
+	/**
+	 * Get the bit length of the response
+	 * @return the bit-length response
+	 */
+	public long getResponseLength()
+	{
+		return msg.getBytes().length;
+	}
+
+
+	public void writeTo(OutputStream os) throws IOException
+	{
+		os.write(msg.getBytes());
+	}
+
+
+	public String getMessage()
+	{
+		return msg;
 	}
 
 }

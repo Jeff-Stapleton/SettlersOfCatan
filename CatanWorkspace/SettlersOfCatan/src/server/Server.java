@@ -14,6 +14,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import server.comm.ReqResHandler;
 import server.comm.request.*;
 import server.comm.response.*;
+import server.handlers.LoginHandler;
 import shared.Util;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -44,7 +45,7 @@ public class Server
 
 	/** The server. */
 	private HttpServer server;
-	
+
 	private ServerLobby serverLobby;
 
 	/**
@@ -104,9 +105,9 @@ public class Server
 		log.trace("Starting server");
 		// TODO Initialize database or data storage here
 
-		try {
-			server = HttpServer.create(new InetSocketAddress(serverPortNumber),
-					maxWaitingConnections);
+		try
+		{
+			server = HttpServer.create(new InetSocketAddress(serverPortNumber), maxWaitingConnections);
 
 			Map<String, String> env = new HashMap<String, String>();
 			env.put("server.port", serverPortNumber.toString());
@@ -114,14 +115,15 @@ public class Server
 			Util.setEnv(env);
 
 			// May need this for saving stuff later
-			dataFolder = new File(Config.getConfig().getProperty(
-					Config.DATA_FOLDER));
-		} catch (IOException e) {
+			dataFolder = new File(Config.getConfig().getProperty(Config.DATA_FOLDER));
+		}
+		catch (IOException e)
+		{
 			System.err.println("Could not create HTTP server: " + e.getMessage());
 			e.printStackTrace();
 			return;
 		}
-		
+
 		log.trace("Http server created. Adding contexts.");
 
 		server.setExecutor(null); // use the default executor
@@ -129,7 +131,7 @@ public class Server
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
-		server.createContext("/user/login", new ReqResHandler<UserResponse, UserLoginRequest>(this, UserLoginRequest.class));
+		server.createContext("/user/login", new LoginHandler(this));//new ReqResHandler<UserResponse, UserLoginRequest>(this, UserLoginRequest.class));
 		server.createContext("/user/register", new ReqResHandler<UserResponse, UserRegisterRequest>(this, UserRegisterRequest.class));
 
 		server.createContext("/games/list", new ReqResHandler<GameInfosResponse, GamesListRequest>(this, GamesListRequest.class));
@@ -147,24 +149,24 @@ public class Server
 		server.createContext("/moves/robPlayer", new ReqResHandler<CatanModelResponse, MovesRobPlayerRequest>(this, MovesRobPlayerRequest.class));
 		server.createContext("/moves/finishTurn", new ReqResHandler<CatanModelResponse, MovesFinishTurnRequest>(this, MovesFinishTurnRequest.class));
 		server.createContext("/moves/buyDevCard", new ReqResHandler<CatanModelResponse, MovesBuyDevCardRequest>(this, MovesBuyDevCardRequest.class));
-		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<CatanModelResponse,MovesYearOfPlentyRequest>(this, MovesYearOfPlentyRequest.class));
-		server.createContext("/moves/Road_Building", new ReqResHandler<CatanModelResponse,MovesRoadBuildingRequest>(this, MovesRoadBuildingRequest.class));
-		server.createContext("/moves/Soldier", new ReqResHandler<CatanModelResponse,MovesSoldierRequest>(this, MovesSoldierRequest.class));
-		server.createContext("/moves/Monument", new ReqResHandler<CatanModelResponse,MovesMonumentRequest>(this, MovesMonumentRequest.class));
-		server.createContext("/moves/buildRoad", new ReqResHandler<CatanModelResponse,MovesBuildRoadRequest>(this, MovesBuildRoadRequest.class));
-		server.createContext("/moves/buildCity", new ReqResHandler<CatanModelResponse,MovesBuildCityRequest>(this, MovesBuildCityRequest.class));
-		server.createContext("/moves/buildSettlement", new ReqResHandler<CatanModelResponse,MovesBuildSettlementRequest>(this, MovesBuildSettlementRequest.class));
-		server.createContext("/moves/offerTrade", new ReqResHandler<CatanModelResponse,MovesOfferTradeRequest>(this, MovesOfferTradeRequest.class));
-		server.createContext("/moves/acceptTrade", new ReqResHandler<CatanModelResponse,MovesAcceptTradeRequest>(this, MovesAcceptTradeRequest.class));
-		server.createContext("/moves/maritimeTrade", new ReqResHandler<CatanModelResponse,MovesMaritimeTradeRequest>(this, MovesMaritimeTradeRequest.class));
-		server.createContext("/moves/discardCards", new ReqResHandler<CatanModelResponse,MovesDiscardCardsRequest>(this, MovesDiscardCardsRequest.class));
-		
-		server.createContext("/util/changeLogLevel", new ReqResHandler<MessageResponse,UtilChangeLogLevelRequest>(this, UtilChangeLogLevelRequest.class));
+		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<CatanModelResponse, MovesYearOfPlentyRequest>(this, MovesYearOfPlentyRequest.class));
+		server.createContext("/moves/Road_Building", new ReqResHandler<CatanModelResponse, MovesRoadBuildingRequest>(this, MovesRoadBuildingRequest.class));
+		server.createContext("/moves/Soldier", new ReqResHandler<CatanModelResponse, MovesSoldierRequest>(this, MovesSoldierRequest.class));
+		server.createContext("/moves/Monument", new ReqResHandler<CatanModelResponse, MovesMonumentRequest>(this, MovesMonumentRequest.class));
+		server.createContext("/moves/buildRoad", new ReqResHandler<CatanModelResponse, MovesBuildRoadRequest>(this, MovesBuildRoadRequest.class));
+		server.createContext("/moves/buildCity", new ReqResHandler<CatanModelResponse, MovesBuildCityRequest>(this, MovesBuildCityRequest.class));
+		server.createContext("/moves/buildSettlement", new ReqResHandler<CatanModelResponse, MovesBuildSettlementRequest>(this, MovesBuildSettlementRequest.class));
+		server.createContext("/moves/offerTrade", new ReqResHandler<CatanModelResponse, MovesOfferTradeRequest>(this, MovesOfferTradeRequest.class));
+		server.createContext("/moves/acceptTrade", new ReqResHandler<CatanModelResponse, MovesAcceptTradeRequest>(this, MovesAcceptTradeRequest.class));
+		server.createContext("/moves/maritimeTrade", new ReqResHandler<CatanModelResponse, MovesMaritimeTradeRequest>(this, MovesMaritimeTradeRequest.class));
+		server.createContext("/moves/discardCards", new ReqResHandler<CatanModelResponse, MovesDiscardCardsRequest>(this, MovesDiscardCardsRequest.class));
+
+		server.createContext("/util/changeLogLevel", new ReqResHandler<MessageResponse, UtilChangeLogLevelRequest>(this, UtilChangeLogLevelRequest.class));
 
 		log.trace("Created contexts. Starting server");
-		
+
 		server.start();
-		
+
 		log.info("Server started");
 	}
 
@@ -188,25 +190,39 @@ public class Server
 		// Initialize logging
 		DOMConfigurator.configure("log4j.xml");
 		log.info("Starting Catan Client");
-		
+
 		// look for a port
-		if (args.length == 0) {
+		if (args.length == 0)
+		{
 			new Server().run();
-		} else if (args.length == 1) {
+		}
+		else if (args.length == 1)
+		{
 			new Server(Integer.valueOf(args[0])).run();
-		} else {
+		}
+		else
+		{
 			System.err.println("Usage: server [port]");
 		}
 	}
 
 	/**
 	 * Set the level of logging for the server
-	 * @param logLevel the log level to set the server to
+	 * 
+	 * @param logLevel
+	 *            the log level to set the server to
 	 */
 	public void setLogLevel(Level logLevel)
 	{
 		LogManager.getRootLogger().setLevel(logLevel);
 	}
+	
+	/**
+	 * Get the server lobby of this server
+	 * @return this server's server lobby
+	 */
+	public ServerLobby getServerLobby()
+	{
+		return serverLobby;
+	}
 }
-
-

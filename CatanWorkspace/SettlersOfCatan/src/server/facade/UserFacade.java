@@ -1,19 +1,24 @@
 package server.facade;
 
+import org.apache.log4j.Logger;
+
 import server.ServerLobby;
-import server.comm.request.UserLoginRequest;
-import server.comm.request.UserRegisterRequest;
+import server.comm.response.MessageResponse;
+import shared.comm.serialization.CredentialsRequest;
 
 /**
  * The Class UserFacade, This Facade implements the Login and Register commands
  */
-public class UserFacade {
+public class UserFacade
+{
+	private static final Logger log = Logger.getLogger(UserFacade.class);
 	
 	/** The game lobby. */
 	private ServerLobby serverLobby;
 	
 
-	public UserFacade(ServerLobby serverLobby) {
+	public UserFacade(ServerLobby serverLobby)
+	{
 		this.serverLobby = serverLobby;
 	}
 
@@ -22,7 +27,8 @@ public class UserFacade {
 	 *
 	 * Pre and post are handled in the request and response
 	 */
-	public void register(UserRegisterRequest request){
+	public void register(CredentialsRequest request)
+	{
 		
 	}
 
@@ -30,8 +36,25 @@ public class UserFacade {
 	 * Logs a user in
 	 *
 	 * Pre and post are handled in the request and response
+	 * @return 
 	 */
-	public void login(UserLoginRequest request){
+	public MessageResponse login(CredentialsRequest request)
+	{
+		log.trace("logging in the user");
+		MessageResponse response = null;
+		boolean success = serverLobby.verifyUser(request.getUsername(), request.getPassword());
 		
+		if (success)
+		{
+			log.trace("Creating success message response");
+			response = new MessageResponse(200, "Success");
+		}
+		else
+		{
+			log.trace("Creating failure message response");
+			response = new MessageResponse(400, "Failed to login - bad username or password.");
+		}
+		
+		return response;
 	}
 }

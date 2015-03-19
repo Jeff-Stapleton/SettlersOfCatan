@@ -20,5 +20,17 @@ public class CredentialsRequest
 	{
 		return password;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("{\n");
+		
+		string.append("username : ").append(username).append(",\n");
+		string.append("password : ").append(password).append("\n");
+		
+		string.append("}");
+		return string.toString();
+	}
 
 }
