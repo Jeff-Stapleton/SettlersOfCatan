@@ -8,7 +8,6 @@ import server.facade.UtilFacade;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ServerLobby.
  */
