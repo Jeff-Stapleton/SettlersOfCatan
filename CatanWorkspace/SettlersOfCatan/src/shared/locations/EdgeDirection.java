@@ -51,5 +51,29 @@ public enum EdgeDirection
 	{
 		return string;
 	}
+	
+	public static EdgeDirection fromString(String direction)
+	{
+		
+		switch (direction)
+		{
+			case "NW":
+				return EdgeDirection.NorthWest;
+			case "N":
+				return EdgeDirection.North;
+			case "NE":
+				return EdgeDirection.NorthEast;
+			case "S":
+				return EdgeDirection.South;
+			case "SW":
+				return EdgeDirection.SouthWest;
+			case "SE":
+				return EdgeDirection.SouthEast;
+			default:
+				return null;
+			
+		}
+		
+	}
 }
 

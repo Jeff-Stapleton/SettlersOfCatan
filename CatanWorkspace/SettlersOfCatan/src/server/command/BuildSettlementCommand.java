@@ -4,6 +4,7 @@ import shared.Building;
 import shared.CatanModel;
 import shared.Hex;
 import shared.Player;
+import shared.comm.serialization.BuildSettlementRequest;
 import shared.comm.serialization.VertexLocationRequest;
 import shared.definitions.HexType;
 import shared.locations.EdgeDirection;
@@ -23,15 +24,19 @@ public class BuildSettlementCommand implements ICommand<CatanModel>
 	 * @param a PlayerIndex, a Location, a isFreeBoolean
 	 */
 	private int playerIndex;
-	private VertexLocation vertexLocation;
+	private int x;
+	private int y;
+	private VertexDirection direction;
 	private boolean isFree;
 	
 	
-	public BuildSettlementCommand(int playerIndex, VertexLocation vertexLocation, boolean isFree)
+	public BuildSettlementCommand(BuildSettlementRequest request)
 	{
-		this.playerIndex = playerIndex;
-		this.vertexLocation = vertexLocation;
-		this.isFree = isFree;
+		this.playerIndex = request.getPlayerIndex();
+		this.x = request.getVertexLocation().getX();
+		this.y = request.getVertexLocation().getY();
+		this.direction = VertexDirection.fromString(request.getVertexLocation().getDirection());
+		this.isFree = request.getFree();
 	}
 	
 	
@@ -39,13 +44,8 @@ public class BuildSettlementCommand implements ICommand<CatanModel>
 	@Override
 	public CatanModel execute(CatanModel catanModel) 
 	{
-		//execute
-		playerIndex = catanModel.getTurnTracker().getCurrentTurn();
-		
+		//execute		
 		Player player = catanModel.getPlayers()[playerIndex];
-		int x = vertexLocation.getX();
-		int y = vertexLocation.getY(); 
-		VertexDirection direction = vertexLocation.getDirection();
 		Building settlement = new Building(playerIndex, new VertexLocation(x, y , direction));
 		catanModel.getMap().getSettlements().add(settlement);
 		catanModel.setVersion(catanModel.getVersion() + 1);
