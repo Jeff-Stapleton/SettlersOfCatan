@@ -1,22 +1,102 @@
 package server.command;
 
 import shared.CatanModel;
+import shared.Player;
+import shared.ResourceList;
+import shared.comm.serialization.MaritimeTradeRequest;
+import shared.locations.VertexLocation;
 
-public class MaritimeTradeCommand implements ICommand<CatanModel>{
+public class MaritimeTradeCommand implements ICommand<CatanModel> {
+	private CatanModel model;
+	private Player player;
+	private ResourceList inventory;
+	private ResourceList bank;
+	private ResourceList trade;
+	private MaritimeTradeRequest request;
+
+	public MaritimeTradeCommand(MaritimeTradeRequest request) {
+		this.request = request;
+	}
 
 	/**
-	 * Executes "Maritime Trade", subtracts the given resources from the instigator
-	 * and add the get resources to the instigator. 
+	 * Executes "Maritime Trade", subtracts the given resources from the
+	 * instigator and add the get resources to the instigator.
 	 *
-	 * @pre Bank and player have enough resources, players is built on a port and it correct turn/state
+	 * @pre Bank and player have enough resources, players is built on a port
+	 *      and it correct turn/state
 	 * @post completes the maritime trade
 	 * 
-	 * @param a PlayerIndex, a Ratio, a GetResource, a GiveResource
+	 * @param a
+	 *            PlayerIndex, a Ratio, a GetResource, a GiveResource
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		// TODO Auto-generated method stub
+		initialize(catanModel);
+		ResourceList.moveResources(inventory, bank, trade);
 		return null;
+	}
+
+	public void initialize(CatanModel catanModel) {
+		model = catanModel;
+		player = getPlayer();
+		bank = catanModel.getBank();
+		inventory = player.getResources();
+		trade = getTrade();
+	}
+
+	public Player getPlayer() {
+		int index = request.getPlayerIndex();
+		return model.getPlayers()[index];
+	}
+
+	public ResourceList getTrade() {
+		String giveResource = request.getOutputResource();
+		String getResource = request.getInputResource();
+		int ratio = request.getRatio();
+		ResourceList offer = new ResourceList();
+		setTradeGive(giveResource, ratio, offer);
+		setTradeGet(getResource, offer);
+		return offer;
+	}
+
+	public void setTradeGive(String giveResource, int ratio, ResourceList offer) {
+		switch (giveResource) {
+			case "wood": {
+				offer.setWood(ratio);
+			}
+			case "brick": {
+				offer.setBrick(ratio);
+			}
+			case "sheep": {
+				offer.setSheep(ratio);
+			}
+			case "wheat": {
+				offer.setWheat(ratio);
+			}
+			case "ore": {
+				offer.setOre(ratio);
+			}
+		}
+	}
+
+	public void setTradeGet(String getResource, ResourceList offer) {
+		switch (getResource) {
+			case "wood": {
+				offer.setWood(-1);
+			}
+			case "brick": {
+				offer.setBrick(-1);
+			}
+			case "sheep": {
+				offer.setSheep(-1);
+			}
+			case "wheat": {
+				offer.setWheat(-1);
+			}
+			case "ore": {
+				offer.setOre(-1);
+			}
+		}
 	}
 
 }
