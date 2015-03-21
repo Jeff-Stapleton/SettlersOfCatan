@@ -23,15 +23,14 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 	 * @pre The player has the assigned cards to discard
 	 * @post completes the discard card
 	 * 
-	 * @param a
-	 *            PlayerIndex, Cards
+	 * @param a PlayerIndex, Cards
 	 */
 
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, discard);
-		return null;
+		return model;
 	}
 
 	public void initialize(CatanModel catanModel) {
