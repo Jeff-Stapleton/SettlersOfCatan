@@ -15,10 +15,9 @@ import server.comm.ReqResHandler;
 import server.comm.request.*;
 import server.comm.response.*;
 import server.handlers.UserLoginHandler;
+import server.handlers.UserRegisterHandler;
 import shared.Util;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
@@ -131,8 +130,8 @@ public class Server
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
-		server.createContext("/user/login", new UserLoginHandler(this));//new ReqResHandler<UserResponse, UserLoginRequest>(this, UserLoginRequest.class));
-		server.createContext("/user/register", new ReqResHandler<UserResponse, UserRegisterRequest>(this, UserRegisterRequest.class));
+		server.createContext("/user/login", new UserLoginHandler(this));
+		server.createContext("/user/register", new UserRegisterHandler(this));
 
 		server.createContext("/games/list", new ReqResHandler<GameInfosResponse, GamesListRequest>(this, GamesListRequest.class));
 		server.createContext("/games/create", new ReqResHandler<GameInfoResponse, GamesCreateRequest>(this, GamesCreateRequest.class));
