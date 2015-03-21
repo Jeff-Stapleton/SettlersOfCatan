@@ -26,6 +26,16 @@ public class MonumentCommand implements ICommand<CatanModel>
 	@Override
 	public CatanModel execute(CatanModel catanModel) 
 	{
+		Player player = catanModel.getPlayers()[owner];
+		
+		player.setVictoryPoints(player.getVictoryPoints()+1);
+		player.getOldDevCards().setMonument(player.getOldDevCards().getMonument() - 1);
+
+		MapChecks.checkForWinner(catanModel, owner);
+		
+		return catanModel;
+		
+		/*
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
 		Player thisPlayer = catanModel.getPlayers()[owner];
 		// add 1 to players VictoryPoints
@@ -34,6 +44,7 @@ public class MonumentCommand implements ICommand<CatanModel>
 		// remove card from player
 		thisPlayer.getOldDevCards().setMonument(thisPlayer.getOldDevCards().getMonument() - 1);
 		return catanModel;
+		*/
 	}
 
 }

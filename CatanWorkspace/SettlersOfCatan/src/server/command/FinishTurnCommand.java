@@ -31,13 +31,13 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 	{
 		Player player = catanModel.getPlayers()[owner];
 		
-		DevCardList newCards=player.getNewDevCards();
-		DevCardList oldCards=player.getOldDevCards();
-		oldCards.setMonopoly(oldCards.getMonopoly()+newCards.getMonopoly());
+		DevCardList newCards = player.getNewDevCards();
+		DevCardList oldCards = player.getOldDevCards();
+		oldCards.setMonopoly(oldCards.getMonopoly() + newCards.getMonopoly());
 
-		oldCards.setRoadBuilding(oldCards.getRoadBuilding()+newCards.getRoadBuilding());
-		oldCards.setSoldier(oldCards.getSoldier()+newCards.getSoldier());
-		oldCards.setYearOfPlenty(oldCards.getYearOfPlenty()+newCards.getYearOfPlenty());
+		oldCards.setRoadBuilding(oldCards.getRoadBuilding() + newCards.getRoadBuilding());
+		oldCards.setSoldier(oldCards.getSoldier() + newCards.getSoldier());
+		oldCards.setYearOfPlenty(oldCards.getYearOfPlenty() + newCards.getYearOfPlenty());
 		newCards = new DevCardList();
 		player.setPlayedDevCard(false);
 		
