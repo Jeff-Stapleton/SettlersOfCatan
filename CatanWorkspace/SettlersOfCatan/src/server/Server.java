@@ -14,7 +14,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import server.comm.ReqResHandler;
 import server.comm.request.*;
 import server.comm.response.*;
-import server.handlers.LoginHandler;
+import server.handlers.UserLoginHandler;
 import shared.Util;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -131,7 +131,7 @@ public class Server
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
-		server.createContext("/user/login", new LoginHandler(this));//new ReqResHandler<UserResponse, UserLoginRequest>(this, UserLoginRequest.class));
+		server.createContext("/user/login", new UserLoginHandler(this));//new ReqResHandler<UserResponse, UserLoginRequest>(this, UserLoginRequest.class));
 		server.createContext("/user/register", new ReqResHandler<UserResponse, UserRegisterRequest>(this, UserRegisterRequest.class));
 
 		server.createContext("/games/list", new ReqResHandler<GameInfosResponse, GamesListRequest>(this, GamesListRequest.class));
