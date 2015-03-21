@@ -2,8 +2,13 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.serialization.RoadBuildingRequest;
 
 public class RoadBuildingCommand implements ICommand<CatanModel>{
+
+	public RoadBuildingCommand(RoadBuildingRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Road Building Dev Card", removes the dev card from the players hand.  Awards the 

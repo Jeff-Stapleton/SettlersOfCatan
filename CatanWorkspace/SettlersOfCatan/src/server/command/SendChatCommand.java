@@ -1,8 +1,14 @@
 package server.command;
 
+import server.comm.request.MovesSendChatRequest;
 import shared.CatanModel;
+import shared.comm.serialization.SendChatRequest;
 
 public class SendChatCommand implements ICommand<CatanModel>{
+
+	public SendChatCommand(SendChatRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Send Chat", send the instigator's message to be broadcast to all other players

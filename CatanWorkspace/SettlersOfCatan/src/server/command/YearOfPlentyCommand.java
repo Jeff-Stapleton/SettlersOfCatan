@@ -2,8 +2,13 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.serialization.YearOfPlentyRequest;
 
 public class YearOfPlentyCommand implements ICommand<CatanModel>{
+
+	public YearOfPlentyCommand(YearOfPlentyRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Year of Plenty Dev Card", removes the dev card from the players hand.  Awards 

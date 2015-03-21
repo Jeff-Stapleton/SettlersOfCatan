@@ -4,8 +4,17 @@ import shared.CatanModel;
 import shared.DevCardList;
 import shared.Player;
 import shared.TurnType;
+import shared.comm.serialization.FinishTurnRequest;
 
 public class FinishTurnCommand implements ICommand<CatanModel>{
+	
+	private int owner;
+
+	public FinishTurnCommand(FinishTurnRequest request) 
+	{
+		this.owner = request.getPlayerIndex();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Finish Turn", ends the players turn and allows the next player to 
@@ -20,7 +29,6 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 	@Override
 	public CatanModel execute(CatanModel catanModel) 
 	{
-		int owner=catanModel.getTurnTracker().getCurrentTurn();
 		Player player = catanModel.getPlayers()[owner];
 		
 		DevCardList newCards=player.getNewDevCards();

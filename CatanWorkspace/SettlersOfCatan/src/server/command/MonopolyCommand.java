@@ -2,8 +2,13 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.serialization.MonopolyRequest;
 
 public class MonopolyCommand implements ICommand<CatanModel>{
+
+	public MonopolyCommand(MonopolyRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Monopoly Dev Card", removes the dev card from the players hand.  Takes

@@ -4,8 +4,17 @@ import shared.CanCan;
 import shared.CatanModel;
 import shared.DevCardList;
 import shared.Player;
+import shared.comm.serialization.BuyDevCardRequest;
 
-public class BuyDevCardCommand implements ICommand<CatanModel>{
+public class BuyDevCardCommand implements ICommand<CatanModel>
+{
+	
+	private int owner;
+
+	public BuyDevCardCommand(BuyDevCardRequest request) 
+	{
+		this.owner = request.getPlayerIndex();
+	}
 
 	/**
 	 * Executes "Buy Dev Card", subtracts the resources from the instigator,
@@ -19,7 +28,7 @@ public class BuyDevCardCommand implements ICommand<CatanModel>{
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		Player thisPlayer = catanModel.getPlayers()[owner];
 		if (CanCan.canBuyDevCard(thisPlayer, catanModel.getDeck(), catanModel.getTurnTracker())){
 			thisPlayer.buyDevCard(catanModel.getBank(), catanModel.getDeck());			
 		}
