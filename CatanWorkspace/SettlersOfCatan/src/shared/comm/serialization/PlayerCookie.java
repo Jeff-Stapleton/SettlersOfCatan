@@ -6,6 +6,13 @@ public class PlayerCookie
 	String password = null;
 	Integer playerID = null;
 	
+	public PlayerCookie(String username, String password, int playerID)
+	{
+		name = username;
+		this.password = password;
+		this.playerID = playerID;
+	}
+	
 	public String getName()
 	{
 		return name;
@@ -33,5 +40,17 @@ public class PlayerCookie
 		string.append("}");
 		
 		return string.toString();
+	}
+
+	public String getCookie()
+	{
+		StringBuilder cookie = new StringBuilder();
+		
+		cookie.append("catan.user={\"name\":\"").append(name).append("\",")
+			  .append("\"password\":\"").append(password).append("\",")
+			  .append("\"playerID\":").append(playerID).append("};")
+			  .append("Path=/;");
+		
+		return cookie.toString();
 	}
 }

@@ -27,18 +27,17 @@ public class AcceptTradeCommand implements ICommand<CatanModel> {
 	 * @pre is a valid trade offer
 	 * @post completes the domestic trade
 	 * 
-	 * @param a
-	 *            PlayerIndex, a willAcceptBoolean
+	 * @param a PlayerIndex, a willAcceptBoolean
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		if (willAccept == true) {
 			initialize(catanModel);
 			ResourceList.moveResources(sender, receiver, trade);
-			return null;
+			return model;
 		} 
 		else {
-			return null;
+			return catanModel;
 		}
 	}
 

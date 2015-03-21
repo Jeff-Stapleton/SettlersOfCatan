@@ -27,14 +27,13 @@ public class OfferTradeCommand implements ICommand<CatanModel> {
 	 *      turn/state
 	 * @post completes the offer trade
 	 * 
-	 * @param a
-	 *            TradeOffer
+	 * @param a TradeOffer
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		initialize(catanModel);
 		model.setTradeOffer(offer);
-		return null;
+		return model;
 	}
 	
 	public void initialize(CatanModel catanModel) {

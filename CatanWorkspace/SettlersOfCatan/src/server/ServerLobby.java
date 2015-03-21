@@ -31,9 +31,6 @@ public class ServerLobby
 		userFacade = new UserFacade(this);
 		gamesFacade = new GamesFacade(this);
 		utilFacade = new UtilFacade(server);
-		
-		// TODO: Remove this after testing
-		users.add(new ServerUser("Pete", "pete"));
 	}
 	
 	/**
@@ -112,7 +109,7 @@ public class ServerLobby
 		return false;
 	}
 	
-	private ServerUser getUser(String username)
+	public ServerUser getUser(String username)
 	{
 		log.trace("Getting user \"" + username + "\"");
 		for (ServerUser user : users)
@@ -152,6 +149,18 @@ public class ServerLobby
 	public UtilFacade getUtilFacade()
 	{
 		return utilFacade;
+	}
+
+	public Integer getUserID(String username)
+	{
+		ServerUser user = getUser(username);
+		return (user == null) ? null : user.getID();
+	}
+
+	public boolean addUser(String username, String password)
+	{
+		users.add(new ServerUser(username, password));
+		return true;
 	}
 
 }

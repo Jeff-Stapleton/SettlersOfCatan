@@ -33,7 +33,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	public CatanModel execute(CatanModel catanModel) {
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, trade);
-		return null;
+		return model;
 	}
 
 	public void initialize(CatanModel catanModel) {
@@ -63,18 +63,23 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 		switch (giveResource) {
 			case "wood": {
 				offer.setWood(ratio);
+				break;
 			}
 			case "brick": {
 				offer.setBrick(ratio);
+				break;
 			}
 			case "sheep": {
 				offer.setSheep(ratio);
+				break;
 			}
 			case "wheat": {
 				offer.setWheat(ratio);
+				break;
 			}
 			case "ore": {
 				offer.setOre(ratio);
+				break;
 			}
 		}
 	}
@@ -83,18 +88,23 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 		switch (getResource) {
 			case "wood": {
 				offer.setWood(-1);
+				break;
 			}
 			case "brick": {
 				offer.setBrick(-1);
+				break;
 			}
 			case "sheep": {
 				offer.setSheep(-1);
+				break;
 			}
 			case "wheat": {
 				offer.setWheat(-1);
+				break;
 			}
 			case "ore": {
 				offer.setOre(-1);
+				break;
 			}
 		}
 	}
