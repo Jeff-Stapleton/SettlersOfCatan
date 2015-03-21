@@ -1,7 +1,10 @@
 package server.facade;
 
+import server.command.*;
+import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
+import shared.comm.serialization.*;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -11,7 +14,8 @@ import shared.locations.VertexLocation;
  * The Class MovesFacade implements all the different move commands that can be issued to the server
  *
  */
-public class MovesFacade {
+public class MovesFacade 
+{
   
   /**
    * Executes "Send Chat", send the instigator's message to be broadcast to all other players
@@ -23,8 +27,18 @@ public class MovesFacade {
    * @param content the content of the message the player wants to send
    * 
    */
-  public void sendChat(int playerIndex, String content){
-    
+	
+	private CatanModel catanModel;
+	
+	public MovesFacade(CatanModel catanModel)
+	{
+		this.catanModel = catanModel;
+	}
+	
+  public void sendChat(SendChatRequest request)
+  {
+	  SendChatCommand command = new SendChatCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -36,8 +50,10 @@ public class MovesFacade {
    * @param playerIndex the index of the player rolling the dice
    * @param number the number the player rolled (This is stupid)
    */
-  public void rollNumber(int playerIndex, int number){
-    
+  public void rollNumber(RollNumberRequest request)
+  {
+	  RollNumberCommand command = new RollNumberCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -51,8 +67,10 @@ public class MovesFacade {
    * @param victimIndex the player being robbed from
    * @param location the location to move the robber to
    */
-  public void robPlayer(int playerIndex, int victimIndex, HexLocation location){
-    
+  public void robPlayer(RobPlayerRequest request)
+  {
+	  RobPlayerCommand command = new RobPlayerCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -64,8 +82,10 @@ public class MovesFacade {
    * 
    * @param playerIndex the index of the player ending their turn
    */
-  public void finishTurn(int playerIndex){
-    
+  public void finishTurn(FinishTurnRequest request)
+  {
+	  FinishTurnCommand command = new FinishTurnCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -77,8 +97,10 @@ public class MovesFacade {
    * 
    * @param playerIndex the player buying the dev card
    */
-  public void buyDevCard(int playerIndex){
-    
+  public void buyDevCard(BuyDevCardRequest request)
+  {
+	  BuyDevCardCommand command = new BuyDevCardCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -92,8 +114,10 @@ public class MovesFacade {
    * @param resource1 the resource the player wants
    * @param resource2 the resource the player wants
    */
-  public void yearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2){
-    
+  public void yearOfPlenty(YearOfPlentyRequest request)
+  {
+	  YearOfPlentyCommand command = new YearOfPlentyCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -107,8 +131,10 @@ public class MovesFacade {
    * @param spot1 the location for a road being built
    * @param spot2 the location for the second road being built
    */
-  public void roadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2){
-    
+  public void roadBuilding(RoadBuildingRequest request)
+  {
+	  RoadBuildingCommand command = new RoadBuildingCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -122,8 +148,10 @@ public class MovesFacade {
    * @param victimIndex the victim of the dev card
    * @param location the robber location
    */
-  public void soldier(int playerIndex, int victimIndex, HexLocation location){
-    
+  public void soldier(SoldierRequest request)
+  {
+	  SoldierCommand command = new SoldierCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -137,7 +165,10 @@ public class MovesFacade {
    * @param playerIndex the player playing the Monopoly card
    * @param resource the resource the player wishes to steal
    */
-  public void monopoly(int playerIndex, ResourceType resource){
+  public void monopoly(MonopolyRequest request)
+  {
+		  MonopolyCommand command = new MonopolyCommand(request);
+		  command.execute(catanModel);
 	  
   }
   
@@ -150,8 +181,10 @@ public class MovesFacade {
    * 
    * @param playerIndex the player playing the dev card
    */
-  public void monument(int playerIndex){
-    
+  public void monument(MonumentRequest request)
+  {
+	  MonumentCommand command = new MonumentCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -165,8 +198,10 @@ public class MovesFacade {
    * @param location the location the player is building the road
    * @param free whether this road is free or not (This is stupid)
    */
-  public void buildRoad(int playerIndex, EdgeLocation location, boolean free){
-    
+  public void buildRoad(BuildRoadRequest request)
+  {
+	  BuildRoadCommand command = new BuildRoadCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -180,8 +215,10 @@ public class MovesFacade {
    * @param location the location of the settlement
    * @param free whether the settlement is free or not (Why?)
    */
-  public void buildSettlement(int playerIndex, VertexLocation location, boolean free){
-    
+  public void buildSettlement(BuildSettlementRequest request)
+  {
+	  BuildSettlementCommand command = new BuildSettlementCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -195,8 +232,10 @@ public class MovesFacade {
    * @param location the location of the city bing built
    * @param free whether the city will be free (I still don't get this...)
    */
-  public void buildCity(int playerIndex, VertexLocation location, boolean free){
-    
+  public void buildCity(BuildCityRequest request)
+  {
+	  BuildCityCommand command = new BuildCityCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -208,8 +247,10 @@ public class MovesFacade {
    * 
    * @param offer the offer of trade
    */
-  public void offerTrade(TradeOffer offer){
-    
+  public void offerTrade(OfferTradeRequest request)
+  {
+	  OfferTradeCommand command = new OfferTradeCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -222,8 +263,10 @@ public class MovesFacade {
    * @param playerIndex the index of the player accepting the trade
    * @param willAccept whether the player accepts or rejects the offer
    */
-  public void accepTrade(int playerIndex, boolean willAccept){
-    
+  public void accepTrade(AcceptTradeRequest request)
+  {
+	  AcceptTradeCommand command = new AcceptTradeCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -238,8 +281,10 @@ public class MovesFacade {
    * @param inputResource the input resource type
    * @param outputResource the output resource type
    */
-  public void maritimeTrade(int playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource){
-    
+  public void maritimeTrade(MaritimeTradeRequest request)
+  {
+	  MaritimeTradeCommand command = new MaritimeTradeCommand(request);
+	  command.execute(catanModel);
   }
   
   /**
@@ -251,7 +296,9 @@ public class MovesFacade {
    * @param playerIndex the player discarding the card
    * @param cards the cards the player is discarding
    */
-  public void discardCards(int playerIndex, ResourceList cards){
-    
+  public void discardCards(DiscardCardsRequest request)
+  {
+	  DiscardCardCommand command = new DiscardCardCommand(request);
+	  command.execute(catanModel);
   }
 }

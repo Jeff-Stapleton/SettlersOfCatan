@@ -2,8 +2,13 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.serialization.MonumentRequest;
 
 public class MonumentCommand implements ICommand<CatanModel>{
+
+	public MonumentCommand(MonumentRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Monument Dev Card", removes the dev card from the players hand.  Awards the player 

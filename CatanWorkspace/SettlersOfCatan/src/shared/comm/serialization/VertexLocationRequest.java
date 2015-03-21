@@ -1,5 +1,6 @@
 package shared.comm.serialization;
 
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 public class VertexLocationRequest {

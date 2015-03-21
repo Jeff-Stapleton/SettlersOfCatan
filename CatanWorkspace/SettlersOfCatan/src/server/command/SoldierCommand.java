@@ -3,8 +3,13 @@ package server.command;
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
+import shared.comm.serialization.SoldierRequest;
 
 public class SoldierCommand implements ICommand<CatanModel>{
+
+	public SoldierCommand(SoldierRequest request) {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Executes "Soldier Dev Card", removes the dev card from the players hand.  Awards the player 

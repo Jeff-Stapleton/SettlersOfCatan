@@ -51,5 +51,29 @@ public enum VertexDirection
 	{
 		return string;
 	}
+	
+	public static VertexDirection fromString(String direction)
+	{
+		
+		switch (direction)
+		{
+			case "NW":
+				return VertexDirection.NorthWest;
+			case "W":
+				return VertexDirection.West;
+			case "NE":
+				return VertexDirection.NorthEast;
+			case "E":
+				return VertexDirection.East;
+			case "SW":
+				return VertexDirection.SouthWest;
+			case "SE":
+				return VertexDirection.SouthEast;
+			default:
+				return null;
+			
+		}
+		
+	}
 }
 

@@ -3,6 +3,7 @@ package server.command;
 import shared.CatanModel;
 import shared.Player;
 import shared.Road;
+import shared.comm.serialization.BuildRoadRequest;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
@@ -20,27 +21,26 @@ public class BuildRoadCommand implements ICommand<CatanModel>{
 	 */
 	
 	private int playerIndex;
-	private EdgeLocation edgeLocation;
+	private int x;
+	private int y;
+	private EdgeDirection direction;
 	private boolean isFree;
 	
 	
-	public BuildRoadCommand(int playerIndex, EdgeLocation edgeLocation, boolean isFree)
+	public BuildRoadCommand(BuildRoadRequest request)
 	{
-		this.playerIndex = playerIndex;
-		this.edgeLocation = edgeLocation;
-		this.isFree = isFree;
+		this.playerIndex = request.getPlayerIndex();
+		this.x = request.getRoadLocation().getX();
+		this.y = request.getRoadLocation().getY();
+		this.direction = EdgeDirection.fromString(request.getRoadLocation().getDirection());
+		this.isFree = request.getFree();
 	}
 	
 	@Override
 	public CatanModel execute(CatanModel catanModel) 
 	{
-		
 		Player player = catanModel.getPlayers()[playerIndex];
 		
-		int x = edgeLocation.getX();
-		int y = edgeLocation.getY(); 
-
-		EdgeDirection direction = edgeLocation.getDir();
 		Road road = new Road(playerIndex, new EdgeLocation(x, y , direction));
 		
 		catanModel.getMap().getRoads().add(road);

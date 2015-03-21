@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import shared.Building;
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.serialization.BuildCityRequest;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
@@ -21,25 +22,25 @@ public class BuildCityCommand implements ICommand<CatanModel>
 	 * @param a PlayerIndex, a Location, a isFreeBoolean
 	 */
 	private int playerIndex;
-	private VertexLocation vertexLocation;
+	private int x;
+	private int y;
+	private VertexDirection direction;
 	
 	
-	public BuildCityCommand(int playerIndex, VertexLocation vertexLocation)
+	public BuildCityCommand(BuildCityRequest request)
 	{
-		this.playerIndex = playerIndex;
-		this.vertexLocation = vertexLocation;
+		this.playerIndex = request.getPlayerIndex();
+		this.x = request.getVertexLocation().getX();
+		this.y = request.getVertexLocation().getY();
+		this.direction = VertexDirection.fromString(request.getVertexLocation().getDirection());
 	}
 	
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		
 		//execute
-		playerIndex = catanModel.getTurnTracker().getCurrentTurn();
 		Player player = catanModel.getPlayers()[playerIndex];
-		int x = vertexLocation.getX();
-		int y = vertexLocation.getY(); 
 		
-		VertexDirection direction = vertexLocation.getDirection();
 		Building city = new Building(playerIndex, new VertexLocation(x, y , direction));
 		catanModel.getMap().getCities().add(city);
 		catanModel.setVersion(catanModel.getVersion() + 1);
