@@ -7,13 +7,13 @@ import shared.Player;
 import shared.comm.serialization.BuyDevCardRequest;
 
 public class BuyDevCardCommand implements ICommand<CatanModel>
-{
-	
-	private int owner;
+{	
+	private CatanModel model;
+	private Player player;
+	private BuyDevCardRequest request;
 
-	public BuyDevCardCommand(BuyDevCardRequest request) 
-	{
-		this.owner = request.getPlayerIndex();
+	public BuyDevCardCommand(BuyDevCardRequest request) {
+		this.request = request;
 	}
 
 	/**
@@ -27,12 +27,23 @@ public class BuyDevCardCommand implements ICommand<CatanModel>
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[owner];
-		if (CanCan.canBuyDevCard(thisPlayer, catanModel.getDeck(), catanModel.getTurnTracker())){
-			thisPlayer.buyDevCard(catanModel.getBank(), catanModel.getDeck());			
+		initialize(catanModel);
+		
+		if (CanCan.canBuyDevCard(player, catanModel.getDeck(), catanModel.getTurnTracker())) {
+			player.buyDevCard(model.getBank(), model.getDeck());			
 		}
-		return null;
+		
+		return model;
+	}
+	
+	public void initialize(CatanModel catanModel) {
+		model = catanModel;
+		player = getPlayer();
+	}
+
+	public Player getPlayer() {
+		int index = request.getPlayerIndex();
+		return model.getPlayers()[index];
 	}
 
 }

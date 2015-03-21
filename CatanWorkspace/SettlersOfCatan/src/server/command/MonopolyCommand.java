@@ -2,12 +2,19 @@ package server.command;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.ResourceList;
 import shared.comm.serialization.MonopolyRequest;
+import shared.definitions.ResourceType;
 
-public class MonopolyCommand implements ICommand<CatanModel>{
-
+public class MonopolyCommand implements ICommand<CatanModel> {
+	private CatanModel model;
+	private Player player;
+	private ResourceType resource;
+	private ResourceList inventory;
+	private MonopolyRequest request;
+	
 	public MonopolyCommand(MonopolyRequest request) {
-		// TODO Auto-generated constructor stub
+		this.request = request;
 	}
 
 	/**
@@ -21,24 +28,59 @@ public class MonopolyCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a Resource
 	 */
 	@Override
-	public CatanModel execute(CatanModel catanModel){//CatanModel model) {
-		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+	public CatanModel execute(CatanModel catanModel) {
+		initialize(catanModel);	
 		
 		int count = 0;
-		// collect all the resources from other players
-		for(Player p : catanModel.getPlayers()){
-			if (p.getPlayerID() != thisPlayer.getPlayerID()){
-//				count += p.getResources().getResource(resource);
-//				p.getResources().setResource(resource, 0);
+		for(Player p : model.getPlayers()) {
+			if (p.getPlayerID() != player.getPlayerID()) {
+				count += p.getResources().getResource(resource);
+				p.getResources().setResource(resource, 0);
 			}
 		}
-		// add resources to thisPlayer
-//		thisPlayer.getResources().setResource(resource, count);
-		// remove card from player
-		thisPlayer.getOldDevCards().setMonopoly(thisPlayer.getOldDevCards().getMonopoly() - 1);
-		thisPlayer.setPlayedDevCard(true);
-		return catanModel;
+		inventory.setResource(resource, count);
+
+		player.getOldDevCards().setMonopoly(player.getOldDevCards().getMonopoly() - 1);
+		player.setPlayedDevCard(true);
+		return model;
+	}
+	
+	public void initialize(CatanModel catanModel) {
+		model = catanModel;
+		player = getPlayer();
+		inventory = player.getResources();
+		resource = getResource(request.getResource());
 	}
 
+	public Player getPlayer() {
+		int index = request.getPlayerIndex();
+		return model.getPlayers()[index];
+	}
+
+	public ResourceType getResource(String resource) {
+		ResourceType resourceType = null;
+		switch (resource) {
+			case "wood": {
+				resourceType = ResourceType.WOOD;
+				break;
+			}
+			case "brick": {
+				resourceType = ResourceType.BRICK;
+				break;
+			}
+			case "sheep": {
+				resourceType = ResourceType.SHEEP;
+				break;
+			}
+			case "wheat": {
+				resourceType = ResourceType.WHEAT;
+				break;
+			}
+			case "ore": {
+				resourceType = ResourceType.ORE;
+				break;
+			}
+		}
+		return resourceType;
+	}
 }
