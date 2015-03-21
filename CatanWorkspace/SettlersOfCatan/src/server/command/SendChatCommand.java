@@ -2,11 +2,18 @@ package server.command;
 
 import server.comm.request.MovesSendChatRequest;
 import shared.CatanModel;
+import shared.MessageLine;
 import shared.comm.serialization.SendChatRequest;
 
-public class SendChatCommand implements ICommand<CatanModel>{
-
-	public SendChatCommand(SendChatRequest request) {
+public class SendChatCommand implements ICommand<CatanModel>
+{
+	private int playerIndex;
+	private String chat;
+	
+	public SendChatCommand(SendChatRequest request) 
+	{
+		this.playerIndex = request.getPlayerIndex();
+		this.chat = request.getContent();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -19,8 +26,12 @@ public class SendChatCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex a Message
 	 */
 	@Override
-	public CatanModel execute(CatanModel catanModel) {
-//		catanModel.getChat().addLine(newLine);
+	public CatanModel execute(CatanModel catanModel) 
+	{
+		String playerName = catanModel.getPlayers()[playerIndex].getName();
+		MessageLine message = new MessageLine(playerName, chat);
+		catanModel.getChat().addLine(message);
+		
 		return catanModel;
 	}
 
