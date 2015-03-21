@@ -1,13 +1,25 @@
 package server.command;
 
 import shared.CatanModel;
+import shared.Map;
 import shared.Player;
+import shared.Road;
 import shared.comm.serialization.RoadBuildingRequest;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 
-public class RoadBuildingCommand implements ICommand<CatanModel>{
+public class RoadBuildingCommand implements ICommand<CatanModel>
+{
+	
+	private int owner;
+	private EdgeLocation edge1;
+	private EdgeLocation edge2;
 
-	public RoadBuildingCommand(RoadBuildingRequest request) {
-		// TODO Auto-generated constructor stub
+	public RoadBuildingCommand(RoadBuildingRequest request) 
+	{
+		this.edge1 = new EdgeLocation(request.getSpot1().getX(), request.getSpot1().getY(), EdgeDirection.fromString(request.getSpot1().getDirection()));
+		this.edge2 = new EdgeLocation(request.getSpot2().getX(), request.getSpot2().getY(), EdgeDirection.fromString(request.getSpot2().getDirection()));
+		this.owner = request.getPlayerIndex();
 	}
 
 	/**
@@ -20,11 +32,41 @@ public class RoadBuildingCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex, a LocationOne, a LocationTwo
 	 */
 	@Override
-	public CatanModel execute(CatanModel catanModel) {
+	public CatanModel execute(CatanModel catanModel) 
+	{
+		Player player = catanModel.getPlayers()[owner];
+	
+		if (!player.hasPlayedDevCard()) 
+		{
+			Road road1 = new Road(owner, edge1);
+			Road road2 = new Road(owner, edge2);
+			
+			
+			Map map = catanModel.getMap();			
+			map.getRoads().add(road1);
+			map.getRoads().add(road2);
+			
+			player.setRoads(player.getRoads()-2);
+			
+			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
+			
+			MapChecks.checkForLongestRoad(catanModel, owner);
+			
+			player.setPlayedDevCard(true);
+		}
+		//serverGameModel.setMap(map);
+		return catanModel;
+		
+		
+		
+		
+		
+		
+		/*
 		// should be receiving a player index and two road edgeLocations here
 		
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		Player thisPlayer = catanModel.getPlayers()[owner];
 //		Player thisPlayer = catanModel.getPlayers()[playerIndex];
 		
 		// subtract 2 roads from the player
@@ -38,6 +80,7 @@ public class RoadBuildingCommand implements ICommand<CatanModel>{
 		thisPlayer.getOldDevCards().setRoadBuilding(thisPlayer.getOldDevCards().getRoadBuilding() - 1);
 		thisPlayer.setPlayedDevCard(true);
 		return catanModel;
+		*/
 	}
 
 }

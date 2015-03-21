@@ -4,10 +4,14 @@ import shared.CatanModel;
 import shared.Player;
 import shared.comm.serialization.MonumentRequest;
 
-public class MonumentCommand implements ICommand<CatanModel>{
+public class MonumentCommand implements ICommand<CatanModel>
+{
 
-	public MonumentCommand(MonumentRequest request) {
-		// TODO Auto-generated constructor stub
+	private int owner;
+	
+	public MonumentCommand(MonumentRequest request) 
+	{
+		this.owner = request.getPlayerIndex();
 	}
 
 	/**
@@ -20,11 +24,13 @@ public class MonumentCommand implements ICommand<CatanModel>{
 	 * @param a PlayerIndex
 	 */
 	@Override
-	public CatanModel execute(CatanModel catanModel) {
+	public CatanModel execute(CatanModel catanModel) 
+	{
 		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[catanModel.getTurnTracker().getCurrentTurn()];
+		Player thisPlayer = catanModel.getPlayers()[owner];
 		// add 1 to players VictoryPoints
 		thisPlayer.setVictoryPoints(thisPlayer.getVictoryPoints()+1);
+		MapChecks.checkForWinner(catanModel, owner);
 		// remove card from player
 		thisPlayer.getOldDevCards().setMonument(thisPlayer.getOldDevCards().getMonument() - 1);
 		return catanModel;
