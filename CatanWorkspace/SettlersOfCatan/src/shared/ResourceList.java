@@ -280,5 +280,14 @@ public class ResourceList extends Observable {
 		
 		return updated;
 	}
+
+
+	public void reset() {
+		brick = 0;
+		wood = 0;
+		wheat = 0;
+		sheep = 0;
+		ore = 0;
+	}
 	
 }

@@ -323,4 +323,32 @@ public class CatanModel extends Observable
 		return updated;
 	}
 	
+	public void reset(){
+		// reset devcard deck
+		deck.setMonopoly(2);
+		deck.setMonument(5);
+		deck.setRoadBuilding(2);
+		deck.setSoldier(14);
+		deck.setYearOfPlenty(2);
+		
+		bank.setBrick(19);
+		bank.setOre(19);
+		bank.setSheep(19);
+		bank.setWheat(19);
+		bank.setWood(19);
+		
+		chat.reset();
+		log.reset();
+		map.reset();
+		tradeOffer.reset();
+		
+		for (int i = 0; i < players.length; i++){
+			players[i].reset();
+		}
+		turnTracker.reset();
+		
+//		version = -1;
+		winner = -1;
+	}
+	
 }
