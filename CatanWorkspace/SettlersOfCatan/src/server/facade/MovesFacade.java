@@ -1,13 +1,17 @@
 package server.facade;
 
 import server.command.*;
+import shared.CanCan;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
+import shared.comm.ServerException;
 import shared.comm.serialization.*;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -50,7 +54,7 @@ public class MovesFacade
    * @param playerIndex the index of the player rolling the dice
    * @param number the number the player rolled (This is stupid)
    */
-  public void rollNumber(RollNumberRequest request)
+  public void rollNumber(RollNumberRequest request) throws ServerException
   {
 	  RollNumberCommand command = new RollNumberCommand(request);
 	  command.execute(catanModel);
@@ -67,10 +71,17 @@ public class MovesFacade
    * @param victimIndex the player being robbed from
    * @param location the location to move the robber to
    */
-  public void robPlayer(RobPlayerRequest request)
+  public void robPlayer(RobPlayerRequest request) throws ServerException
   {
-	  RobPlayerCommand command = new RobPlayerCommand(request);
-	  command.execute(catanModel);
+	  if (request.getPlayerIndex() == catanModel.getTurnTracker().getCurrentTurn())
+	  {
+		  RobPlayerCommand command = new RobPlayerCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't roll because it's not their turn");
+	  }
   }
   
   /**
@@ -82,10 +93,17 @@ public class MovesFacade
    * 
    * @param playerIndex the index of the player ending their turn
    */
-  public void finishTurn(FinishTurnRequest request)
+  public void finishTurn(FinishTurnRequest request) throws ServerException
   {
-	  FinishTurnCommand command = new FinishTurnCommand(request);
-	  command.execute(catanModel);
+	  if (request.getPlayerIndex() == catanModel.getTurnTracker().getCurrentTurn())
+	  {
+		  FinishTurnCommand command = new FinishTurnCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't finish turn because it isn't their turn");
+	  }
   }
   
   /**
@@ -97,10 +115,17 @@ public class MovesFacade
    * 
    * @param playerIndex the player buying the dev card
    */
-  public void buyDevCard(BuyDevCardRequest request)
+  public void buyDevCard(BuyDevCardRequest request) throws ServerException
   {
-	  BuyDevCardCommand command = new BuyDevCardCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canBuyDevCard(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getDeck(), catanModel.getTurnTracker()))
+	  {
+		  BuyDevCardCommand command = new BuyDevCardCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't buy devCard because it's not the players turn, the player can't afford it, or there aren't any more devcards");
+	  }
   }
   
   /**
@@ -114,10 +139,17 @@ public class MovesFacade
    * @param resource1 the resource the player wants
    * @param resource2 the resource the player wants
    */
-  public void yearOfPlenty(YearOfPlentyRequest request)
+  public void yearOfPlenty(YearOfPlentyRequest request) throws ServerException
   {
-	  YearOfPlentyCommand command = new YearOfPlentyCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canUseYearOfPlenty(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
+		  YearOfPlentyCommand command = new YearOfPlentyCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't play yearOfPlenty card because player doesn't have the card or it's not their turn");
+	  }
   }
   
   /**
@@ -131,10 +163,17 @@ public class MovesFacade
    * @param spot1 the location for a road being built
    * @param spot2 the location for the second road being built
    */
-  public void roadBuilding(RoadBuildingRequest request)
+  public void roadBuilding(RoadBuildingRequest request) throws ServerException
   {
-	  RoadBuildingCommand command = new RoadBuildingCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canUseRoadBuilder(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
+		  RoadBuildingCommand command = new RoadBuildingCommand(request);
+		  command.execute(catanModel); 
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't play roadBuilding card because player doesn't have the card or it's not their turn");
+	  }
   }
   
   /**
@@ -148,10 +187,17 @@ public class MovesFacade
    * @param victimIndex the victim of the dev card
    * @param location the robber location
    */
-  public void soldier(SoldierRequest request)
+  public void soldier(SoldierRequest request) throws ServerException
   {
-	  SoldierCommand command = new SoldierCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canUseSoldier(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
+		  SoldierCommand command = new SoldierCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't play soldier card because player doesn't have the card or it's not their turn");
+	  }
   }
   
   /**
@@ -165,11 +211,17 @@ public class MovesFacade
    * @param playerIndex the player playing the Monopoly card
    * @param resource the resource the player wishes to steal
    */
-  public void monopoly(MonopolyRequest request)
+  public void monopoly(MonopolyRequest request) throws ServerException
   {
+	  if (CanCan.canUseMonopoly(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
 		  MonopolyCommand command = new MonopolyCommand(request);
 		  command.execute(catanModel);
-	  
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't play soldier card because player doesn't have the card or it's not their turn");
+	  }
   }
   
   /**
@@ -181,10 +233,17 @@ public class MovesFacade
    * 
    * @param playerIndex the player playing the dev card
    */
-  public void monument(MonumentRequest request)
+  public void monument(MonumentRequest request) throws ServerException
   {
-	  MonumentCommand command = new MonumentCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canUseMonument(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
+		  MonumentCommand command = new MonumentCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't play monument card because player doesn't have the card or it's not their turn");
+	  }
   }
   
   /**
@@ -198,10 +257,19 @@ public class MovesFacade
    * @param location the location the player is building the road
    * @param free whether this road is free or not (This is stupid)
    */
-  public void buildRoad(BuildRoadRequest request)
+  public void buildRoad(BuildRoadRequest request) throws ServerException
   {
-	  BuildRoadCommand command = new BuildRoadCommand(request);
-	  command.execute(catanModel);
+	  EdgeLocation road = new EdgeLocation(request.getRoadLocation().getX(), request.getRoadLocation().getX(), EdgeDirection.fromString(request.getRoadLocation().getDirection()));
+	  
+	  if(CanCan.canBuildRoad(catanModel.getPlayers()[request.getPlayerIndex()], road, catanModel.getTurnTracker(), catanModel.getMap()))
+	  {
+		  BuildRoadCommand command = new BuildRoadCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't build Road because it's not the player's turn, they do not have the resources, or it's an invalid road location.");
+	  }
   }
   
   /**
@@ -215,10 +283,19 @@ public class MovesFacade
    * @param location the location of the settlement
    * @param free whether the settlement is free or not (Why?)
    */
-  public void buildSettlement(BuildSettlementRequest request)
+  public void buildSettlement(BuildSettlementRequest request) throws ServerException
   {
-	  BuildSettlementCommand command = new BuildSettlementCommand(request);
-	  command.execute(catanModel);
+	  VertexLocation settlement = new VertexLocation(request.getVertexLocation().getX(), request.getVertexLocation().getY(), VertexDirection.fromString(request.getVertexLocation().getDirection()));
+	  
+	  if(CanCan.canBuildSettlement(catanModel.getPlayers()[request.getPlayerIndex()], settlement, catanModel.getTurnTracker(), catanModel.getMap()))
+	  {
+		  BuildSettlementCommand command = new BuildSettlementCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't build Settlement because it's not the player's turn, they do not have the resources, or it's an invalid settlement location.");
+	  }
   }
   
   /**
@@ -232,10 +309,19 @@ public class MovesFacade
    * @param location the location of the city bing built
    * @param free whether the city will be free (I still don't get this...)
    */
-  public void buildCity(BuildCityRequest request)
+  public void buildCity(BuildCityRequest request) throws ServerException
   {
-	  BuildCityCommand command = new BuildCityCommand(request);
-	  command.execute(catanModel);
+	  VertexLocation city = new VertexLocation(request.getVertexLocation().getX(), request.getVertexLocation().getY(), VertexDirection.fromString(request.getVertexLocation().getDirection()));
+	  
+	  if(CanCan.canBuildCity(catanModel.getPlayers()[request.getPlayerIndex()], city, catanModel.getTurnTracker(), catanModel.getMap()))
+	  {
+		  BuildCityCommand command = new BuildCityCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't build City because it's not the player's turn, they do not have the resources, or it's an invalid city location.");
+	  }
   }
   
   /**
@@ -247,10 +333,17 @@ public class MovesFacade
    * 
    * @param offer the offer of trade
    */
-  public void offerTrade(OfferTradeRequest request)
+  public void offerTrade(OfferTradeRequest request) throws ServerException
   {
-	  OfferTradeCommand command = new OfferTradeCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canOfferTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getPlayers()[request.getReceiver()], catanModel.getTurnTracker(), request.getOffer()))
+	  {
+		  OfferTradeCommand command = new OfferTradeCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't offer trade because they don't have enough reasons, the receiver doesn't have enough resources, or it's not their turn.");
+	  }
   }
   
   /**
@@ -263,10 +356,17 @@ public class MovesFacade
    * @param playerIndex the index of the player accepting the trade
    * @param willAccept whether the player accepts or rejects the offer
    */
-  public void accepTrade(AcceptTradeRequest request)
+  public void accepTrade(AcceptTradeRequest request) throws ServerException
   {
-	  AcceptTradeCommand command = new AcceptTradeCommand(request);
-	  command.execute(catanModel);
+	  if (catanModel.getTradeOffer() != null && catanModel.getTradeOffer().getReceiver() == request.getPlayerIndex())
+	  {
+		  AcceptTradeCommand command = new AcceptTradeCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't accept trade because trade offer is null or the trade offer is meant for someone else.");
+	  }
   }
   
   /**
@@ -281,10 +381,38 @@ public class MovesFacade
    * @param inputResource the input resource type
    * @param outputResource the output resource type
    */
-  public void maritimeTrade(MaritimeTradeRequest request)
+  public void maritimeTrade(MaritimeTradeRequest request) throws ServerException
   {
-	  MaritimeTradeCommand command = new MaritimeTradeCommand(request);
-	  command.execute(catanModel);
+	  ResourceList maritimeOffer = new ResourceList(0, 0, 0, 0, 0);
+	  ResourceType resource = null;
+	  
+	  switch (request.getInputResource())
+	  {
+	  	case "WOOD" 	: maritimeOffer.setWood(request.getRatio());	resource = ResourceType.WOOD; 	break;
+	  	case "BRICK" 	: maritimeOffer.setBrick(request.getRatio());	resource = ResourceType.BRICK;	break;
+	  	case "ORE" 		: maritimeOffer.setOre(request.getRatio());		resource = ResourceType.ORE;	break;
+	  	case "WHEAT" 	: maritimeOffer.setWheat(request.getRatio());	resource = ResourceType.WHEAT;	break;
+	  	case "SHEEP" 	: maritimeOffer.setSheep(request.getRatio());	resource = ResourceType.SHEEP;	break;
+	  }
+	  
+	  switch (request.getOutputResource())
+	  {
+	  	case "WOOD" 	: maritimeOffer.setWood(-1);	break;
+	  	case "BRICK" 	: maritimeOffer.setBrick(-1);	break;
+	  	case "ORE" 		: maritimeOffer.setOre(-1);		break;
+	  	case "WHEAT" 	: maritimeOffer.setWheat(-1);	break;
+	  	case "SHEEP" 	: maritimeOffer.setSheep(-1);	break;
+	  }
+	  
+	  if (CanCan.canMaritimeTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker(), maritimeOffer, resource, catanModel.getBank(), catanModel.getMap().getPorts(), catanModel.getMap()))
+	  {
+		  MaritimeTradeCommand command = new MaritimeTradeCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't do maritime trade because either he or the bank don't have the resources, he's not on the right port, or it's not their turn.");
+	  }
   }
   
   /**
@@ -296,9 +424,16 @@ public class MovesFacade
    * @param playerIndex the player discarding the card
    * @param cards the cards the player is discarding
    */
-  public void discardCards(DiscardCardsRequest request)
+  public void discardCards(DiscardCardsRequest request) throws ServerException
   {
-	  DiscardCardCommand command = new DiscardCardCommand(request);
-	  command.execute(catanModel);
+	  if (CanCan.canDiscardCards(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
+	  {
+		  DiscardCardCommand command = new DiscardCardCommand(request);
+		  command.execute(catanModel);
+	  }
+	  else
+	  {
+		  throw new ServerException("Player can't discard because it's not their turn or they have already discarded");
+	  }
   }
 }
