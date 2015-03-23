@@ -97,4 +97,8 @@ public class MessageList extends Observable
 		return updated;
 	}
 
+	public void reset() {
+		lines.clear();
+	}
+
 }

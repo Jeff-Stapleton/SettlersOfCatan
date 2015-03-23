@@ -451,6 +451,23 @@ public class Player extends Observable {
 		
 		return updated;
 	}
+
+	public void reset() {
+		cities = 4;
+		settlements = 5;
+		roads = 15;
+		monuments = 0;
+		soldiers = 0;
+		victoryPoints = 0;
+		newDevCards.reset();
+		oldDevCards.reset();
+		resources.reset();
+		playedDevCard = false;
+		discarded = false;
+	
+		isRoadBuilding = false;
+		isPlayingSoldier = false;
+	}
 	
 	
 }

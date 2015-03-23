@@ -34,17 +34,6 @@ public class MonumentCommand implements ICommand<CatanModel>
 		MapChecks.checkForWinner(catanModel, owner);
 		
 		return catanModel;
-		
-		/*
-		// can only play dev cards on your own turn, so whoevers turn it is, is the player playing the card
-		Player thisPlayer = catanModel.getPlayers()[owner];
-		// add 1 to players VictoryPoints
-		thisPlayer.setVictoryPoints(thisPlayer.getVictoryPoints()+1);
-		MapChecks.checkForWinner(catanModel, owner);
-		// remove card from player
-		thisPlayer.getOldDevCards().setMonument(thisPlayer.getOldDevCards().getMonument() - 1);
-		return catanModel;
-		*/
 	}
 
 }

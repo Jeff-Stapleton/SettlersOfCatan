@@ -27,17 +27,34 @@ public class Map extends Observable
 	private Robber robber = new Robber();
 	private boolean isBuilding = false;
 	
-	/*public Map()
+	public void reset()
 	{
+		roads.clear();
+		settlements.clear();
+		cities.clear();
 		
+		for (int i = 0; i < 19; i++)
+		{
+			if (hexes.get(i).getResource() == HexType.DESERT)
+			{
+				hexes.get(i).giveRobber();
+				robber.setLocation(hexes.get(i).getLocation().getX(), hexes.get(i).getLocation().getY());
+			}
+		}
+		
+		isBuilding = false;
+	}
+	
+	public Map()
+	{
 		ArrayList<HexType> boardHexTypes = new ArrayList<HexType>();
 	
-		boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.WOOD); 
-		boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.SHEEP); 
-		boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.WHEAT); 
-		boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.BRICK);
-		boardHexTypes.add(HexType.ORE); 	boardHexTypes.add(HexType.ORE); 	boardHexTypes.add(HexType.ORE); 
-		boardHexTypes.add(HexType.DESERT); 
+		boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.ORE); 	boardHexTypes.add(HexType.WHEAT); 	
+		boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.SHEEP); 	
+		boardHexTypes.add(HexType.ORE);   	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WHEAT); 
+		boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.ORE);		boardHexTypes.add(HexType.SHEEP); 
+		boardHexTypes.add(HexType.DESERT);  boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WOOD); 	
+		
 		
 		HexLocation[] boardHexLocations = 
 		{
@@ -49,54 +66,165 @@ public class Map extends Observable
 		};
 		
 		ArrayList<Integer> boardHexNumbers = new ArrayList<Integer>();
-		boardHexNumbers.add(5); boardHexNumbers.add(10); boardHexNumbers.add(8); boardHexNumbers.add(6);
-		boardHexNumbers.add(2); boardHexNumbers.add(9);  boardHexNumbers.add(10); boardHexNumbers.add(3);
-		boardHexNumbers.add(6); boardHexNumbers.add(12); boardHexNumbers.add(9); boardHexNumbers.add(11);
-		boardHexNumbers.add(3); boardHexNumbers.add(11); boardHexNumbers.add(4); 
-		boardHexNumbers.add(8); boardHexNumbers.add(4);  boardHexNumbers.add(5);
-		
-		Collections.sort(boardHexNumbers);
-		Collections.shuffle(Arrays.asList(boardHexTypes));
-		boardHexNumbers.add(boardHexTypes.indexOf(HexType.DESERT), 0);
+		boardHexNumbers.add(6); boardHexNumbers.add(3); boardHexNumbers.add(8); 
+		boardHexNumbers.add(2);	boardHexNumbers.add(9); boardHexNumbers.add(4);  boardHexNumbers.add(10); 
+		boardHexNumbers.add(5); boardHexNumbers.add(10); boardHexNumbers.add(11); boardHexNumbers.add(5);	boardHexNumbers.add(6);
+		boardHexNumbers.add(8); boardHexNumbers.add(3); boardHexNumbers.add(9); boardHexNumbers.add(12); 
+		boardHexNumbers.add(0); boardHexNumbers.add(4);  boardHexNumbers.add(11);
 		
 		for (int i = 0; i < 19; i++)
 		{
-			hexes[i] = new Hex(boardHexLocations[i], boardHexTypes.get(i), boardHexNumbers.get(i));
-			if (hexes[i].getType() == HexType.DESERT)
+			hexes.add(new Hex(boardHexLocations[i], boardHexTypes.get(i), boardHexNumbers.get(i)));
+			if (hexes.get(i).getResource() == HexType.DESERT)
 			{
-				hexes[i].giveRobber();
-				robber.setLocation(hexes[i].getLocation());
+				hexes.get(i).giveRobber();
+				robber.setLocation(hexes.get(i).getLocation().getX(), hexes.get(i).getLocation().getY());
 			}
 		}
 		
-		ArrayList<Port> portsType = new ArrayList<Port>();
-		portsType.add(new Port(PortType.THREE, null, null, 3));
-		portsType.add(new Port(PortType.THREE, null, null, 3));
-		portsType.add(new Port(PortType.THREE, null, null, 3));
-		portsType.add(new Port(PortType.THREE, null, null, 3));
-		portsType.add(new Port(PortType.SHEEP, null, null, 2));
-		portsType.add(new Port(PortType.ORE,   null, null, 2));
-		portsType.add(new Port(PortType.WHEAT, null, null, 2));
-		portsType.add(new Port(PortType.WOOD,  null, null, 2));
-		portsType.add(new Port(PortType.BRICK, null, null, 2));
-		Collections.shuffle(Arrays.asList(portsType));
+		ports.add(new Port(PortType.ORE, new HexLocation(1, -3), EdgeDirection.South, radius));
+		ports.add(new Port(PortType.WHEAT, new HexLocation(-1, -2), EdgeDirection.South, radius));
+		ports.add(new Port(PortType.THREE, new HexLocation(-3, 0), EdgeDirection.SouthEast, radius));
+		ports.add(new Port(PortType.WOOD, new HexLocation(-2, 1), EdgeDirection.SouthWest, radius));
+		ports.add(new Port(PortType.BRICK, new HexLocation(-1, 2), EdgeDirection.SouthWest, radius));
+		ports.add(new Port(PortType.THREE, new HexLocation(0, 2), EdgeDirection.South, radius));
+		ports.add(new Port(PortType.THREE, new HexLocation(2, -1), EdgeDirection.SouthEast, radius));
+		ports.add(new Port(PortType.SHEEP, new HexLocation(2, -3), EdgeDirection.NorthWest, radius));
+		ports.add(new Port(PortType.THREE, new HexLocation(3, -3), EdgeDirection.SouthWest, radius));
+	} 
+	
+	public Map(boolean portsRandom, boolean numberRandom, boolean hexRandom)
+	{
 		
-		ArrayList<Port> portsLocation = new ArrayList<Port>();
-		portsLocation.add(new Port(null, new HexLocation(3, 0), EdgeDirection.SouthWest, radius));
-		portsLocation.add(new Port(null, new HexLocation(1, 2), EdgeDirection.South, radius));
-		portsLocation.add(new Port(null, new HexLocation(-1, 3), EdgeDirection.South, radius));
-		portsLocation.add(new Port(null, new HexLocation(-3, 3), EdgeDirection.SouthEast, radius));
-		portsLocation.add(new Port(null, new HexLocation(-3, 1), EdgeDirection.NorthEast, radius));
-		portsLocation.add(new Port(null, new HexLocation(-2, -1), EdgeDirection.North, radius));
-		portsLocation.add(new Port(null, new HexLocation(0, -3), EdgeDirection.North, radius));
-		portsLocation.add(new Port(null, new HexLocation(2, -3), EdgeDirection.NorthWest, radius));
-		portsLocation.add(new Port(null, new HexLocation(3, -2), EdgeDirection.SouthWest, radius));
-		Collections.shuffle(Arrays.asList(portsLocation));
+		ArrayList<HexType> boardHexTypes = new ArrayList<HexType>();
+	
+		boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.ORE); 	boardHexTypes.add(HexType.WHEAT); 	
+		boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.SHEEP); 	
+		boardHexTypes.add(HexType.ORE);   	boardHexTypes.add(HexType.SHEEP); 	boardHexTypes.add(HexType.WHEAT); 	boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WHEAT); 
+		boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WOOD); 	boardHexTypes.add(HexType.ORE);		boardHexTypes.add(HexType.SHEEP); 
+		boardHexTypes.add(HexType.DESERT);  boardHexTypes.add(HexType.BRICK); 	boardHexTypes.add(HexType.WOOD); 	
 		
-		for (int i = 0; i < 9; i++)
-			ports[i] = new Port(portsType.get(i).getType(), portsLocation.get(i).getLocation(), portsLocation.get(i).getDirection(), portsType.get(i).getRatio());
+		HexLocation[] boardHexLocations = 
+		{
+				new HexLocation(-2, 2), 	new HexLocation(-1, 2), 	new HexLocation( 0, 2),
+				new HexLocation(-2, 1), 	new HexLocation(-1, 1), 	new HexLocation( 0, 1), 	new HexLocation(1, 1),
+				new HexLocation(-2, 0), 	new HexLocation(-1, 0), 	new HexLocation( 0, 0), 	new HexLocation(1, 0), new HexLocation(2, 0), 
+				new HexLocation(-1,-1), 	new HexLocation( 0,-1), 	new HexLocation( 1,-1), 	new HexLocation(2, -1), 
+				new HexLocation(0, -2), 	new HexLocation( 1,-2), 	new HexLocation(2, -2)
+		};
+		
+		ArrayList<Integer> boardHexNumbers = new ArrayList<Integer>();
+		boardHexNumbers.add(6); boardHexNumbers.add(3); boardHexNumbers.add(8); 
+		boardHexNumbers.add(2);	boardHexNumbers.add(9); boardHexNumbers.add(4);  boardHexNumbers.add(10); 
+		boardHexNumbers.add(5); boardHexNumbers.add(10); boardHexNumbers.add(11); boardHexNumbers.add(5);	boardHexNumbers.add(6);
+		boardHexNumbers.add(8); boardHexNumbers.add(3); boardHexNumbers.add(9); boardHexNumbers.add(12); 
+		boardHexNumbers.add(0); boardHexNumbers.add(4);  boardHexNumbers.add(11);
+		
+		if (numberRandom)
+			Collections.shuffle(boardHexNumbers);
+		
+		for (int i = 0; i < 19; i++)
+		{
+			hexes.add(new Hex(boardHexLocations[i], boardHexTypes.get(i), boardHexNumbers.get(i)));
+			if (hexes.get(i).getResource() == HexType.DESERT)
+			{
+				hexes.get(i).giveRobber();
+				robber.setLocation(hexes.get(i).getLocation().getX(), hexes.get(i).getLocation().getY());
+			}
+		}
+		
+		if (hexRandom)
+		{
+			Collections.shuffle(boardHexTypes);
+			Hex desert = null; 
 			
-	} */
+			for(Hex hex : hexes)
+			{
+				if (hex.getResource() == HexType.DESERT && hex.getNumber() != 0)
+					desert = hex;
+			}
+			
+			for(Hex hex : hexes)
+			{
+				if (hex.getNumber() == null && hex.getResource() != HexType.DESERT)
+				{
+					hex.setNumber(desert.getNumber());
+					desert.setNumber(0);
+				}
+			}
+		}
+		
+		if (portsRandom)
+		{
+			ArrayList<Port> portsType = new ArrayList<Port>();
+			portsType.add(new Port(PortType.THREE, null, null, 3));
+			portsType.add(new Port(PortType.THREE, null, null, 3));
+			portsType.add(new Port(PortType.THREE, null, null, 3));
+			portsType.add(new Port(PortType.THREE, null, null, 3));
+			portsType.add(new Port(PortType.SHEEP, null, null, 2));
+			portsType.add(new Port(PortType.ORE,   null, null, 2));
+			portsType.add(new Port(PortType.WHEAT, null, null, 2));
+			portsType.add(new Port(PortType.WOOD,  null, null, 2));
+			portsType.add(new Port(PortType.BRICK, null, null, 2));
+			Collections.shuffle(portsType);
+			
+			ArrayList<Port> portsLocation = new ArrayList<Port>();
+			
+			portsLocation.add(new Port(null, new HexLocation(1, -3), EdgeDirection.SouthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(2, -3), EdgeDirection.SouthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3, -3), EdgeDirection.SouthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3, -2), EdgeDirection.SouthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3, -1), EdgeDirection.SouthWest, radius));
+			
+			portsLocation.add(new Port(null, new HexLocation(0, -3), EdgeDirection.South, radius));
+			portsLocation.add(new Port(null, new HexLocation(-1,-2), EdgeDirection.South, radius));
+			portsLocation.add(new Port(null, new HexLocation(-2,-1), EdgeDirection.South, radius));
+			portsLocation.add(new Port(null, new HexLocation(1, -3), EdgeDirection.South, radius));
+			portsLocation.add(new Port(null, new HexLocation(2, -3), EdgeDirection.South, radius));
+			
+			portsLocation.add(new Port(null, new HexLocation(-1,-2), EdgeDirection.SouthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-2,-1), EdgeDirection.SouthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-3, 0), EdgeDirection.SouthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-3, 1), EdgeDirection.SouthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-3, 2), EdgeDirection.SouthEast, radius));
+			
+			portsLocation.add(new Port(null, new HexLocation(-3, 1), EdgeDirection.NorthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-3, 2), EdgeDirection.NorthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-3, 3), EdgeDirection.NorthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-2, 3), EdgeDirection.NorthEast, radius));
+			portsLocation.add(new Port(null, new HexLocation(-1, 3), EdgeDirection.NorthEast, radius));
+			
+			portsLocation.add(new Port(null, new HexLocation(-2, 3), EdgeDirection.North, radius));
+			portsLocation.add(new Port(null, new HexLocation(-1, 3), EdgeDirection.North, radius));
+			portsLocation.add(new Port(null, new HexLocation(0,  3), EdgeDirection.North, radius));
+			portsLocation.add(new Port(null, new HexLocation(1,  2), EdgeDirection.North, radius));
+			portsLocation.add(new Port(null, new HexLocation(2,  1), EdgeDirection.North, radius));
+			
+			portsLocation.add(new Port(null, new HexLocation(1,  2), EdgeDirection.NorthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(2,  1), EdgeDirection.NorthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3,  0), EdgeDirection.NorthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3, -1), EdgeDirection.NorthWest, radius));
+			portsLocation.add(new Port(null, new HexLocation(3, -2), EdgeDirection.NorthWest, radius));
+			
+			Collections.shuffle(portsLocation);
+			
+			for (int i = 0; i < 9; i++)
+				ports.add(new Port(portsType.get(i).getType(), portsLocation.get(i).getLocation(), portsLocation.get(i).getDirection(), portsType.get(i).getRatio()));
+		}
+		else
+		{
+			ports.add(new Port(PortType.ORE, new HexLocation(1, -3), EdgeDirection.South, radius));
+			ports.add(new Port(PortType.WHEAT, new HexLocation(-1, -2), EdgeDirection.South, radius));
+			ports.add(new Port(PortType.THREE, new HexLocation(-3, 0), EdgeDirection.SouthEast, radius));
+			ports.add(new Port(PortType.WOOD, new HexLocation(-2, 1), EdgeDirection.SouthWest, radius));
+			ports.add(new Port(PortType.BRICK, new HexLocation(-1, 2), EdgeDirection.SouthWest, radius));
+			ports.add(new Port(PortType.THREE, new HexLocation(0, 2), EdgeDirection.South, radius));
+			ports.add(new Port(PortType.THREE, new HexLocation(2, -1), EdgeDirection.SouthEast, radius));
+			ports.add(new Port(PortType.SHEEP, new HexLocation(2, -3), EdgeDirection.NorthWest, radius));
+			ports.add(new Port(PortType.THREE, new HexLocation(3, -3), EdgeDirection.SouthWest, radius));
+		}
+			
+	} 
 	
 	
 	/*
@@ -256,6 +384,7 @@ public class Map extends Observable
 	}
 
 	public List<Hex> getHexes() {
+
 		return hexes;
 	}
 
