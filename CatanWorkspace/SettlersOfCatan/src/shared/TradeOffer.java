@@ -137,4 +137,11 @@ public class TradeOffer
 			return false;
 		return true;
 	}
+
+	public void reset() {
+		type = "";
+		playerIndex = -1;
+		receiver = -1;
+		offer = null;
+	}
 }

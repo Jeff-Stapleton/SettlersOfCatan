@@ -232,4 +232,12 @@ public class TurnTracker extends Observable
 		
 		return updated;
 	}
+
+
+	public void reset() {
+		currentTurn = 0;
+		status = TurnType.PLAYING;
+		longestRoad = -1;
+		largestArmy = -1;
+	}
 }

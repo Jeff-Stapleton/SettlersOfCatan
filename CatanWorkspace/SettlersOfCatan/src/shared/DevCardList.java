@@ -276,5 +276,13 @@ public class DevCardList extends Observable {
 		
 		return updated;
 	}
+	
+	public void reset(){
+		monopoly = 0;
+		monument = 0;
+		roadBuilding = 0;
+		soldier = 0;
+		yearOfPlenty = 0;		
+	}
 
 }
