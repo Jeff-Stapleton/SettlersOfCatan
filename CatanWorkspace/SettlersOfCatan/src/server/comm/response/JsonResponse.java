@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 
 import server.comm.cookie.ICookie;
 
-// TODO: Auto-generated Javadoc
+// TODOC: Auto-generated Javadoc
 /**
  * The Class Response.
  */

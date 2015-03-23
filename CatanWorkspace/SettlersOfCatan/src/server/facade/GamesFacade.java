@@ -6,7 +6,6 @@ import shared.comm.serialization.JoinGameRequest;
 import shared.comm.serialization.LoadGameRequest;
 import shared.comm.serialization.SaveGameRequest;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GamesFacade implements the list, create, join, save, and load commands
  */

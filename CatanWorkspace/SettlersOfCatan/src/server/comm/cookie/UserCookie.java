@@ -1,6 +1,6 @@
 package server.comm.cookie;
 
-// TODO: Auto-generated Javadoc
+// TODOC: Auto-generated Javadoc
 /**
  * The Class UserCookie.
  */

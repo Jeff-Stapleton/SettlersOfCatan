@@ -5,7 +5,6 @@ import java.util.Map;
 
 import server.comm.cookie.ICookie;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GameResponse, returned from GamesJoinRequest
  */

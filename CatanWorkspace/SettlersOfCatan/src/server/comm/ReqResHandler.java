@@ -11,7 +11,6 @@ import server.comm.response.IResponse;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-// TODO: Auto-generated Javadoc
 /**
  * An HttpHandler that uses a request and response object. One simply needs
  * to create Request and Response objects and pass them in as type parameters.

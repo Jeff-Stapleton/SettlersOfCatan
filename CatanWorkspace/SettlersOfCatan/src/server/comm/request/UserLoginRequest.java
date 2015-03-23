@@ -4,7 +4,6 @@ import server.comm.response.IResponse;
 import server.comm.response.UserResponse;
 import shared.comm.ServerException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserLoginRequest, Logs the caller in to the server, and sets their catan.user HTTP cookie.
  * 

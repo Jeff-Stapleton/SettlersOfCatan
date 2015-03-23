@@ -102,7 +102,7 @@ public class LoginController extends Controller implements ILoginController
 	@Override
 	public void register() {
 		
-		// TODO: register new user (which, if successful, also logs them in)
+		// Register new user (which, if successful, also logs them in)
 		
 		String username=this.getLoginView().getRegisterUsername();
 		String password1=this.getLoginView().getRegisterPassword();
