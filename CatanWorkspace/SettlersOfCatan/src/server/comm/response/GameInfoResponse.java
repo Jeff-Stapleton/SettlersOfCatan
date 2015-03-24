@@ -8,6 +8,13 @@ import server.comm.cookie.ICookie;
 /**
  * The Class GameInfosResponse, returned from GamesListRequest
  */
-public class GameInfoResponse extends JsonResponse {
+public class GameInfoResponse extends JsonResponse
+{
+
+	protected GameInfoResponse(String jsonBody)
+	{
+		super(jsonBody);
+		// TODO Auto-generated constructor stub
+	}
 	
 }

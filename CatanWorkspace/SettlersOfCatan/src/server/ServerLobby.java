@@ -1,7 +1,9 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +21,7 @@ public class ServerLobby
 {
 	private static final Logger log = Logger.getLogger(ServerLobby.class);
 	private Server server = null;
-	private List<GameInfo> games = new ArrayList<GameInfo>();
+	private Map<Integer, ServerGame> games = new HashMap<Integer, ServerGame>();
 	private List<ServerUser> users = new ArrayList<ServerUser>();
 	private UserFacade userFacade = null;
 	private GamesFacade gamesFacade = null;
@@ -31,36 +33,6 @@ public class ServerLobby
 		userFacade = new UserFacade(this);
 		gamesFacade = new GamesFacade(this);
 		utilFacade = new UtilFacade(server);
-	}
-	
-	/**
-	 * User register.
-	 *
-	 * @return the player info
-	 */
-	public PlayerInfo userRegister()
-	{
-		return null;
-	}
-	
-	/**
-	 * User login.
-	 *
-	 * @return the player info
-	 */
-	public PlayerInfo userLogin()
-	{
-		return null;
-	}
-	
-	/**
-	 * Games list.
-	 *
-	 * @return the game info[]
-	 */
-	public GameInfo[] gamesList()
-	{
-		return null;
 	}
 	
 	/**
@@ -108,6 +80,18 @@ public class ServerLobby
 		log.trace("User credentials invalid");
 		return false;
 	}
+
+	public boolean addUser(String username, String password)
+	{
+		users.add(new ServerUser(username, password));
+		return true;
+	}
+
+	public Integer getUserID(String username)
+	{
+		ServerUser user = getUser(username);
+		return (user == null) ? null : user.getID();
+	}
 	
 	public ServerUser getUser(String username)
 	{
@@ -122,6 +106,11 @@ public class ServerLobby
 		}
 		log.trace("User not found");
 		return null;
+	}
+	
+	public ServerGame[] getGames()
+	{
+		return games.values().toArray(new ServerGame[0]);
 	}
 
 	/**
@@ -149,18 +138,6 @@ public class ServerLobby
 	public UtilFacade getUtilFacade()
 	{
 		return utilFacade;
-	}
-
-	public Integer getUserID(String username)
-	{
-		ServerUser user = getUser(username);
-		return (user == null) ? null : user.getID();
-	}
-
-	public boolean addUser(String username, String password)
-	{
-		users.add(new ServerUser(username, password));
-		return true;
 	}
 
 }

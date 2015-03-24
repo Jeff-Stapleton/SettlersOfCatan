@@ -1,5 +1,8 @@
 package shared.comm.serialization;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class PlayerCookie
 {
 	String name = null;
@@ -45,11 +48,20 @@ public class PlayerCookie
 	public String getCookie()
 	{
 		StringBuilder cookie = new StringBuilder();
-		
-		cookie.append("catan.user={\"name\":\"").append(name).append("\",")
-			  .append("\"password\":\"").append(password).append("\",")
-			  .append("\"playerID\":").append(playerID).append("};")
-			  .append("Path=/;");
+		try
+		{
+			StringBuilder catanUser = new StringBuilder();
+			catanUser.append("{\"name\":\"").append(name).append("\",")
+					 .append("\"password\":\"").append(password).append("\",")
+					 .append("\"playerID\":").append(playerID).append("}");
+			
+				cookie.append("catan.user=").append(URLEncoder.encode(catanUser.toString(), "utf-8")).append(";")
+					  .append("Path=").append(URLEncoder.encode("/", "utf-8")).append(";");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
 		
 		return cookie.toString();
 	}

@@ -18,9 +18,9 @@ public class UserRegisterHandler extends UserHandler
 	@Override
 	protected MessageResponse handleCredentials(CredentialsRequest request)
 	{
-		log.trace("Verifying user credentials");
+		log.trace("Registering credentials");
 		MessageResponse response = server.getServerLobby().getUserFacade().register(request);
-		log.trace("User validation result : " + (response != null));
+		log.trace("User register result : " + (response != null ? response.getResponseCode() : 999));
 		return response;
 	}
 

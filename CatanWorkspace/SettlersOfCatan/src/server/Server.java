@@ -14,6 +14,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import server.comm.ReqResHandler;
 import server.comm.request.*;
 import server.comm.response.*;
+import server.handlers.GamesListHandler;
 import server.handlers.UserLoginHandler;
 import server.handlers.UserRegisterHandler;
 import shared.Util;
@@ -133,7 +134,7 @@ public class Server
 		server.createContext("/user/login", new UserLoginHandler(this));
 		server.createContext("/user/register", new UserRegisterHandler(this));
 
-		server.createContext("/games/list", new ReqResHandler<GameInfosResponse, GamesListRequest>(this, GamesListRequest.class));
+		server.createContext("/games/list", new GamesListHandler(this));
 		server.createContext("/games/create", new ReqResHandler<GameInfoResponse, GamesCreateRequest>(this, GamesCreateRequest.class));
 		server.createContext("/games/join", new ReqResHandler<GameResponse, GamesJoinRequest>(this, GamesJoinRequest.class));
 		server.createContext("/games/save", new ReqResHandler<MessageResponse, GamesSaveRequest>(this, GamesSaveRequest.class));

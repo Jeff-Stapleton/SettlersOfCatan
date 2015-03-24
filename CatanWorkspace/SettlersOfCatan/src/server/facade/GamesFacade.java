@@ -1,5 +1,9 @@
 package server.facade;
 
+import java.util.ArrayList;
+
+import client.view.data.GameInfo;
+import server.ServerGame;
 import server.ServerLobby;
 import shared.comm.serialization.CreateGameRequest;
 import shared.comm.serialization.JoinGameRequest;
@@ -20,10 +24,19 @@ public class GamesFacade {
 
 	/**
 	 * Returns a list of the games
+	 * @return 
 	 *
 	 */
-	public void list(){
+	public GameInfo[] list()
+	{
+		ArrayList<GameInfo> gameList = new ArrayList<GameInfo>();
 		
+		for (ServerGame game : serverLobby.getGames())
+		{
+			gameList.add(game.getInfo());
+		}
+		
+		return gameList.toArray(new GameInfo[0]);
 	}
 	
 	/**

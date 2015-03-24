@@ -9,6 +9,13 @@ import server.comm.cookie.ICookie;
 /**
  * The Class CatanModelResponse
  */
-public class CatanModelResponse extends JsonResponse {
+public class CatanModelResponse extends JsonResponse
+{
+
+	public CatanModelResponse(String jsonBody)
+	{
+		super(jsonBody);
+		// TODO Auto-generated constructor stub
+	}
 	
 }

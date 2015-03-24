@@ -61,16 +61,19 @@ public abstract class UserHandler implements HttpHandler
 			// Set the content type
 			exchange.getResponseHeaders().set("Content-Type", "text/plain");
 			// Add the player cookie if we succeeded
-			if (response != null && response.getCode() == 200 && request != null)
+			if (response != null && response.getResponseCode() == 200 && request != null)
 			{
+				log.trace("Setting cookie for player");
 				PlayerCookie cookie = new PlayerCookie(request.getUsername(), request.getPassword(), server.getServerLobby().getUserID(request.getUsername()));
-				exchange.getResponseHeaders().set("Set-Cookie", URLEncoder.encode(cookie.getCookie(), "UTF-8"));
+				log.trace("Set-Cookie: " + cookie.getCookie());
+				exchange.getResponseHeaders().set("Set-Cookie", cookie.getCookie());
 			}
 			if (response != null)
 			{
-				log.trace("Sending " + response.getCode() + ":\"" + response.getMessage() + "\" (" + response.getResponseLength() + ")");
-				exchange.sendResponseHeaders(response.getCode(), response.getResponseLength());
-				response.writeTo(exchange.getResponseBody());
+				log.trace("Sending " + response.getResponseCode() + ":\"" + response.getMessage() + "\" (" + response.getResponseLength() + ")");
+				exchange.sendResponseHeaders(response.getResponseCode(), response.getResponseLength());
+//				response.writeTo(exchange.getResponseBody());
+				exchange.getResponseBody().write(response.getResponseBody());
 				exchange.getResponseBody().close();
 			}
 			else

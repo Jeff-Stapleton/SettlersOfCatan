@@ -11,55 +11,40 @@ import org.apache.log4j.Logger;
 public class MessageResponse extends Response
 {
 	private static final Logger log = Logger.getLogger(MessageResponse.class);
-	int code = 200;
-	String msg = "Success";
+	
+	String msg = null;
+	
 	public MessageResponse(int code, String msg)
 	{
-		this.code = code;
+		super(code, msg.length());
 		this.msg = msg;
 	}
-	
 		
 	/**
-	 * Sets the json body.
+	 * Sets the string message body.
 	 *
-	 * @param <T> the generic type
 	 * @param message the new message
 	 */
-	public <T> void setMessage(String message)
+	public void setMessage(String message)
 	{
-		
+		msg = message;
 	}
-
-
-	/**
-	 * Get the response code
-	 * @return the response code
-	 */
-	public int getCode()
-	{
-		return code;
-	}
-
-	/**
-	 * Get the bit length of the response
-	 * @return the bit-length response
-	 */
-	public long getResponseLength()
-	{
-		return msg.getBytes().length;
-	}
-
-
-	public void writeTo(OutputStream os) throws IOException
-	{
-		os.write(msg.getBytes());
-	}
-
 
 	public String getMessage()
 	{
 		return msg;
+	}
+	
+//	public void writeTo(OutputStream os) throws IOException
+//	{
+//		log.trace("Writing message to response body");
+//		os.write(msg.getBytes());
+//	}
+
+	@Override
+	public byte[] getResponseBody()
+	{
+		return msg.getBytes();
 	}
 
 }
