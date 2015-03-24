@@ -4,21 +4,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import server.Server;
-import server.comm.cookie.ICookie;
 import server.comm.response.IResponse;
-import server.comm.response.MessageResponse;
 import shared.Util;
-import shared.comm.serialization.CredentialsRequest;
-import shared.comm.serialization.PlayerCookie;
-
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.sun.net.httpserver.HttpExchange;
@@ -128,9 +121,6 @@ public abstract class GamesHandler implements HttpHandler
 	}
 
 	protected abstract void initFromExchange(HttpExchange exchange);
-//	protected abstract boolean hasCookie();
-//	protected abstract ICookie getCookie();
-//	protected abstract void readRequestFrom(JsonReader jreader);
 	protected abstract IResponse handleRequest();
 
 }

@@ -1,6 +1,7 @@
 package shared.comm.serialization;
 
-public class JoinGameRequest {
+public class JoinGameRequest
+{
 	int id;
 	String color;
 	

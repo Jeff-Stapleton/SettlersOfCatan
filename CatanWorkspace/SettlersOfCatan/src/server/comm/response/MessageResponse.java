@@ -1,14 +1,11 @@
 package server.comm.response;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import org.apache.log4j.Logger;
 
 /**
  * The Class MessageResponse.
  */
-public class MessageResponse extends Response
+public class MessageResponse extends AbstractResponse
 {
 	private static final Logger log = Logger.getLogger(MessageResponse.class);
 	

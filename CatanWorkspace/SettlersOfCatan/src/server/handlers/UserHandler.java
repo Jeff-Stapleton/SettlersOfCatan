@@ -3,15 +3,14 @@ package server.handlers;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 
 import org.apache.log4j.Logger;
 
 import server.Server;
 import server.comm.response.MessageResponse;
 import shared.Util;
+import shared.comm.cookie.PlayerCookie;
 import shared.comm.serialization.CredentialsRequest;
-import shared.comm.serialization.PlayerCookie;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -65,8 +64,9 @@ public abstract class UserHandler implements HttpHandler
 			{
 				log.trace("Setting cookie for player");
 				PlayerCookie cookie = new PlayerCookie(request.getUsername(), request.getPassword(), server.getServerLobby().getUserID(request.getUsername()));
-				log.trace("Set-Cookie: " + cookie.getCookie());
-				exchange.getResponseHeaders().set("Set-Cookie", cookie.getCookie());
+				String cookieString = cookie.getCookie() + " Path=/;";
+				log.trace("Set-Cookie: " + cookieString);
+				exchange.getResponseHeaders().set("Set-Cookie", cookieString);
 			}
 			if (response != null)
 			{

@@ -1,13 +1,6 @@
 package server.comm.response;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
 import java.util.Map;
-
-import com.sun.net.httpserver.Headers;
-
-import server.comm.cookie.ICookie;
 
 /**
  * The Interface IResponse.

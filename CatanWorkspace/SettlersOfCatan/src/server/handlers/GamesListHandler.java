@@ -1,21 +1,14 @@
 package server.handlers;
 
-import java.io.InputStreamReader;
-
 import org.apache.log4j.Logger;
 
 import client.view.data.GameInfo;
 
-import com.google.gson.stream.JsonReader;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.Server;
-import server.comm.cookie.ICookie;
-import server.comm.response.CatanModelResponse;
 import server.comm.response.IResponse;
 import server.comm.response.JsonResponse;
-import server.comm.response.MessageResponse;
-import shared.comm.serialization.CredentialsRequest;
 
 public class GamesListHandler extends GamesHandler
 {
@@ -36,7 +29,7 @@ public class GamesListHandler extends GamesHandler
 	protected IResponse handleRequest()
 	{
 		GameInfo[] games = server.getServerLobby().getGamesFacade().list();
-		JsonResponse response = new CatanModelResponse(gson.toJson(games));
+		JsonResponse response = new JsonResponse(200, gson.toJson(games));
 		return response;
 	}
 

@@ -1,6 +1,7 @@
 package shared.comm.serialization;
 
-public class CreateGameRequest {
+public class CreateGameRequest
+{
 	String name;
 	boolean randomTiles;
 	boolean randomNumbers;

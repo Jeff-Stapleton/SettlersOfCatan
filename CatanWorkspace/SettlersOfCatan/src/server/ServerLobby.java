@@ -11,8 +11,8 @@ import server.facade.GamesFacade;
 import server.facade.UserFacade;
 import server.facade.UtilFacade;
 import server.models.ServerUser;
+import shared.comm.ServerException;
 import client.view.data.GameInfo;
-import client.view.data.PlayerInfo;
 
 /**
  * The Class ServerLobby.
@@ -20,7 +20,8 @@ import client.view.data.PlayerInfo;
 public class ServerLobby
 {
 	private static final Logger log = Logger.getLogger(ServerLobby.class);
-	private Server server = null;
+	
+//	private Server server = null;
 	private Map<Integer, ServerGame> games = new HashMap<Integer, ServerGame>();
 	private List<ServerUser> users = new ArrayList<ServerUser>();
 	private UserFacade userFacade = null;
@@ -29,7 +30,7 @@ public class ServerLobby
 	
 	public ServerLobby(Server server)
 	{
-		this.server = server;
+//		this.server = server;
 		userFacade = new UserFacade(this);
 		gamesFacade = new GamesFacade(this);
 		utilFacade = new UtilFacade(server);
@@ -107,6 +108,19 @@ public class ServerLobby
 		log.trace("User not found");
 		return null;
 	}
+
+	public ServerUser getUser(Integer playerId)
+	{
+		log.trace("Getting user number " + playerId);
+		for (ServerUser user : users)
+		{
+			if (user.getID() == playerId)
+			{
+				return user;
+			}
+		}
+		return null;
+	}
 	
 	public ServerGame[] getGames()
 	{
@@ -138,6 +152,33 @@ public class ServerLobby
 	public UtilFacade getUtilFacade()
 	{
 		return utilFacade;
+	}
+
+	public GameInfo createGame(String name, boolean randomTiles, boolean randomNumbers, boolean randomPorts) throws ServerException
+	{
+		// Find a free game id... not the best solution but games can only go to 99 anyway
+		int gameNumber = 0;
+		for (; gameNumber < 100; gameNumber++)
+		{
+			if (!games.containsKey(gameNumber))
+			{
+				break;
+			}
+		}
+		if (gameNumber == 100)
+		{
+			throw new ServerException("Server cannot handle any more games");
+		}
+		
+		ServerGame game = new ServerGame(gameNumber, name, randomTiles, randomNumbers, randomPorts);
+		
+		games.put(gameNumber, game);
+		return game.getInfo();
+	}
+
+	public ServerGame getGame(int id)
+	{
+		return games.get(id);
 	}
 
 }

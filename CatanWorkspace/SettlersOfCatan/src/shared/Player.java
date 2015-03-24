@@ -25,6 +25,19 @@ public class Player extends Observable {
 	private transient boolean isRoadBuilding = false;
 	private transient boolean isPlayingSoldier = false;
 	
+	public Player()
+	{
+		
+	}
+	
+	public Player(int playerID, int playerIndex, String name, CatanColor color)
+	{
+		this.playerID = playerID;
+		this.playerIndex = playerIndex;
+		this.name = name;
+		this.color = color;
+	}
+	
 	/**
 	 * Buys settlement 
 	 */

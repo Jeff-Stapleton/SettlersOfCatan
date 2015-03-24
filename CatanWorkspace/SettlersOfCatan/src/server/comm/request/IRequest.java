@@ -1,10 +1,10 @@
 package server.comm.request;
 
-import java.util.List;
+//import java.util.List;
 import java.util.Map;
 
 import server.Server;
-import server.comm.cookie.ICookie;
+//import server.comm.cookie.ICookie;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
@@ -44,19 +44,19 @@ public interface IRequest<Resp extends IResponse>
 	 */
 	public void execute(Server server);
 	
-	/**
-	 * Adds the cookie.
-	 *
-	 * @param cookie the cookie
-	 */
-	public void addCookie(ICookie cookie);
-	
-	/**
-	 * Gets the cookies.
-	 *
-	 * @return the cookies
-	 */
-	public List<ICookie> getCookies();
+//	/**
+//	 * Adds the cookie.
+//	 *
+//	 * @param cookie the cookie
+//	 */
+//	public void addCookie(ICookie cookie);
+//	
+//	/**
+//	 * Gets the cookies.
+//	 *
+//	 * @return the cookies
+//	 */
+//	public List<ICookie> getCookies();
 	
 	/**
 	 * Sets the header.

@@ -23,6 +23,11 @@
     	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
+	
+    <logger name="shared" additivity="false">
+    	<level value="TRACE"/>
+        <appender-ref ref="console" />
+    </logger>
     
     <logger name="client.comm.ServerPoller" additivity="false">
     	<level value="WARN"/>

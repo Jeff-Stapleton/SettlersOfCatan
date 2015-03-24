@@ -1,9 +1,9 @@
-package shared.comm.serialization;
+package shared.comm.cookie;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class PlayerCookie
+public class PlayerCookie implements ICookie
 {
 	String name = null;
 	String password = null;
@@ -16,6 +16,11 @@ public class PlayerCookie
 		this.playerID = playerID;
 	}
 	
+	public PlayerCookie(String string)
+	{
+		
+	}
+
 	public String getName()
 	{
 		return name;
@@ -55,8 +60,7 @@ public class PlayerCookie
 					 .append("\"password\":\"").append(password).append("\",")
 					 .append("\"playerID\":").append(playerID).append("}");
 			
-				cookie.append("catan.user=").append(URLEncoder.encode(catanUser.toString(), "utf-8")).append(";")
-					  .append("Path=").append(URLEncoder.encode("/", "utf-8")).append(";");
+			cookie.append("catan.user=").append(URLEncoder.encode(catanUser.toString(), "utf-8")).append(";");
 		}
 		catch (UnsupportedEncodingException e)
 		{

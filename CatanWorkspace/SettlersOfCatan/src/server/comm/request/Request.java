@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import server.Server;
-import server.comm.cookie.ICookie;
+//import server.comm.cookie.ICookie;
 import server.comm.response.IResponse;
 import shared.comm.ServerException;
 
@@ -61,25 +61,25 @@ public abstract class Request<Resp extends IResponse> implements IRequest<Resp>
 		
 	}
 	
-	/**
-	 * Adds the cookie.
-	 *
-	 * @param cookie the cookie
-	 */
-	public void addCookie(ICookie cookie)
-	{
-		
-	}
-	
-	/**
-	 * Gets the cookies.
-	 *
-	 * @return the cookies
-	 */
-	public List<ICookie> getCookies()
-	{
-		return null;
-	}
+//	/**
+//	 * Adds the cookie.
+//	 *
+//	 * @param cookie the cookie
+//	 */
+//	public void addCookie(ICookie cookie)
+//	{
+//		
+//	}
+//	
+//	/**
+//	 * Gets the cookies.
+//	 *
+//	 * @return the cookies
+//	 */
+//	public List<ICookie> getCookies()
+//	{
+//		return null;
+//	}
 	
 	/**
 	 * Sets the header.

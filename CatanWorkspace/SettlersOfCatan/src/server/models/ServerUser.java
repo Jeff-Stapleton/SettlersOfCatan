@@ -15,12 +15,12 @@ public class ServerUser
 		id = currentID++;
 	}
 
-	public Object getPassword()
+	public String getPassword()
 	{
 		return password;
 	}
 
-	public Object getUsername()
+	public String getUsername()
 	{
 		return username;
 	}
