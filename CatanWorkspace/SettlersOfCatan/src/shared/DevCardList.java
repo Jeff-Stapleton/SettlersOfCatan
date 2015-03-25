@@ -3,15 +3,14 @@ package shared;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-public class DevCardList extends InvisObservable {
-
-	private int monopoly = 0;
-	private int monument = 0;
-	private int roadBuilding = 0;
-	private int soldier = 0;
+public class DevCardList extends InvisObservable
+{
 	private int yearOfPlenty = 0;
+	private int monopoly = 0;
+	private int soldier = 0;
+	private int roadBuilding = 0;
+	private int monument = 0;
 	
 	public DevCardList(){}
 
