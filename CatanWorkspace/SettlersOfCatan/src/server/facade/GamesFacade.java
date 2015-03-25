@@ -67,6 +67,9 @@ public class GamesFacade
 	public GameInfo join(ServerUser user, JoinGameRequest request) throws ServerException
 	{
 		CatanColor desiredColor = CatanColor.fromString(request.getColor());
+		if (desiredColor == null)
+			throw new ServerException("COLOR DOESN'T EXIST. PUCE DOES. PICK PUCE!");
+		
 		ServerGame game = serverLobby.getGame(request.getId());
 		if (game.getInfo().getPlayerWithId(user.getID()) != null)
 		{
@@ -74,6 +77,8 @@ public class GamesFacade
 			log.trace("Check color uniqueness");
 			for (PlayerInfo player : game.getInfo().getPlayers())
 			{
+				if (desiredColor == null)
+					throw new ServerException("COLOR DOESN'T EXIST. PUCE DOES. PICK PUCE!");
 				if (player != null && player.getId() != user.getID() && desiredColor.equals(player.getColor()))
 				{
 					throw new ServerException("Failed to join game - The desired color is already taken");
