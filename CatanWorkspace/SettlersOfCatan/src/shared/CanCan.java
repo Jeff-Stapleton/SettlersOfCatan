@@ -2368,12 +2368,12 @@ public class CanCan {
 			
 			if(((edge.getX() == -3 || edge.getX() == 3) || edge.getY() == -3) && (edge.getDir().equals(EdgeDirection.North)))
 				return false;
-			else if((edge.getX() == -1 && edge.getY() == -2) || 
-					(edge.getX() == -2 && edge.getY() == -1) 
+			else if(((edge.getX() == -1 && edge.getY() == -2) || 
+					(edge.getX() == -2 && edge.getY() == -1)) 
 					&& edge.getDir() == EdgeDirection.North)
 				return false;
-			else if((edge.getX() == 1 && edge.getY() == 3) || 
-					(edge.getX() == 2 && edge.getY() == 2) 
+			else if(((edge.getX() == 1 && edge.getY() == 3) || 
+					(edge.getX() == 2 && edge.getY() == 2)) 
 					&& edge.getDir() == EdgeDirection.North)
 				return false;
 			else if((edge.getY() == -3 || edge.getX() == 3) && edge.getDir().equals(EdgeDirection.NorthEast))
@@ -2390,12 +2390,12 @@ public class CanCan {
 				return false;
 			else if((edge.getY() == -3 || edge.getX() == -3 || edge.getY() == 3) && edge.getDir().equals(EdgeDirection.NorthWest))
 				return false;
-			else if((edge.getX() == 2 && edge.getY() == 2) || 
-					(edge.getX() == 3 && edge.getY() == 1) 
+			else if(((edge.getX() == 2 && edge.getY() == 2) || 
+					(edge.getX() == 3 && edge.getY() == 1)) 
 					&& edge.getDir() == EdgeDirection.NorthWest)
 				return false;
-			else if((edge.getX() == -2 && edge.getY() == -1) || 
-					(edge.getX() == -1 && edge.getY() == -2) 
+			else if(((edge.getX() == -2 && edge.getY() == -1) || 
+					(edge.getX() == -1 && edge.getY() == -2)) 
 					&& edge.getDir() == EdgeDirection.NorthWest)
 				return false;
 			

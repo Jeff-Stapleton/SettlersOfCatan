@@ -60,7 +60,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 		
 		log.trace(catanModel.getTurnTracker().getStatus().toString());
 		
-		if (catanModel.getTurnTracker().equals(TurnType.FIRST_ROUND))
+		if (catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND))
 		{
 			  for (int i = 0; i < 4; i++)
 			  {
@@ -77,7 +77,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 			  }
 		}
 		  
-		if (catanModel.getTurnTracker().equals(TurnType.SECOND_ROUND))
+		if (catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND))
 		{
 			  for (int i = 0; i < 4; i++)
 				  if(catanModel.getPlayers()[i].getRoads() != 13 && catanModel.getPlayers()[i].getSettlements() != 3)
