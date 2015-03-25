@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.MessageLine;
 import shared.Player;
@@ -19,7 +21,9 @@ import client.view.communication.LogEntry;
 /**
  * Chat controller implementation
  */
-public class ChatController extends Controller implements IChatController, Observer {
+public class ChatController extends Controller implements IChatController, Observer
+{
+	private static final Logger log = Logger.getLogger(ChatController.class);
 
 	private CatanModel catanModel;
 	private CatanGame catanGame;
@@ -58,7 +62,7 @@ public class ChatController extends Controller implements IChatController, Obser
 		}
         for (MessageLine line : catanModel.getChat().getLines())
         {
-        	System.out.println(line.toString());
+        	log.trace(line.toString());
         	String user = line.getSource();
         	CatanColor color = null;
         	color = player_colors.get(user);
