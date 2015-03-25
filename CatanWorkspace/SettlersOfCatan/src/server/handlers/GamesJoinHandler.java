@@ -1,6 +1,7 @@
 package server.handlers;
 
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -29,41 +30,47 @@ public class GamesJoinHandler extends SimpleHandler
 	@Override
 	public void handle(HttpExchange exchange) throws IOException
 	{
-		AbstractResponse response = null;
-		JoinGameRequest request = null;
-		
-		log.debug("/games/join begun");
-		
-		log.trace("Verifying user credentials");
-		try
-		{
-			ServerUser user = verifyUser(exchange, server);
-			log.trace("User is valid. joining game");
-
-			log.trace("creating request body object");
-			request = getRequest(exchange, JoinGameRequest.class);
+		try{
+			AbstractResponse response = null;
+			JoinGameRequest request = null;
 			
-			GameInfo game = server.getServerLobby().getGamesFacade().join(user, request);
-			log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+			log.debug("/games/join begun");
 			
+			log.trace("Verifying user credentials");
+			try
+			{
+				ServerUser user = verifyUser(exchange, server);
+				log.trace("User is valid. joining game");
+	
+				log.trace("creating request body object");
+				request = getRequest(exchange, JoinGameRequest.class);
+				
+				GameInfo game = server.getServerLobby().getGamesFacade().join(user, request);
+				log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+				
+				
+				response = new JsonResponse(200);
+				((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+				
+				response.addCookie(new GameCookie(game.getId()));
+			}
+			catch (ServerException e)
+			{
+				response = new MessageResponse(400, e.getMessage());
+			}
+	
+			log.trace("Adding response headers and cookies");
+			addResponseHeaders(exchange, response);
 			
-			response = new JsonResponse(200);
-			((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+			log.trace("Sending response");
+			sendResponse(exchange, response);
 			
-			response.addCookie(new GameCookie(game.getId()));
+			log.trace("/games/join finished");
 		}
-		catch (ServerException e)
-		{
-			response = new MessageResponse(400, e.getMessage());
+		catch (Exception e){
+			e.printStackTrace();
+			throw(e);
 		}
-
-		log.trace("Adding response headers and cookies");
-		addResponseHeaders(exchange, response);
-		
-		log.trace("Sending response");
-		sendResponse(exchange, response);
-		
-		log.trace("/games/join finished");
 	}
 
 }

@@ -24,20 +24,26 @@ public class UserRegisterHandler extends SimpleHandler
 	@Override
 	public void handle(HttpExchange exchange) throws IOException
 	{
-		log.debug("/user/register begun");
-		log.trace("creating request body object");
-		CredentialsRequest request = getRequest(exchange, CredentialsRequest.class);
-		
-		log.trace("Register user credentials");
-		MessageResponse response = server.getServerLobby().getUserFacade().register(request);
-
-		log.trace("Adding response headers and cookies");
-		addResponseHeaders(exchange, response);
-		
-		log.trace("Sending response");
-		sendResponse(exchange, response);
-		
-		log.trace("/user/register finished");
+		try{
+			log.debug("/user/register begun");
+			log.trace("creating request body object");
+			CredentialsRequest request = getRequest(exchange, CredentialsRequest.class);
+			
+			log.trace("Register user credentials");
+			MessageResponse response = server.getServerLobby().getUserFacade().register(request);
+	
+			log.trace("Adding response headers and cookies");
+			addResponseHeaders(exchange, response);
+			
+			log.trace("Sending response");
+			sendResponse(exchange, response);
+			
+			log.trace("/user/register finished");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			throw(e);
+		}
 	}
 
 }

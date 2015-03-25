@@ -35,35 +35,41 @@ public class GamesCreateHandler extends SimpleHandler
 	@Override
 	public void handle(HttpExchange exchange) throws IOException
 	{
-		AbstractResponse response = null;
-		CreateGameRequest request = null;
-		
-		log.debug("/games/create begun");
-		
-		try
-		{
-			log.trace("creating request body object");
-			request = getRequest(exchange, CreateGameRequest.class);
+		try{
+			AbstractResponse response = null;
+			CreateGameRequest request = null;
 			
-			log.trace("Executing request");
-			GameInfo game = server.getServerLobby().getGamesFacade().create(request);
-			log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+			log.debug("/games/create begun");
 			
-			response = new JsonResponse(200);
-			((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+			try
+			{
+				log.trace("creating request body object");
+				request = getRequest(exchange, CreateGameRequest.class);
+				
+				log.trace("Executing request");
+				GameInfo game = server.getServerLobby().getGamesFacade().create(request);
+				log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+				
+				response = new JsonResponse(200);
+				((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+			}
+			catch (ServerException e)
+			{
+				response = new MessageResponse(400, e.getMessage());
+			}
+	
+			log.trace("Adding response headers and cookies");
+			addResponseHeaders(exchange, response);
+			
+			log.trace("Sending response");
+			sendResponse(exchange, response);
+			
+			log.trace("/games/create finished");
 		}
-		catch (ServerException e)
-		{
-			response = new MessageResponse(400, e.getMessage());
+		catch (Exception e){
+			e.printStackTrace();
+			throw(e);
 		}
-
-		log.trace("Adding response headers and cookies");
-		addResponseHeaders(exchange, response);
-		
-		log.trace("Sending response");
-		sendResponse(exchange, response);
-		
-		log.trace("/games/create finished");
 	}
 
 }
