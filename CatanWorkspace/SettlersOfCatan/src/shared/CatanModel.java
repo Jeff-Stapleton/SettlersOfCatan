@@ -349,7 +349,9 @@ public class CatanModel extends InvisObservable
 		chat.reset();
 		log.reset();
 		map.reset();
-		tradeOffer.reset();
+		if (tradeOffer != null){
+			tradeOffer.reset();
+		}
 		
 		for (int i = 0; i < players.length; i++){
 			players[i].reset();

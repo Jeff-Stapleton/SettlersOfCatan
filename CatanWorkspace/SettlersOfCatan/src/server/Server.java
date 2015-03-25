@@ -13,6 +13,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import server.handlers.GameListAIHandler;
 import server.handlers.GameModelHandler;
+import server.handlers.GameResetHandler;
 import server.handlers.GamesCreateHandler;
 import server.handlers.GamesJoinHandler;
 import server.handlers.GamesListHandler;
@@ -158,7 +159,7 @@ public class Server
 //		server.createContext("/games/load", new ReqResHandler<MessageResponse, GamesLoadRequest>(this, GamesLoadRequest.class));
 
 		server.createContext("/game/model", new GameModelHandler(this));
-//		server.createContext("/game/reset", new ReqResHandler<CatanModelResponse, GameResetRequest>(this, GameResetRequest.class));
+		server.createContext("/game/reset", new GameResetHandler(this));
 //		server.createContext("/game/commands", new ReqResHandler<CommandsResponse, GameCommandsRequest>(this, GameCommandsRequest.class));
 		server.createContext("/game/listAI", new GameListAIHandler(this));
 
