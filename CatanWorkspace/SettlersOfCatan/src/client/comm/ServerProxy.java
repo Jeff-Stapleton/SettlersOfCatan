@@ -141,7 +141,6 @@ public class ServerProxy extends AbstractServerProxy
 		    int status = response.getStatusLine().getStatusCode();
 		    if (status == 200) {
 		        HttpEntity entity = response.getEntity();
-		        System.out.println(EntityUtils.toString(entity));
 		        return entity != null ? gson.fromJson(EntityUtils.toString(entity), CatanModel.class) : null;
 		    } else {
 		    	throwResponseError(response);

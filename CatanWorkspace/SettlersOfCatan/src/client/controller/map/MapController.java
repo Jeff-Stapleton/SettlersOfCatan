@@ -436,7 +436,7 @@ public class MapController extends Controller implements IMapController, Observe
 			mapState = TurnType.DISCARDING;
 			break;
 		default:
-			System.out.println("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
+			log.error("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
 			break;
 		}		
 	}

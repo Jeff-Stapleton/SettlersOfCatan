@@ -82,7 +82,7 @@ public class RollController extends Controller implements IRollController, Obser
 				catanModel.getTurnTracker().getCurrentTurn() == catanGame.getPlayerInfo().getPlayerIndex() &&
 				!rollView.isModalShowing())
 			{
-				System.out.println(catanModel.getTurnTracker().toString());
+				log.debug(catanModel.getTurnTracker().toString());
 				log.trace("Showing roll view modal --\\");
 				rollView.showModal();
 			}
