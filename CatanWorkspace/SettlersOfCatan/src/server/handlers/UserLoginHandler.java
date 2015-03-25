@@ -1,6 +1,7 @@
 package server.handlers;
 
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -23,20 +24,26 @@ public class UserLoginHandler extends SimpleHandler
 	@Override
 	public void handle(HttpExchange exchange) throws IOException
 	{
-		log.debug("/user/login begun");
-		log.trace("creating request body object");
-		CredentialsRequest request = getRequest(exchange, CredentialsRequest.class);
-		
-		log.trace("Verifying user credentials");
-		MessageResponse response = server.getServerLobby().getUserFacade().login(request);
-
-		log.trace("Adding response headers and cookies");
-		addResponseHeaders(exchange, response);
-		
-		log.trace("Sending response");
-		sendResponse(exchange, response);
-		
-		log.trace("/user/login finished");
+		try{
+			log.debug("/user/login begun");
+			log.trace("creating request body object");
+			CredentialsRequest request = getRequest(exchange, CredentialsRequest.class);
+			
+			log.trace("Verifying user credentials");
+			MessageResponse response = server.getServerLobby().getUserFacade().login(request);
+	
+			log.trace("Adding response headers and cookies");
+			addResponseHeaders(exchange, response);
+			
+			log.trace("Sending response");
+			sendResponse(exchange, response);
+			
+			log.trace("/user/login finished");
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			throw(e);
+		}
 	}
 
 }
