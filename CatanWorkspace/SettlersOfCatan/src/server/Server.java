@@ -11,8 +11,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
-import server.comm.request.*;
-import server.comm.response.*;
 import server.handlers.GameListAIHandler;
 import server.handlers.GameModelHandler;
 import server.handlers.GamesCreateHandler;
