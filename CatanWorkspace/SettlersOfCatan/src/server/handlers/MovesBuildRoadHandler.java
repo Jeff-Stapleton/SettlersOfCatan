@@ -28,39 +28,45 @@ public class MovesBuildRoadHandler extends SimpleHandler
 	@Override
 	public void handle(HttpExchange exchange) throws IOException
 	{
-		AbstractResponse response = null;
-		
-		log.debug("/moves/sendChat begun");
-		
-		log.trace("Verifying user credentials");
-		try
-		{
-			verifyUser(exchange, server);
-			log.trace("User is valid");
-
-			log.trace("creating request body object");
-			BuildRoadRequest request = getRequest(exchange, BuildRoadRequest.class);
+		try{
+			AbstractResponse response = null;
 			
-			ServerGame game = getGame(exchange, server);
+			log.debug("/moves/sendChat begun");
 			
-			game.getMovesFacade().buildRoad(request);
+			log.trace("Verifying user credentials");
+			try
+			{
+				verifyUser(exchange, server);
+				log.trace("User is valid");
+	
+				log.trace("creating request body object");
+				BuildRoadRequest request = getRequest(exchange, BuildRoadRequest.class);
+				
+				ServerGame game = getGame(exchange, server);
+				
+				game.getMovesFacade().buildRoad(request);
+				
+				log.trace("Chat message added to model");
+				response = new JsonResponse(200);
+				((JsonResponse)response).setJsonBody(game.getModel());
+			}
+			catch (ServerException e)
+			{
+				response = new MessageResponse(400, e.getMessage());
+			}
+	
+			log.trace("Adding response headers and cookies");
+			addResponseHeaders(exchange, response);
 			
-			log.trace("Chat message added to model");
-			response = new JsonResponse(200);
-			((JsonResponse)response).setJsonBody(game.getModel());
+			log.trace("Sending response");
+			sendResponse(exchange, response);
+			
+			log.trace("/moves/sendChat finished");
 		}
-		catch (ServerException e)
-		{
-			response = new MessageResponse(400, e.getMessage());
+		catch (Exception e){
+			e.printStackTrace();
+			throw(e);
 		}
-
-		log.trace("Adding response headers and cookies");
-		addResponseHeaders(exchange, response);
-		
-		log.trace("Sending response");
-		sendResponse(exchange, response);
-		
-		log.trace("/moves/sendChat finished");
 	}
 
 }
