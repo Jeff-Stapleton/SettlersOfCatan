@@ -14,20 +14,8 @@ public class CatanModel extends InvisObservable
 	/** The deck. */
 	private DevCardList deck = new DevCardList();
 	
-	/** The bank. */
-	private ResourceList bank = new ResourceList();
-	
-	/** The chat. */
-	private MessageList chat = new MessageList();
-	
-	/** The log. */
-	private MessageList log = new MessageList();
-	
 	/** The map. */
 	private Map map = new Map();
-	
-	/** The trade offer. */
-	private TradeOffer tradeOffer = null;
 	
 	/** The Players. */
 	private Player[] players = new Player[4];
@@ -36,11 +24,23 @@ public class CatanModel extends InvisObservable
 			players[i] = new Player();
 	}
 	
+	/** The log. */
+	private MessageList log = new MessageList();
+	
+	/** The chat. */
+	private MessageList chat = new MessageList();
+	
+	/** The bank. */
+	private ResourceList bank = new ResourceList();
+	
+	/** The trade offer. */
+	private TradeOffer tradeOffer = null;
+	
 	/** The turn tracker. */
 	private TurnTracker turnTracker = new TurnTracker();
 	
 	/** The version. */
-	private int version = -1;
+	private int version = 0;
 
 	/** The winner. */
 	private int winner = -1;
