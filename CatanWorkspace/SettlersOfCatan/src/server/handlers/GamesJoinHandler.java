@@ -48,9 +48,10 @@ public class GamesJoinHandler extends SimpleHandler
 				GameInfo game = server.getServerLobby().getGamesFacade().join(user, request);
 				log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
 				
-				
-				response = new JsonResponse(200);
-				((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+				// The spec says to return the info, but their server returns success
+				response = new MessageResponse(200, "Success");
+//				response = new JsonResponse(200);
+//				((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
 				
 				response.addCookie(new GameCookie(game.getId()));
 			}
