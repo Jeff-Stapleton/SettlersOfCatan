@@ -1,5 +1,6 @@
 package server.facade;
 
+import shared.CatanModel;
 import client.CatanGame;
 
 /**
@@ -9,7 +10,11 @@ public class GameFacade {
 	
 	/** The catan game. */
 	private CatanGame catanGame;
+	private CatanModel catanModel;
 	
+	public GameFacade(CatanModel model){
+		catanModel = model;
+	}
 	
 	/**
 	 * returns the model
@@ -22,7 +27,7 @@ public class GameFacade {
 	 * resets the game
 	 */
 	public void reset(){
-		
+		catanModel.reset();
 	}
 	
 	/**

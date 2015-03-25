@@ -219,6 +219,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			catanLobby.gamesJoin(color, catanLobby.getGame().getGameInfo().getId());
 		} catch (IOException e) {
 			System.err.println("Could not get model from server");
+			System.err.println(color);
+			System.err.println(catanLobby.getGame().getGameInfo().getId());
 			e.printStackTrace();
 		}
 		
