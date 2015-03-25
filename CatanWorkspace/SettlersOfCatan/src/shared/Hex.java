@@ -8,11 +8,11 @@ import shared.locations.HexLocation;
  */
 public class Hex extends InvisObservable {
 	
-	/** The location. */
-	private HexLocation location;
-	
 	/** The type. */
 	private HexType resource;
+	
+	/** The location. */
+	private HexLocation location;
 	
 	/** The number. */
 	private Integer number;

@@ -7,10 +7,10 @@ import shared.locations.EdgeDirection;
 public class Port extends InvisObservable
 {
 
-	private PortType resource;
-	private HexLocation location;
-	private EdgeDirection direction;
 	private int ratio;
+	private PortType resource;
+	private EdgeDirection direction;
+	private HexLocation location;
 	
 	public Port(PortType type, HexLocation location, EdgeDirection direction, int ratio)
 	{

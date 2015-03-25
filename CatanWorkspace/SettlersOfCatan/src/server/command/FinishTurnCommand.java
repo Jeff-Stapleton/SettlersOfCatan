@@ -29,6 +29,9 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 	@Override
 	public CatanModel execute(CatanModel catanModel) 
 	{
+		boolean firstTurnEnd = true;
+		boolean secondTurnEnd = true;
+		
 		Player player = catanModel.getPlayers()[owner];
 		
 		DevCardList newCards = player.getNewDevCards();
@@ -45,8 +48,29 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 		catanModel.setVersion(catanModel.getVersion() + 1);
 		
 		if ((catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND) && catanModel.getTurnTracker().getCurrentTurn() == 0) || 
-				!catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND) && !catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND)) {
+				!catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND) && !catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND)) 
+		{
 			catanModel.getTurnTracker().setStatus(TurnType.ROLLING);
+		}
+		
+		if (catanModel.getTurnTracker().equals(TurnType.FIRST_ROUND))
+		{
+			  for (int i = 0; i < 4; i++)
+				  if(catanModel.getPlayers()[i].getRoads() != 14 && catanModel.getPlayers()[i].getSettlements() != 4)
+					  firstTurnEnd = false;
+			  
+			  if (firstTurnEnd)
+				  catanModel.getTurnTracker().setStatus(TurnType.SECOND_ROUND);
+		}
+		  
+		if (catanModel.getTurnTracker().equals(TurnType.SECOND_ROUND))
+		{
+			  for (int i = 0; i < 4; i++)
+				  if(catanModel.getPlayers()[i].getRoads() != 13 && catanModel.getPlayers()[i].getSettlements() != 3)
+					  secondTurnEnd = false;
+			  
+			  if (secondTurnEnd)
+				  catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		}
 	
 		return catanModel;

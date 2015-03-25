@@ -286,9 +286,6 @@ public class MovesFacade
    */
   public void buildSettlement(BuildSettlementRequest request) throws ServerException
   {
-	  boolean firstTurnEnd = true;
-	  boolean secondTurnEnd = true;
-	  
 	  VertexLocation settlement = new VertexLocation(request.getVertexLocation().getX(), request.getVertexLocation().getY(), VertexDirection.fromString(request.getVertexLocation().getDirection()));
 	  
 	  if(CanCan.canBuildSettlement(catanModel.getPlayers()[request.getPlayerIndex()], settlement, catanModel.getTurnTracker(), catanModel.getMap()))
@@ -299,32 +296,7 @@ public class MovesFacade
 	  else
 	  {
 		  throw new ServerException("Player can't build Settlement because it's not the player's turn, they do not have the resources, or it's an invalid settlement location.");
-	  }
-	  
-	  if (catanModel.getTurnTracker().equals(TurnType.FIRST_ROUND))
-	  {
-		  finishTurn(new FinishTurnRequest(request.getPlayerIndex()));
-		  
-		  for (int i = 0; i < 4; i++)
-			  if(catanModel.getPlayers()[i].getRoads() != 14 && catanModel.getPlayers()[i].getSettlements() != 4)
-				  firstTurnEnd = false;
-		  
-		  if (firstTurnEnd)
-			  catanModel.getTurnTracker().setStatus(TurnType.SECOND_ROUND);
-	  }
-	  
-	  if (catanModel.getTurnTracker().equals(TurnType.SECOND_ROUND))
-	  {
-		  finishTurn(new FinishTurnRequest(request.getPlayerIndex()));
-		  
-		  for (int i = 0; i < 4; i++)
-			  if(catanModel.getPlayers()[i].getRoads() != 13 && catanModel.getPlayers()[i].getSettlements() != 3)
-				  secondTurnEnd = false;
-		  
-		  if (secondTurnEnd)
-			  catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
-	  }
-	  
+	  }	  
   }
   
   /**

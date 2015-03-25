@@ -1,6 +1,5 @@
 package server.command;
 
-import server.comm.request.MovesSendChatRequest;
 import shared.CatanModel;
 import shared.MessageLine;
 import shared.comm.serialization.SendChatRequest;
