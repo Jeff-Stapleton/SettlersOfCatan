@@ -4,21 +4,21 @@ import shared.definitions.CatanColor;
 
 public class Player extends InvisObservable {
 
+	private ResourceList resources = new ResourceList();
+	private DevCardList oldDevCards = new DevCardList();
+	private DevCardList newDevCards = new DevCardList();
+	private int roads = 15;
+	private int cities = 4;
+	private int settlements = 5;
+	private int soldiers = 0;
+	private int victoryPoints = 0;
+	private int monuments = 0;
+	private boolean playedDevCard = false;
+	private boolean discarded = false;
 	private int playerID = 0;
 	private int playerIndex = 0;
 	private String name = "";
 	private CatanColor color = CatanColor.WHITE;
-	private int cities = 4;
-	private int settlements = 5;
-	private int roads = 15;
-	private int monuments = 0;
-	private int soldiers = 0;
-	private int victoryPoints = 0;
-	private DevCardList newDevCards = new DevCardList();
-	private DevCardList oldDevCards = new DevCardList();
-	private ResourceList resources = new ResourceList();
-	private boolean playedDevCard = false;
-	private boolean discarded = false;
 
 	private transient boolean isRoadBuilding = false;
 	private transient boolean isPlayingSoldier = false;

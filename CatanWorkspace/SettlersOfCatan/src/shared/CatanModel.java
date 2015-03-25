@@ -38,12 +38,12 @@ public class CatanModel extends InvisObservable
 	
 	/** The turn tracker. */
 	private TurnTracker turnTracker = new TurnTracker();
-	
-	/** The version. */
-	private int version = 0;
 
 	/** The winner. */
 	private int winner = -1;
+	
+	/** The version. */
+	private int version = 0;
 	
 	/**
 	 * Instantiates a new catan model.

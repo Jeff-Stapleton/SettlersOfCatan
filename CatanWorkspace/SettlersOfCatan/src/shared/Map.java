@@ -18,11 +18,11 @@ import shared.Robber;
 public class Map extends InvisObservable
 {
 	private List<Hex> hexes = new ArrayList<Hex>();
-	private List<Port> ports = new ArrayList<Port>();
 	private List<Road> roads = new ArrayList<Road>();
-	private List<Building> settlements = new ArrayList<Building>();
 	private List<Building> cities = new ArrayList<Building>();
+	private List<Building> settlements = new ArrayList<Building>();
 	private Integer radius = 3;
+	private List<Port> ports = new ArrayList<Port>();
 	private Robber robber = new Robber();
 	private transient boolean isBuilding = false;
 	
