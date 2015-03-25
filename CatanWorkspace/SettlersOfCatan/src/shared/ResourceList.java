@@ -7,8 +7,8 @@ public class ResourceList extends InvisObservable {
 
 	private int brick = 0;
 	private int wood = 0;
-	private int wheat = 0;
 	private int sheep = 0;
+	private int wheat = 0;
 	private int ore = 0;
 	
 	public ResourceList(){}
