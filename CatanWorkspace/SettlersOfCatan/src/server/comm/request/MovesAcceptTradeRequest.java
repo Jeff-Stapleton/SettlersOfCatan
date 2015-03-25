@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	
  * 
  */
-public class MovesAcceptTradeRequest extends Request<CatanModelResponse> {
+public class MovesAcceptTradeRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

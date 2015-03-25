@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	
  * 
  */
-public class MovesYearOfPlentyRequest extends Request<CatanModelResponse> {
+public class MovesYearOfPlentyRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

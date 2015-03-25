@@ -13,7 +13,7 @@ import shared.comm.ServerException;
  *  The server returns an HTTP 200 success response with �Success� in the body
  *  The current state of the specified game (including its ID) has been saved to the specified file name in the server�s saves/ directory
  */
-public class GamesSaveRequest extends Request<MessageResponse> {
+public class GamesSaveRequest extends AbstractRequest<MessageResponse> {
 
 	@Override
 	public MessageResponse getResponse() throws ServerException {

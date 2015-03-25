@@ -12,7 +12,7 @@ import shared.comm.ServerException;
  * @post
  * 	The chat contains your message at the end
  */
-public class MovesSendChatRequest extends Request<CatanModelResponse> {
+public class MovesSendChatRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

@@ -21,7 +21,7 @@ import shared.comm.ServerException;
  * 	The server returns an HTTP 200 success response with �Success� in the body
  * 	The HTTP response headers set the catan.user cookie to contain the identity of the logged�in player. The cookie uses �Path=/�, and its value contains a url�encoded JSON object
  */
-public class UserRegisterRequest extends Request<UserResponse>
+public class UserRegisterRequest extends AbstractRequest<UserResponse>
 {
 	private static final Logger log = Logger.getLogger(UserRegisterRequest.class.getName());
 	

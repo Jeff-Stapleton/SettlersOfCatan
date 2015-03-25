@@ -14,7 +14,7 @@ import shared.comm.ServerException;
  *  The body contains a JSON string array enumerating the different types of AI players. These are the values that may be passed to the /game/addAI method.
  * 	
  */
-public class GamesAddAIRequest extends Request {
+public class GamesAddAIRequest extends AbstractRequest {
 
 	@Override
 	public IResponse getResponse() throws ServerException {

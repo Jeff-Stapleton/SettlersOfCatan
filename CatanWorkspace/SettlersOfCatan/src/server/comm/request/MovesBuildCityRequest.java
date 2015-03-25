@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	
  * 
  */
-public class MovesBuildCityRequest extends Request<CatanModelResponse> {
+public class MovesBuildCityRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

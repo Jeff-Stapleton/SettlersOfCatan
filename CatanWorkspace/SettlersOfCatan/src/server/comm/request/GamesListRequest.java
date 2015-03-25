@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  *  The body contains a JSON array containing a list of objects that contain information about the server�s games
  * 	
  */
-public class GamesListRequest extends Request<GameInfosResponse> {
+public class GamesListRequest extends AbstractRequest<GameInfosResponse> {
 
 	@Override
 	public GameInfosResponse getResponse() throws ServerException {

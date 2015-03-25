@@ -18,7 +18,7 @@ import shared.comm.ServerException;
  * 	If it fails, The server returns an HTTP 400 error response, and the body contains an error message.
  * 	
  */
-public class GameCommandsRequest extends Request<CommandsResponse> {
+public class GameCommandsRequest extends AbstractRequest<CommandsResponse> {
 
 	@Override
 	public CommandsResponse getResponse() throws ServerException {

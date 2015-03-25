@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	If it is a monument card, it has been added to your old devcard hand
  * 	If it is a non�monument card, it has been added to your new devcard hand
  */
-public class MovesBuyDevCardRequest extends Request<CatanModelResponse> {
+public class MovesBuyDevCardRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

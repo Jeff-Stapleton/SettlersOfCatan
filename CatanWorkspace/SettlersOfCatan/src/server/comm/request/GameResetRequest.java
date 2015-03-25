@@ -16,7 +16,7 @@ import shared.comm.ServerException;
  * 	The body contains the game�s updated client model JSON
  * 	
  */
-public class GameResetRequest extends Request<CatanModelResponse> {
+public class GameResetRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

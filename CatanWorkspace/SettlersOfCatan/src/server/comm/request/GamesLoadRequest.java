@@ -13,7 +13,7 @@ import shared.comm.ServerException;
  *  The server returns an HTTP 200 success response with �Success� in the body
  *  The game in the specified file has been loaded into the server and its state restored
  */
-public class GamesLoadRequest extends Request<MessageResponse> {
+public class GamesLoadRequest extends AbstractRequest<MessageResponse> {
 
 	@Override
 	public MessageResponse getResponse() throws ServerException {

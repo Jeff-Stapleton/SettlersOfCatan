@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import server.Server;
-import server.comm.request.Request;
+import server.comm.request.AbstractRequest;
 import server.comm.response.IResponse;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -16,9 +16,9 @@ import com.sun.net.httpserver.HttpHandler;
  * to create Request and Response objects and pass them in as type parameters.
  * @author Cory
  * @param <Response> the response type to generate from the request
- * @param <Request> the request type for generating a response
+ * @param <AbstractRequest> the request type for generating a response
  */
-public class ReqResHandler <Res extends IResponse, Req extends Request<Res>>
+public class ReqResHandler <Res extends IResponse, Req extends AbstractRequest<Res>>
 		implements HttpHandler
 {
 	private static final Logger log = Logger.getLogger(ReqResHandler.class.getName());
@@ -39,7 +39,7 @@ public class ReqResHandler <Res extends IResponse, Req extends Request<Res>>
 	public void handle(HttpExchange exchange) throws IOException
 	{
 		log.trace("Recieved request");
-		Request<Res> request = null;
+		AbstractRequest<Res> request = null;
 		try
 		{
 			// Create our new request

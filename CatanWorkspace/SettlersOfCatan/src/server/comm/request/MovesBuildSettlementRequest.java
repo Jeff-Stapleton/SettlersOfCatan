@@ -24,7 +24,7 @@ import shared.locations.VertexLocation;
  * 	
  * 
  */
-public class MovesBuildSettlementRequest extends Request<CatanModelResponse> {
+public class MovesBuildSettlementRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

@@ -11,12 +11,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
-import server.comm.ReqResHandler;
 import server.comm.request.*;
 import server.comm.response.*;
 import server.handlers.GamesCreateHandler;
 import server.handlers.GamesJoinHandler;
 import server.handlers.GamesListHandler;
+import server.handlers.ReqResHandler;
 import server.handlers.UserLoginHandler;
 import server.handlers.UserRegisterHandler;
 import shared.Util;
@@ -133,7 +133,9 @@ public class Server
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
-		server.createContext("/user/login", new UserLoginHandler(this));
+		
+		server.createContext("/user/login", new ReqResHandler<MessageResponse, UserLoginRequest>(this, UserLoginRequest.class));
+//		server.createContext("/user/login", new UserLoginHandler(this));
 		server.createContext("/user/register", new UserRegisterHandler(this));
 
 		server.createContext("/games/list", new GamesListHandler(this));

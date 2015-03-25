@@ -3,15 +3,18 @@ package server.comm.response;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.comm.cookie.ICookie;
+
 // TODOC: Auto-generated Javadoc
 /**
  * The Class Response.
  */
 public abstract class AbstractResponse implements IResponse
 {
+	private static final String PATH = " Path=/;";
+	
 	private int responseCode = 500;
 	private long responseLength = 0;
-	private String contentType = "text/plain";
 	
 	private Map<String, String> headers = new HashMap<String, String>();
 	
@@ -19,6 +22,33 @@ public abstract class AbstractResponse implements IResponse
 	{
 		responseCode = code;
 		responseLength = length;
+		setContentType("text/plain");
+	}
+
+	@Override
+	public String getContentType()
+	{
+		return headers.get("Content-Type");
+	}
+	
+	public void setContentType(String contentType)
+	{
+		headers.put("Content-Type", contentType);
+	}
+	
+	public void addCookie(ICookie cookie)
+	{
+		if (headers.get("Set-Cookie") == null)
+		{
+			headers.put("Set-Cookie", cookie.getCookie() + PATH);
+		}
+		else
+		{
+			String cookieString = headers.get("Set-Cookie");
+			cookieString = cookieString.substring(0, cookieString.length() - PATH.length());
+			cookieString = cookieString + " " + cookie.getCookie() + PATH;
+			headers.put("Set-Cookie", cookieString);
+		}
 	}
 	
 	/**
@@ -28,29 +58,8 @@ public abstract class AbstractResponse implements IResponse
 	 */
 	public Map<String, String> getHeaders()
 	{
-		// TODO: ("Set-Cookie", URLEncoder.encode(getCookie().toString(), "UTF-8"));
 		return headers;
 	}
-	
-//	/**
-//	 * Gets the cookies.
-//	 *
-//	 * @return the cookies
-//	 */
-//	public List<ICookie> getCookies()
-//	{
-//		return null;
-//	}
-//	
-//	/**
-//	 * Adds the cookie.
-//	 *
-//	 * @param cookie the cookie
-//	 */
-//	public void addCookie(ICookie cookie)
-//	{
-//		
-//	}
 	
 	public void setResponseCode(int responseCode)
 	{
@@ -79,17 +88,6 @@ public abstract class AbstractResponse implements IResponse
 	public long getResponseLength()
 	{
 		return responseLength;
-	}
-
-	@Override
-	public String getContentType()
-	{
-		return contentType;
-	}
-	
-	public void setContentType(String contentType)
-	{
-		this.contentType = contentType;
 	}
 
 }

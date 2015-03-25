@@ -20,7 +20,7 @@ import shared.comm.ServerException;
  *  The player is in the game with the specified color (i.e. calls to /games/list method will show the player in the game with the chosen color).
  *  The server response includes the �Set�cookie� response header setting the catan.game
  */
-public class GamesJoinRequest extends Request<GameResponse> {
+public class GamesJoinRequest extends AbstractRequest<GameResponse> {
 
 	@Override
 	public GameResponse getResponse() throws ServerException {

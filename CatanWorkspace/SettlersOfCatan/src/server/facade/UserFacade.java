@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import server.ServerLobby;
 import server.comm.response.MessageResponse;
 import server.models.ServerUser;
+import shared.comm.cookie.PlayerCookie;
 import shared.comm.serialization.CredentialsRequest;
 
 /**
@@ -95,6 +96,7 @@ public class UserFacade
 		{
 			log.trace("Creating success message response");
 			response = new MessageResponse(200, "Success");
+			response.addCookie(new PlayerCookie(request.getUsername(), request.getPassword(), serverLobby.getUserID(request.getUsername())));
 		}
 		else
 		{

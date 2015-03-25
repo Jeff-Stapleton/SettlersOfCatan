@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	
  * 
  */
-public class UtilChangeLogLevelRequest extends Request<MessageResponse>
+public class UtilChangeLogLevelRequest extends AbstractRequest<MessageResponse>
 {
 
 	@Override

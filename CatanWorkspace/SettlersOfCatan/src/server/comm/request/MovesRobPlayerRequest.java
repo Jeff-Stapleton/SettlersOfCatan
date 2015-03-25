@@ -15,7 +15,7 @@ import shared.comm.ServerException;
  * 	The robber is in the new location
  * 
  */
-public class MovesRobPlayerRequest extends Request<CatanModelResponse> {
+public class MovesRobPlayerRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {

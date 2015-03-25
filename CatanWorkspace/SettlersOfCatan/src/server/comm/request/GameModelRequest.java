@@ -14,7 +14,7 @@ import shared.comm.ServerException;
  * 	The response body contains JSON data
  * 	
  */
-public class GameModelRequest extends Request<CatanModelResponse> {
+public class GameModelRequest extends AbstractRequest<CatanModelResponse> {
 
 	@Override
 	public CatanModelResponse getResponse() throws ServerException {
