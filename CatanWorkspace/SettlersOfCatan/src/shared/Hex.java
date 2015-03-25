@@ -1,14 +1,12 @@
 package shared;
 
-import java.util.Observable;
-
 import shared.definitions.HexType;
 import shared.locations.HexLocation;
 
 /**
  * The Class Hex.
  */
-public class Hex extends Observable {
+public class Hex extends InvisObservable {
 	
 	/** The location. */
 	private HexLocation location;

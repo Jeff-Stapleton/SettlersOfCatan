@@ -1,11 +1,9 @@
 package shared;
 
-import java.util.Observable;
-
 import shared.locations.VertexLocation;
 
 
-public class Building extends Observable
+public class Building extends InvisObservable
 {
 	private int owner;
 	private VertexLocation location;

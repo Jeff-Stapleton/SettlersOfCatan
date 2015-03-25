@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 import client.view.data.RobPlayerInfo;
@@ -16,7 +15,7 @@ import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.Robber;
 
-public class Map extends Observable
+public class Map extends InvisObservable
 {
 	private List<Hex> hexes = new ArrayList<Hex>();
 	private List<Port> ports = new ArrayList<Port>();
@@ -25,7 +24,7 @@ public class Map extends Observable
 	private List<Building> cities = new ArrayList<Building>();
 	private Integer radius = 3;
 	private Robber robber = new Robber();
-	private boolean isBuilding = false;
+	private transient boolean isBuilding = false;
 	
 	public void reset()
 	{

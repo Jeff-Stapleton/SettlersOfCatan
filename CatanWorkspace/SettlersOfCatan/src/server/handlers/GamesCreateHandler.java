@@ -1,94 +1,69 @@
 package server.handlers;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
+import com.sun.net.httpserver.HttpExchange;
 
 import client.view.data.GameInfo;
-import client.view.data.PlayerInfo;
 import server.Server;
+import server.comm.response.AbstractResponse;
 import server.comm.response.JsonResponse;
+import server.comm.response.MessageResponse;
 import shared.comm.ServerException;
 import shared.comm.cookie.ICookie;
 import shared.comm.serialization.CreateGameRequest;
 
-public class GamesCreateHandler extends JsonRequestHandler<CreateGameRequest>
+public class GamesCreateHandler extends SimpleHandler
 {
 	private static final Logger log = Logger.getLogger(GamesCreateHandler.class);
 	
 	private Server server = null;
-	private Gson gson = new GsonBuilder().registerTypeAdapter(GameInfo.class, new GameInfoSerializer()).setPrettyPrinting().create();
 
 	public GamesCreateHandler(Server server)
 	{
-		super(CreateGameRequest.class);
+		super();
 		this.server = server;
 	}
 	
 	protected void executeRequest(CreateGameRequest request, Map<String, ICookie> cookies) throws ServerException
 	{
-		log.trace("Executing request");
-		GameInfo game = server.getServerLobby().getGamesFacade().create(request);
-		log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
-		
-        Type gameInfoType = new TypeToken<GameInfo>(){}.getType();
-		JsonResponse response = new JsonResponse(200);
-		response.setJsonBody(game, gameInfoType);
-		log.trace("Setting response");
-		setResponse(response);
 	}
-	
-	public class GameInfoSerializer implements JsonSerializer<GameInfo>
+
+	@Override
+	public void handle(HttpExchange exchange) throws IOException
 	{
-
-		@Override
-		public JsonElement serialize(GameInfo src, Type typeOfSrc, JsonSerializationContext context)
-		{
-	        // object (for which this serializer is registered)
-	        JsonObject object = new JsonObject();
-
-	        object.addProperty("title", src.getTitle());
-	        object.addProperty("id", src.getId());
-	        
-	        JsonArray playerArray = new JsonArray();
-	        for (PlayerInfo player : src.getPlayers().toArray(new PlayerInfo[4]))
-	        {
-	        	if (player == null)
-	        	{
-	        		playerArray.add(new JsonObject());
-	        	}
-	        	else
-	        	{
-	        		playerArray.add(context.serialize(player));
-	        	}
-	        }
-	        
-	        object.add("players", playerArray);
-	        return object;
-	        
-	        //  Returned in the form:
-			//  {
-			//      "title": "Supergame",
-			//      "id": 3,
-			//      "players": [
-			//          {},
-			//          {},
-			//          {},
-			//          {}
-			//      ]
-			//  }
-		}
+		AbstractResponse response = null;
+		CreateGameRequest request = null;
 		
+		log.debug("/games/create begun");
+		
+		try
+		{
+			log.trace("creating request body object");
+			request = getRequest(exchange, CreateGameRequest.class);
+			
+			log.trace("Executing request");
+			GameInfo game = server.getServerLobby().getGamesFacade().create(request);
+			log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+			
+			response = new JsonResponse(200);
+			((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
+		}
+		catch (ServerException e)
+		{
+			response = new MessageResponse(400, e.getMessage());
+		}
+
+		log.trace("Adding response headers and cookies");
+		addResponseHeaders(exchange, response);
+		
+		log.trace("Sending response");
+		sendResponse(exchange, response);
+		
+		log.trace("/games/create finished");
 	}
 
 }

@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 
 // TODOC: Auto-generated Javadoc
 /**
@@ -23,7 +24,13 @@ public class JsonResponse extends AbstractResponse
 {
 	private static final Logger log = Logger.getLogger(JsonResponse.class);
 	
-	private Gson gson = new GsonBuilder().registerTypeAdapter(GameInfo.class, new GameInfoSerializer()).setPrettyPrinting().create();
+    public static final Type GAME_INFO_TYPE = new TypeToken<GameInfo>(){}.getType();
+    public static final Type GAME_INFO_ARRAY_TYPE = new TypeToken<GameInfo[]>(){}.getType();
+	
+	private Gson gson = new GsonBuilder()
+								.registerTypeAdapter(GameInfo.class, new GameInfoSerializer())
+								.registerTypeAdapter(GameInfo[].class, new GameInfoArraySerializer())
+								.setPrettyPrinting().create();
 	String jsonBody = null;
 	
 	public JsonResponse(int responseCode)
@@ -124,4 +131,22 @@ public class JsonResponse extends AbstractResponse
 		
 	}
 
+	public class GameInfoArraySerializer implements JsonSerializer<GameInfo[]>
+	{
+
+		@Override
+		public JsonElement serialize(GameInfo[] src, Type typeOfSrc, JsonSerializationContext context)
+		{
+	        // object (for which this serializer is registered)
+	        JsonArray object = new JsonArray();
+	        
+	        for (GameInfo game : src)
+	        {
+	        	object.add(context.serialize(game, GAME_INFO_TYPE));
+	        }
+	        
+	        return object;
+		}
+		
+	}
 }

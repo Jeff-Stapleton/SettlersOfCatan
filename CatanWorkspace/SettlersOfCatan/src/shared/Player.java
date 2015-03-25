@@ -1,10 +1,8 @@
 package shared;
 
-import java.util.Observable;
-
 import shared.definitions.CatanColor;
 
-public class Player extends Observable {
+public class Player extends InvisObservable {
 
 	private int playerID = 0;
 	private int playerIndex = 0;

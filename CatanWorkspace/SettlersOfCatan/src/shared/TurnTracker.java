@@ -1,12 +1,10 @@
 package shared;
 
-import java.util.Observable;
-
 /**
  * Tracks whose turn it currently is, and changes the possession of the Longest road and largest army cards each turn if neccessary.
  * @author JJ
  */
-public class TurnTracker extends Observable
+public class TurnTracker extends InvisObservable
 {
 	// singleton
     private static TurnTracker instance = new TurnTracker();

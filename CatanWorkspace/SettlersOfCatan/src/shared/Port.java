@@ -1,12 +1,10 @@
 package shared;
 
-import java.util.Observable;
-
 import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.locations.EdgeDirection;
 
-public class Port extends Observable
+public class Port extends InvisObservable
 {
 
 	private PortType resource;

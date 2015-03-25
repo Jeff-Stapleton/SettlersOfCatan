@@ -15,11 +15,6 @@ public class PlayerCookie implements ICookie
 		this.password = password;
 		this.playerID = playerID;
 	}
-	
-	public PlayerCookie(String string)
-	{
-		
-	}
 
 	public String getName()
 	{

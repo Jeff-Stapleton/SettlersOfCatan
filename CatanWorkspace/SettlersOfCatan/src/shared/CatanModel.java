@@ -1,7 +1,5 @@
 package shared;
 
-import java.util.Observable;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -9,7 +7,7 @@ import org.apache.log4j.Logger;
  *
  * @author JJ
  */
-public class CatanModel extends Observable
+public class CatanModel extends InvisObservable
 {
 	private static final Logger logger = Logger.getLogger(CatanModel.class);
 	

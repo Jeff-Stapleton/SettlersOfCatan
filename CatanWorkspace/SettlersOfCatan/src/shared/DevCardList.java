@@ -3,10 +3,9 @@ package shared;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
-public class DevCardList extends Observable {
+public class DevCardList extends InvisObservable {
 
 	private int monopoly = 0;
 	private int monument = 0;

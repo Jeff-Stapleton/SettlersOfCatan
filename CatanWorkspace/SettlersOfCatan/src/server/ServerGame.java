@@ -2,6 +2,7 @@ package server;
 
 import java.util.ArrayList;
 
+import server.facade.MovesFacade;
 import server.models.ServerUser;
 import shared.CatanModel;
 import shared.Player;
@@ -17,10 +18,13 @@ public class ServerGame
 	GameInfo info = null;
 	CatanModel model = null;
 	
+	MovesFacade movesFacade = null;
+	
 	public ServerGame(int gameNumber, String name, boolean randomTiles,	boolean randomNumbers, boolean randomPorts)
 	{
 		info = new GameInfo(gameNumber, name, new ArrayList<PlayerInfo>());
 		model = new CatanModel();
+		movesFacade = new MovesFacade(model);
 	}
 
 	public GameInfo getInfo()
@@ -46,6 +50,11 @@ public class ServerGame
 		info.addPlayer(new PlayerInfo(user.getID(), index, user.getUsername(), color));
 		
 		model.getPlayers()[index] = new Player(user.getID(), index, user.getUsername(), color);
+	}
+	
+	public MovesFacade getMovesFacade()
+	{
+		return movesFacade;
 	}
 
 }

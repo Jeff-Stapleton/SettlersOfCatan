@@ -70,7 +70,7 @@ public class ServerLobby
 	 */
 	public boolean verifyUser(String username, String password)
 	{
-		log.trace("Verifying the user's username and password");
+		log.trace("Verifying the user's credentials");
 		ServerUser user = getUser(username);
 		
 		if (user != null && user.getPassword().equals(password))

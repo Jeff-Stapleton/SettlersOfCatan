@@ -1,9 +1,7 @@
 package shared;
-import java.util.Observable;
-
 import shared.locations.EdgeLocation;
 
-public class Road extends Observable
+public class Road extends InvisObservable
 {
 	private int owner;
 	private EdgeLocation location;

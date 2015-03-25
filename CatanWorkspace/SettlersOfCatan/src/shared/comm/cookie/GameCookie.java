@@ -17,5 +17,10 @@ public class GameCookie implements ICookie
 		
 		return cookie.toString();
 	}
+	
+	public int getId()
+	{
+		return gameNumber;
+	}
 
 }

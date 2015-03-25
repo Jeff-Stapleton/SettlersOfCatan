@@ -3,6 +3,8 @@ package server.comm.response;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import shared.comm.cookie.ICookie;
 
 // TODOC: Auto-generated Javadoc
@@ -11,7 +13,9 @@ import shared.comm.cookie.ICookie;
  */
 public abstract class AbstractResponse implements IResponse
 {
-	private static final String PATH = " Path=/;";
+	private static final Logger log = Logger.getLogger(AbstractResponse.class);
+	
+	private static final String PATH = "Path=/;";
 	
 	private int responseCode = 500;
 	private long responseLength = 0;
@@ -46,9 +50,10 @@ public abstract class AbstractResponse implements IResponse
 		{
 			String cookieString = headers.get("Set-Cookie");
 			cookieString = cookieString.substring(0, cookieString.length() - PATH.length());
-			cookieString = cookieString + " " + cookie.getCookie() + PATH;
+			cookieString = cookieString + cookie.getCookie() + PATH;
 			headers.put("Set-Cookie", cookieString);
 		}
+		log.debug("Set-Cookie:" + headers.get("Set-Cookie"));
 	}
 	
 	/**

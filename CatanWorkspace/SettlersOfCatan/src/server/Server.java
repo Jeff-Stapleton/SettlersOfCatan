@@ -13,10 +13,27 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import server.comm.request.*;
 import server.comm.response.*;
+import server.handlers.GameListAIHandler;
+import server.handlers.GameModelHandler;
 import server.handlers.GamesCreateHandler;
 import server.handlers.GamesJoinHandler;
 import server.handlers.GamesListHandler;
-import server.handlers.ReqResHandler;
+import server.handlers.MovesAcceptTradeHandler;
+import server.handlers.MovesBuildCityHandler;
+import server.handlers.MovesBuildRoadHandler;
+import server.handlers.MovesBuildSettlementHandler;
+import server.handlers.MovesBuyDevCardHandler;
+import server.handlers.MovesDiscardCardsHandler;
+import server.handlers.MovesFinishTurnHandler;
+import server.handlers.MovesMaritimeTradeHandler;
+import server.handlers.MovesMonumentHandler;
+import server.handlers.MovesOfferTradeHandler;
+import server.handlers.MovesRoadBuildingHandler;
+import server.handlers.MovesRobPlayerHandler;
+import server.handlers.MovesRollNumberHandler;
+import server.handlers.MovesSendChatHandler;
+import server.handlers.MovesSoldierHandler;
+import server.handlers.MovesYearOfPlentyHandler;
 import server.handlers.UserLoginHandler;
 import server.handlers.UserRegisterHandler;
 import shared.Util;
@@ -133,39 +150,38 @@ public class Server
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 
-		
-		server.createContext("/user/login", new ReqResHandler<MessageResponse, UserLoginRequest>(this, UserLoginRequest.class));
-//		server.createContext("/user/login", new UserLoginHandler(this));
+		server.createContext("/user/login", new UserLoginHandler(this));
 		server.createContext("/user/register", new UserRegisterHandler(this));
 
 		server.createContext("/games/list", new GamesListHandler(this));
 		server.createContext("/games/create", new GamesCreateHandler(this));
 		server.createContext("/games/join", new GamesJoinHandler(this));
-		server.createContext("/games/save", new ReqResHandler<MessageResponse, GamesSaveRequest>(this, GamesSaveRequest.class));
-		server.createContext("/games/load", new ReqResHandler<MessageResponse, GamesLoadRequest>(this, GamesLoadRequest.class));
+//		server.createContext("/games/save", new ReqResHandler<MessageResponse, GamesSaveRequest>(this, GamesSaveRequest.class));
+//		server.createContext("/games/load", new ReqResHandler<MessageResponse, GamesLoadRequest>(this, GamesLoadRequest.class));
 
-		server.createContext("/game/model", new ReqResHandler<CatanModelResponse, GameModelRequest>(this, GameModelRequest.class));
-		server.createContext("/game/reset", new ReqResHandler<CatanModelResponse, GameResetRequest>(this, GameResetRequest.class));
-		server.createContext("/game/commands", new ReqResHandler<CommandsResponse, GameCommandsRequest>(this, GameCommandsRequest.class));
+		server.createContext("/game/model", new GameModelHandler(this));
+//		server.createContext("/game/reset", new ReqResHandler<CatanModelResponse, GameResetRequest>(this, GameResetRequest.class));
+//		server.createContext("/game/commands", new ReqResHandler<CommandsResponse, GameCommandsRequest>(this, GameCommandsRequest.class));
+		server.createContext("/game/listAI", new GameListAIHandler(this));
 
-		server.createContext("/moves/sendChat", new ReqResHandler<CatanModelResponse, MovesSendChatRequest>(this, MovesSendChatRequest.class));
-		server.createContext("/moves/rollNumber", new ReqResHandler<CatanModelResponse, MovesRollNumberRequest>(this, MovesRollNumberRequest.class));
-		server.createContext("/moves/robPlayer", new ReqResHandler<CatanModelResponse, MovesRobPlayerRequest>(this, MovesRobPlayerRequest.class));
-		server.createContext("/moves/finishTurn", new ReqResHandler<CatanModelResponse, MovesFinishTurnRequest>(this, MovesFinishTurnRequest.class));
-		server.createContext("/moves/buyDevCard", new ReqResHandler<CatanModelResponse, MovesBuyDevCardRequest>(this, MovesBuyDevCardRequest.class));
-		server.createContext("/moves/Year_of_Plenty", new ReqResHandler<CatanModelResponse, MovesYearOfPlentyRequest>(this, MovesYearOfPlentyRequest.class));
-		server.createContext("/moves/Road_Building", new ReqResHandler<CatanModelResponse, MovesRoadBuildingRequest>(this, MovesRoadBuildingRequest.class));
-		server.createContext("/moves/Soldier", new ReqResHandler<CatanModelResponse, MovesSoldierRequest>(this, MovesSoldierRequest.class));
-		server.createContext("/moves/Monument", new ReqResHandler<CatanModelResponse, MovesMonumentRequest>(this, MovesMonumentRequest.class));
-		server.createContext("/moves/buildRoad", new ReqResHandler<CatanModelResponse, MovesBuildRoadRequest>(this, MovesBuildRoadRequest.class));
-		server.createContext("/moves/buildCity", new ReqResHandler<CatanModelResponse, MovesBuildCityRequest>(this, MovesBuildCityRequest.class));
-		server.createContext("/moves/buildSettlement", new ReqResHandler<CatanModelResponse, MovesBuildSettlementRequest>(this, MovesBuildSettlementRequest.class));
-		server.createContext("/moves/offerTrade", new ReqResHandler<CatanModelResponse, MovesOfferTradeRequest>(this, MovesOfferTradeRequest.class));
-		server.createContext("/moves/acceptTrade", new ReqResHandler<CatanModelResponse, MovesAcceptTradeRequest>(this, MovesAcceptTradeRequest.class));
-		server.createContext("/moves/maritimeTrade", new ReqResHandler<CatanModelResponse, MovesMaritimeTradeRequest>(this, MovesMaritimeTradeRequest.class));
-		server.createContext("/moves/discardCards", new ReqResHandler<CatanModelResponse, MovesDiscardCardsRequest>(this, MovesDiscardCardsRequest.class));
+		server.createContext("/moves/sendChat", new MovesSendChatHandler(this));
+		server.createContext("/moves/rollNumber", new MovesRollNumberHandler(this));
+		server.createContext("/moves/robPlayer", new MovesRobPlayerHandler(this));
+		server.createContext("/moves/finishTurn", new MovesFinishTurnHandler(this));
+		server.createContext("/moves/buyDevCard", new MovesBuyDevCardHandler(this));
+		server.createContext("/moves/Year_of_Plenty", new MovesYearOfPlentyHandler(this));
+		server.createContext("/moves/Road_Building", new MovesRoadBuildingHandler(this));
+		server.createContext("/moves/Soldier", new MovesSoldierHandler(this));
+		server.createContext("/moves/Monument", new MovesMonumentHandler(this));
+		server.createContext("/moves/buildRoad", new MovesBuildRoadHandler(this));
+		server.createContext("/moves/buildCity", new MovesBuildCityHandler(this));
+		server.createContext("/moves/buildSettlement", new MovesBuildSettlementHandler(this));
+		server.createContext("/moves/offerTrade", new MovesOfferTradeHandler(this));
+		server.createContext("/moves/acceptTrade", new MovesAcceptTradeHandler(this));
+		server.createContext("/moves/maritimeTrade", new MovesMaritimeTradeHandler(this));
+		server.createContext("/moves/discardCards", new MovesDiscardCardsHandler(this));
 
-		server.createContext("/util/changeLogLevel", new ReqResHandler<MessageResponse, UtilChangeLogLevelRequest>(this, UtilChangeLogLevelRequest.class));
+//		server.createContext("/util/changeLogLevel", new UtilChangeLogLevelHandler(this));
 
 		log.trace("Created contexts. Starting server");
 

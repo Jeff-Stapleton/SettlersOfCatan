@@ -1,27 +1,26 @@
 package server.handlers;
 
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import client.view.data.GameInfo;
 import server.Server;
+import server.ServerGame;
 import server.comm.response.AbstractResponse;
 import server.comm.response.JsonResponse;
 import server.comm.response.MessageResponse;
-import server.models.ServerUser;
 import shared.comm.ServerException;
-import shared.comm.cookie.GameCookie;
-import shared.comm.serialization.JoinGameRequest;
+import shared.comm.serialization.SoldierRequest;
 
-public class GamesJoinHandler extends SimpleHandler
+public class MovesSoldierHandler extends SimpleHandler
 {
-	private static final Logger log = Logger.getLogger(GamesJoinHandler.class);
+	private static final Logger log = Logger.getLogger(MovesSoldierHandler.class);
 	
 	private Server server = null;
 
-	public GamesJoinHandler(Server server)
+	public MovesSoldierHandler(Server server)
 	{
 		this.server = server;
 	}
@@ -30,27 +29,25 @@ public class GamesJoinHandler extends SimpleHandler
 	public void handle(HttpExchange exchange) throws IOException
 	{
 		AbstractResponse response = null;
-		JoinGameRequest request = null;
 		
-		log.debug("/games/join begun");
+		log.debug("/moves/sendChat begun");
 		
 		log.trace("Verifying user credentials");
 		try
 		{
-			ServerUser user = verifyUser(exchange, server);
-			log.trace("User is valid. joining game");
+			verifyUser(exchange, server);
+			log.trace("User is valid");
 
 			log.trace("creating request body object");
-			request = getRequest(exchange, JoinGameRequest.class);
+			SoldierRequest request = getRequest(exchange, SoldierRequest.class);
 			
-			GameInfo game = server.getServerLobby().getGamesFacade().join(user, request);
-			log.trace("Created game #" + game.getId() + "\"" + game.getTitle() + "\"");
+			ServerGame game = getGame(exchange, server);
 			
+			game.getMovesFacade().soldier(request);
 			
+			log.trace("Chat message added to model");
 			response = new JsonResponse(200);
-			((JsonResponse)response).setJsonBody(game, JsonResponse.GAME_INFO_TYPE);
-			
-			response.addCookie(new GameCookie(game.getId()));
+			((JsonResponse)response).setJsonBody(game.getModel());
 		}
 		catch (ServerException e)
 		{
@@ -63,7 +60,7 @@ public class GamesJoinHandler extends SimpleHandler
 		log.trace("Sending response");
 		sendResponse(exchange, response);
 		
-		log.trace("/games/join finished");
+		log.trace("/moves/sendChat finished");
 	}
 
 }

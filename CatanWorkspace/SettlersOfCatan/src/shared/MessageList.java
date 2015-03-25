@@ -6,9 +6,8 @@ package shared;
  */
 
 import java.util.ArrayList;
-import java.util.Observable;
 
-public class MessageList extends Observable
+public class MessageList extends InvisObservable
 {
 	
 	/** The list of messages. */

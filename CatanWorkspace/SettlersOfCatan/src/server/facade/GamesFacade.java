@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import client.view.data.GameInfo;
+import client.view.data.PlayerInfo;
 import server.ServerGame;
 import server.ServerLobby;
 import server.models.ServerUser;
@@ -65,17 +66,37 @@ public class GamesFacade
 	 */
 	public GameInfo join(ServerUser user, JoinGameRequest request) throws ServerException
 	{
+		CatanColor desiredColor = CatanColor.fromString(request.getColor());
 		ServerGame game = serverLobby.getGame(request.getId());
 		if (game.getInfo().getPlayerWithId(user.getID()) != null)
 		{
-			log.trace("Already a part of that game. Return game.");
+			log.trace("Already a part of that game");
+			log.trace("Check color uniqueness");
+			for (PlayerInfo player : game.getInfo().getPlayers())
+			{
+				if (player != null && player.getId() != user.getID() && desiredColor.equals(player.getColor()))
+				{
+					throw new ServerException("Failed to join game - The desired color is already taken");
+				}
+			}
+			game.getInfo().getPlayerWithId(user.getID()).setColor(desiredColor);
+			game.getModel().getPlayers()[game.getInfo().getPlayerWithId(user.getID()).getPlayerIndex()].setColor(desiredColor);
 			return game.getInfo();
 		}
 		if (game.getInfo().getPlayers().size() >= 4)
 		{
 			throw new ServerException("Game is full");
 		}
-		game.addPlayer(user, CatanColor.fromString(request.getColor()));
+		
+		log.trace("Check color uniqueness");
+		for (PlayerInfo player : game.getInfo().getPlayers())
+		{
+			if (player != null && player.getId() != user.getID() && desiredColor.equals(player.getColor()))
+			{
+				throw new ServerException("Failed to join game - The desired color is already taken");
+			}
+		}
+		game.addPlayer(user, desiredColor);
 		
 		return game.getInfo();
 	}

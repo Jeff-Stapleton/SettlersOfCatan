@@ -1,10 +1,8 @@
 package shared;
 
-import java.util.Observable;
-
 import shared.definitions.ResourceType;
 
-public class ResourceList extends Observable {
+public class ResourceList extends InvisObservable {
 
 
 	private int brick = 0;

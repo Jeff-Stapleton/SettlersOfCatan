@@ -356,7 +356,7 @@ public class MovesFacade
    * @param playerIndex the index of the player accepting the trade
    * @param willAccept whether the player accepts or rejects the offer
    */
-  public void accepTrade(AcceptTradeRequest request) throws ServerException
+  public void acceptTrade(AcceptTradeRequest request) throws ServerException
   {
 	  if (catanModel.getTradeOffer() != null && catanModel.getTradeOffer().getReceiver() == request.getPlayerIndex())
 	  {

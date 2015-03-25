@@ -69,6 +69,7 @@ public class UserFacade
 			{
 				log.trace("user \"" + request.getUsername() + "\" registered");
 				response = new MessageResponse(200, "Success");
+				response.addCookie(new PlayerCookie(request.getUsername(), request.getPassword(), serverLobby.getUserID(request.getUsername())));
 			}
 			else
 			{
