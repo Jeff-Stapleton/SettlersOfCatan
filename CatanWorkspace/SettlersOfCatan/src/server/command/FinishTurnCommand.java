@@ -1,12 +1,17 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
+import server.comm.response.JsonResponse;
 import shared.CatanModel;
 import shared.DevCardList;
 import shared.Player;
 import shared.TurnType;
 import shared.comm.serialization.FinishTurnRequest;
 
-public class FinishTurnCommand implements ICommand<CatanModel>{
+public class FinishTurnCommand implements ICommand<CatanModel>
+{
+	private static final Logger log = Logger.getLogger(FinishTurnCommand.class);
 	
 	private int owner;
 
@@ -53,14 +58,23 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 			catanModel.getTurnTracker().setStatus(TurnType.ROLLING);
 		}
 		
+		log.trace(catanModel.getTurnTracker().getStatus().toString());
+		
 		if (catanModel.getTurnTracker().equals(TurnType.FIRST_ROUND))
 		{
 			  for (int i = 0; i < 4; i++)
+			  {
 				  if(catanModel.getPlayers()[i].getRoads() != 14 && catanModel.getPlayers()[i].getSettlements() != 4)
+				  {
 					  firstTurnEnd = false;
+				  }
+			  }
 			  
+			  log.trace("First Turn End: " + firstTurnEnd);
 			  if (firstTurnEnd)
+			  {
 				  catanModel.getTurnTracker().setStatus(TurnType.SECOND_ROUND);
+			  }
 		}
 		  
 		if (catanModel.getTurnTracker().equals(TurnType.SECOND_ROUND))
@@ -69,6 +83,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>{
 				  if(catanModel.getPlayers()[i].getRoads() != 13 && catanModel.getPlayers()[i].getSettlements() != 3)
 					  secondTurnEnd = false;
 			  
+			  log.trace("Second Turn End: " + secondTurnEnd);
 			  if (secondTurnEnd)
 				  catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		}

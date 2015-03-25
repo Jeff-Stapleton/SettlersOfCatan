@@ -14,11 +14,11 @@ public class TurnTracker extends InvisObservable
         return instance;
     }
     
+	/** The status. */
+	private TurnType status = TurnType.FIRST_ROUND;
+    
 	/** The current turn. */
 	private int currentTurn = 0;
-	
-	/** The status. */
-	private TurnType status = TurnType.PLAYING;
 	
 	/** The longest road. */
 	private int longestRoad = -1;
