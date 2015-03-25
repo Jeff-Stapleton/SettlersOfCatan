@@ -165,10 +165,16 @@
     </target>
 
     <target name="our-client" depends="package" description="compiles, packages, and runs the student client">
+        <condition property="arg.host" else="localhost">
+            <isset property="host"/>
+        </condition>
+        <condition property="arg.port" else="8081">
+            <isset property="port"/>
+        </condition>
         <java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
             <sysproperty key="com.sun.management.jmxremote" value=""/>
-            <arg line="-h ${host}"/>
-            <arg line="-p ${port}"/>
+            <arg line="-h ${arg.host}"/>
+            <arg line="-p ${arg.port}"/>
             <assertions>
                 <enable/>
             </assertions>
