@@ -49,8 +49,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 		newCards.reset();
 		player.setPlayedDevCard(false);
 		
-		catanModel.getTurnTracker().nextTurn();
-		catanModel.setVersion(catanModel.getVersion() + 1);
+		
 		
 		if ((catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND) && catanModel.getTurnTracker().getCurrentTurn() == 0) || 
 				!catanModel.getTurnTracker().getStatus().equals(TurnType.FIRST_ROUND) && !catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND)) 
@@ -76,6 +75,8 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 				  catanModel.getTurnTracker().setStatus(TurnType.SECOND_ROUND);
 			  }
 		}
+		
+		
 		  
 		if (catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND))
 		{
@@ -83,10 +84,13 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 				  if(catanModel.getPlayers()[i].getRoads() != 13 && catanModel.getPlayers()[i].getSettlements() != 3)
 					  secondTurnEnd = false;
 			  
+			  catanModel.getTurnTracker().nextTurn();
 			  log.trace("Second Turn End: " + secondTurnEnd);
 			  if (secondTurnEnd)
 				  catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		}
+		else
+			catanModel.getTurnTracker().nextTurn();
 	
 		return catanModel;
 	}

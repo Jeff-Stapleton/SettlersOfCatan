@@ -16,6 +16,10 @@ public class SecondRoundState extends GameState
 		{
 			getTracker().setCurrentTurn(getTracker().getCurrentTurn() - 1);
 		}
+		else if (getTracker().getCurrentTurn() == 1)
+		{
+			getTracker().setCurrentTurn(0);
+		}
 		else
 		{
 			getTracker().setStatus(TurnType.ROLLING);

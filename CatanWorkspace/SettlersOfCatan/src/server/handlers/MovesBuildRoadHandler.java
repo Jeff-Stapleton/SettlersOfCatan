@@ -31,22 +31,22 @@ public class MovesBuildRoadHandler extends SimpleHandler
 		try{
 			AbstractResponse response = null;
 			
-			log.debug("/moves/sendChat begun");
+//			log.debug("/moves/sendChat begun");
 			
-			log.trace("Verifying user credentials");
+//			log.trace("Verifying user credentials");
 			try
 			{
 				verifyUser(exchange, server);
-				log.trace("User is valid");
+//				log.trace("User is valid");
 	
-				log.trace("creating request body object");
+//				log.trace("creating request body object");
 				BuildRoadRequest request = getRequest(exchange, BuildRoadRequest.class);
 				
 				ServerGame game = getGame(exchange, server);
 				
 				game.getMovesFacade().buildRoad(request);
 				
-				log.trace("Chat message added to model");
+//				log.trace("Chat message added to model");
 				response = new JsonResponse(200);
 				((JsonResponse)response).setJsonBody(game.getModel());
 			}
@@ -55,13 +55,13 @@ public class MovesBuildRoadHandler extends SimpleHandler
 				response = new MessageResponse(400, e.getMessage());
 			}
 	
-			log.trace("Adding response headers and cookies");
+//			log.trace("Adding response headers and cookies");
 			addResponseHeaders(exchange, response);
 			
-			log.trace("Sending response");
+//			log.trace("Sending response");
 			sendResponse(exchange, response);
 			
-			log.trace("/moves/sendChat finished");
+//			log.trace("/moves/sendChat finished");
 		}
 		catch (Exception e){
 			e.printStackTrace();
