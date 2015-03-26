@@ -3,12 +3,16 @@ package shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import server.facade.MovesFacade;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.*;
 
 public class CanCan {
+	private static final Logger log = Logger.getLogger(CanCan.class);
 	// test push from my chromecrook
 	
 	/**
@@ -361,16 +365,57 @@ public class CanCan {
 		}
 		return bestRatio;
 	}
+	/*
+	 * DON'T CALL THIS FROM ANYWHERE OTHER THAN "canMaritimeTrade"
+	 */
+	public static ResourceList splitMaritimeTradeOffer(ResourceList maritimeOffer)
+	{
+		ResourceList bankOffer = new ResourceList();
+		if (maritimeOffer.getWood() < 0)
+		{
+			bankOffer.setWood(maritimeOffer.getWood() * -1);
+			maritimeOffer.setWood(0);
+		}
+		if (maritimeOffer.getBrick() < 0)
+		{
+			bankOffer.setBrick(maritimeOffer.getBrick() * -1);
+			maritimeOffer.setBrick(0);
+		}
+		if (maritimeOffer.getSheep() < 0)
+		{
+			bankOffer.setSheep(maritimeOffer.getSheep() * -1);
+			maritimeOffer.setSheep(0);
+		}
+		if (maritimeOffer.getWheat() < 0)
+		{
+			bankOffer.setWheat(maritimeOffer.getWheat() * -1);
+			maritimeOffer.setWheat(0);
+		}
+		if (maritimeOffer.getOre() < 0)
+		{
+			bankOffer.setOre(maritimeOffer.getOre() * -1);
+			maritimeOffer.setOre(0);
+		}
+		return bankOffer;
+	}
 	
 	public static boolean canMaritimeTrade(Player player, TurnTracker turn, ResourceList maritimeOffer, ResourceType resource, ResourceList bank, List<Port> newPorts, Map map)
 	{
 		boolean validTrade = false;
+		ResourceList bankOffer = splitMaritimeTradeOffer(maritimeOffer);
+		
+		
+		log.debug(ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer));
+		log.debug(ResourceList.hasResourcesCheck(bank, bankOffer));
+		log.debug(turn.getCurrentTurn() == player.getPlayerIndex() );
+		log.debug(turn.getStatus() == TurnType.PLAYING);
+		
 		if (ResourceList.hasResourcesCheck(player.getResources(), maritimeOffer) 
-				&& ResourceList.hasResourcesCheck(bank, ResourceList.invertResources(maritimeOffer)) 
+				&& ResourceList.hasResourcesCheck(bank, bankOffer) 
 				&& turn.getCurrentTurn() == player.getPlayerIndex()  
 				&& turn.getStatus() == TurnType.PLAYING)
 		{
-			
+			log.debug("Entered the IF");
 			List<Building> newBuildings = new ArrayList<Building>();
 			if (map.getSettlements() != null && !map.getSettlements().isEmpty())
 			{
@@ -385,7 +430,10 @@ public class CanCan {
 					newBuildings.addAll(map.getSettlements());
 			}
 			else
+			{
+				log.debug("not ports or cities");
 				return false;
+			}
 			
 			Port onPort = isOnPort(newBuildings, newPorts, player);
 			List<Port> oneTimePorts = new ArrayList<Port>();
@@ -393,8 +441,10 @@ public class CanCan {
 			for (int i = 0; i < newPorts.size(); i++)
 				oneTimePorts.add(newPorts.get(i));
 			
+			log.debug("");
 			while(onPort != null)
 			{
+				log.debug("3 or 2: " + resource);
 				switch (resource)
 				{
 					case WOOD:
@@ -482,7 +532,7 @@ public class CanCan {
 				onPort = isOnPort(newBuildings, oneTimePorts, player);
 			}
 			
-			// no valid ports, default 4 to 1 exchange	
+			log.debug("default to 4: " + resource);	
 			switch (resource)
 			{
 				case WOOD:
@@ -547,6 +597,7 @@ public class CanCan {
 				}
 			}
 		}
+		log.debug("failed initial check");
 		return false;
 	}
 	/**
