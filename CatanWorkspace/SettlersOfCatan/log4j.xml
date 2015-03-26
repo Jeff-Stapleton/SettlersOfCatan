@@ -20,6 +20,16 @@
     </logger>
 	
     <logger name="server" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+    <logger name="server.command.DiscardCardCommand" additivity="false">
+    	<level value="TRACE"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+     <logger name="server.handlers.MovesDiscardCardsHandler" additivity="false">
     	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
@@ -35,21 +45,21 @@
     </logger>
 	
     <logger name="shared" additivity="false">
-    	<level value="TRACE"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
     
     <logger name="client.comm.ServerPoller" additivity="false">
-    	<level value="WARN"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
     
     <logger name="org.apache.http">
-		<level value="WARN"/> 
+		<level value="DEBUG"/> 
 	</logger>
  
 	<root>
-		<level value="WARN" />
+		<level value="DEBUG" />
 		<appender-ref ref="console" />
 	</root>
  

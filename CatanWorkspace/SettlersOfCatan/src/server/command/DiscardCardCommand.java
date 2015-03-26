@@ -9,7 +9,7 @@ import shared.TurnType;
 import shared.comm.serialization.DiscardCardsRequest;
 
 public class DiscardCardCommand implements ICommand<CatanModel> {
-	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
+	private static final Logger log = Logger.getLogger(DiscardCardCommand.class);
 	
 	private CatanModel model;
 	private Player player;
@@ -35,42 +35,30 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		initialize(catanModel);
-		if (player.hasDiscarded() ==  false)
+		if (catanModel.getPlayers()[request.getPlayerIndex()].hasDiscarded() ==  false)
 		{
-			ResourceList.moveResources(inventory, bank, discard);
-			player.setDiscarded(true);
+			ResourceList.moveResources(catanModel.getPlayers()[request.getPlayerIndex()].getResources(), catanModel.getBank(), request.getDiscardedCards());
+			catanModel.getPlayers()[request.getPlayerIndex()].setDiscarded(true);
 		}
+		int count = 0;
 		for (Player p : catanModel.getPlayers())
 		{
-			int count = 0;
 			if (p.hasDiscarded() == true)
 			{
 				count++;
 			}
-			
-			if (count == 4)
+		}
+		
+		if (count == 4)
+		{
+			catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
+			for (Player p : catanModel.getPlayers())
 			{
-				catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
+				p.setDiscarded(false);
 			}
-			else
-			{
-				count = 0;
-			}
+
 		}
 		return catanModel;
-	}
-	
-	public int getCount(CatanModel catanModel)
-	{
-		int count = 0;
-		for (Player p : catanModel.getPlayers())
-		{
-			if (p.hasDiscarded() == false)
-			{
-				count++;
-			}
-		}
-		return count;
 	}
 
 	public void initialize(CatanModel catanModel) {
