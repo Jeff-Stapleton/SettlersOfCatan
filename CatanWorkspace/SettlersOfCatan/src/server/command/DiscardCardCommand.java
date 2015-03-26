@@ -34,38 +34,43 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		log.trace("Initiate Discard");
 		initialize(catanModel);
-		if (player.hasDiscarded() != true)
+		if (player.hasDiscarded() ==  false)
 		{
 			ResourceList.moveResources(inventory, bank, discard);
-			boolean isDiscarding = true;
-			while (isDiscarding == true)
-			{
-				int count = 0;
-				for (Player p : catanModel.getPlayers())
-				{
-					if (p.hasDiscarded() == true);
-					{
-						count++;
-					}
-				}
-				if (count == 4)
-				{
-					isDiscarding = false;
-				}
-				else
-				{
-					count = 0;
-				}
-			}
-			catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
-			return catanModel;
+			player.setDiscarded(true);
 		}
-		else
+		for (Player p : catanModel.getPlayers())
 		{
-			return catanModel;
+			int count = 0;
+			if (p.hasDiscarded() == true)
+			{
+				count++;
+			}
+			
+			if (count == 4)
+			{
+				catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
+			}
+			else
+			{
+				count = 0;
+			}
 		}
+		return catanModel;
+	}
+	
+	public int getCount(CatanModel catanModel)
+	{
+		int count = 0;
+		for (Player p : catanModel.getPlayers())
+		{
+			if (p.hasDiscarded() == false)
+			{
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public void initialize(CatanModel catanModel) {
