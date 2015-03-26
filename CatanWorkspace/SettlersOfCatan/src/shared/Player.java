@@ -2,8 +2,8 @@ package shared;
 
 import shared.definitions.CatanColor;
 
-public class Player extends InvisObservable {
-
+public class Player
+{
 	private ResourceList resources = new ResourceList();
 	private DevCardList oldDevCards = new DevCardList();
 	private DevCardList newDevCards = new DevCardList();
@@ -453,12 +453,6 @@ public class Player extends InvisObservable {
 		updated = updated | newDevCards.updateFrom(rhs.newDevCards);
 		updated = updated | oldDevCards.updateFrom(rhs.oldDevCards);
 		updated = updated | resources.updateFrom(rhs.resources);
-		
-		if (updated)
-		{
-			setChanged();
-			notifyObservers();
-		}
 		
 		return updated;
 	}

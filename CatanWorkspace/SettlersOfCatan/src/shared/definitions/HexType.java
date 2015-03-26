@@ -30,14 +30,37 @@ public enum HexType
 	@SerializedName("water")
 	WATER;
 	
-//	public class HexTypeAdapter<HexType> extends TypeAdapter<HexType> {
+	public String toString()
+	{
+		switch(this)
+		{
+		case WOOD:
+			return "wood";
+		case BRICK:
+			return "brick";
+		case SHEEP:
+			return "sheep";
+		case WHEAT:
+			return "wheat";
+		case ORE:
+			return "ore";
+		case DESERT:
+			return "desert";
+		case WATER:
+			return "water";
+		default:
+			return null;
+		}
+	}
+	
+//	public class HexTypeAdapter extends TypeAdapter<HexType> {
 //
 //		@Override
 //		public void write(JsonWriter out, HexType value) throws IOException {
 //			if (value == null) {
 //				out.nullValue();
 //			} else {
-//				out.value(toLowercase(value));
+//				out.value(value.toString());
 //			}
 //		}
 //		

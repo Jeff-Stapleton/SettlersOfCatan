@@ -4,6 +4,9 @@ import java.lang.reflect.Type;
 
 import org.apache.log4j.Logger;
 
+import shared.Hex;
+import shared.Port;
+import shared.definitions.HexType;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 
@@ -30,6 +33,8 @@ public class JsonResponse extends AbstractResponse
 	private Gson gson = new GsonBuilder()
 								.registerTypeAdapter(GameInfo.class, new GameInfoSerializer())
 								.registerTypeAdapter(GameInfo[].class, new GameInfoArraySerializer())
+								.registerTypeAdapter(Hex.class, new HexSerializer())
+								.registerTypeAdapter(Port.class, new PortSerializer())
 								.setPrettyPrinting().create();
 	String jsonBody = null;
 	
@@ -86,6 +91,50 @@ public class JsonResponse extends AbstractResponse
 	{
 		//log.trace("Returning byte response body. Was: \n" + jsonBody);
 		return jsonBody.getBytes();
+	}
+	
+	public class PortSerializer implements JsonSerializer<Port>
+	{
+
+		@Override
+		public JsonElement serialize(Port src, Type typeOfSrc, JsonSerializationContext context)
+		{
+			JsonObject object = new JsonObject();
+			
+			object.addProperty("ratio", src.getRatio());
+			if (src.getRatio() == 2)
+			{
+				object.add("resource", context.serialize(src.getType()));
+			}
+			object.add("direction", context.serialize(src.getDirection()));
+			object.add("location", context.serialize(src.getLocation()));
+			
+			return object;
+		}
+		
+	}
+	
+	public class HexSerializer implements JsonSerializer<Hex>
+	{
+
+		@Override
+		public JsonElement serialize(Hex src, Type typeOfSrc, JsonSerializationContext context)
+		{
+			JsonObject object = new JsonObject();
+			
+			if (src.getResource() != HexType.DESERT)
+			{
+				object.addProperty("resource", src.getResource().toString());
+			}
+			object.add("location", context.serialize(src.getLocation()));
+			if (src.getResource() != HexType.DESERT)
+			{
+				object.addProperty("number", src.getNumber());
+			}
+			
+			return object;
+		}
+		
 	}
 	
 	public class GameInfoSerializer implements JsonSerializer<GameInfo>
