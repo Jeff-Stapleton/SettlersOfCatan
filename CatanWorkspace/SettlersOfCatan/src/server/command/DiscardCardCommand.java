@@ -1,11 +1,15 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
 import shared.comm.serialization.DiscardCardsRequest;
 
 public class DiscardCardCommand implements ICommand<CatanModel> {
+	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
+	
 	private CatanModel model;
 	private ResourceList inventory;
 	private ResourceList bank;
@@ -28,9 +32,10 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
+		log.trace("Initiate Discard");
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, discard);
-		return model;
+		return catanModel;
 	}
 
 	public void initialize(CatanModel catanModel) {

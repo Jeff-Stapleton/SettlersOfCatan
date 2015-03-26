@@ -1,5 +1,8 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
+import server.handlers.MovesFinishTurnHandler;
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
@@ -7,6 +10,8 @@ import shared.TradeOffer;
 import shared.comm.serialization.OfferTradeRequest;
 
 public class OfferTradeCommand implements ICommand<CatanModel> {
+	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
+	
 	private CatanModel model;
 	private int instigator;
 	private int investigator;
@@ -31,8 +36,9 @@ public class OfferTradeCommand implements ICommand<CatanModel> {
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
+		log.trace("Initiate Offer Trade");
 		initialize(catanModel);
-		model.setTradeOffer(offer);
+		catanModel.setTradeOffer(offer);
 		return model;
 	}
 	
