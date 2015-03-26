@@ -18,7 +18,7 @@ public class PlayerInfo
 {
 	
 	private int id;
-	private int playerIndex;
+	private transient int playerIndex;
 	private String name;
 	private String color;
 	
