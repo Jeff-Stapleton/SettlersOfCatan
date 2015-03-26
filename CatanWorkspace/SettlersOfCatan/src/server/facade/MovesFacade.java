@@ -285,7 +285,7 @@ public class MovesFacade
    */
   public void buildRoad(BuildRoadRequest request) throws ServerException
   {
-	  EdgeLocation road = new EdgeLocation(request.getRoadLocation().getX(), request.getRoadLocation().getX(), EdgeDirection.fromString(request.getRoadLocation().getDirection()));
+	  EdgeLocation road = new EdgeLocation(request.getRoadLocation().getX(), request.getRoadLocation().getY(), EdgeDirection.fromString(request.getRoadLocation().getDirection()));
 	  
 	  if(CanCan.canBuildRoad(catanModel.getPlayers()[request.getPlayerIndex()], road, catanModel.getTurnTracker(), catanModel.getMap()))
 	  {

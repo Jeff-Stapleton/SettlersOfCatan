@@ -36,27 +36,17 @@ public class OfferTradeCommand implements ICommand<CatanModel> {
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		log.trace("Initiate Offer Trade");
-		initialize(catanModel);
-		catanModel.setTradeOffer(offer);
-		return model;
-	}
-	
-	public void initialize(CatanModel catanModel) {
-		model = catanModel;
-		instigator = request.getPlayerIndex();
-		investigator = request.getReceiver();
-		trade = request.getOffer();
-		offer = getOffer(investigator, trade, instigator);
-	}
-
-	public int getPlayer() {
-		return request.getPlayerIndex();
-	}
-	
-	public TradeOffer getOffer(int investigator, ResourceList trade, int instigator) {
-		TradeOffer tradeOffer = new TradeOffer(instigator, trade, investigator);
-		return tradeOffer;
+		
+		//execute
+		int brick = request.getOffer().getBrick();
+		int ore = request.getOffer().getOre();
+		int sheep = request.getOffer().getSheep();
+		int wheat = request.getOffer().getWheat();
+		int wood = request.getOffer().getWood();
+		
+		TradeOffer tradeOffer = new TradeOffer(request.getPlayerIndex(), new ResourceList(brick, wood, wheat, sheep, ore), request.getReceiver());
+		catanModel.setTradeOffer(tradeOffer);
+		return catanModel;
 	}
 
 }
