@@ -139,7 +139,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	private void updateFromModel()
 	{
-
+		setColor(catanModel.getPlayers()[playerIndex].getColor());
 		
 		for (int i = 0; i < catanModel.getMap().getRoads().size(); i++)
 			for (int j = 0; j < catanModel.getPlayers().length; j++)
@@ -193,6 +193,7 @@ public class MapController extends Controller implements IMapController, Observe
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc) 
 	{
+		setColor(catanModel.getPlayers()[playerIndex].getColor());
 		if (player.getIsRoadBuilding())
 		{
 			if (firstRoad == null){

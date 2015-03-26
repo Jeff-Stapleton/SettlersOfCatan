@@ -83,7 +83,7 @@ public class DevCardList
 		}
 		for (int i = 0; i < getMonument(); i++)
 		{
-			list.add("monumnet");
+			list.add("monument");
 		}
 		for (int i = 0; i < getRoadBuilding(); i++)
 		{

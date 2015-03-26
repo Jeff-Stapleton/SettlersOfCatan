@@ -61,27 +61,27 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 		log.trace(giveResource);
 		switch (giveResource) {
 			case "wood": {
-				inventory.setWood(bank.getWood() - request.getRatio());
+				inventory.setWood(inventory.getWood() - request.getRatio());
 				bank.setWood(bank.getWood() + request.getRatio());
 				break;
 			}
 			case "brick": {
-				inventory.setBrick(bank.getBrick() - request.getRatio());
+				inventory.setBrick(inventory.getBrick() - request.getRatio());
 				bank.setBrick(bank.getBrick() + request.getRatio());
 				break;
 			}
 			case "sheep": {
-				inventory.setSheep(bank.getSheep() - request.getRatio());
+				inventory.setSheep(inventory.getSheep() - request.getRatio());
 				bank.setSheep(bank.getSheep() + request.getRatio());
 				break;
 			}
 			case "wheat": {
-				inventory.setWheat(bank.getWheat() - request.getRatio());
+				inventory.setWheat(inventory.getWheat() - request.getRatio());
 				bank.setWheat(bank.getWheat() + request.getRatio());
 				break;
 			}
 			case "ore": {
-				inventory.setOre(bank.getOre() - request.getRatio());
+				inventory.setOre(inventory.getOre() - request.getRatio());
 				bank.setOre(bank.getOre() + request.getRatio());
 				break;
 			}

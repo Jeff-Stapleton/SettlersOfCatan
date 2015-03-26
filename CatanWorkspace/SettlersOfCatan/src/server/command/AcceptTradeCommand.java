@@ -34,10 +34,14 @@ public class AcceptTradeCommand implements ICommand<CatanModel> {
 	 * @param a PlayerIndex, a willAcceptBoolean
 	 */
 	@Override
-	public CatanModel execute(CatanModel catanModel) {
+	public CatanModel execute(CatanModel catanModel) 
+	{
 		if (request.getWillAccept()) 
 		{
-
+			System.err.println("\n\n\n\n\n" + catanModel.getTradeOffer().toString() + "\n\n\n\nn\n");
+			System.err.println("\n\n\n\n\n" + catanModel.getTradeOffer().getSender() + "\n\n\n\nn\n");
+			System.err.println("\n\n\n\n\n" + catanModel.getTradeOffer().getReceiver() + "\n\n\n\nn\n");
+			System.err.println("\n\n\n\n\n" + catanModel.getTradeOffer().getOffer().toString() + "\n\n\n\nn\n");
 			//execute
 			int sender = catanModel.getTradeOffer().getSender();
 			int receiver = catanModel.getTradeOffer().getReceiver();

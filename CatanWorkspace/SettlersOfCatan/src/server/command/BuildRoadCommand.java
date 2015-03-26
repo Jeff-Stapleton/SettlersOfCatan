@@ -57,7 +57,7 @@ public class BuildRoadCommand implements ICommand<CatanModel>{
 			catanModel.getBank().setWood(catanModel.getBank().getWood() + 1);
 		}
 
-		//checkForLongestRoad(catanModel, playerIndex);
+		MapChecks.checkForLongestRoad(catanModel, playerIndex);
 		
 		return catanModel;
 	}
