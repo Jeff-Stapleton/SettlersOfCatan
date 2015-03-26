@@ -12,8 +12,9 @@ import shared.locations.VertexLocation;
 public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
 	
-	private CatanModel model;
 	private Player player;
+	private ResourceType give;
+	private ResourceType get;
 	private ResourceList inventory;
 	private ResourceList bank;
 	private ResourceList trade;
@@ -38,80 +39,81 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	public CatanModel execute(CatanModel catanModel) {
 		log.trace("Initiate Maritime Trade");
 		initialize(catanModel);
-		ResourceList.moveResources(inventory, bank, trade);
+		
+		giveToBank(request.getOutputResource(), request.getRatio());
+		giveToPlayer(request.getInputResource());
+		
 		return catanModel;
 	}
 
 	public void initialize(CatanModel catanModel) {
-		model = catanModel;
-		player = getPlayer();
+		player = getPlayer(catanModel);
 		bank = catanModel.getBank();
 		inventory = player.getResources();
-		trade = getTrade();
 	}
 
-	public Player getPlayer() {
+	public Player getPlayer(CatanModel catanModel) {
 		int index = request.getPlayerIndex();
-		return model.getPlayers()[index];
+		return catanModel.getPlayers()[index];
 	}
 
-	public ResourceList getTrade() {
-		String giveResource = request.getOutputResource();
-		String getResource = request.getInputResource();
-		int ratio = request.getRatio();
-		ResourceList offer = new ResourceList();
-		setTradeGive(giveResource, ratio, offer);
-		setTradeGet(getResource, offer);
-		return offer;
-	}
-
-	public void setTradeGive(String giveResource, int ratio, ResourceList offer) {
+	public void giveToBank(String giveResource, int ratio) {
 		log.trace(giveResource);
 		switch (giveResource) {
 			case "wood": {
-				offer.setWood(ratio);
+				inventory.setWood(bank.getWood() - request.getRatio());
+				bank.setWood(bank.getWood() + request.getRatio());
 				break;
 			}
 			case "brick": {
-				offer.setBrick(ratio);
+				inventory.setBrick(bank.getBrick() - request.getRatio());
+				bank.setBrick(bank.getBrick() + request.getRatio());
 				break;
 			}
 			case "sheep": {
-				offer.setSheep(ratio);
+				inventory.setSheep(bank.getSheep() - request.getRatio());
+				bank.setSheep(bank.getSheep() + request.getRatio());
 				break;
 			}
 			case "wheat": {
-				offer.setWheat(ratio);
+				inventory.setWheat(bank.getWheat() - request.getRatio());
+				bank.setWheat(bank.getWheat() + request.getRatio());
 				break;
 			}
 			case "ore": {
-				offer.setOre(ratio);
+				inventory.setOre(bank.getOre() - request.getRatio());
+				bank.setOre(bank.getOre() + request.getRatio());
 				break;
 			}
 		}
 	}
 
-	public void setTradeGet(String getResource, ResourceList offer) {
+	public void giveToPlayer(String getResource) {
 		log.trace(getResource);
 		switch (getResource) {
 			case "wood": {
-				offer.setWood(-1);
+				inventory.setWood(bank.getWood() + 1 );
+				bank.setWood(bank.getWood() - 1);
 				break;
 			}
 			case "brick": {
-				offer.setBrick(-1);
+				inventory.setBrick(bank.getBrick() + 1);
+				bank.setBrick(bank.getBrick() - 1);
 				break;
 			}
 			case "sheep": {
-				offer.setSheep(-1);
+				inventory.setSheep(bank.getSheep() + 1);
+				bank.setSheep(bank.getSheep() - 1);
 				break;
 			}
 			case "wheat": {
-				offer.setWheat(-1);
+				inventory.setWheat(bank.getWheat() + 1);
+				bank.setWheat(bank.getWheat() - 1);
 				break;
 			}
 			case "ore": {
-				offer.setOre(-1);
+				inventory.setOre(bank.getOre() + 1);
+				bank.setOre(bank.getOre() - 1);
 				break;
 			}
 		}
