@@ -1,5 +1,7 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
@@ -7,6 +9,8 @@ import shared.comm.serialization.AcceptTradeRequest;
 import shared.comm.serialization.OfferTradeRequest;
 
 public class AcceptTradeCommand implements ICommand<CatanModel> {
+	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
+	
 	private CatanModel model;
 	private boolean willAccept;
 	private Player player;
@@ -32,11 +36,13 @@ public class AcceptTradeCommand implements ICommand<CatanModel> {
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		if (willAccept == true) {
+			log.trace("Initiate Accept Trade");
 			initialize(catanModel);
 			ResourceList.moveResources(sender, receiver, trade);
-			return model;
+			return catanModel;
 		} 
 		else {
+			log.trace("Initiate Decline Trade");
 			return catanModel;
 		}
 	}
