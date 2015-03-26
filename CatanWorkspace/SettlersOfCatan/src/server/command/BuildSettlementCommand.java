@@ -148,15 +148,15 @@ public class BuildSettlementCommand implements ICommand<CatanModel>
 				{
 					if (hex.getLocation().getX() == x &&
 							hex.getLocation().getY() == y - 1)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 					
 					if (hex.getLocation().getX() == x &&
 							hex.getLocation().getY() == y)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 					
 					if (hex.getLocation().getX() == x + 1 &&
 							hex.getLocation().getY() == y - 1)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 						
 				}
 				
@@ -167,15 +167,15 @@ public class BuildSettlementCommand implements ICommand<CatanModel>
 				{
 					if (hex.getLocation().getX() == x &&
 							hex.getLocation().getY() == y - 1)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 					
 					if (hex.getLocation().getX() == x &&
 							hex.getLocation().getY() == y)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 					
 					if (hex.getLocation().getX() == x - 1 &&
 							hex.getLocation().getY() == y)
-						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),1);
 						
 				}
 				
