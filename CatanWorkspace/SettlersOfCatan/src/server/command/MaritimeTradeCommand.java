@@ -6,6 +6,7 @@ import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
 import shared.comm.serialization.MaritimeTradeRequest;
+import shared.definitions.ResourceType;
 import shared.locations.VertexLocation;
 
 public class MaritimeTradeCommand implements ICommand<CatanModel> {
@@ -65,6 +66,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	}
 
 	public void setTradeGive(String giveResource, int ratio, ResourceList offer) {
+		log.trace(giveResource);
 		switch (giveResource) {
 			case "wood": {
 				offer.setWood(ratio);
@@ -90,6 +92,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	}
 
 	public void setTradeGet(String getResource, ResourceList offer) {
+		log.trace(getResource);
 		switch (getResource) {
 			case "wood": {
 				offer.setWood(-1);

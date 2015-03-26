@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
+import shared.TurnType;
 import shared.comm.serialization.DiscardCardsRequest;
 
 public class DiscardCardCommand implements ICommand<CatanModel> {
@@ -35,6 +36,7 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 		log.trace("Initiate Discard");
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, discard);
+		catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		return catanModel;
 	}
 
@@ -53,7 +55,7 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 
 	public ResourceList getDiscard() {
 		ResourceList offer = request.getDiscardedCards();
-		ResourceList.invertResources(offer);
+		//ResourceList.invertResources(offer);
 		return offer;
 	}
 
