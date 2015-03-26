@@ -84,7 +84,7 @@ public class JsonResponse extends AbstractResponse
 	@Override
 	public byte[] getResponseBody()
 	{
-		log.trace("Returning byte response body. Was: good\n");
+		//log.trace("Returning byte response body. Was: \n" + jsonBody);
 		return jsonBody.getBytes();
 	}
 	

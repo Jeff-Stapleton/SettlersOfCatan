@@ -84,11 +84,11 @@ public class Map extends InvisObservable
 		ports.add(new Port(PortType.ORE, new HexLocation(1, -3), EdgeDirection.South, 2));
 		ports.add(new Port(PortType.WHEAT, new HexLocation(-1, -2), EdgeDirection.South, 2));
 		ports.add(new Port(PortType.THREE, new HexLocation(-3, 0), EdgeDirection.SouthEast, 3));
-		ports.add(new Port(PortType.WOOD, new HexLocation(-2, 1), EdgeDirection.SouthWest, 2));
-		ports.add(new Port(PortType.BRICK, new HexLocation(-1, 2), EdgeDirection.SouthWest, 2));
-		ports.add(new Port(PortType.THREE, new HexLocation(0, 2), EdgeDirection.South, 3));
-		ports.add(new Port(PortType.THREE, new HexLocation(2, -1), EdgeDirection.SouthEast, 3));
-		ports.add(new Port(PortType.SHEEP, new HexLocation(2, -3), EdgeDirection.NorthWest, 2));
+		ports.add(new Port(PortType.WOOD, new HexLocation(-3, 2), EdgeDirection.NorthEast, 2));
+		ports.add(new Port(PortType.BRICK, new HexLocation(-2, 3), EdgeDirection.NorthEast, 2));
+		ports.add(new Port(PortType.THREE, new HexLocation(0, 3), EdgeDirection.North, 3));
+		ports.add(new Port(PortType.THREE, new HexLocation(3, -1), EdgeDirection.NorthWest, 3));
+		ports.add(new Port(PortType.SHEEP, new HexLocation(2, 1), EdgeDirection.NorthWest, 2));
 		ports.add(new Port(PortType.THREE, new HexLocation(3, -3), EdgeDirection.SouthWest, 3));
 	} 
 	
