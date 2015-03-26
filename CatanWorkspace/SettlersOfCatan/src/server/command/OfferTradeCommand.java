@@ -45,11 +45,11 @@ public class OfferTradeCommand implements ICommand<CatanModel> {
 	}
 
 	public int getPlayer() {
-		return model.getTurnTracker().getCurrentTurn();
+		return request.getPlayerIndex();
 	}
 	
 	public TradeOffer getOffer(int investigator, ResourceList trade, int instigator) {
-		TradeOffer tradeOffer = new TradeOffer(investigator, trade, investigator);
+		TradeOffer tradeOffer = new TradeOffer(instigator, trade, investigator);
 		return tradeOffer;
 	}
 
