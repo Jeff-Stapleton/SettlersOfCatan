@@ -25,12 +25,22 @@
     </logger>
     
     <logger name="server.command.DiscardCardCommand" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+      <logger name="server.command.MaritimeTradeCommand" additivity="false">
     	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
     
+      <logger name="server.facade.MovesFacade" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
      <logger name="server.handlers.MovesDiscardCardsHandler" additivity="false">
-    	<level value="TRACE"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
     
@@ -55,7 +65,7 @@
     </logger>
     
     <logger name="org.apache.http">
-		<level value="DEBUG"/> 
+		<level value="WARN"/> 
 	</logger>
  
 	<root>

@@ -428,30 +428,34 @@ public class MovesFacade
    */
   public void maritimeTrade(MaritimeTradeRequest request) throws ServerException
   {
+	  log.debug("Set up Maritime Trade");
 	  ResourceList maritimeOffer = new ResourceList(0, 0, 0, 0, 0);
 	  ResourceType resource = null;
 	  
-	  switch (request.getInputResource())
-	  {
-	  	case "WOOD" 	: maritimeOffer.setWood(request.getRatio());	resource = ResourceType.WOOD; 	break;
-	  	case "BRICK" 	: maritimeOffer.setBrick(request.getRatio());	resource = ResourceType.BRICK;	break;
-	  	case "ORE" 		: maritimeOffer.setOre(request.getRatio());		resource = ResourceType.ORE;	break;
-	  	case "WHEAT" 	: maritimeOffer.setWheat(request.getRatio());	resource = ResourceType.WHEAT;	break;
-	  	case "SHEEP" 	: maritimeOffer.setSheep(request.getRatio());	resource = ResourceType.SHEEP;	break;
-	  }
-	  
 	  switch (request.getOutputResource())
 	  {
-	  	case "WOOD" 	: maritimeOffer.setWood(-1);	break;
-	  	case "BRICK" 	: maritimeOffer.setBrick(-1);	break;
-	  	case "ORE" 		: maritimeOffer.setOre(-1);		break;
-	  	case "WHEAT" 	: maritimeOffer.setWheat(-1);	break;
-	  	case "SHEEP" 	: maritimeOffer.setSheep(-1);	break;
+	  	case "wood" 	: maritimeOffer.setWood(-request.getRatio());		 	break;
+	  	case "brick" 	: maritimeOffer.setBrick(-request.getRatio());			break;
+	  	case "ore" 		: maritimeOffer.setOre(-request.getRatio());			break;
+	  	case "wheat" 	: maritimeOffer.setWheat(-request.getRatio());			break;
+	  	case "sheep" 	: maritimeOffer.setSheep(-request.getRatio());			break;
 	  }
 	  
+	  switch (request.getInputResource())
+	  {
+	  	case "wood" 	: maritimeOffer.setWood(1);		resource = ResourceType.WOOD;	break;
+	  	case "brick" 	: maritimeOffer.setBrick(1);	resource = ResourceType.BRICK;	break;
+	  	case "ore" 		: maritimeOffer.setOre(1);		resource = ResourceType.ORE;	break;
+	  	case "wheat" 	: maritimeOffer.setWheat(1);	resource = ResourceType.WHEAT;	break;
+	  	case "sheep" 	: maritimeOffer.setSheep(1);	resource = ResourceType.SHEEP;	break;
+	  }
+	  
+	  log.debug("Checking CanCans");
 	  if (CanCan.canMaritimeTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker(), maritimeOffer, resource, catanModel.getBank(), catanModel.getMap().getPorts(), catanModel.getMap()))
 	  {
+		  log.debug("Building Command");
 		  MaritimeTradeCommand command = new MaritimeTradeCommand(request);
+		  log.debug("Executing Command");
 		  command.execute(catanModel);
 		  
 		  String action = "used Maritime Trade";
@@ -459,6 +463,7 @@ public class MovesFacade
 	  }
 	  else
 	  {
+		  log.debug("Failed CanCan");
 		  throw new ServerException("Player can't do maritime trade because either he or the bank don't have the resources, he's not on the right port, or it's not their turn.");
 	  }
   }
@@ -474,12 +479,9 @@ public class MovesFacade
    */
   public void discardCards(DiscardCardsRequest request) throws ServerException
   {
-	  log.debug("Checking Cans");
 	  if (CanCan.canDiscardCards(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
 	  {
-		  log.debug("Creating command");
 		  DiscardCardCommand command = new DiscardCardCommand(request);
-		  log.debug("Executing command");
 		  command.execute(catanModel);
 		  
 		  String action = "discarded";
@@ -487,7 +489,6 @@ public class MovesFacade
 	  }
 	  else
 	  {
-		  log.debug("could not execute commnand: ");
 		  throw new ServerException("Player can't discard because it's not their turn or they have already discarded");
 	  }
   }

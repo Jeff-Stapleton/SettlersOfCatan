@@ -31,7 +31,7 @@ public class MovesDiscardCardsHandler extends SimpleHandler
 		try{
 			AbstractResponse response = null;
 			
-			log.debug("/moves/discardCards begun");
+			log.trace("/moves/discardCards begun");
 			
 			log.trace("Verifying user credentials");
 			try
