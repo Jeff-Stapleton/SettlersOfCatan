@@ -4,6 +4,7 @@ import shared.Building;
 import shared.CatanModel;
 import shared.Hex;
 import shared.Player;
+import shared.TurnType;
 import shared.comm.serialization.BuildSettlementRequest;
 import shared.comm.serialization.VertexLocationRequest;
 import shared.definitions.HexType;
@@ -139,6 +140,47 @@ public class BuildSettlementCommand implements ICommand<CatanModel>
 			
 		}
 				
+		if (catanModel.getTurnTracker().getStatus().equals(TurnType.SECOND_ROUND))
+		{
+			if (direction.equals(VertexDirection.NorthEast))
+			{
+				for (Hex hex : catanModel.getMap().getHexes())
+				{
+					if (hex.getLocation().getX() == x &&
+							hex.getLocation().getY() == y - 1)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+					
+					if (hex.getLocation().getX() == x &&
+							hex.getLocation().getY() == y)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+					
+					if (hex.getLocation().getX() == x + 1 &&
+							hex.getLocation().getY() == y - 1)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						
+				}
+				
+			}
+			else if (direction.equals(VertexDirection.NorthWest))
+			{
+				for (Hex hex : catanModel.getMap().getHexes())
+				{
+					if (hex.getLocation().getX() == x &&
+							hex.getLocation().getY() == y - 1)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+					
+					if (hex.getLocation().getX() == x &&
+							hex.getLocation().getY() == y)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+					
+					if (hex.getLocation().getX() == x - 1 &&
+							hex.getLocation().getY() == y)
+						MapChecks.incrementResources(catanModel,playerIndex,hex.getResource(),2);
+						
+				}
+				
+			}
+		}
 		
 		MapChecks.checkForWinner(catanModel,playerIndex);	
 		
