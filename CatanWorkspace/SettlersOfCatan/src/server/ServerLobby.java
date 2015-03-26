@@ -12,6 +12,8 @@ import server.facade.UserFacade;
 import server.facade.UtilFacade;
 import server.models.ServerUser;
 import shared.comm.ServerException;
+import shared.comm.serialization.JoinGameRequest;
+import shared.definitions.CatanColor;
 import client.view.data.GameInfo;
 
 /**
@@ -34,8 +36,29 @@ public class ServerLobby
 		userFacade = new UserFacade(this);
 		gamesFacade = new GamesFacade(this);
 		utilFacade = new UtilFacade(server);
+		
+		createDummyInfo();
 	}
 	
+	private void createDummyInfo()
+	{
+		users.add(new ServerUser("1", "1"));
+		users.add(new ServerUser("2", "2"));
+		users.add(new ServerUser("3", "3"));
+		users.add(new ServerUser("4", "4"));
+		
+		try {
+			createGame("CoryNeedsGirlfriend", false, false, false);
+			getGamesFacade().join(users.get(0), new JoinGameRequest(0, "blue"));
+			getGamesFacade().join(users.get(1), new JoinGameRequest(0, "green"));
+			getGamesFacade().join(users.get(2), new JoinGameRequest(0, "puce"));
+			getGamesFacade().join(users.get(3), new JoinGameRequest(0, "purple"));
+		} catch (ServerException e)
+		{
+			log.error("How did you get here?", e);
+		}
+	}
+
 	/**
 	 * Games join.
 	 *
