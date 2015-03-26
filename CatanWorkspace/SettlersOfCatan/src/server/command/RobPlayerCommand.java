@@ -88,6 +88,8 @@ public class RobPlayerCommand implements ICommand<CatanModel>
 				}
 			}
 		}
+
+		catanModel.getMap().getRobber().setLocation(hexLocation.getX(), hexLocation.getY());
 		catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		return catanModel;
 	}

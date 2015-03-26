@@ -43,7 +43,6 @@ public class SoldierCommand implements ICommand<CatanModel>
 				
 				Player target = catanModel.getPlayers()[victim];
 				
-				
 				ArrayList<ResourceType> potentialLoot = new ArrayList<ResourceType>();
 				
 				if (target.getResources().totalCount() > 0) {
@@ -93,6 +92,8 @@ public class SoldierCommand implements ICommand<CatanModel>
 			player.getOldDevCards().setSoldier(player.getOldDevCards().getSoldier() - 1);
 			player.setSoldiers(player.getSoldiers()+1);
 	
+			catanModel.getMap().getRobber().setLocation(hex.getX(), hex.getY());
+			
 			MapChecks.checkForLargestArmy(catanModel, owner);
 			
 			player.setPlayedDevCard(true);
