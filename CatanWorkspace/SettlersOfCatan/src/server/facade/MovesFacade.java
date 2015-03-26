@@ -438,7 +438,11 @@ public class MovesFacade
 	 */
 	public void acceptTrade(AcceptTradeRequest request) throws ServerException
 	{
-		if (catanModel.getTradeOffer() != null && catanModel.getTradeOffer().getReceiver() == request.getPlayerIndex())
+		if (catanModel.getTradeOffer() == null || catanModel.getTradeOffer().getReceiver() != request.getPlayerIndex())
+		{
+			throw new ServerException("Player can't accept trade because trade offer is null or the trade offer is meant for someone else.");
+		}
+		else
 		{
 			AcceptTradeCommand command = new AcceptTradeCommand(request);
 			command.execute(catanModel);
@@ -452,10 +456,6 @@ public class MovesFacade
 			gameHistoryMessage(request.getPlayerIndex(), action);
 
 			serverGame.getCommandList().add(request);
-		}
-		else
-		{
-			throw new ServerException("Player can't accept trade because trade offer is null or the trade offer is meant for someone else.");
 		}
 	}
 
@@ -475,28 +475,30 @@ public class MovesFacade
 	{
 		ResourceList maritimeOffer = new ResourceList(0, 0, 0, 0, 0);
 		ResourceType resource = null;
-
+		log.debug(resource);
 		switch (request.getInputResource())
 		{
-		case "wood" 	: maritimeOffer.setWood(-request.getRatio());		break;
-		case "brick" 	: maritimeOffer.setBrick(-request.getRatio());		break;
-		case "ore" 		: maritimeOffer.setOre(-request.getRatio());		break;
-		case "wheat" 	: maritimeOffer.setWheat(-request.getRatio());		break;
-		case "sheep" 	: maritimeOffer.setSheep(-request.getRatio());		break;
+		case "wood" 	: maritimeOffer.setWood(request.getRatio());		break;
+		case "brick" 	: maritimeOffer.setBrick(request.getRatio());		break;
+		case "ore" 		: maritimeOffer.setOre(request.getRatio());			break;
+		case "wheat" 	: maritimeOffer.setWheat(request.getRatio());		break;
+		case "sheep" 	: maritimeOffer.setSheep(request.getRatio());		break;
 		}
-
+		log.debug(resource);
 		switch (request.getOutputResource())
 		{
-		case "wood" 	: maritimeOffer.setWood(1);		resource = ResourceType.WOOD;	break;
-		case "brick" 	: maritimeOffer.setBrick(1);	resource = ResourceType.BRICK;	break;
-		case "ore" 		: maritimeOffer.setOre(1);		resource = ResourceType.ORE;	break;
-		case "wheat" 	: maritimeOffer.setWheat(1);	resource = ResourceType.WHEAT;	break;
-		case "sheep" 	: maritimeOffer.setSheep(1);	resource = ResourceType.SHEEP;	break;
+		case "wood" 	: maritimeOffer.setWood(-1);	resource = ResourceType.WOOD;		break;
+		case "brick" 	: maritimeOffer.setBrick(-1);	resource = ResourceType.BRICK;		break;
+		case "ore" 		: maritimeOffer.setOre(-1);		resource = ResourceType.ORE;		break;
+		case "wheat" 	: maritimeOffer.setWheat(-1);	resource = ResourceType.WHEAT;		break;
+		case "sheep" 	: maritimeOffer.setSheep(-1);	resource = ResourceType.SHEEP;		break;
 		}
-
+		log.debug(resource);
 		if (CanCan.canMaritimeTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker(), maritimeOffer, resource, catanModel.getBank(), catanModel.getMap().getPorts(), catanModel.getMap()))
 		{
+			log.debug("Set Up Command");
 			MaritimeTradeCommand command = new MaritimeTradeCommand(request);
+			log.debug("Execute Command");
 			command.execute(catanModel);
 
 			String action = "used Maritime Trade";
@@ -506,6 +508,7 @@ public class MovesFacade
 		}
 		else
 		{
+			log.debug("Failed CanCan");
 			throw new ServerException("Player can't do maritime trade because either he or the bank don't have the resources, he's not on the right port, or it's not their turn.");
 		}
 	}
