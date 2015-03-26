@@ -25,6 +25,7 @@ import server.handlers.MovesBuyDevCardHandler;
 import server.handlers.MovesDiscardCardsHandler;
 import server.handlers.MovesFinishTurnHandler;
 import server.handlers.MovesMaritimeTradeHandler;
+import server.handlers.MovesMonopolyHandler;
 import server.handlers.MovesMonumentHandler;
 import server.handlers.MovesOfferTradeHandler;
 import server.handlers.MovesRoadBuildingHandler;
@@ -172,6 +173,7 @@ public class Server
 		server.createContext("/moves/Road_Building", new MovesRoadBuildingHandler(this));
 		server.createContext("/moves/Soldier", new MovesSoldierHandler(this));
 		server.createContext("/moves/Monument", new MovesMonumentHandler(this));
+		server.createContext("/moves/Monopoly", new MovesMonopolyHandler(this));
 		server.createContext("/moves/buildRoad", new MovesBuildRoadHandler(this));
 		server.createContext("/moves/buildCity", new MovesBuildCityHandler(this));
 		server.createContext("/moves/buildSettlement", new MovesBuildSettlementHandler(this));

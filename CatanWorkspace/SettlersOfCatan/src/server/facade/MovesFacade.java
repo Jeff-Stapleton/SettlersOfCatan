@@ -106,7 +106,13 @@ public class MovesFacade
 			RobPlayerCommand command = new RobPlayerCommand(request);
 			command.execute(catanModel);
 
-			String action = "robbed " + catanModel.getPlayers()[request.getVictimIndex()].getName();
+			String action;
+			if (request.getVictimIndex() < 0){
+				action = "robbed no one";
+			}
+			else{
+				action = "robbed " + catanModel.getPlayers()[request.getVictimIndex()].getName();
+			}
 			gameHistoryMessage(request.getPlayerIndex(), action);		  
 
 			serverGame.getCommandList().add(request);

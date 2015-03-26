@@ -22,7 +22,7 @@ public class ServerPoller extends Thread implements IServerPoller
 	private static final Logger log = Logger.getLogger(ServerPoller.class.getName());
 
 	private boolean _running = true;
-	private int _delay =  1000;
+	private int _delay =  3000;
 	
 	private CatanGame _catanGame;
 	

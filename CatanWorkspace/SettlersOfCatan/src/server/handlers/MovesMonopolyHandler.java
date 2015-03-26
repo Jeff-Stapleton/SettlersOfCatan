@@ -12,15 +12,16 @@ import server.comm.response.AbstractResponse;
 import server.comm.response.JsonResponse;
 import server.comm.response.MessageResponse;
 import shared.comm.ServerException;
-import shared.comm.serialization.YearOfPlentyRequest;
+import shared.comm.serialization.MonopolyRequest;
+import shared.comm.serialization.MonumentRequest;
 
-public class MovesYearOfPlentyHandler extends SimpleHandler
+public class MovesMonopolyHandler extends SimpleHandler
 {
-	private static final Logger log = Logger.getLogger(MovesYearOfPlentyHandler.class);
+	private static final Logger log = Logger.getLogger(MovesMonumentHandler.class);
 	
 	private Server server = null;
 
-	public MovesYearOfPlentyHandler(Server server)
+	public MovesMonopolyHandler(Server server)
 	{
 		this.server = server;
 	}
@@ -31,7 +32,7 @@ public class MovesYearOfPlentyHandler extends SimpleHandler
 		try{
 			AbstractResponse response = null;
 			
-			log.debug("/moves/yearofplenty begun");
+			log.debug("/moves/monopoly begun");
 			
 			log.trace("Verifying user credentials");
 			try
@@ -40,11 +41,11 @@ public class MovesYearOfPlentyHandler extends SimpleHandler
 				log.trace("User is valid");
 	
 				log.trace("creating request body object");
-				YearOfPlentyRequest request = getRequest(exchange, YearOfPlentyRequest.class);
+				MonopolyRequest request = getRequest(exchange, MonopolyRequest.class);
 				
 				ServerGame game = getGame(exchange, server);
 				
-				game.getMovesFacade().yearOfPlenty(request);
+				game.getMovesFacade().monopoly(request);
 				
 				log.trace("Chat message added to model");
 				response = new JsonResponse(200);

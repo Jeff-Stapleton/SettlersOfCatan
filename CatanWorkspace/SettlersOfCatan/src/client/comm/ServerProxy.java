@@ -303,6 +303,7 @@ public class ServerProxy extends AbstractServerProxy
 			    	{
 			    		if (header.getName().equals("Set-cookie"))
 			    		{
+			    			log.trace("Setting game cookie");
 			    			setGameCookie(header.getValue());
 			    		}
 			    	}
@@ -375,10 +376,18 @@ public class ServerProxy extends AbstractServerProxy
 	public CatanModel gameModel() throws IOException
 	{
 		HttpGet httpGet = new HttpGet(_server + "/game/model");
-		if (null != getCookie())
+		if (getPlayerCookie() == null)
 		{
-			httpGet.addHeader("Cookie", getCookie());
+			log.error("Player null cookie exception");
+			throw new NullPointerException("Null player cookie in ServerProxy gameModel()");
 		}
+		if (getGameCookie() == null)
+		{
+			log.error("Game null cookie exception");
+			throw new NullPointerException("Null game cookie in ServerProxy gameModel()");
+		}
+		String cookie = getPlayerCookie() + "; " + getGameCookie();
+		httpGet.addHeader("Cookie", cookie);
 		
 		return _httpClient.execute(httpGet, gameModelHandler);
 	}

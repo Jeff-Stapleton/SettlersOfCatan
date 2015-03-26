@@ -73,8 +73,18 @@ public class Player
 	 */
 	public void buyDevCard(ResourceList bankResources, DevCardList bankDevCards){
 		// send resources to the bank
-		ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));		
-		DevCardList.moveCard(newDevCards, bankDevCards, bankDevCards.getRandomCard());		
+		ResourceList.moveResources(resources, bankResources, new ResourceList(0,0,1,1,1));	
+		DevCardList card = bankDevCards.getRandomCard();
+		
+//		oldDevCards = new DevCardList(2,2,2,2,2);
+		
+		if (card.getMonument() > 0){
+			DevCardList.moveCard(oldDevCards, bankDevCards, card);
+		}
+		else{
+			DevCardList.moveCard(newDevCards, bankDevCards, card);
+		}
+		
 	}
 		
 	/**
@@ -84,7 +94,7 @@ public class Player
 	 */
 	public boolean needsToDiscard(){
 		if (resources.totalCount() > 7){
-			discard();
+			return true;
 		}
 		return false;
 	}

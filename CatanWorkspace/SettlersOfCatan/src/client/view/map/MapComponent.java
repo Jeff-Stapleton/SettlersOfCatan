@@ -251,12 +251,18 @@ public class MapComponent extends JComponent
 		MapComponent copy = new MapComponent();
 		
 		// copy.controller = this.controller;
-		copy.hexes = this.hexes;
+		synchronized(hexes)
+		{
+			copy.hexes = this.hexes;
+		}
 		copy.roads = this.roads;
 		copy.settlements = this.settlements;
 		copy.cities = this.cities;
 		copy.ports = this.ports;
-		copy.numbers = this.numbers;
+		synchronized(numbers)
+		{
+			copy.numbers = this.numbers;
+		}
 		copy.robber = this.robber;
 		copy.allHexPoints = this.allHexPoints;
 		copy.allVertexPoints = this.allVertexPoints;
@@ -316,9 +322,12 @@ public class MapComponent extends JComponent
 	
 	public void addHex(HexLocation hexLoc, HexType hexType)
 	{
-		
-		// Add hex to hex map
-		hexes.put(hexLoc, hexType);
+
+		synchronized(hexes)
+		{
+			// Add hex to hex map
+			hexes.put(hexLoc, hexType);
+		}
 		
 		// Compute hex point for the new hex
 		allHexPoints.put(hexLoc, getHexPoint(hexLoc));
@@ -343,8 +352,10 @@ public class MapComponent extends JComponent
 	
 	public void addNumber(HexLocation hexLoc, int num)
 	{
-		
-		numbers.put(hexLoc, num);
+		synchronized(numbers)
+		{
+			numbers.put(hexLoc, num);
+		}
 		
 		this.repaint();
 	}
@@ -627,36 +638,38 @@ public class MapComponent extends JComponent
 	private void drawHexes(Graphics2D g2)
 	{
 		synchronized (hexes) {
-		for (Map.Entry<HexLocation, HexType> entry : hexes.entrySet())
-		{
-			
-			BufferedImage hexImage = getHexImage(entry.getValue());
-			
-			Point2D hexCenter = getHexPoint(entry.getKey());
-			Point2D hexCorner = new Point2D.Double(
-												   (int)(hexCenter.getX() - HEX_IMAGE_WIDTH / 2),
-												   (int)(hexCenter.getY() - HEX_IMAGE_HEIGHT / 2));
-			
-			g2.drawImage(hexImage, (int)hexCorner.getX(),
-						 (int)hexCorner.getY(),
-						 (int)(hexCorner.getX() + HEX_IMAGE_WIDTH),
-						 (int)(hexCorner.getY() + HEX_IMAGE_HEIGHT), 0, 0,
-						 HEX_IMAGE_WIDTH, HEX_IMAGE_HEIGHT, null);
-		}
+			for (Map.Entry<HexLocation, HexType> entry : hexes.entrySet())
+			{
+				
+				BufferedImage hexImage = getHexImage(entry.getValue());
+				
+				Point2D hexCenter = getHexPoint(entry.getKey());
+				Point2D hexCorner = new Point2D.Double(
+													   (int)(hexCenter.getX() - HEX_IMAGE_WIDTH / 2),
+													   (int)(hexCenter.getY() - HEX_IMAGE_HEIGHT / 2));
+				
+				g2.drawImage(hexImage, (int)hexCorner.getX(),
+							 (int)hexCorner.getY(),
+							 (int)(hexCorner.getX() + HEX_IMAGE_WIDTH),
+							 (int)(hexCorner.getY() + HEX_IMAGE_HEIGHT), 0, 0,
+							 HEX_IMAGE_WIDTH, HEX_IMAGE_HEIGHT, null);
+			}
 		}
 	}
 	
 	private void drawNumbers(Graphics2D g2)
 	{
-		
-		for (Map.Entry<HexLocation, Integer> entry : numbers.entrySet())
+		synchronized(numbers)
 		{
-			
-			BufferedImage numImage = getNumberImage(entry.getValue());
-			
-			Point2D hexCenter = getHexPoint(entry.getKey());
-			
-			drawImage(g2, numImage, hexCenter);
+			for (Map.Entry<HexLocation, Integer> entry : numbers.entrySet())
+			{
+				
+				BufferedImage numImage = getNumberImage(entry.getValue());
+				
+				Point2D hexCenter = getHexPoint(entry.getKey());
+				
+				drawImage(g2, numImage, hexCenter);
+			}
 		}
 	}
 	
