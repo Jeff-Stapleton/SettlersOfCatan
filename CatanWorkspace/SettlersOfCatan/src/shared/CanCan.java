@@ -2930,12 +2930,10 @@ public class CanCan {
 	}
 	
 	public static boolean canDiscardCards(Player player, TurnTracker turn){
-		if (turn.getCurrentTurn() == player.getPlayerIndex()){
-			if (turn.getStatus() == TurnType.DISCARDING){
-				if (player.hasDiscarded() == false){
-					// Does this have to do with when a 7 is rolled?
-					return true;
-				}
+		if (turn.getStatus() == TurnType.DISCARDING){
+			if (player.hasDiscarded() == false){
+				// Does this have to do with when a 7 is rolled?
+				return true;
 			}
 		}
 		return false;

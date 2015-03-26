@@ -1,6 +1,9 @@
 package server.facade;
 
+import org.apache.log4j.Logger;
+
 import server.command.*;
+import server.handlers.MovesDiscardCardsHandler;
 import shared.CanCan;
 import shared.CatanModel;
 import shared.MessageLine;
@@ -23,7 +26,7 @@ import shared.locations.VertexLocation;
  */
 public class MovesFacade 
 {
-  
+	private static final Logger log = Logger.getLogger(MovesFacade.class);
   /**
    * Executes "Send Chat", send the instigator's message to be broadcast to all other players
    *
@@ -471,9 +474,12 @@ public class MovesFacade
    */
   public void discardCards(DiscardCardsRequest request) throws ServerException
   {
+	  log.debug("Checking Cans");
 	  if (CanCan.canDiscardCards(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker()))
 	  {
+		  log.debug("Creating command");
 		  DiscardCardCommand command = new DiscardCardCommand(request);
+		  log.debug("Executing command");
 		  command.execute(catanModel);
 		  
 		  String action = "discarded";
@@ -481,6 +487,7 @@ public class MovesFacade
 	  }
 	  else
 	  {
+		  log.debug("could not execute commnand: ");
 		  throw new ServerException("Player can't discard because it's not their turn or they have already discarded");
 	  }
   }
