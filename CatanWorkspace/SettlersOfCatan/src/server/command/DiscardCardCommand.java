@@ -12,6 +12,7 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
 	
 	private CatanModel model;
+	private Player player;
 	private ResourceList inventory;
 	private ResourceList bank;
 	private ResourceList discard;
@@ -35,36 +36,49 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 	public CatanModel execute(CatanModel catanModel) {
 		log.trace("Initiate Discard");
 		initialize(catanModel);
-		ResourceList.moveResources(inventory, bank, discard);
-		boolean isDiscarding = true;
-		while (isDiscarding == true)
+		if (player.hasDiscarded() != true)
 		{
-			int count = 0;
-			for (Player p : catanModel.getPlayers())
+			ResourceList.moveResources(inventory, bank, discard);
+			boolean isDiscarding = true;
+			while (isDiscarding == true)
 			{
-				if (p.hasDiscarded() == true);
+				int count = 0;
+				for (Player p : catanModel.getPlayers())
 				{
-					count++;
+					if (p.hasDiscarded() == true);
+					{
+						count++;
+					}
+				}
+				if (count == 4)
+				{
+					isDiscarding = false;
+				}
+				else
+				{
+					count = 0;
 				}
 			}
-			if (count == 4)
-			{
-				isDiscarding = false;
-			}
-			else
-			{
-				count = 0;
-			}
+			catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
+			return catanModel;
 		}
-		catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
-		return catanModel;
+		else
+		{
+			return catanModel;
+		}
 	}
 
 	public void initialize(CatanModel catanModel) {
 		model = catanModel;
+		player = getPlayer();
 		bank = catanModel.getBank();
 		inventory = getInventory();
 		discard = getDiscard();
+	}
+	
+	public Player getPlayer() {
+		int index = request.getPlayerIndex();
+		return model.getPlayers()[index];
 	}
 
 	public ResourceList getInventory() {
