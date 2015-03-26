@@ -12,7 +12,6 @@ import shared.Player;
 import shared.TurnType;
 import shared.definitions.CatanColor;
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.turntracker.ITurnTrackerView;
 

@@ -376,9 +376,15 @@ public class ServerProxy extends AbstractServerProxy
 	public CatanModel gameModel() throws IOException
 	{
 		HttpGet httpGet = new HttpGet(_server + "/game/model");
-		if (getPlayerCookie() == null || getGameCookie() == null)
+		if (getPlayerCookie() == null)
 		{
-			throw new NullPointerException("Null cookie in ServerProxy gameModel()");
+			log.error("Player null cookie exception");
+			throw new NullPointerException("Null player cookie in ServerProxy gameModel()");
+		}
+		if (getGameCookie() == null)
+		{
+			log.error("Game null cookie exception");
+			throw new NullPointerException("Null game cookie in ServerProxy gameModel()");
 		}
 		String cookie = getPlayerCookie() + "; " + getGameCookie();
 		httpGet.addHeader("Cookie", cookie);

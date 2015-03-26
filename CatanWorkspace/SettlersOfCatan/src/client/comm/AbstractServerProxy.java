@@ -39,6 +39,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 */
 	protected void setPlayerCookie(String cookie)
 	{
+		log.trace("Set the player cookie");
 		StringTokenizer st = new StringTokenizer(cookie, ";");
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken();
@@ -70,6 +71,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 			String token = st.nextToken().trim();
 			if (token.contains("catan.game="))
 			{
+				log.trace("Set the game cookie to \"" + token + "\"");
 				_gameCookie = token;
 				return;
 			}
@@ -82,6 +84,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 */
 	protected String getGameCookie()
 	{
+		log.trace("Getting game cookie: " + _gameCookie);
 		return _gameCookie;
 	}
 	

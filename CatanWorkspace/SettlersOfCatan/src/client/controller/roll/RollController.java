@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import shared.CatanModel;
 import shared.TurnType;
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.view.base.*;
 import client.view.roll.IRollResultView;
 import client.view.roll.IRollView;

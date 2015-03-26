@@ -39,6 +39,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void start()
 	{
+		log.trace("Player waiting start");
 		if (catanLobby.getGame().getGameInfo().getPlayers().size() < 4)
 		{
 			String[] AIChoices = {""};
@@ -59,8 +60,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		else
 		{
 			try {
-				catanLobby.getGame().updateModel(catanLobby.getProxy().gameModel());
+				log.trace("Enough players. Lets join the game!");
 				catanLobby.getGame().startServerPoller();
+				catanLobby.getGame().updateModel(catanLobby.getProxy().gameModel());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -84,8 +86,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void update(Observable o, Object obj)
 	{
+		log.trace("Updating player waiting controller");
 		if (catanLobby.getGame().getGameInfo().getPlayers().size() == 4)
 		{
+			log.trace("Enough players, moving on to the game");
 			catanLobby.stopLobbyPoller();
 
 			getView().closeModal();
@@ -94,6 +98,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		}
 		else
 		{
+			log.trace("Still not enough players. Refreshing wait view");
 			getView().setPlayers(catanLobby.getGame().getGameInfo().getPlayers().toArray(new PlayerInfo[0]));
 			getView().closeModal();
 			log.trace("Closed player waiting modal --/");
