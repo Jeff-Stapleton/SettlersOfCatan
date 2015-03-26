@@ -12,6 +12,7 @@ import server.comm.response.AbstractResponse;
 import server.comm.response.JsonResponse;
 import server.comm.response.MessageResponse;
 import shared.comm.ServerException;
+import shared.comm.serialization.MonopolyRequest;
 import shared.comm.serialization.MonumentRequest;
 
 public class MovesMonopolyHandler extends SimpleHandler
@@ -40,7 +41,7 @@ public class MovesMonopolyHandler extends SimpleHandler
 				log.trace("User is valid");
 	
 				log.trace("creating request body object");
-				MonumentRequest request = getRequest(exchange, MonumentRequest.class);
+				MonopolyRequest request = getRequest(exchange, MonopolyRequest.class);
 				
 				ServerGame game = getGame(exchange, server);
 				

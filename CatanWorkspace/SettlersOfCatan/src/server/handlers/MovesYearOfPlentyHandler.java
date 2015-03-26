@@ -31,7 +31,7 @@ public class MovesYearOfPlentyHandler extends SimpleHandler
 		try{
 			AbstractResponse response = null;
 			
-			log.debug("/moves/sendChat begun");
+			log.debug("/moves/yearofplenty begun");
 			
 			log.trace("Verifying user credentials");
 			try
