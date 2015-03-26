@@ -1,12 +1,17 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
 import shared.comm.serialization.MaritimeTradeRequest;
+import shared.definitions.ResourceType;
 import shared.locations.VertexLocation;
 
 public class MaritimeTradeCommand implements ICommand<CatanModel> {
+	private static final Logger log = Logger.getLogger(OfferTradeCommand.class);
+	
 	private CatanModel model;
 	private Player player;
 	private ResourceList inventory;
@@ -31,9 +36,10 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
+		log.trace("Initiate Maritime Trade");
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, trade);
-		return model;
+		return catanModel;
 	}
 
 	public void initialize(CatanModel catanModel) {
@@ -60,6 +66,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	}
 
 	public void setTradeGive(String giveResource, int ratio, ResourceList offer) {
+		log.trace(giveResource);
 		switch (giveResource) {
 			case "wood": {
 				offer.setWood(ratio);
@@ -85,6 +92,7 @@ public class MaritimeTradeCommand implements ICommand<CatanModel> {
 	}
 
 	public void setTradeGet(String getResource, ResourceList offer) {
+		log.trace(getResource);
 		switch (getResource) {
 			case "wood": {
 				offer.setWood(-1);

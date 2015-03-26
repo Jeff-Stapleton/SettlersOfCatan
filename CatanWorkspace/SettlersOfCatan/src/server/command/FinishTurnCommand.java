@@ -46,7 +46,7 @@ public class FinishTurnCommand implements ICommand<CatanModel>
 		oldCards.setRoadBuilding(oldCards.getRoadBuilding() + newCards.getRoadBuilding());
 		oldCards.setSoldier(oldCards.getSoldier() + newCards.getSoldier());
 		oldCards.setYearOfPlenty(oldCards.getYearOfPlenty() + newCards.getYearOfPlenty());
-		newCards = new DevCardList();
+		newCards.reset();
 		player.setPlayedDevCard(false);
 		
 		catanModel.getTurnTracker().nextTurn();
