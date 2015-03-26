@@ -2,7 +2,7 @@ package shared;
 
 import shared.definitions.ResourceType;
 
-public class ResourceList extends InvisObservable {
+public class ResourceList {
 
 
 	private int brick = 0;
@@ -268,12 +268,6 @@ public class ResourceList extends InvisObservable {
 		{
 			ore = rhs.ore;
 			updated = true;
-		}
-		
-		if (updated)
-		{
-			setChanged();
-			notifyObservers();
 		}
 		
 		return updated;

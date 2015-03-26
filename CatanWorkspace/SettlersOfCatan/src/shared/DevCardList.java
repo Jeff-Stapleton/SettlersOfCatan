@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DevCardList extends InvisObservable
+public class DevCardList
 {
 	private int yearOfPlenty = 0;
 	private int monopoly = 0;
@@ -264,12 +264,6 @@ public class DevCardList extends InvisObservable
 		{
 			yearOfPlenty = dcl.yearOfPlenty;
 			updated = true;
-		}
-		
-		if (updated)
-		{
-			setChanged();
-			notifyObservers();
 		}
 		
 		return updated;

@@ -21,7 +21,7 @@ public class CatanModel extends InvisObservable
 	private Player[] players = new Player[4];
 	{
 		for (int i = 0; i < players.length; i++)
-			players[i] = new Player();
+			players[i] = null;//new Player();
 	}
 	
 	/** The log. */
@@ -306,7 +306,15 @@ public class CatanModel extends InvisObservable
 		assert players.length == model.getPlayers().length;
 		for (int i = 0; i < players.length; i++)
 		{
-			updated = updated | players[i].updateFrom(model.getPlayers()[i]);
+			if (players[i] == null)
+			{
+				players[i] = model.getPlayers()[i];
+				updated = true;
+			}
+			else
+			{
+				updated = updated | players[i].updateFrom(model.getPlayers()[i]);
+			}
 		}
 		
 		// Update the version
