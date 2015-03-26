@@ -3,6 +3,8 @@ package client.comm;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import client.view.data.GameInfo;
 
 import com.google.gson.Gson;
@@ -24,10 +26,12 @@ import shared.locations.VertexLocation;
  */
 public abstract class AbstractServerProxy implements IServerProxy
 {
-	Gson gson = new Gson();
+	private static final Logger log = Logger.getLogger(AbstractServerProxy.class);
 	
-	String _playerCookie = null;
-	String _gameCookie = null;
+	protected Gson gson = new Gson();
+	
+	private String _playerCookie = null;
+	private String _gameCookie = null;
 
 	/**
 	 * Set the cookie for the player logging in to the server
@@ -63,7 +67,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	{
 		StringTokenizer st = new StringTokenizer(cookie, ";");
 		while (st.hasMoreTokens()) {
-			String token = st.nextToken();
+			String token = st.nextToken().trim();
 			if (token.contains("catan.game="))
 			{
 				_gameCookie = token;
@@ -92,10 +96,12 @@ public abstract class AbstractServerProxy implements IServerProxy
 			{
 				cookie.append("; ").append(getGameCookie());
 			}
+			log.trace("getCookie(): \"" + cookie.toString() + "\"");
 			return cookie.toString();
 		}
 		else
 		{
+			log.trace("getCookie(): null");
 			return null;
 		}
 		

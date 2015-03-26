@@ -188,6 +188,11 @@ public abstract class SimpleHandler implements HttpHandler
 			log.error("Error while parsing game cookie", e);
 			throw new ServerException("Could not parse game cookie");
 		}
+		if (cookie == null)
+		{
+			log.error("Error: no game cookie found");
+			throw new ServerException("Join a game before getting a model");
+		}
 		
 		return server.getServerLobby().getGame(cookie.getId());
 	}
