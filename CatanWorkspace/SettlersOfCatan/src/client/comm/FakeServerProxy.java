@@ -3,10 +3,10 @@ package client.comm;
 import java.io.IOException;
 
 import client.view.data.GameInfo;
-import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
+import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -32,8 +32,8 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public PlayerInfo userLogin(String user, String password) throws IOException {
-		return new PlayerInfo(1, -1, user, null);
+	public PlayerCookie userLogin(String user, String password) throws IOException {
+		return new PlayerCookie(user, password, 1);
 	}
 
 	/**
@@ -47,8 +47,8 @@ public class FakeServerProxy extends AbstractServerProxy {
 	 * @throws IOException
 	 */
 	@Override
-	public PlayerInfo userRegister(String user, String password) throws IOException {
-		return new PlayerInfo(1, -1, user, null);
+	public PlayerCookie userRegister(String user, String password) throws IOException {
+		return new PlayerCookie(user, password, 1);
 	}
 
 	/**

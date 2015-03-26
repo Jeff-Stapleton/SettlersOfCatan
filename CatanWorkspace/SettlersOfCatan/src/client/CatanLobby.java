@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import shared.CatanModel;
 import shared.Player;
+import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import client.comm.ServerProxy;
 import client.comm.LobbyPoller;
@@ -33,7 +34,8 @@ public class CatanLobby extends Observable
 	{
 		assert user != null;
 		assert password != null;
-		catanGame.setPlayerInfo(serverProxy.userLogin(user, password));
+		catanGame.setPlayerCookie(serverProxy.userLogin(user, password));
+//		catanGame.setPlayerId(serverProxy.userLogin(user, password).getPlayerIndex());
 		loggedIn = true;
 	}
 	
@@ -41,7 +43,8 @@ public class CatanLobby extends Observable
 	{
 		assert user != null;
 		assert password != null;
-		catanGame.setPlayerInfo(serverProxy.userRegister(user, password));
+		catanGame.setPlayerCookie(serverProxy.userRegister(user, password));
+//		catanGame.setPlayerId(serverProxy.userRegister(user, password).getPlayerIndex());
 		loggedIn = true;
 	}
 	
@@ -92,33 +95,36 @@ public class CatanLobby extends Observable
 			}
 		}
 		
-		// Fill in the user indexes
-		CatanModel model = serverProxy.gameModel();
-		for (Player mPlayer : model.getPlayers())
-		{
-			if (mPlayer != null)
-			{
-				for (PlayerInfo player : catanGame.getGameInfo().getPlayers())
-				{
-					if (player != null)
-					{
-						if (mPlayer.getPlayerID() == player.getId() &&
-							mPlayer.getPlayerIndex() != player.getPlayerIndex())
-						{
-							player.setPlayerIndex(mPlayer.getPlayerIndex());
-
-							if (player.getId() == catanGame.getPlayerInfo().getId())
-							{
-								catanGame.setPlayerInfo(player);
-								updated = true;
-							}
-							
-							updated = true;
-						}
-					}
-				}
-			}
-		}
+//		// Fill in the user indexes
+//		CatanModel model = serverProxy.gameModel();
+//		for (Player mPlayer : model.getPlayers())
+//		{
+//			if (mPlayer != null)
+//			{
+//				for (PlayerInfo player : catanGame.getGameInfo().getPlayers())
+//				{
+//					if (player != null)
+//					{
+//						if (mPlayer.getPlayerID() == player.getId() &&
+//							mPlayer.getPlayerIndex() != player.getPlayerIndex())
+//						{
+//							player.setId(mPlayer.getPlayerID());
+//							player.setPlayerIndex(mPlayer.getPlayerIndex());
+//							player.setColor(mPlayer.getColor());
+//							player.setName(mPlayer.getName());
+//
+//							if (player.getId() == catanGame.getPlayerInfo().getId())
+//							{
+//								catanGame.setPlayerInfo(player);
+//								updated = true;
+//							}
+//							
+//							updated = true;
+//						}
+//					}
+//				}
+//			}
+//		}
 		
 		return updated;
 	}
@@ -154,6 +160,11 @@ public class CatanLobby extends Observable
 			waitPoller.close();
 			waitPoller = null;
 		}
+	}
+
+	public PlayerCookie getPlayerCookie()
+	{
+		return catanGame.getPlayerCookie();
 	}
 	
 }

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import client.view.data.GameInfo;
-import client.view.data.PlayerInfo;
 
 import com.google.gson.Gson;
 
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
+import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -109,7 +109,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException 
 	 */
 	@Override
-	public abstract PlayerInfo userLogin(String user, String password) throws IOException;
+	public abstract PlayerCookie userLogin(String user, String password) throws IOException;
 	
 	/**
 	 * Register a new user with the server
@@ -119,7 +119,7 @@ public abstract class AbstractServerProxy implements IServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public abstract PlayerInfo userRegister(String user, String password) throws IOException;
+	public abstract PlayerCookie userRegister(String user, String password) throws IOException;
 	
 	/**
 	 * List the current games on the server that the player can join

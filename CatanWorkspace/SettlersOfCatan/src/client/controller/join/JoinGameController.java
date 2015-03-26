@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import client.CatanLobby;
 import client.view.base.*;
@@ -107,7 +108,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		try {
 			GameInfo[] games = catanLobby.getProxy().gamesList();
 			
-			((IJoinGameView)super.getView()).setGames(games, catanLobby.getPlayerInfo());
+			PlayerCookie user = catanLobby.getPlayerCookie();
+			PlayerInfo player = new PlayerInfo(user.getPlayerId(), -1, user.getName(), CatanColor.BLUE);
+			
+			((IJoinGameView)super.getView()).setGames(games, player);
 		} catch (IOException e) {
 			System.err.println("Could not get games list from server.");
 			e.printStackTrace();
@@ -164,7 +168,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				log.trace("Closed new game modal --/");
 				
 				log.trace("Refreshing games list for joining");
-				getJoinGameView().setGames(catanLobby.getProxy().gamesList(), catanLobby.getPlayerInfo());
+				PlayerCookie user = catanLobby.getPlayerCookie();
+				PlayerInfo player = new PlayerInfo(user.getPlayerId(), -1, user.getName(), CatanColor.BLUE);
+				
+				getJoinGameView().setGames(catanLobby.getProxy().gamesList(), player);
 			}
 			else
 				getNewGameView().setTitle("Please enter a valid game name");
@@ -185,13 +192,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		log.trace("Disabling taken colors for color view");
 		for (PlayerInfo player : game.getPlayers())
 		{
-			if (player.getId() != catanLobby.getPlayerInfo().getId())
+			if (player.getId() != catanLobby.getPlayerCookie().getPlayerId())
 			{
 				getSelectColorView().setColorEnabled(player.getColor(), false);
 			}
 			else
 			{
-				catanLobby.getPlayerInfo().setColor(player.getColor());
+//				catanLobby.getPlayerInfo().setColor(player.getColor());
 				getSelectColorView().setSelectedColor(player.getColor());
 			}
 		}

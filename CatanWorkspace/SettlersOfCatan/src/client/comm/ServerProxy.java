@@ -16,6 +16,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
@@ -62,6 +63,8 @@ import shared.locations.VertexLocation;
  */
 public class ServerProxy extends AbstractServerProxy
 {
+	private static final Logger log = Logger.getLogger(ServerProxy.class);
+	
 	String _server;
 	CloseableHttpClient _httpClient;
 	
@@ -157,7 +160,7 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public PlayerInfo userLogin(String user, String password) throws IOException
+	public PlayerCookie userLogin(String user, String password) throws IOException
 	{
 		String json = gson.toJson(new CredentialsRequest(user, password));
         
@@ -165,10 +168,7 @@ public class ServerProxy extends AbstractServerProxy
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
         PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
         // Login success! get user info.
-        if (cookie != null) {
-        	return new PlayerInfo(cookie.getPlayerId(), -1, cookie.getName(), null);
-        }
-        return null;
+        return cookie;
 	}
 	
 	/**
@@ -179,18 +179,14 @@ public class ServerProxy extends AbstractServerProxy
 	 * @throws IOException
 	 */
 	@Override
-	public PlayerInfo userRegister(String user, String password) throws IOException
+	public PlayerCookie userRegister(String user, String password) throws IOException
 	{
 		String json = gson.toJson(new CredentialsRequest(user, password));
         
         HttpPost httpPost = new HttpPost(_server + "/user/register");
         httpPost.setEntity(EntityBuilder.create().setText(json).setContentType(ContentType.APPLICATION_JSON).build());
         PlayerCookie cookie = gson.fromJson(_httpClient.execute(httpPost, userHandler), PlayerCookie.class);
-        // Register success! Get player info
-        if (cookie != null) {
-        	return new PlayerInfo(cookie.getPlayerId(), -1, cookie.getName(), null);
-        }
-        return null;
+        return cookie;
 	}
 	
 	/**
@@ -209,11 +205,20 @@ public class ServerProxy extends AbstractServerProxy
 			    if (status == 200) {
 			        HttpEntity entity = response.getEntity();
 			        if (entity != null) {
-			        	games = gson.fromJson(EntityUtils.toString(entity), GameInfo[].class);
+			        	String jsonString = EntityUtils.toString(entity);
+			        	games = gson.fromJson(jsonString, GameInfo[].class);
 			        	
 			        	// This is dumb, but remove all players that came back empty
 			        	for (GameInfo game : games)
 			        	{
+			        		for (int i = 0; i < game.getPlayers().size(); i++)
+			        		{
+			        			if (game.getPlayers().get(i).getPlayerIndex() == -1)
+			        			{
+			        				game.getPlayers().get(i).setPlayerIndex(i);
+			        			}
+			        		}
+			        		
 			        		LinkedList<PlayerInfo> players = new LinkedList<PlayerInfo>(game.getPlayers());
 			        		for (int i = players.size() - 1; i >= 0; i--)
 			        		{
@@ -276,7 +281,8 @@ public class ServerProxy extends AbstractServerProxy
 		{
 			httpPost.addHeader("Cookie", getCookie());
 		}
-        return _httpClient.execute(httpPost, gamesCreateHandler);
+		GameInfo game = _httpClient.execute(httpPost, gamesCreateHandler);
+        return game;
 	}
 	
 	/**

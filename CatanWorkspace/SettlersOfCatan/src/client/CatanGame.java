@@ -1,8 +1,6 @@
 package client;
 
-import java.io.IOException;
 import java.util.Observable;
-import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
 
@@ -12,7 +10,7 @@ import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.Player;
-import shared.comm.ServerException;
+import shared.comm.cookie.PlayerCookie;
 
 public class CatanGame extends Observable
 {
@@ -22,7 +20,7 @@ public class CatanGame extends Observable
 	private CatanModel catanModel = new CatanModel();
 	private ServerPoller serverPoller = null;
 	
-	private PlayerInfo playerInfo = null;
+	private PlayerCookie playerCookie = null;
 	private GameInfo gameInfo = null;
 	
 	/**
@@ -38,35 +36,16 @@ public class CatanGame extends Observable
 	{
 		return catanModel;
 	}
-
-	/**
-	 * Set the model to the model passed in
-	 * @deprecated please use updateModel(model) instead
-	 * @param model the model to set the model to
-	 */
-	@Deprecated
-	public void setModel(CatanModel model) 
-	{
-		if (catanModel.updateFrom(model))
-		{
-			setChanged();
-			notifyObservers();
-		}
-	}
 	
 	public PlayerInfo getPlayerInfo()
 	{
-		return playerInfo;
-	}
-	
-	public void setPlayerInfo(PlayerInfo info)
-	{
-		playerInfo = info;
+		return getGameInfo().getPlayerWithId(playerCookie.getPlayerId());
 	}
 	
 	public Player getCurrentPlayer()
 	{
-		return getModel().getPlayers()[getPlayerInfo().getPlayerIndex()];
+		int index = getPlayerInfo().getPlayerIndex();
+		return getModel().getPlayers()[index];
 	}
 	
 	public GameInfo getGameInfo()
@@ -124,5 +103,15 @@ public class CatanGame extends Observable
 			serverPoller.close();
 			serverPoller = null;
 		}
+	}
+
+	public void setPlayerCookie(PlayerCookie user)
+	{
+		playerCookie = user;		
+	}
+
+	public PlayerCookie getPlayerCookie()
+	{
+		return playerCookie;
 	}
 }

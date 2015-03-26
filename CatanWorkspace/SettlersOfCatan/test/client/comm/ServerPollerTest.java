@@ -27,7 +27,7 @@ public class ServerPollerTest {
 		server.gamesJoin(CatanColor.ORANGE, 0);
 		CatanModel initialModel = server.gameModel();
 		CatanGame game = new CatanGame(server);
-		game.setModel(initialModel);
+		game.updateModel(initialModel);
 		
 		ServerPoller poller = new ServerPoller(game);
 		poller.start();

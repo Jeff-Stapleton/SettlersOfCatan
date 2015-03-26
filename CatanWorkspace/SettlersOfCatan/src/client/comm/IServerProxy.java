@@ -3,10 +3,10 @@ package client.comm;
 import java.io.IOException;
 
 import client.view.data.GameInfo;
-import client.view.data.PlayerInfo;
 import shared.CatanModel;
 import shared.ResourceList;
 import shared.TradeOffer;
+import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -28,7 +28,7 @@ public interface IServerProxy
 	 * @param password the password for the player
 	 * @throws IOException 
 	 */
-	public PlayerInfo userLogin(String user, String password) throws IOException;
+	public PlayerCookie userLogin(String user, String password) throws IOException;
 	
 	/**
 	 * Register a new user with the server
@@ -37,7 +37,7 @@ public interface IServerProxy
 	 * @param password the players password
 	 * @throws IOException
 	 */
-	public PlayerInfo userRegister(String user, String password) throws IOException;
+	public PlayerCookie userRegister(String user, String password) throws IOException;
 	
 	/**
 	 * List the current games on the server that the player can join
