@@ -1,18 +1,17 @@
 package server.command;
 
+import org.apache.log4j.Logger;
+
 import shared.CatanModel;
 import shared.Player;
 import shared.ResourceList;
 import shared.comm.serialization.YearOfPlentyRequest;
 import shared.definitions.ResourceType;
 
-public class YearOfPlentyCommand implements ICommand<CatanModel>{
-	private CatanModel model;
-	private Player player;
-	private ResourceList inventory;
-	private ResourceList bank;
-	private ResourceType resourceOne;
-	private ResourceType resourceTwo;
+public class YearOfPlentyCommand implements ICommand<CatanModel>
+{
+	private static final Logger log = Logger.getLogger(YearOfPlentyCommand.class);
+	
 	private YearOfPlentyRequest request;
 	
 	public YearOfPlentyCommand(YearOfPlentyRequest request) {
@@ -30,7 +29,14 @@ public class YearOfPlentyCommand implements ICommand<CatanModel>{
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		initialize(catanModel);
+		
+		Player player = catanModel.getPlayers()[request.getPlayerIndex()];
+		ResourceList inventory = player.getResources();
+		log.trace("P b4: " +inventory.toString());
+		ResourceList bank = catanModel.getBank();
+		log.trace("b b4: " + bank.toString());
+		ResourceType resourceOne = ResourceType.fromString(request.getResource1());
+		ResourceType resourceTwo = ResourceType.fromString(request.getResource2());
 
 		inventory.setResource(resourceOne, inventory.getResource(resourceOne) + 1);
 		inventory.setResource(resourceTwo, inventory.getResource(resourceTwo) + 1);
@@ -41,48 +47,10 @@ public class YearOfPlentyCommand implements ICommand<CatanModel>{
 		player.getOldDevCards().setYearOfPlenty(player.getOldDevCards().getYearOfPlenty() - 1);
 		player.setPlayedDevCard(true);
 		
+		log.trace("p after: " + inventory.toString());
+		log.trace("b after: " + bank.toString());
+		
 		return catanModel;
-	}
-	
-	public void initialize(CatanModel catanModel) {
-		model = catanModel;
-		player = getPlayer();
-		inventory = player.getResources();
-		bank = catanModel.getBank();
-		resourceOne = getResourceType(request.getResource1());
-		resourceTwo = getResourceType(request.getResource2());
-	}
-	
-	public Player getPlayer() {
-		int index = request.getPlayerIndex();
-		return model.getPlayers()[index];
-	}
-	
-	public ResourceType getResourceType(String resource) {
-		ResourceType resourceType = null;
-		switch (resource) {
-			case "wood": {
-				resourceType = ResourceType.WOOD;
-				break; 
-			}
-			case "brick": {
-				resourceType = ResourceType.BRICK;
-				break;
-			}
-			case "sheep": {
-				resourceType = ResourceType.SHEEP;
-				break;
-			}
-			case "wheat": {
-				resourceType = ResourceType.WHEAT;
-				break;
-			}
-			case "ore": {
-				resourceType = ResourceType.ORE;
-				break;
-			}
-		}
-		return resourceType;
 	}
 
 }

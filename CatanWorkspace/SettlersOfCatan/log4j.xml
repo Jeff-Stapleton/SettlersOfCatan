@@ -15,7 +15,7 @@
 		 set the log level to what you want. If you remove any of these
 		 entries, they will get the level of 'root' down below -->
     <logger name="client" additivity="false">
-    	<level value="TRACE"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
 	
@@ -23,39 +23,14 @@
     	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
-    
-    <logger name="server.command.DiscardCardCommand" additivity="false">
-    	<level value="DEBUG"/>
-        <appender-ref ref="console" />
-    </logger>
-    
-      <logger name="server.command.MaritimeTradeCommand" additivity="false">
-    	<level value="TRACE"/>
-        <appender-ref ref="console" />
-    </logger>
-    
-      <logger name="server.facade.MovesFacade" additivity="false">
-    	<level value="DEBUG"/>
-        <appender-ref ref="console" />
-    </logger>
-    
-     <logger name="server.handlers.MovesDiscardCardsHandler" additivity="false">
-    	<level value="DEBUG"/>
-        <appender-ref ref="console" />
-    </logger>
-    
-     <logger name="server.handlers" additivity="false">
-    	<level value="DEBUG"/>
-        <appender-ref ref="console" />
-    </logger>
-    
-     <logger name="server.ServerLobby" additivity="false">
+	
+    <logger name="shared" additivity="false">
     	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
 	
-    <logger name="shared" additivity="false">
-    	<level value="DEBUG"/>
+    <logger name="server.command.YearOfPlentyCommand" additivity="false">
+    	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
     

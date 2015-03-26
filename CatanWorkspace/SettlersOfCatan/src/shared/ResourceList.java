@@ -103,14 +103,19 @@ public class ResourceList {
 		switch(type){
 		case BRICK:
 			setBrick(count);
+			break;
 		case ORE:
 			setOre(count);
+			break;
 		case SHEEP:
 			setSheep(count);
+			break;
 		case WHEAT:
 			setWheat(count);
+			break;
 		case WOOD:
 			setWood(count);
+			break;
 		}
 	}
 	

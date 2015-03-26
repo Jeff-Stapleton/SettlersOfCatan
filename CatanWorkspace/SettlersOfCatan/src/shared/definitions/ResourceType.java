@@ -30,4 +30,22 @@ public enum ResourceType
 	{
 		return string;
 	}
+	
+	public static ResourceType fromString(String resource)
+	{
+		switch (resource) {
+			case "wood":
+				return ResourceType.WOOD;
+			case "brick":
+				return ResourceType.BRICK;
+			case "sheep":
+				return ResourceType.SHEEP;
+			case "wheat":
+				return ResourceType.WHEAT;
+			case "ore":
+				return ResourceType.ORE;
+			default:
+				return null;	
+		}
+	}
 }

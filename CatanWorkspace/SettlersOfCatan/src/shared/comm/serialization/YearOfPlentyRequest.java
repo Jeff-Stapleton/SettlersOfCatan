@@ -27,4 +27,16 @@ public class YearOfPlentyRequest extends AbstractMovesRequest
 	{
 		return resource2;
 	}
+	
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder();
+		
+		string.append("{\n")
+			.append("\"resource1\" : ").append(resource1).append(",\n")
+			.append("\"resource2\" : ").append(resource2).append("\n")
+			.append("}\n");
+		
+		return string.toString();
+	}
 }
