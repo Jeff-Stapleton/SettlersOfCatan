@@ -14,6 +14,8 @@ public class TurnTracker extends InvisObservable
         return instance;
     }
     
+    private transient GameState state = new FirstRoundState(this);
+    
 	/** The status. */
 	private TurnType status = TurnType.FIRST_ROUND;
     
@@ -133,23 +135,29 @@ public class TurnTracker extends InvisObservable
 		// look over all player, who has the most soldiers >= 5
 		this.largestArmy = largestArmy;
 	}
+	
+	public void setState(GameState state)
+	{
+		this.state = state;
+	}
 
 	/**
 	 * Next turn.
 	 */
 	public void nextTurn() {
-		if (currentTurn == 0 && status.equals("SecondRound")) 
-			status = TurnType.ROLLING;
-		else if (currentTurn > 0 && currentTurn < 3 && status.equals("SecondRound")) 
-			currentTurn--;
-		else if (currentTurn == 3 && status.equals("FirstRound")) 
-			status = TurnType.SECOND_ROUND;
-		else if (currentTurn == 3 && status.equals("SecondRound")) 
-			currentTurn = 2;
-		else if (currentTurn < 3) 
-			currentTurn++;
-		else 
-			currentTurn = 0;
+		state.endTurn();
+//		if (currentTurn == 0 && status.equals("SecondRound")) 
+//			status = TurnType.ROLLING;
+//		else if (currentTurn > 0 && currentTurn < 3 && status.equals("SecondRound")) 
+//			currentTurn--;
+//		else if (currentTurn == 3 && status.equals("FirstRound")) 
+//			status = TurnType.SECOND_ROUND;
+//		else if (currentTurn == 3 && status.equals("SecondRound")) 
+//			currentTurn = 2;
+//		else if (currentTurn < 3) 
+//			currentTurn++;
+//		else 
+//			currentTurn = 0;
 	}
 	
 	@Override
