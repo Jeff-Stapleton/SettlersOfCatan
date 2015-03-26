@@ -2620,7 +2620,7 @@ public class CanCan {
 	public static boolean canBuildSettlement(Player player, VertexLocation vertexLocation, TurnTracker turn, Map map)
 	{
 		Boolean hasRoad = false;
-		
+		System.err.println("\n\n\nCANCAN\n\n" + vertexLocation.toString() + map.getRoads().toString() + "\n\n\nCANCAN\n\n");
 		if (canBuySettlement(player, turn) || (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND))
 		{
 			
@@ -2750,8 +2750,8 @@ public class CanCan {
 								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
 								newRoads.get(i).getLocation().getDir() == EdgeDirection.SouthEast)
 							hasRoad = true;
-						else if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() + 1 && 
-								newRoads.get(i).getLocation().getY() == vertexLocation.getY() - 1 && 
+						else if (newRoads.get(i).getLocation().getX()== vertexLocation.getX() && 
+								newRoads.get(i).getLocation().getY() == vertexLocation.getY() && 
 								newRoads.get(i).getLocation().getDir() == EdgeDirection.NorthWest)
 							hasRoad = true;
 						else if (newRoads.get(i).getLocation().getX() == vertexLocation.getX() && 
