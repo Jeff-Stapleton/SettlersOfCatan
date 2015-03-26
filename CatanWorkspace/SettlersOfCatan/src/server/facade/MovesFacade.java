@@ -438,7 +438,7 @@ public class MovesFacade
 	 */
 	public void acceptTrade(AcceptTradeRequest request) throws ServerException
 	{
-		if (catanModel.getTradeOffer() == null || catanModel.getTradeOffer().getReceiver() != request.getPlayerIndex())
+		if (catanModel.getTradeOffer() == null)
 		{
 			throw new ServerException("Player can't accept trade because trade offer is null or the trade offer is meant for someone else.");
 		}
