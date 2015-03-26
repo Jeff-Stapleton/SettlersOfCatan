@@ -478,20 +478,20 @@ public class MovesFacade
 
 		switch (request.getInputResource())
 		{
-		case "WOOD" 	: maritimeOffer.setWood(request.getRatio());	resource = ResourceType.WOOD; 	break;
-		case "BRICK" 	: maritimeOffer.setBrick(request.getRatio());	resource = ResourceType.BRICK;	break;
-		case "ORE" 		: maritimeOffer.setOre(request.getRatio());		resource = ResourceType.ORE;	break;
-		case "WHEAT" 	: maritimeOffer.setWheat(request.getRatio());	resource = ResourceType.WHEAT;	break;
-		case "SHEEP" 	: maritimeOffer.setSheep(request.getRatio());	resource = ResourceType.SHEEP;	break;
+		case "wood" 	: maritimeOffer.setWood(-request.getRatio());		break;
+		case "brick" 	: maritimeOffer.setBrick(-request.getRatio());		break;
+		case "ore" 		: maritimeOffer.setOre(-request.getRatio());		break;
+		case "wheat" 	: maritimeOffer.setWheat(-request.getRatio());		break;
+		case "sheep" 	: maritimeOffer.setSheep(-request.getRatio());		break;
 		}
 
 		switch (request.getOutputResource())
 		{
-		case "WOOD" 	: maritimeOffer.setWood(-1);	break;
-		case "BRICK" 	: maritimeOffer.setBrick(-1);	break;
-		case "ORE" 		: maritimeOffer.setOre(-1);		break;
-		case "WHEAT" 	: maritimeOffer.setWheat(-1);	break;
-		case "SHEEP" 	: maritimeOffer.setSheep(-1);	break;
+		case "wood" 	: maritimeOffer.setWood(1);		resource = ResourceType.WOOD;	break;
+		case "brick" 	: maritimeOffer.setBrick(1);	resource = ResourceType.BRICK;	break;
+		case "ore" 		: maritimeOffer.setOre(1);		resource = ResourceType.ORE;	break;
+		case "wheat" 	: maritimeOffer.setWheat(1);	resource = ResourceType.WHEAT;	break;
+		case "sheep" 	: maritimeOffer.setSheep(1);	resource = ResourceType.SHEEP;	break;
 		}
 
 		if (CanCan.canMaritimeTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker(), maritimeOffer, resource, catanModel.getBank(), catanModel.getMap().getPorts(), catanModel.getMap()))
