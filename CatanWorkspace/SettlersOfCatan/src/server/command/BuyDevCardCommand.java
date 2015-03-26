@@ -28,11 +28,7 @@ public class BuyDevCardCommand implements ICommand<CatanModel>
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
 		initialize(catanModel);
-		
-		if (CanCan.canBuyDevCard(player, catanModel.getDeck(), catanModel.getTurnTracker())) {
-			player.buyDevCard(model.getBank(), model.getDeck());			
-		}
-		
+		player.buyDevCard(model.getBank(), model.getDeck());
 		return model;
 	}
 	

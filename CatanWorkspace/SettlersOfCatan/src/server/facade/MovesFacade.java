@@ -3,6 +3,8 @@ package server.facade;
 import server.command.*;
 import shared.CanCan;
 import shared.CatanModel;
+import shared.MessageLine;
+import shared.Player;
 import shared.ResourceList;
 import shared.TradeOffer;
 import shared.TurnType;
@@ -59,6 +61,10 @@ public class MovesFacade
   {
 	  RollNumberCommand command = new RollNumberCommand(request);
 	  command.execute(catanModel);
+	  	  
+
+	  String action = "rolled a " + request.getNumber();
+	  gameHistoryMessage(request.getPlayerIndex(), action);
   }
   
   /**
@@ -78,6 +84,9 @@ public class MovesFacade
 	  {
 		  RobPlayerCommand command = new RobPlayerCommand(request);
 		  command.execute(catanModel);
+
+		  String action = "robbed " + catanModel.getPlayers()[request.getVictimIndex()].getName();
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -100,6 +109,9 @@ public class MovesFacade
 	  {
 		  FinishTurnCommand command = new FinishTurnCommand(request);
 		  command.execute(catanModel);
+		  
+		  String action = "ended their turn";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -122,6 +134,9 @@ public class MovesFacade
 	  {
 		  BuyDevCardCommand command = new BuyDevCardCommand(request);
 		  command.execute(catanModel);
+		  
+		  String action = "bought a DevCard";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -146,6 +161,8 @@ public class MovesFacade
 	  {
 		  YearOfPlentyCommand command = new YearOfPlentyCommand(request);
 		  command.execute(catanModel);
+		  String action = " played Year Of Plenty";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -170,6 +187,8 @@ public class MovesFacade
 	  {
 		  RoadBuildingCommand command = new RoadBuildingCommand(request);
 		  command.execute(catanModel); 
+		  String action = "played Road Building";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -194,6 +213,8 @@ public class MovesFacade
 	  {
 		  SoldierCommand command = new SoldierCommand(request);
 		  command.execute(catanModel);
+		  String action = "played a Soldier";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -218,6 +239,8 @@ public class MovesFacade
 	  {
 		  MonopolyCommand command = new MonopolyCommand(request);
 		  command.execute(catanModel);
+		  String action = "played Monopoly";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -240,6 +263,8 @@ public class MovesFacade
 	  {
 		  MonumentCommand command = new MonumentCommand(request);
 		  command.execute(catanModel);
+		  String action = "played a Monument";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -266,6 +291,8 @@ public class MovesFacade
 	  {
 		  BuildRoadCommand command = new BuildRoadCommand(request);
 		  command.execute(catanModel);
+		  String action = "built a road";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -292,6 +319,8 @@ public class MovesFacade
 	  {
 		  BuildSettlementCommand command = new BuildSettlementCommand(request);
 		  command.execute(catanModel);
+		  String action = "built a Settlement";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -318,6 +347,8 @@ public class MovesFacade
 	  {
 		  BuildCityCommand command = new BuildCityCommand(request);
 		  command.execute(catanModel);
+		  String action = "built a City";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -340,6 +371,8 @@ public class MovesFacade
 	  {
 		  OfferTradeCommand command = new OfferTradeCommand(request);
 		  command.execute(catanModel);
+		  String action = "offered trade to " + catanModel.getPlayers()[request.getReceiver()].getName();
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -363,6 +396,14 @@ public class MovesFacade
 	  {
 		  AcceptTradeCommand command = new AcceptTradeCommand(request);
 		  command.execute(catanModel);
+		  String action;
+		  if (request.getWillAccept()){
+			  action = "accepted trade";
+		  }
+		  else{
+			  action = "rejected trade";
+		  }
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -409,6 +450,9 @@ public class MovesFacade
 	  {
 		  MaritimeTradeCommand command = new MaritimeTradeCommand(request);
 		  command.execute(catanModel);
+		  
+		  String action = "used Maritime Trade";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
@@ -431,10 +475,18 @@ public class MovesFacade
 	  {
 		  DiscardCardCommand command = new DiscardCardCommand(request);
 		  command.execute(catanModel);
+		  
+		  String action = "discarded";
+		  gameHistoryMessage(request.getPlayerIndex(), action);
 	  }
 	  else
 	  {
 		  throw new ServerException("Player can't discard because it's not their turn or they have already discarded");
 	  }
+  }
+  
+  private void gameHistoryMessage(int sourceIndex, String action){
+	  String sourceName = catanModel.getPlayers()[sourceIndex].getName();
+	  catanModel.getLog().addLine(new MessageLine(sourceName, sourceName + " " + action));
   }
 }
