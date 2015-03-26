@@ -9,9 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import shared.definitions.ResourceType;
-import client.Catan;
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.controller.discard.DiscardController;
 import client.controller.roll.RollController;
 import client.view.discard.DiscardView;

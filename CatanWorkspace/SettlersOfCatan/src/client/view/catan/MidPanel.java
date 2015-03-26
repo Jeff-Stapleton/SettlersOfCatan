@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import client.CatanGame;
-import client.comm.IServerProxy;
 import client.controller.map.IMapController;
 import client.controller.map.MapController;
 import client.view.map.*;
