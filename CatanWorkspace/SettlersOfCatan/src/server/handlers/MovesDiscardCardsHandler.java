@@ -31,7 +31,7 @@ public class MovesDiscardCardsHandler extends SimpleHandler
 		try{
 			AbstractResponse response = null;
 			
-			log.debug("/moves/sendChat begun");
+			log.trace("/moves/discardCards begun");
 			
 			log.trace("Verifying user credentials");
 			try
@@ -41,17 +41,17 @@ public class MovesDiscardCardsHandler extends SimpleHandler
 	
 				log.trace("creating request body object");
 				DiscardCardsRequest request = getRequest(exchange, DiscardCardsRequest.class);
-				
+				log.trace("getting Game from the server");
 				ServerGame game = getGame(exchange, server);
-				
+				log.trace("discard cards!!!!!");
 				game.getMovesFacade().discardCards(request);
-				
 				log.trace("Chat message added to model");
 				response = new JsonResponse(200);
 				((JsonResponse)response).setJsonBody(game.getModel());
 			}
 			catch (ServerException e)
 			{
+				log.trace("Could not discard: " + e.getMessage());
 				response = new MessageResponse(400, e.getMessage());
 			}
 	
@@ -61,7 +61,7 @@ public class MovesDiscardCardsHandler extends SimpleHandler
 			log.trace("Sending response");
 			sendResponse(exchange, response);
 			
-			log.trace("/moves/sendChat finished");
+			log.trace("/moves/discardCards finished");
 		}
 		catch (Exception e){
 			e.printStackTrace();

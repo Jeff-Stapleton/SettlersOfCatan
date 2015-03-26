@@ -106,7 +106,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		}
 		
 		totalDiscardSelected++;
-		if(totalDiscardSelected == 1){
+		if(totalDiscardSelected == totalResources/2){
 			updateResourceValues();
 			discardView.setDiscardButtonEnabled(true);
 		}

@@ -21,6 +21,10 @@ public class SecondRoundState extends GameState
 			log.trace("Starting player " + (getTracker().getCurrentTurn() - 1) + "'s second turn");
 			getTracker().setCurrentTurn(getTracker().getCurrentTurn() - 1);
 		}
+		else if (getTracker().getCurrentTurn() == 1)
+		{
+			getTracker().setCurrentTurn(0);
+		}
 		else
 		{
 			log.trace("Starting player " + getTracker().getCurrentTurn() + "'s turn");

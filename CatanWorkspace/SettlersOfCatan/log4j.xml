@@ -20,17 +20,47 @@
     </logger>
 	
     <logger name="server" additivity="false">
-    	<level value="TRACE"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
-	
-    <logger name="shared" additivity="false">
+    
+    <logger name="server.command.DiscardCardCommand" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+      <logger name="server.command.MaritimeTradeCommand" additivity="false">
     	<level value="TRACE"/>
         <appender-ref ref="console" />
     </logger>
     
+      <logger name="server.facade.MovesFacade" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+     <logger name="server.handlers.MovesDiscardCardsHandler" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+     <logger name="server.handlers" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+     <logger name="server.ServerLobby" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+	
+    <logger name="shared" additivity="false">
+    	<level value="DEBUG"/>
+        <appender-ref ref="console" />
+    </logger>
+    
     <logger name="client.comm.ServerPoller" additivity="false">
-    	<level value="WARN"/>
+    	<level value="DEBUG"/>
         <appender-ref ref="console" />
     </logger>
     
@@ -39,7 +69,7 @@
 	</logger>
  
 	<root>
-		<level value="WARN" />
+		<level value="DEBUG" />
 		<appender-ref ref="console" />
 	</root>
  
