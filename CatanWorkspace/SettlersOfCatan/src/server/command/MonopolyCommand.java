@@ -1,6 +1,7 @@
 package server.command;
 
 import shared.CatanModel;
+import shared.DevCardList;
 import shared.Player;
 import shared.ResourceList;
 import shared.comm.serialization.MonopolyRequest;
@@ -29,20 +30,64 @@ public class MonopolyCommand implements ICommand<CatanModel> {
 	 */
 	@Override
 	public CatanModel execute(CatanModel catanModel) {
-		initialize(catanModel);	
 		
-		int count = 0;
-		for(Player p : model.getPlayers()) {
-			if (p.getPlayerID() != player.getPlayerID()) {
-				count += p.getResources().getResource(resource);
-				p.getResources().setResource(resource, 0);
+		int owner = request.getPlayerIndex();
+		Player player=catanModel.getPlayers()[owner];
+		Player other;
+		
+		if (!player.hasPlayedDevCard()) {
+			String resource = request.getResource();
+			int amount=0;
+			for(int i=0;i<catanModel.getPlayers().length;i++){
+				if(i!=owner){
+					other=catanModel.getPlayers()[i];
+					switch(resource){
+					case "ore":
+						if(other.getResources().getOre()>0){
+							amount=other.getResources().getOre();
+							player.getResources().setOre(player.getResources().getOre()+amount);
+							other.getResources().setOre(0);
+						}
+						break;
+					case "sheep":
+						if(other.getResources().getSheep()>0){
+							amount=other.getResources().getSheep();
+							player.getResources().setSheep(player.getResources().getSheep()+amount);
+							other.getResources().setSheep(0);
+						}
+						break;
+					case "wood":
+						if(other.getResources().getWood()>0){
+							amount=other.getResources().getWood();
+							player.getResources().setWood(player.getResources().getWood()+amount);
+							other.getResources().setWood(0);
+						}
+						break;
+					case "wheat":
+						if(other.getResources().getWheat()>0){
+							amount=other.getResources().getWheat();
+							player.getResources().setWheat(player.getResources().getWheat()+amount);
+							other.getResources().setWheat(0);
+						}
+						break;
+					case "brick":
+						if(other.getResources().getBrick()>0){
+							amount=other.getResources().getBrick();
+							player.getResources().setBrick(player.getResources().getBrick()+amount);
+							other.getResources().setBrick(0);
+						}
+						break;
+					}
+				}
 			}
+			player.setPlayedDevCard(true);
 		}
-		inventory.setResource(resource, inventory.getResource(resource) + count);
-
-		player.getOldDevCards().setMonopoly(player.getOldDevCards().getMonopoly() - 1);
-		player.setPlayedDevCard(true);
-		return model;
+		
+		DevCardList cards = player.getOldDevCards();
+		cards.setMonopoly(cards.getMonopoly()-1);
+		catanModel.getPlayers()[owner].setOldDevCards(cards);
+		
+		return catanModel;
 	}
 	
 	public void initialize(CatanModel catanModel) {
