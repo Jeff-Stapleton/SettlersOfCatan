@@ -36,6 +36,26 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 		log.trace("Initiate Discard");
 		initialize(catanModel);
 		ResourceList.moveResources(inventory, bank, discard);
+		boolean isDiscarding = true;
+		while (isDiscarding == true)
+		{
+			int count = 0;
+			for (Player p : catanModel.getPlayers())
+			{
+				if (p.hasDiscarded() == true);
+				{
+					count++;
+				}
+			}
+			if (count == 4)
+			{
+				isDiscarding = false;
+			}
+			else
+			{
+				count = 0;
+			}
+		}
 		catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
 		return catanModel;
 	}
@@ -55,7 +75,7 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 
 	public ResourceList getDiscard() {
 		ResourceList offer = request.getDiscardedCards();
-		//ResourceList.invertResources(offer);
+		ResourceList.invertResources(offer);
 		return offer;
 	}
 
