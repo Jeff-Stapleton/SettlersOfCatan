@@ -79,6 +79,9 @@ public class MovesFacade
 	 */
 	public void rollNumber(RollNumberRequest request) throws ServerException
 	{
+		if (request.getNumber() < 1 || request.getNumber() > 12)
+			throw new ServerException("Invalid number");
+		
 		RollNumberCommand command = new RollNumberCommand(request);
 		command.execute(catanModel);	  	  
 
@@ -119,7 +122,7 @@ public class MovesFacade
 		}
 		else
 		{
-			throw new ServerException("Player can't roll because it's not their turn");
+			throw new ServerException("Player can't rob because it's not their turn");
 		}
 	}
 
