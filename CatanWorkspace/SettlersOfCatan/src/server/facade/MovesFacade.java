@@ -82,6 +82,8 @@ public class MovesFacade
 		if (request.getNumber() < 1 || request.getNumber() > 12)
 			throw new ServerException("Invalid number");
 		
+		if (catanModel.getTurnTracker().getStatus() != TurnType.ROLLING)
+			throw new ServerException("It's not the rolling phase");
 		RollNumberCommand command = new RollNumberCommand(request);
 		command.execute(catanModel);	  	  
 
@@ -104,6 +106,9 @@ public class MovesFacade
 	 */
 	public void robPlayer(RobPlayerRequest request) throws ServerException
 	{
+		if (catanModel.getTurnTracker().getStatus() != TurnType.ROBBING)
+			throw new ServerException("It's not the robbing phase");
+		
 		if (request.getPlayerIndex() == catanModel.getTurnTracker().getCurrentTurn())
 		{
 			RobPlayerCommand command = new RobPlayerCommand(request);
