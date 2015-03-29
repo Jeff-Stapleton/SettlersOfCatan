@@ -2450,9 +2450,7 @@ public class CanCan {
 					&& edge.getDir() == EdgeDirection.NorthWest)
 				return false;
 			
-			if (turn.getStatus() == TurnType.FIRST_ROUND)
-				return true;
-			else if (turn.getStatus() == TurnType.SECOND_ROUND)
+			if (turn.getStatus() == TurnType.FIRST_ROUND || turn.getStatus() == TurnType.SECOND_ROUND)
 				return secondPhaseRoadCheck(newBuildings, edge);
 			
 			
