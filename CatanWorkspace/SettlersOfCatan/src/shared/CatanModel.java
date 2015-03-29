@@ -48,7 +48,9 @@ public class CatanModel extends InvisObservable
 	/**
 	 * Instantiates a new catan model.
 	 */
-	public CatanModel() {
+	public CatanModel(boolean randomTiles,	boolean randomNumbers, boolean randomPorts) {
+		
+		map = new Map(randomPorts, randomNumbers, randomTiles);
 		deck.setMonopoly(2);
 		deck.setMonument(5);
 		deck.setRoadBuilding(2);

@@ -17,7 +17,7 @@ public class CatanGame extends Observable
 	private static final Logger log = Logger.getLogger(CatanGame.class.getName());
 	
 	private ServerProxy server;
-	private CatanModel catanModel = new CatanModel();
+	private CatanModel catanModel = new CatanModel(false, false, false);
 	private ServerPoller serverPoller = null;
 	
 	private PlayerCookie playerCookie = null;

@@ -28,7 +28,7 @@ public class ServerGame
 	public ServerGame(int gameNumber, String name, boolean randomTiles,	boolean randomNumbers, boolean randomPorts)
 	{
 		info = new GameInfo(gameNumber, name, new ArrayList<PlayerInfo>());
-		model = new CatanModel();
+		model = new CatanModel(randomTiles,	randomNumbers, randomPorts);
 		movesFacade = new MovesFacade(this);
 		gameFacade = new GameFacade(model);
 	}

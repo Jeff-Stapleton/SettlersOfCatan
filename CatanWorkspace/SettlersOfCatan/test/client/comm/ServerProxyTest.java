@@ -32,7 +32,7 @@ public class ServerProxyTest
 	
 	ServerProxy proxy;
 	Gson gson = new Gson();
-	CatanModel model = new CatanModel();
+	CatanModel model = new CatanModel(false, false, false);
 
 	@Before
 	public void setUp() throws Exception
