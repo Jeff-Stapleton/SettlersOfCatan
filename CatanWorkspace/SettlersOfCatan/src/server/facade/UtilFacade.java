@@ -2,11 +2,13 @@ package server.facade;
 
 import org.apache.log4j.Level;
 
+
 /**
  * The Class UtilFacade implements the changeLogLevel command
  *
  */
 import server.Server;
+import server.comm.response.MessageResponse;
 
 public class UtilFacade
 {
@@ -19,6 +21,7 @@ public class UtilFacade
 
 	/**
 	 * Sets the server's logging level.
+	 * @return 
 	 * 
 	 * @pre 
 	 * 	The caller specifies a valid logging level. Valid values include: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
@@ -28,9 +31,11 @@ public class UtilFacade
 	 * 	The Server is using the specified logging level
 	 * 
 	 */
-	public void changeLogLevel(String logLevel)
+	public MessageResponse changeLogLevel(String logLevel)
 	{
 		server.setLogLevel(stringToLevel(logLevel));
+		
+		return new MessageResponse(200, "Success");
 	}
 	
 	/**

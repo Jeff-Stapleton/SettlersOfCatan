@@ -36,6 +36,7 @@ import server.handlers.MovesSoldierHandler;
 import server.handlers.MovesYearOfPlentyHandler;
 import server.handlers.UserLoginHandler;
 import server.handlers.UserRegisterHandler;
+import server.handlers.UtilChangeLogLevelHandler;
 import shared.Util;
 
 import com.sun.net.httpserver.HttpServer;
@@ -182,7 +183,7 @@ public class Server
 		server.createContext("/moves/maritimeTrade", new MovesMaritimeTradeHandler(this));
 		server.createContext("/moves/discardCards", new MovesDiscardCardsHandler(this));
 
-//		server.createContext("/util/changeLogLevel", new UtilChangeLogLevelHandler(this));
+		server.createContext("/util/changeLogLevel", new UtilChangeLogLevelHandler(this));
 
 		log.trace("Created contexts. Starting server");
 
