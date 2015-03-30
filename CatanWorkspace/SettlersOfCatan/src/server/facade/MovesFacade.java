@@ -520,7 +520,8 @@ public class MovesFacade
 		if (CanCan.canMaritimeTrade(catanModel.getPlayers()[request.getPlayerIndex()], catanModel.getTurnTracker(), maritimeOffer, resource, catanModel.getBank(), catanModel.getMap().getPorts(), catanModel.getMap()))
 		{
 			log.debug("Set Up Command");
-			MaritimeTradeCommand command = new MaritimeTradeCommand(request);
+			MaritimeTradeRequest newRequest = new MaritimeTradeRequest(request.getPlayerIndex(), request.getRatio(), request.getOutputResource(), request.getInputResource());
+			MaritimeTradeCommand command = new MaritimeTradeCommand(newRequest);
 			log.debug("Execute Command");
 			command.execute(catanModel);
 
