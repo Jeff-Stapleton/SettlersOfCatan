@@ -51,7 +51,7 @@ public class DiscardCardCommand implements ICommand<CatanModel> {
 		
 		if (count == 4)
 		{
-			catanModel.getTurnTracker().setStatus(TurnType.PLAYING);
+			catanModel.getTurnTracker().setStatus(TurnType.ROBBING);
 			for (Player p : catanModel.getPlayers())
 			{
 				p.setDiscarded(false);
