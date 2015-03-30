@@ -35,6 +35,7 @@ public class MapChecks
 			game.getTurnTracker().setLongestRoad(playerWith);
 
 		}
+        checkForWinner(game, currentPlayerIndex);
 
 	}
 	
@@ -65,6 +66,7 @@ public class MapChecks
                  game.getTurnTracker().setLargestArmy(playerWith);
 
          }
+         checkForWinner(game, currentPlayerIndex);
 	}
 	
 	public static void checkForWinner(CatanModel game,int owner)
