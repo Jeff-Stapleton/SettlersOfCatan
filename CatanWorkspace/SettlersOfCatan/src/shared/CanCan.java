@@ -445,11 +445,12 @@ public class CanCan {
 			while(onPort != null)
 			{
 				log.debug("3 or 2: " + resource);
+				log.debug(onPort.toString());
 				switch (resource)
 				{
 					case WOOD:
 					{
-						if(onPort.getType() == null || onPort.getType().equals(PortType.WOOD) )
+						if(onPort.getType() == null || onPort.getType().equals(PortType.WOOD) || onPort.getType().equals(PortType.THREE))
 						{
 							if (maritimeOffer.getWood() >= onPort.getRatio())
 							{
@@ -465,7 +466,7 @@ public class CanCan {
 					}
 					case BRICK:
 					{
-						if(onPort.getType() == null || onPort.getType().equals(PortType.BRICK))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.BRICK) || onPort.getType().equals(PortType.THREE))
 						{
 							if (maritimeOffer.getBrick() >= onPort.getRatio())
 							{
@@ -481,7 +482,7 @@ public class CanCan {
 					}
 					case SHEEP:
 					{
-						if(onPort.getType() == null || onPort.getType().equals(PortType.SHEEP))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.SHEEP) || onPort.getType().equals(PortType.THREE))
 						{
 							if (maritimeOffer.getSheep() >= onPort.getRatio())
 							{
@@ -497,7 +498,7 @@ public class CanCan {
 					}
 					case WHEAT:
 					{
-						if(onPort.getType() == null || onPort.getType().equals(PortType.WHEAT))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.WHEAT) || onPort.getType().equals(PortType.THREE))
 						{
 							if (maritimeOffer.getWheat() >= onPort.getRatio())
 							{
@@ -513,7 +514,7 @@ public class CanCan {
 					}
 					case ORE:
 					{
-						if(onPort.getType() == null || onPort.getType().equals(PortType.ORE))
+						if(onPort.getType() == null || onPort.getType().equals(PortType.ORE) || onPort.getType().equals(PortType.THREE))
 						{
 							if (maritimeOffer.getOre() >= onPort.getRatio())
 							{
@@ -598,6 +599,8 @@ public class CanCan {
 			}
 		}
 		log.debug("failed initial check");
+		log.debug(maritimeOffer.toString());
+		log.debug(resource.toString());
 		return false;
 	}
 	/**

@@ -528,7 +528,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			{
 				if (sendingOre == true)
 				{
-					tradeSend.setWood(tradeSend.getOre() + 1);
+					tradeSend.setOre(tradeSend.getOre() + 1);
 					handleEnablingResources(resource);
 					isValidTrade();
 				}
