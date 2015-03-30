@@ -1,14 +1,23 @@
 package server.facade;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+
+import com.google.gson.Gson;
 
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import server.ServerGame;
 import server.ServerLobby;
+import server.command.SaveGameCommand;
 import server.models.ServerUser;
+import shared.CatanModel;
 import shared.comm.ServerException;
 import shared.comm.serialization.CreateGameRequest;
 import shared.comm.serialization.JoinGameRequest;
@@ -110,15 +119,53 @@ public class GamesFacade
 	
 	/**
 	 * Saves the game (for testing purposes)
+	 * @return 
 	 */
-	public void save(SaveGameRequest request){
+	public GameInfo save(SaveGameRequest request) throws ServerException, FileNotFoundException{
+		File file = new File("saves/" + request.getName());
+		CatanModel catanModel = serverLobby.getGame(request.getId()).getModel();
+		if (file.isDirectory() || catanModel == null)
+			throw new ServerException("Could not save game");
 		
+		if (file.exists())
+			file.delete();
+		
+		try 
+		{
+			file.createNewFile();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			throw new ServerException("Could not create file");
+		}
+		
+		try (PrintWriter out = new PrintWriter(file)) {
+			out.write(new Gson().toJson(catanModel, CatanModel.class));
+		}	
+		return null; // REMOVE THIS
 	}
 	
 	/**
 	 * Loads the game (for testing purposes)
 	 */
-	public void load(LoadGameRequest request){
+	public GameInfo load(LoadGameRequest request) throws FileNotFoundException, IOException{
+		File file = new File("saves/" + request.getName());
 		
+		if (file.isDirectory())
+			throw new ServerException("Could not load game");
+		
+		CatanModel catanModel;
+		try (FileReader json = new FileReader(file)) 
+		{
+			catanModel = new Gson().fromJson(json, CatanModel.class);
+			
+			if (catanModel == null)
+				throw new ServerException("Could not load game");
+			else{				
+//				serverLobby.getGame(catanModel.g).getGame(request.getId()).getModel();
+			}
+		}
+		return null; // REMOVE THIS
 	}
 }

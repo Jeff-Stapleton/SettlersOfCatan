@@ -576,45 +576,4 @@ public class MovesFacade
 		String sourceName = catanModel.getPlayers()[sourceIndex].getName();
 		catanModel.getLog().addLine(new MessageLine(sourceName, sourceName + " " + action));
 	}
-	
-	private void saveGame(SaveGameRequest request)  throws ServerException, FileNotFoundException
-	{
-		File file = new File("saves/" + request.getName());
-		
-		if (file.isDirectory() || catanModel == null)
-			throw new ServerException("Could not save game");
-		
-		if (file.exists())
-			file.delete();
-		
-		try 
-		{
-			file.createNewFile();
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			throw new ServerException("Could not create file");
-		}
-		
-		try (PrintWriter out = new PrintWriter(file)) {
-			out.write(new Gson().toJson(catanModel, CatanModel.class));
-		}
-	}
-	
-	private void loadGame(LoadGameRequest request)  throws FileNotFoundException, IOException
-	{
-		File file = new File("saves/" + request.getName());
-		
-		if (file.isDirectory() || catanModel == null)
-			throw new ServerException("Could not load game");
-		
-		try (FileReader json = new FileReader(file)) 
-		{
-			catanModel = new Gson().fromJson(json, CatanModel.class);
-			
-			if (catanModel == null)
-				throw new ServerException("Could not load game");
-		}
-	}
 }
