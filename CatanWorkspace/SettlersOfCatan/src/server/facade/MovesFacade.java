@@ -270,6 +270,14 @@ public class MovesFacade
 			String action = "played a Soldier";
 			gameHistoryMessage(request.getPlayerIndex(), action);
 
+			if (request.getVictimIndex() < 0){
+				action = "robbed no one";
+			}
+			else{
+				action = "robbed " + catanModel.getPlayers()[request.getVictimIndex()].getName();
+			}
+			gameHistoryMessage(request.getPlayerIndex(), action);
+			
 			serverGame.getCommandList().add(request);
 		}
 		else

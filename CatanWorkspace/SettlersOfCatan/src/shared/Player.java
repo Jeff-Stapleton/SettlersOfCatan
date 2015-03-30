@@ -5,7 +5,7 @@ import shared.definitions.CatanColor;
 public class Player
 {
 	private ResourceList resources = new ResourceList();
-	private DevCardList oldDevCards = new DevCardList(1,1,1,1,1);
+	private DevCardList oldDevCards = new DevCardList();
 	private DevCardList newDevCards = new DevCardList();
 	private int roads = 15;
 	private int cities = 4;
