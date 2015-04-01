@@ -23,7 +23,7 @@ public class ServerGame
 	private transient MovesFacade movesFacade = null;
 	private transient GameFacade gameFacade = null;
 	
-	private ArrayList<AbstractMovesRequest> commandList = new ArrayList<AbstractMovesRequest>();
+	private transient ArrayList<AbstractMovesRequest> commandList = new ArrayList<AbstractMovesRequest>();
 	
 	public ServerGame(int gameNumber, String name, boolean randomTiles,	boolean randomNumbers, boolean randomPorts)
 	{

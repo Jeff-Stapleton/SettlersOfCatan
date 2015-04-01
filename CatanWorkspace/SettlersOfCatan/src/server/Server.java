@@ -17,6 +17,8 @@ import server.handlers.GameResetHandler;
 import server.handlers.GamesCreateHandler;
 import server.handlers.GamesJoinHandler;
 import server.handlers.GamesListHandler;
+import server.handlers.GamesLoadHandler;
+import server.handlers.GamesSaveHandler;
 import server.handlers.MovesAcceptTradeHandler;
 import server.handlers.MovesBuildCityHandler;
 import server.handlers.MovesBuildRoadHandler;
@@ -157,8 +159,8 @@ public class Server
 		server.createContext("/games/list", new GamesListHandler(this));
 		server.createContext("/games/create", new GamesCreateHandler(this));
 		server.createContext("/games/join", new GamesJoinHandler(this));
-//		server.createContext("/games/save", new ReqResHandler<MessageResponse, GamesSaveRequest>(this, GamesSaveRequest.class));
-//		server.createContext("/games/load", new ReqResHandler<MessageResponse, GamesLoadRequest>(this, GamesLoadRequest.class));
+		server.createContext("/games/save", new GamesSaveHandler(this));
+		server.createContext("/games/load", new GamesLoadHandler(this));
 
 		server.createContext("/game/model", new GameModelHandler(this));
 		server.createContext("/game/reset", new GameResetHandler(this));

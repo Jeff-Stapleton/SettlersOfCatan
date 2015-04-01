@@ -367,7 +367,7 @@ public class Testing {
 		// has already played a dev card
 		SetUp1();
 		player0.setPlayedDevCard(true);
-		//assertFalse(CanCan.canUseMonument(player0, turn));
+		assertTrue(CanCan.canUseMonument(player0, turn));
 		
 		// doesn't have the dev card to play
 		SetUp1();
