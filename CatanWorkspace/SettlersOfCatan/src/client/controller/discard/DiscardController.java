@@ -300,7 +300,7 @@ public class DiscardController extends Controller implements IDiscardController,
 				}
 				
 				if (catanGame.getCurrentPlayer().hasDiscarded() &&
-					waitView.isModalShowing())
+					waitView.isModalShowing() == false)
 				{
 					log.trace("Player has discarded, showing wait dialog");
 					// We discarded, but the wait modal isn't up
