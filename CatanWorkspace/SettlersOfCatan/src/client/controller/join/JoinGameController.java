@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import client.CatanLobby;
+import client.comm.LobbyPoller;
 import client.view.base.*;
 import client.view.data.*;
 import client.view.join.IJoinGameView;
@@ -26,6 +27,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private CatanLobby catanLobby;
+	private LobbyPoller lobbyPoller;
 	
 	/**
 	 * JoinGameController constructor
@@ -73,23 +75,23 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		log.trace("Join action set");
 	}
 	
-	public INewGameView getNewGameView() {
-		
+	public INewGameView getNewGameView()
+	{
 		return newGameView;
 	}
 
-	public void setNewGameView(INewGameView newGameView) {
-		
+	public void setNewGameView(INewGameView newGameView)
+	{
 		this.newGameView = newGameView;
 	}
 	
-	public ISelectColorView getSelectColorView() {
-		
+	public ISelectColorView getSelectColorView()
+	{
 		return selectColorView;
 	}
 	
-	public void setSelectColorView(ISelectColorView selectColorView) {
-		
+	public void setSelectColorView(ISelectColorView selectColorView)
+	{
 		this.selectColorView = selectColorView;
 	}
 	
@@ -103,7 +105,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.messageView = messageView;
 	}
 	
-	private void updateGameList()
+	public void updateGameList()
 	{
 		try {
 			GameInfo[] games = catanLobby.getProxy().gamesList();
@@ -126,6 +128,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		updateGameList();
 		log.trace("Showing join game modal --\\");
 		getJoinGameView().showModal();
+		lobbyPoller = new LobbyPoller(this);
+		lobbyPoller.start();
 	}
 
 	@Override
@@ -222,6 +226,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color)
 	{
+		lobbyPoller.close();
 		try {
 			catanLobby.gamesJoin(color, catanLobby.getGame().getGameInfo().getId());
 		} catch (IOException e) {

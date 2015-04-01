@@ -2,7 +2,7 @@ package client.comm;
 
 import java.io.IOException;
 
-import client.controller.join.JoinGameController;
+import client.CatanLobby;
 
 /**
  * Server Poller polls the game model from the server
@@ -11,23 +11,26 @@ import client.controller.join.JoinGameController;
  * @author Cory Beutler
  *
  */
-public class LobbyPoller extends AbstractPoller
+public class WaitPoller extends AbstractPoller
 {
-	JoinGameController joinGameController;
+	CatanLobby _catanLobby;
 	
 	boolean _gameRunning = true;
 	
-    public LobbyPoller(JoinGameController joinGameController)
+    public WaitPoller(CatanLobby catanLobby)
     {
-    	super(4000);
-    	this.joinGameController = joinGameController;
+    	super(1000);
+    	_catanLobby = catanLobby;
     		
     }
 
     @Override
     public void poll() throws IOException
     {
-    	joinGameController.updateGameList();
+    	if (_catanLobby.isLoggedIn() && _catanLobby.hasJoinedGame())
+    	{
+    		_catanLobby.updateInfo();
+    	}
     }
 	        	
 }

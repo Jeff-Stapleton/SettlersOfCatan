@@ -10,7 +10,7 @@ import shared.Player;
 import shared.comm.cookie.PlayerCookie;
 import shared.definitions.CatanColor;
 import client.comm.ServerProxy;
-import client.comm.LobbyPoller;
+import client.comm.WaitPoller;
 import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 
@@ -20,7 +20,7 @@ public class CatanLobby extends Observable
 	
 	private ServerProxy serverProxy;
 	private CatanGame catanGame;
-	private LobbyPoller waitPoller = null;
+	private WaitPoller waitPoller = null;
 	
 	boolean loggedIn = false;
 	boolean joinedGame = false;
@@ -149,7 +149,7 @@ public class CatanLobby extends Observable
 	{
 		stopLobbyPoller();
 		
-		waitPoller = new LobbyPoller(this);
+		waitPoller = new WaitPoller(this);
 		waitPoller.start();
 	}
 	

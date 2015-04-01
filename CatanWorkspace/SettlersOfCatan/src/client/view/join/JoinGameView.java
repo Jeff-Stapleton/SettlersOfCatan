@@ -158,10 +158,41 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
-		this.games = games;
-		this.localPlayer = localPlayer;
-		this.removeAll();
-		this.initialize();
+		boolean hasChanged = false;
+		if (this.games == null || this.games.length != games.length)
+		{
+			this.games = games;
+			hasChanged = true;
+		}
+		else
+		{
+			for (int i = 0; i < games.length; i++)
+			{
+				if (!games[i].equals(this.games[i]))
+				{
+					this.games = games;
+					hasChanged = true;
+					break;
+				}
+			}
+		}
+		
+		if (!localPlayer.equals(this.localPlayer))
+		{
+			this.localPlayer = localPlayer;
+			hasChanged = true;
+		}
+		
+		if (hasChanged)
+		{
+			this.removeAll();
+			this.initialize();
+			if (this.isModalShowing())
+			{
+				this.closeModal();
+				this.showModal();
+			}
+		}
 	}
 	
 	private ActionListener actionListener = new ActionListener()
