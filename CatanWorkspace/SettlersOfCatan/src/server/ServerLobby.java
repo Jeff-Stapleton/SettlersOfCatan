@@ -203,5 +203,9 @@ public class ServerLobby
 	{
 		return games.get(id);
 	}
+	
+	public void addGame(ServerGame game){
+		games.put(game.getInfo().getId(), game);
+	}
 
 }

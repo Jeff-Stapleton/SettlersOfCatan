@@ -17,13 +17,13 @@ import client.view.data.PlayerInfo;
  */
 public class ServerGame
 {
-	GameInfo info = null;
-	CatanModel model = null;
+	private GameInfo info = null;
+	private CatanModel model = null;
 	
-	MovesFacade movesFacade = null;
-	GameFacade gameFacade = null;
+	private transient MovesFacade movesFacade = null;
+	private transient GameFacade gameFacade = null;
 	
-	ArrayList<AbstractMovesRequest> commandList = new ArrayList<AbstractMovesRequest>();
+	private ArrayList<AbstractMovesRequest> commandList = new ArrayList<AbstractMovesRequest>();
 	
 	public ServerGame(int gameNumber, String name, boolean randomTiles,	boolean randomNumbers, boolean randomPorts)
 	{
@@ -67,8 +67,14 @@ public class ServerGame
 	{
 		return movesFacade;
 	}
+	public void setMovesFacade(MovesFacade moves){
+		movesFacade = moves;
+	}
 	
 	public GameFacade getGameFacade(){
 		return gameFacade;
+	}
+	public void setGameFacade(GameFacade game){
+		gameFacade = game;
 	}
 }

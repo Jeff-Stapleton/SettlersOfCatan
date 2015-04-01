@@ -15,7 +15,6 @@ import client.view.data.GameInfo;
 import client.view.data.PlayerInfo;
 import server.ServerGame;
 import server.ServerLobby;
-import server.command.SaveGameCommand;
 import server.models.ServerUser;
 import shared.CatanModel;
 import shared.comm.ServerException;
@@ -123,8 +122,8 @@ public class GamesFacade
 	 */
 	public GameInfo save(SaveGameRequest request) throws ServerException, FileNotFoundException{
 		File file = new File("saves/" + request.getName());
-		CatanModel catanModel = serverLobby.getGame(request.getId()).getModel();
-		if (file.isDirectory() || catanModel == null)
+		ServerGame game = serverLobby.getGame(request.getId());
+		if (file.isDirectory() || game == null)
 			throw new ServerException("Could not save game");
 		
 		if (file.exists())
@@ -141,9 +140,9 @@ public class GamesFacade
 		}
 		
 		try (PrintWriter out = new PrintWriter(file)) {
-			out.write(new Gson().toJson(catanModel, CatanModel.class));
+			out.write(new Gson().toJson(game, ServerGame.class));
 		}	
-		return null; // REMOVE THIS
+		return game.getInfo();
 	}
 	
 	/**
@@ -155,17 +154,17 @@ public class GamesFacade
 		if (file.isDirectory())
 			throw new ServerException("Could not load game");
 		
-		CatanModel catanModel;
+		ServerGame game;
 		try (FileReader json = new FileReader(file)) 
 		{
-			catanModel = new Gson().fromJson(json, CatanModel.class);
+			game = new Gson().fromJson(json, ServerGame.class);
 			
-			if (catanModel == null)
+			if (game == null)
 				throw new ServerException("Could not load game");
-			else{				
-//				serverLobby.getGame(catanModel.g).getGame(request.getId()).getModel();
+			else{	
+				serverLobby.addGame(game);
 			}
 		}
-		return null; // REMOVE THIS
+		return game.getInfo(); // REMOVE THIS
 	}
 }
